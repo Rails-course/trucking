@@ -1,0 +1,2 @@
+CREATE ROLE trucking;
+ALTER USER trucking WITH SUPERUSER;
