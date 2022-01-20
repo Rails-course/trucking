@@ -36,6 +36,13 @@ RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle check || bundle install
 COPY package.json yarn.lock ./
 RUN yarn install --check-files
-COPY . ./
+COPY . /app/
 
-ENTRYPOINT ["entrypoints/docker-entrypoint.sh"]
+# Add a script to be executed every time the container starts.
+COPY entrypoints/docker-entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+EXPOSE 3000
+
+# Configure the main process to run when running the image
+CMD ["rails", "server", "-b", "0.0.0.0"]
