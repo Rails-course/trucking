@@ -2,10 +2,10 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #34495e;
+    background: #2a6e9bd7;
 }
 .container {
-    width: 50vw;
+    width: 40vw;
     padding: 40px;
     position: absolute;
     top: 50%;
@@ -13,6 +13,7 @@ body {
     transform: translate(-50%, -50%);
     background: #191919;
     text-align: center;
+    border-radius: 5px;
 }
 .container h2 {
     color: #fff;
@@ -25,7 +26,7 @@ body {
     margin: 20px auto;
     padding: 14px 10px;
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #2a6e9bd7;
     border-radius: 24px;
     background: none;
     outline: none;
@@ -34,7 +35,7 @@ body {
     transition: 0.25s;
 }
 .input-field:focus {
-    width: 70%;
+    width: 55%;
     border-color: #2ecc71;
 }
 .remember {
@@ -50,7 +51,7 @@ body {
     color: #2ecc71;
 }
 .share-links:visited {
-    color: #3498db;
+    color: #2a6e9bd7;
 }
 .btn {
     width: 20%;
