@@ -1,11 +1,10 @@
 import React from 'react';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      Hello from App.tsx
-    </div>
-  )
+class App extends React.Component {
+    render() {
+        return <h1>{this.props}</h1>
+    }
 }
+
 
 export default App;
