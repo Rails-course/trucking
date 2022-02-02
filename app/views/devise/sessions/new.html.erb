@@ -2,6 +2,10 @@
 <h2>Log in</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+    <p class="notice error-msg"><%= notice %></p>
+    <p class="alert error-msg"><%= alert %></p>
+
   <div class="field">
     <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
   </div>
