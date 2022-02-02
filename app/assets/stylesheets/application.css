@@ -34,9 +34,29 @@ body {
     font-size: 1rem;
     transition: 0.25s;
 }
+.input-field:hover {
+    width: 55%;
+    border: 2px solid #2ecc71;
+    cursor: pointer;
+}
 .input-field:focus {
     width: 55%;
-    border-color: #2ecc71;
+    border: 2px solid #2ecc71;
+}
+.input-box_field {
+    width: 90%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+}
+.eye {
+    position: absolute;
+    cursor: pointer;
+}
+#hide1 {
+    display: none;
 }
 .remember {
     color: #fff;

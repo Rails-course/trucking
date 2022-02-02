@@ -6,8 +6,12 @@
     <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
   </div>
 
-  <div class="field">
-    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: 'input-field' %>
+  <div class="input-field">
+    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "input-box_field", id: "myInput" %>
+    <span class="eye" onclick="myFunction()">
+      <i id="hide1" class="fas fa-eye"></i>
+      <i id="hide2" class="fas fa-eye-slash"></i>
+    </span>
   </div>
 
   <% if devise_mapping.rememberable? %>
@@ -24,3 +28,22 @@
 
 <%= render "devise/shared/links" %>
 </div>
+
+<script type="text/javascript">
+  function myFunction() {
+      let x = document.getElementById("myInput");
+      let y = document.getElementById("hide1");
+      let z = document.getElementById("hide2");
+
+      if (x.type === 'password') {
+          x.type = "text";
+          y.style.display = "block";
+          z.style.display = "none";
+      }
+      else {
+          x.type = "password";
+          y.style.display = "none";
+          z.style.display = "block";
+      }
+  }
+</script>
