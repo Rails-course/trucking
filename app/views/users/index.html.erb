@@ -1,7 +1,7 @@
 <body>
-<%= react_component('Title') %>
+<%= react_component('Title',{title:'Clients',fsheader:'name',secheader:'company'}) %>
 <div class="content">
     <%= react_component('ClientTable',{name:'user.name',company:'company'})%>
-
+  <%= react_component('ClientTable',{name:'',company:'company'})%>
 </div>
 </body>
