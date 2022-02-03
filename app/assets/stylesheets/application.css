@@ -90,6 +90,7 @@ body {
 }
 .btn:hover {
     background: #2ecc71;
+}
 .error-msg {
     color: #e17055;
 }
