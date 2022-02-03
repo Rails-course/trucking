@@ -7,10 +7,10 @@ interface ClientTableProps {
 
 const ClientTable: FC<ClientTableProps> = ({ name,company }) => {
   return (
-      <>s
+      <>
         <div className='clientscontainer '>
-          <div className='clientsbox '>{name} </div>
-          <div className='clientsbox '> {company}</div>
+          <div className='clientsbox '><h2>{name}</h2> </div>
+          <div className='clientsbox '><h2>{company}</h2></div>
         </div>
       </>
   );

@@ -1,18 +1,22 @@
-// @ts-ignore
 import React, { FC } from 'react';
 
-const Title: FC = () => {
-  return (
-      <div>
-        <div className="header-h1"> <h1>Clients</h1></div>
+interface TitleProps {
+    title: string;
+    fsheader: string;
+    secheader: string;
+}
 
-        <div className="content_head">
-          <div className="clientscontainerHeader"><h3>Name</h3></div>
-          <div className="clientscontainerHeader"><h3>Company</h3>
-          </div>
+const Title: FC<TitleProps> = ({ title,fsheader,secheader }) => {
+    return (
+        <div>
+            <div className="header-h1"> <h1>{title}</h1></div>
+
+            <div className="content_head">
+                <div className="clientscontainerHeader"><h3>{fsheader}</h3></div>
+                <div className="clientscontainerHeader"><h3>{secheader}</h3>
+                </div>
+            </div>
         </div>
-      </div>
-  );
+    );
 };
 export default Title
-
