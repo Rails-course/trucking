@@ -1,0 +1,86 @@
+body {
+  background: linear-gradient(-45deg, #000000,#000000, #bcbcbc, #ffffff);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.header-h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin: 30px auto;
+  border: 8px solid #337AB7;
+  background: #BFE2FF;
+  border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  box-shadow: 15px 15px 50px rgba(0,0,0,0.2);
+  animation: anim-header-h1 10s infinite;
+  font-size: 24px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+@keyframes anim-header-h1 {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+    box-shadow: 15px 15px 50px rgba(0,0,0,0.2);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25%/76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67%/55% 27% 73% 45%;
+    box-shadow: -10px -5px 50px rgba(0,0,0,0.2);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42%/63% 68% 32% 37%;
+  }
+}
+.content{
+  display: inline-block;
+  margin-top: 20px;
+}
+.content_head{
+  display:inline-block}
+.clientsbox {
+  background-color: #CCCCCC;
+  border: chartreuse solid;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  width: 650px;
+  height: 90px;
+  border-radius: 10px;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.clientscontainerHeader {
+  background-color: #CCCCCC;
+  border: chartreuse solid;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  width: 650px;
+  height: 90px;
+  border-radius: 10px;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
