@@ -31,3 +31,20 @@ function myFunction2() {
         z2.style.display = "block"
     }
 }
+
+function myFunction3() {
+    let x3 = document.getElementById("myInput3");
+    let y3 = document.getElementById("hide5");
+    let z3 = document.getElementById("hide6");
+
+    if (x3.type === 'password') {
+        x3.type = "text";
+        y3.style.display = "block";
+        z3.style.display = "none";
+    }
+    else {
+        x3.type = "password";
+        y3.style.display = "none";
+        z3.style.display = "block"
+    }
+}
