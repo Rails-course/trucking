@@ -5,7 +5,7 @@
   justify-content: center;
   width: 200px;
   height: 200px;
-  margin: 30px auto;
+  margin: 50% auto;
   border: 8px solid #337AB7;
   background: #BFE2FF;
   border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
@@ -32,39 +32,35 @@
 }
 .content{
   display: inline-block;
-  margin-top: 20px;
+
 }
 .content_head{
   display:inline-block}
 .clientsbox {
   background-color: #CCCCCC;
   border: chartreuse solid;
-  margin: auto;
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  width: 650px;
-  height: 90px;
-  border-radius: 10px;
-  display: inline-block;
+  display: flex;
   align-items: center;
   justify-content: center;
+  vertical-align: middle;
+  position: relative;
+  width: 40%;
+  height: 90px;
+  border-radius: 10px;
   font-size: 12px;
   font-family: 'Roboto Condensed', sans-serif;
 }
 .clientscontainerHeader {
   background-color: #CCCCCC;
   border: chartreuse solid;
-  margin: auto;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
   position: relative;
   width: 650px;
   height: 90px;
   border-radius: 10px;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
   font-size: 24px;
   font-family: 'Roboto Condensed', sans-serif;
 }
