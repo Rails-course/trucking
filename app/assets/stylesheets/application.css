@@ -22,7 +22,8 @@ body {
 }
 .input-field {
     width: 50%;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     margin: 20px auto;
     padding: 14px 10px;
     text-align: center;
@@ -52,10 +53,10 @@ body {
     font-size: 1rem;
 }
 .eye {
-    position: absolute;
+    position: inherit;
     cursor: pointer;
 }
-#hide1 {
+#hide1, #hide3 {
     display: none;
 }
 .remember {
@@ -93,6 +94,9 @@ body {
 }
 .error-msg {
     color: #e17055;
+}
+.error-msg li {
+    list-style-type: none;
 }
 /* Navbar styles*/
 .nav-wrapper {
