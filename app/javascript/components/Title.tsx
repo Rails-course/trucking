@@ -1,20 +1,13 @@
-import React, { FC } from 'react';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-interface TitleProps {
-    title: string;
-    fsheader: string;
-    secheader: string;
-}
-
-const Title: FC<TitleProps> = ({ title,fsheader,secheader }) => {
-    console.log(2)
+export default function Title() {
     return (
-        <div>
-
-            <div className="content_head">
-                TEST TITLE
-            </div>
-        </div>
+        <Box sx={{ width: '100%', maxWidth: 500 }}>
+            <Typography variant="h2" gutterBottom component="div">
+                Clients
+            </Typography>
+        </Box>
     );
-};
-export default Title
+}

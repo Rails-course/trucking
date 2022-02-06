@@ -1,12 +1,32 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 function createData(
     name: string,
     company: string,
@@ -28,25 +48,23 @@ export default function ClientTable({name, company}: ClientTableProps) {
     console.log(1);
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="right">name</TableCell>
-                        <TableCell align="right">company</TableCell>
-                    </TableRow>
+                        <StyledTableCell>Name</StyledTableCell>
+                        <StyledTableCell align="right">company&nbsp;</StyledTableCell>
+                    <StyledTableCell align="right" colspan="2">action&nbsp;</StyledTableCell></TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
+                        <StyledTableRow key={row.name}>
+                            <StyledTableCell component="th" scope="row">
                                 {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.name}</TableCell>
-                            <TableCell align="right">{row.company}</TableCell>
-                        </TableRow>
+                            </StyledTableCell>
+                            <StyledTableCell align="right">{row.company}</StyledTableCell>
+                            <StyledTableCell align="right">delete</StyledTableCell>
+                            <StyledTableCell align="right">some action</StyledTableCell>
+                        </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
