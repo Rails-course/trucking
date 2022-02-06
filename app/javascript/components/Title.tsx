@@ -7,14 +7,12 @@ interface TitleProps {
 }
 
 const Title: FC<TitleProps> = ({ title,fsheader,secheader }) => {
+    console.log(2)
     return (
         <div>
-            <div className="header-h1"> <h1>{title}</h1></div>
 
             <div className="content_head">
-                <div className="clientscontainerHeader"><h3>{fsheader}</h3></div>
-                <div className="clientscontainerHeader"><h3>{secheader}</h3>
-                </div>
+                TEST TITLE
             </div>
         </div>
     );
