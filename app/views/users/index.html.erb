@@ -1,9 +1,5 @@
-<body>
 <center>
-<%= react_component('Title',{title:'Clients',fsheader:'name',secheader:'company'}) %>
-<div class="content">
-  <%for user in @users do %>
-    <%= react_component('ClientTable',{name:user.name,company:'company'})%>
-    <%end %>
-</div></center>
-</body>
+  <div class="client_content">
+    <%=react_component('ClientTable',{users_data:@users_data}) %>
+  </div>
+</center>
