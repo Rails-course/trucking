@@ -14,7 +14,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+        fontSize: 17,
     },
 }));
 
@@ -34,26 +34,24 @@ function createData(
     return { name, company};
 }
 interface ClientTableProps {
-    name?: string[]
-    company: string[]
+    users_data?: any[]
 }
 
-export default function ClientTable({name, company}: ClientTableProps) {
+export default function ClientTable({users_data}: ClientTableProps) {
     const rows=[]
-    for (let i = 0; i < name.length; i++){
+    for (let i = 0; i < users_data.length; i++){
      rows.push(
-        createData(name[i], company[i])
+        createData(users_data[i].name,'users_data[i].company')
     )
-    };console.log(rows);
-    console.log(1);
-    return (
+    }
+    return (<div >
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell align="right">company&nbsp;</StyledTableCell>
-                    <StyledTableCell align="right" colspan="2">action&nbsp;</StyledTableCell></TableRow>
+                        <StyledTableCell>Name&nbsp;</StyledTableCell>
+                        <StyledTableCell align="right">Company&nbsp;</StyledTableCell>
+                    <StyledTableCell align="right" colspan="2">Action&nbsp;</StyledTableCell></TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
@@ -68,6 +66,6 @@ export default function ClientTable({name, company}: ClientTableProps) {
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer></div>
     );
 }

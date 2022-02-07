@@ -1,9 +1,5 @@
-<body>
 <center>
-<div class="content">
-  <%=react_component('Title') %>
-  <%=react_component('ClientTable',{name:@users_data[0],company:@users_data[1]}) %>
-  
-</div>
+  <div class="client_content">
+    <%=react_component('ClientTable',{users_data:@users_data}) %>
+  </div>
 </center>
-</body>

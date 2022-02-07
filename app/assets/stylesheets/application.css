@@ -128,5 +128,7 @@ body {
     margin: 0;
     padding: 10px 8px;
 }
-
-
+.client_content{
+    width: 90%;
+    padding-top: 70px;
+}
