@@ -2,5 +2,5 @@
 
 class Role < ApplicationRecord
   has_many :users, dependent: :nullify
-  validates :role_name, presence: true, length: { in: 3..15 }, uniqueness: true
+  validates :role_name, presence: true, length: { in: 3..30 }, uniqueness: true
 end
