@@ -27,39 +27,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-function createData(
-    name: string,
-    company: string,
-) {
-    return { name, company};
-}
 interface ClientTableProps {
-    users_data?: any[]
+    company_data?: any[]
 }
 
-export default function ClientTable({users_data}: ClientTableProps) {
-    const rows=[]
-    for (let i = 0; i < users_data.length; i++){
-     rows.push(
-        createData(users_data[i].name,'users_data[i].company')
-    )
-    }
+export default function CompanyTable({company_data}: ClientTableProps) {
+
     return (<div >
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Name&nbsp;</StyledTableCell>
-                        <StyledTableCell align="right">Company&nbsp;</StyledTableCell>
                     <StyledTableCell align="right" colspan="2">Action&nbsp;</StyledTableCell></TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
+                    {company_data.map((company) => (
+                        <StyledTableRow key={company.name}>
+                            <StyledTableCell component="th" scope="company">
+                                {company.name}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.company}</StyledTableCell>
                             <StyledTableCell align="right">delete</StyledTableCell>
                             <StyledTableCell align="right">some action</StyledTableCell>
                         </StyledTableRow>
