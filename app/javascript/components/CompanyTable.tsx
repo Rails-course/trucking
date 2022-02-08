@@ -47,7 +47,7 @@ export default function CompanyTable({company_data}: ClientTableProps) {
                             <StyledTableCell component="th" scope="company">
                                 {company.name}
                             </StyledTableCell>
-                            <StyledTableCell align="right">delete</StyledTableCell>
+                            <StyledTableCell align="right"> delete</StyledTableCell>
                             <StyledTableCell align="right">some action</StyledTableCell>
                         </StyledTableRow>
                     ))}
