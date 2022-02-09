@@ -1,8 +1,12 @@
 <% if user_signed_in? %>
       <nav class="nav-wrapper">
         <div class="nav">
+          <div>
+            <%= link_to "Users", new_path, class:"share-links" %>
+            <%= link_to "Edit Profile", edit_user_registration_path, class:"share-links" %>
+            <%= link_to "Clients", clients_path, class:"share-links" %>
+          </div>
           <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
-          <%= link_to "Edit Profile", edit_user_registration_path, class:"share-links" %>
         </div>
       </nav>
     <% end %>
