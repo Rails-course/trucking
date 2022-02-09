@@ -28,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-export default function CompanyTable({}: ClientTableProps) {
+export default function CompanyTable( ) {
     const [companies, setCompany] = React.useState(null);
     React.useEffect(() => {
         axios.get('/companies.json').then((response) => {
