@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {useState} from "react";
+import { useState } from "react";
+import axios from 'axios';
 
 import Button from '@mui/material/Button';
 import {
@@ -16,8 +17,10 @@ interface UsersCompanyProps {
 }
 
 const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => {
-    const {} = props;
+    const { } = props;
     const [isActiveModal, setModalActive] = useState(false)
+    const [user, setUser] = useState({})
+
 
     const handleClickOpen = () => {
         setModalActive(true);
@@ -25,6 +28,14 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
 
     const handleClose = () => {
         setModalActive(false);
+    };
+
+    const createUser = async () => {
+        const newUser = { email: 'test11@test.com', password: 'password1', password_confirmation: 'password1' }
+        await axios.post("/users/create", { user: newUser })
+            .catch(error => {
+                console.error('There was an error!', error);
+            })
     };
 
     return (
@@ -63,6 +74,15 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                             <TextField
                                 autoFocus
                                 margin="dense"
+                                id="password"
+                                label="Confirm password"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
                                 id="name"
                                 label="Name"
                                 type="text"
@@ -72,7 +92,7 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
-                            <Button onClick={handleClose}>Create</Button>
+                            <Button onClick={createUser}>Create</Button>
                         </DialogActions>
                     </Dialog>
                 </Grid>
