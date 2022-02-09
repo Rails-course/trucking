@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
   def index
-  @company_data=Company.all
+  @companys=Company.all
   end
   def delete
     company=Company.find(params.require(:id))
