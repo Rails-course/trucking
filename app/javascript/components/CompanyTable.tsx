@@ -8,6 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from "axios";
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+
+
+const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -28,6 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
+
 export default function CompanyTable( ) {
     const [companies, setCompany] = React.useState(null);
     React.useEffect(() => {
@@ -35,13 +42,13 @@ export default function CompanyTable( ) {
             setCompany(response.data);
         })
     }, []);
-    function deletePost() {
+    function deleteCompany(id) {
         axios
-            .delete(`${'/companies/remove/'}/1`)
+            .delete(`/companies/${id}`)
             .then(() => {
                 alert("Post deleted!");
-                setCompany(null)
-            });
+                setCompany(companies.filter(company => company.id != id));
+            })
     }if (!companies) return null
     return (<div >
             <TableContainer component={Paper}>
@@ -49,7 +56,7 @@ export default function CompanyTable( ) {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Name&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right" colspan="2">Action&nbsp;</StyledTableCell></TableRow>
+                            <StyledTableCell align="right" colSpan="2">Action&nbsp;</StyledTableCell></TableRow>
                     </TableHead>
                     <TableBody>
                         {companies.map((company) => (
@@ -57,8 +64,10 @@ export default function CompanyTable( ) {
                                 <StyledTableCell component="th" scope="company">
                                     {company.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">delete</StyledTableCell>
                                 <StyledTableCell align="right">some action</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <button onClick={()=>deleteCompany(company.id)}>delete</button>
+                                </StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
