@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {useState} from "react";
+import { useState } from "react";
 import axios from 'axios';
-
+import CSRFToken from './cookies';
 // import {useAppDispatch, useAppSelector} from "../packs/hooks";
 // import {enteredDataActions} from "../packs/store/slice/enteredData";
 
@@ -42,7 +42,8 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
     // const dispatch = useAppDispatch();
     // const emailSelector = useAppSelector((state) => state.enteredData.email)
     // const passwordSelector = useAppSelector((state) => state.enteredData.password)
-
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
     const createUser = async () => {
         // const newUser = { email: emailSelector, password: passwordSelector }
         const newUser = {
@@ -69,7 +70,7 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                             Create User
                         </Button>
                     </Grid>
-                    <Dialog open={isActiveModal} onClose={() => {setModalActive(false)}}>
+                    <Dialog open={isActiveModal} onClose={() => { setModalActive(false) }}>
                         <DialogTitle>Add User Of Company</DialogTitle>
                         <DialogContent>
                             <Grid container spacing={3}>
@@ -176,7 +177,7 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                                         variant="standard"
                                         value={setEmail}
                                         onChange={(event: any) => setEmail(event.target.value)}
-                                        // value={emailSelector}
+                                    // value={emailSelector}
                                     />
                                     <TextField
                                         autoFocus
@@ -187,8 +188,8 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                                         variant="standard"
                                         value={setPassword}
                                         onChange={(event: any) => setPassword(event.target.value)}
-                                        // value={passwordSelector}
-                                        // onChange={(event) => dispatch(enteredDataActions.setPassword(event.target.value))}
+                                    // value={passwordSelector}
+                                    // onChange={(event) => dispatch(enteredDataActions.setPassword(event.target.value))}
                                     />
                                     <TextField
                                         autoFocus
@@ -217,7 +218,7 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
                             </FormControl>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={() => {setModalActive(false)}}>Cancel</Button>
+                            <Button onClick={() => { setModalActive(false) }}>Cancel</Button>
                             <Button onClick={createUser}>Create</Button>
                         </DialogActions>
                     </Dialog>
