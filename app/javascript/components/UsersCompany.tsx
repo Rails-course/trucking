@@ -20,6 +20,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import ClientTable from './ClientTable';
+import CreateUser from './CreateUser';
 
 interface UsersCompanyProps {
 }
@@ -46,13 +48,14 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
     const createUser = async () => {
         // const newUser = { email: emailSelector, password: passwordSelector }
+        const testUser = { email: email, password: password, password_confirmation: passwordConfirm }
         const newUser = {
             firstName: firstName, middleName: middleName, lastName: lastName,
             data: data, login: login, email: email,
             password: password, password_confirmation: passwordConfirm,
             flat: flat, house: house, street: street, city: city
         }
-        await axios.post("/users/create", { user: newUser })
+        await axios.post("/users/create", { user: testUser })
             .catch(error => {
                 console.error('There was an error!', error);
             })
@@ -60,8 +63,9 @@ const UsersCompany: React.FC<UsersCompanyProps> = (props: UsersCompanyProps) => 
 
     return (
         <div className="wrapper">
-            <Box sx={{ flexGrow: 1 }} >
-                <Grid container spacing={2} >
+            <Box sx={{ flexGrow: 1 }}>
+                <CreateUser createUser={createUser} handleClose={() => { setModalActive(false) }} />
+                <Grid container spacing={2}>
                     <Grid item xs={8}>
                         Form for create of User
                     </Grid>
