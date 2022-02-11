@@ -8,8 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from "axios";
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+
 
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
@@ -47,7 +48,9 @@ export default function CompanyTable( ) {
             .delete(`/companies/${id}`)
             .then(() => {
                 alert("Post deleted!");
-                setCompany(companies.filter(company => company.id != id));
+                axios.get('/companies.json').then((response)=>{
+                    setCompany(response.data)
+                })
             })
     }if (!companies) return null
     return (<div >
@@ -64,9 +67,11 @@ export default function CompanyTable( ) {
                                 <StyledTableCell component="th" scope="company">
                                     {company.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">some action</StyledTableCell>
+                                <StyledTableCell align="right">some actiosn</StyledTableCell>
                                 <StyledTableCell align="right">
-                                    <button onClick={()=>deleteCompany(company.id)}>delete</button>
+                                        <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
+                                            Delete
+                                        </Button>
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -74,4 +79,4 @@ export default function CompanyTable( ) {
                 </Table>
             </TableContainer></div>
     );
-}
+};
