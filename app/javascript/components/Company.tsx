@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from "react";
 import axios from 'axios';
+import CSRFToken from './cookies';
 
 import Button from '@mui/material/Button';
 import {
@@ -13,13 +14,18 @@ import {
     TextField
 } from "@mui/material";
 
+
+
 interface CompanyProps {
 }
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
     const { } = props;
     const [isActiveModal, setModalActive] = useState(false)
+    const [name, setName] = useState('')
 
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
 
     const handleClickOpen = () => {
         setModalActive(true);
@@ -30,7 +36,8 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
     };
 
     const createCompany = async () => {
-        const newCompany = { name: 'safesoft' }
+        const testCompany = { name: 'safesoft' }
+        const newCompany = { name: name }
         await axios.post("/companies/create", { company: newCompany })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -41,9 +48,6 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         <div className="wrapper">
             <Box sx={{ flexGrow: 1 }} >
                 <Grid container spacing={2} >
-                    <Grid item xs={8}>
-                        Form for create of Company
-                    </Grid>
                     <Grid item xs={4}>
                         <Button variant="outlined" onClick={handleClickOpen} color="inherit">
                             Create Company
@@ -55,38 +59,13 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                id="email"
-                                label="Email address"
-                                type="email"
-                                fullWidth
-                                variant="standard"
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                label="Password"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                label="Confirm password"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
                                 id="name"
-                                label="Name"
+                                label="Company name"
                                 type="text"
                                 fullWidth
                                 variant="standard"
+                                value={setName}
+                                onChange={(event: any) => setName(event.target.value)}
                             />
                         </DialogContent>
                         <DialogActions>
