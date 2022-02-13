@@ -2,5 +2,5 @@
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  self.allow_forgery_protection = false unless ENV["RAILS_ENV"] == "production"
+  self.allow_forgery_protection = false unless ENV['RAILS_ENV'] == 'production'
 end
