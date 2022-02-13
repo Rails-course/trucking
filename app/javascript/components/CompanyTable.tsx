@@ -51,8 +51,8 @@ export default function CompanyTable( ) {
                 axios.get('/companies.json').then((response)=>{
                     setCompany(response.data)
                 })
-            })
-    }if (!companies) return null
+            }) }
+   if (!companies) return null
     return (<div >
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -80,3 +80,4 @@ export default function CompanyTable( ) {
             </TableContainer></div>
     );
 };
+

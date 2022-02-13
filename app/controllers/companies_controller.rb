@@ -1,9 +1,8 @@
 class CompaniesController < ApplicationController
   def index
-  @companys=Company.all
+  @companies=Company.all
   end
   def destroy
-    company=Company.find(params.require(:id))
-    company.destroy
+     Company.find(params.require(:id)).destroy
   end
 end
