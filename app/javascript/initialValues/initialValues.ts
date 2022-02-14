@@ -6,7 +6,7 @@ export interface FormValues {
   login: string;
   password: string;
   repeatPassword: string;
-  date: Date;
+  date: string;
   flat: string;
   house: string;
   street: string;
@@ -18,7 +18,7 @@ const initialValues: FormValues = {
   firstName: '',
   middleName: '',
   lastName: '',
-  date: null,
+  date: '',
   login: '',
   email: '',
   password: '',
@@ -27,7 +27,7 @@ const initialValues: FormValues = {
   house: '',
   street: '',
   city: '',
-  role: null,
+  role: '',
 };
 
 export interface FormikSelectItem {
