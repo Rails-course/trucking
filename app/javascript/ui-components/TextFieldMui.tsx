@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { ErrorMessage } from 'formik';
 
 interface TextFieldMuiProps {
     label: string;
     type: string;
     className: string;
     id: string;
-    helperText: string;
     variant: any;
     name: string;
-    value: string;
+    // value: string;
     required: boolean;
-    inputText: any;
+    // inputText: any;
 }
 
 const TextFieldMui: React.FC<TextFieldMuiProps> = (props: TextFieldMuiProps) => {
@@ -20,26 +20,25 @@ const TextFieldMui: React.FC<TextFieldMuiProps> = (props: TextFieldMuiProps) => 
     className,
     id,
     label,
-    helperText,
     variant,
-    value,
+    // value,
     name,
     type,
     required,
-    inputText,
+    // inputText,
   } = props;
 
-  const [currentValue, setCurrentValue] = useState(value);
+  // const [currentValue, setCurrentValue] = useState(value);
 
-  useEffect(() => {
-    if (value !== currentValue) {
-      setCurrentValue(value);
-    }
-  }, [value]);
-
-  const onChangeHandler = (e) => {
-    setCurrentValue(e.target.value);
-  };
+  // useEffect(() => {
+  //   if (value !== currentValue) {
+  //     setCurrentValue(value);
+  //   }
+  // }, [value]);
+  //
+  // const onChangeHandler = (e) => {
+  //   setCurrentValue(e.target.value);
+  // };
 
   return (
     <TextField
@@ -48,15 +47,14 @@ const TextFieldMui: React.FC<TextFieldMuiProps> = (props: TextFieldMuiProps) => 
       id={id}
       label={label}
       type={type}
-      value={currentValue}
-      helperText={helperText}
+      // value={currentValue}
+      helperText={<ErrorMessage name={name} />}
       variant={variant}
       name={name}
-      onChange={onChangeHandler}
+      // onChange={onChangeHandler}
       className={className}
-      error={!!helperText}
       required={required}
-      onBlur={inputText}
+      // onBlur={inputText}
     />
   );
 };

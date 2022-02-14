@@ -1,13 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import enteredDataReducer from "./slice/enteredData";
+import { configureStore } from '@reduxjs/toolkit';
+import enteredDataReducer from './slice/enteredData';
 
-import usersDataReducer from "./slice/userFormData"
+import usersDataReducer from './slice/userFormData';
 
 const store = configureStore({
-    reducer: {
-        usersData: usersDataReducer,
-        enteredData: enteredDataReducer
-    },
+  reducer: {
+    usersData: usersDataReducer,
+    enteredData: enteredDataReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

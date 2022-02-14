@@ -1,76 +1,73 @@
 import * as React from 'react';
+import { Form, Formik } from 'formik';
 
-import FormControlLabel from '@mui/material/FormControlLabel';
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
 import Button from '@mui/material/Button';
-import TextFieldMui from '../ui-components/TextFieldMui';
 
+import axios from 'axios';
+import FormikField from './FormikField';
+import FormikSelect from './FormikSelect';
+import validationSchema from '../validations/validationSchema';
 import { userFields } from '../constants/userFields';
-import { validateErrors } from '../mixins/validateErrors';
-import useForm from '../hooks/useForm';
+import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
 
 interface CreateFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
 }
 
-const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
+const CreateForm:React.FC <CreateFormProps> = (props: CreateFormProps) => {
   const {
     isActiveModal, handleClose,
   } = props;
 
-  const {
-    handleChange, handleClear, handleSubmit, user, errors,
-  } = useForm(validateErrors);
+  const handleSubmit = async (values: FormValues) => {
+    await axios.post('/users/create', values)
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
 
   return (
-    <Dialog open={isActiveModal} onClose={handleClose}>
-      <DialogTitle>Add User Of Company</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            {userFields.map((column) => (
-              <TextFieldMui
-                className=""
-                id={column.id}
-                key={column.id}
-                label={column.placeholder}
-                type={column.type}
-                inputText={handleChange}
-                value={user[`${column.model}`]}
-                name={column.model}
-                required={column.required}
-                helperText={errors[`${column.model}`]}
-                variant="standard"
-              />
-            ))}
-          </Grid>
-        </Grid>
-        <FormControl margin="dense" onChange={handleChange}>
-          <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="role"
-          >
-            <FormControlLabel value="manager" control={<Radio />} label="Manager" />
-            <FormControlLabel value="dispatcher" control={<Radio />} label="Dispatcher" />
-            <FormControlLabel value="driver" control={<Radio />} label="Driver" />
-            <FormControlLabel value="owner" control={<Radio />} label="Owner" />
-          </RadioGroup>
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClear}>Cancel</Button>
-        <Button onClick={handleSubmit}>Create</Button>
-      </DialogActions>
-    </Dialog>
+    <div>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ dirty, isValid }) => (
+          <Dialog open={isActiveModal}>
+            <DialogTitle>Add User Of Company</DialogTitle>
+            <DialogContent>
+              <Form>
+                {userFields.map((column) => (
+                  <FormikField
+                    key={column.id}
+                    name={column.model}
+                    label={column.placeholder}
+                    required={column.required}
+                    type={column.type}
+                    variant="standard"
+                  />
+                ))}
+                <FormikSelect
+                  name="role"
+                  items={roleItems}
+                  label="Role"
+                  required
+                />
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                </DialogActions>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        )}
+      </Formik>
+    </div>
   );
 };
 

@@ -28,9 +28,9 @@ function UsersCompany() {
               Create User
             </Button>
           </Grid>
-          <CreateForm isActiveModal={isActiveModal} handleClose={handleClose} />
         </Grid>
       </Box>
+      <CreateForm isActiveModal={isActiveModal} handleClose={handleClose} />
     </div>
   );
 }
