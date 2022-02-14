@@ -67,7 +67,7 @@ export default function CompanyTable( ) {
                                 <StyledTableCell component="th" scope="company">
                                     {company.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">some actiosn</StyledTableCell>
+                                <StyledTableCell align="right">some action</StyledTableCell>
                                 <StyledTableCell align="right">
                                         <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
                                             Delete
