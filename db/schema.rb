@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(version: 2022_02_11_130419) do
     t.string "second_name"
     t.string "middle_name"
     t.date "birthday"
+    t.string "login"
     t.bigint "company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
