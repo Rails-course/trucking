@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Companies", type: :request do
   let(:company) { create(:company) }
   before(:each) do
-    login_as(create(:user))
+    sign_in create(:user)
   end
   describe "DELETE /companies" do
     it 'valid delete' do
