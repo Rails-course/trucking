@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import CSRFToken from './cookies';
 
@@ -17,10 +17,11 @@ import {
 
 
 interface CompanyProps {
+    value: string;
 }
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
-    const { } = props;
+    const {value} = props;
     const [isActiveModal, setModalActive] = useState(false)
     const [name, setName] = useState('')
 
@@ -43,6 +44,17 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
                 console.error('There was an error!', error);
             })
     };
+    const [currentValue, setCurrentValue] = useState(value);
+
+    useEffect(() => {
+        if (value !== currentValue) {
+            setCurrentValue(value);
+        }
+    }, [value]);
+
+    const onChangeHandler = (e: any) => {
+        setCurrentValue(e.target.value);
+    };
 
     return (
         <div className="wrapper">
@@ -64,8 +76,8 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
                                 type="text"
                                 fullWidth
                                 variant="standard"
-                                value={setName}
-                                onChange={(event: any) => setName(event.target.value)}
+                                onChange = {onChangeHandler}
+                                value={currentValue}
                             />
                         </DialogContent>
                         <DialogActions>

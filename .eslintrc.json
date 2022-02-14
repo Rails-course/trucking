@@ -11,6 +11,8 @@
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
+            "jsx": true,
+            "tsx": true
         },
         "ecmaVersion": "latest",
         "sourceType": "module"
@@ -20,5 +22,46 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        ],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "no-underscore-dangle": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-props-no-spreading": "off",
+        "eslint-disable-next-line no-undef": "off",
+        "eslint-disable-next-line react/react-in-jsx-scope": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/no-arrow-function-lifecycle": "off",
+        "react/no-invalid-html-attribute": "off",
+        "react/no-unused-class-component-methods": "off",
+        "no-param-reassign": 0,
+        "global-require": 0,
+        "import/no-named-as-default": 0,
+        "react/function-component-definition" : "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }
