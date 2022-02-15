@@ -3,7 +3,7 @@
         <div class="nav">
           <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
           <%= link_to "Edit Profile", edit_user_registration_path, class:"share-links" %>
-          <%= link_to "Companies", new_path, class:"share-links" %>
+          <%= link_to "Companies", clients_path, class:"share-links" %>
         </div>
       </nav>
     <% end %>
