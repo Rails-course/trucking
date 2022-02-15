@@ -7,6 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from "axios";
+import Button from '@mui/material/Button';
+
+
+
+
+const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -27,45 +35,49 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-function createData(
-    name: string,
-    company: string,
-) {
-    return { name, company};
-}
-interface ClientTableProps {
-    users_data?: any[]
-}
 
-export default function ClientTable({users_data}: ClientTableProps) {
-    const rows=[]
-    for (let i = 0; i < users_data.length; i++){
-        rows.push(
-            createData(users_data[i].name,'users_data[i].company')
-        )
-    }
+export default function CompanyTable( ) {
+    const [companies, setCompany] = React.useState(null);
+    React.useEffect(() => {
+        axios.get('/companies.json').then((response) => {
+            setCompany(response.data);
+        })
+    }, []);
+    function deleteCompany(id) {
+        axios
+            .delete(`/companies/${id}`)
+            .then(() => {
+                alert("Post deleted!");
+                axios.get('/companies.json').then((response)=>{
+                    setCompany(response.data)
+                })
+            }) }
+   if (!companies) return null
     return (<div >
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Name&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">Company&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">Action&nbsp;</StyledTableCell></TableRow>
+                            <StyledTableCell align="right" colSpan="2">Action&nbsp;</StyledTableCell></TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
+                        {companies.map((company) => (
+                            <StyledTableRow key={company.name}>
+                                <StyledTableCell component="th" scope="company">
+                                    {company.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{row.company}</StyledTableCell>
-                                <StyledTableCell align="right">delete</StyledTableCell>
                                 <StyledTableCell align="right">some action</StyledTableCell>
+                                <StyledTableCell align="right">
+                                        <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
+                                            Delete
+                                        </Button>
+                                </StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer></div>
     );
-}
+};
+

@@ -16,8 +16,8 @@ RSpec.describe Role, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'role name length should not be valid (>15)' do
-      subject.role_name = 'foobar' * 4
+    it 'role name length should not be valid (>30)' do
+      subject.role_name = 'foobar' * 6
       expect(subject).to_not be_valid
     end
 
