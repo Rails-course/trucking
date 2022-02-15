@@ -1,24 +1,31 @@
-# README
+# Trucking
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
+* Nodejs >= 12 version
+* npm
+* yarn
+* Ruby 2.6.8
+* Rails 5.2.6
+* postgreSQL
+* Docker engine
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## To run app with docker
+Clone the app
+```
+git clone https://github.com/Rails-course/trucking.git
+```
+Set up .env file (based on .enx.examle) \
+Build docker container
+```
+docker-compose build
+```
+Run docker container
+- before running docker container make sure all used ports in docker-compose.yml are free on your system
+```
+Docker-compose up -d
+```
+Set up database
+```
+Docker-compose exec app rails db:setup
+```
+## Now you good to go, check localhost:3000

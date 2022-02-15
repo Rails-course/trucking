@@ -52,7 +52,7 @@ export default function CompanyTable( ) {
                     setCompany(response.data)
                 })
             }) }
-    if (!companies) return null
+   if (!companies) return null
     return (<div >
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -69,9 +69,9 @@ export default function CompanyTable( ) {
                                 </StyledTableCell>
                                 <StyledTableCell align="right">some action</StyledTableCell>
                                 <StyledTableCell align="right">
-                                    <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
-                                        Delete
-                                    </Button>
+                                        <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
+                                            Delete
+                                        </Button>
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -80,3 +80,4 @@ export default function CompanyTable( ) {
             </TableContainer></div>
     );
 };
+
