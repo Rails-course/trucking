@@ -18,7 +18,8 @@ class PagesController < ApplicationController
   private
 
   def user_params
-    # TODO: Add additional params after update user schema
-    params.permit(:email, :password, :password_confirmation)
+    # TODO: Rename params on front side
+    params.require(:user).permit(:values, :firstName, :lastName, :middleName, :email, :password,
+                                 :repeatPassword, :flat, :house, :street, :city, :role)
   end
 end

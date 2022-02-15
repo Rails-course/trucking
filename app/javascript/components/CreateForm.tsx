@@ -15,17 +15,17 @@ import { userFields } from '../constants/userFields';
 import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
 
 interface CreateFormProps {
-    isActiveModal: boolean;
-    handleClose: () => void;
+  isActiveModal: boolean;
+  handleClose: () => void;
 }
 
-const CreateForm:React.FC <CreateFormProps> = (props: CreateFormProps) => {
+const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const {
     isActiveModal, handleClose,
   } = props;
 
   const handleSubmit = async (values: FormValues) => {
-    await axios.post('/users/create', values)
+    await axios.post('/users/create', { user: values })
       .catch((error) => {
         console.error('There was an error!', error);
       });
