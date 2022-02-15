@@ -11,5 +11,6 @@ FactoryBot.define do
     birthday { '01/01/1970' }
     login { 'IvanovichII' }
     association(:role)
+    association(:company)
   end
 end

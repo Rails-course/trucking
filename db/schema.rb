@@ -15,6 +15,12 @@ ActiveRecord::Schema.define(version: 2022_02_11_130419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "role_name", null: false
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
