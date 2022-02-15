@@ -3,14 +3,14 @@
 FactoryBot.define do
   # TODO: add association fields after creating certain tables
   factory :user do
-    sequence(:email) { |i| "test#{i}@test.com" }
+    email { 'test@test.com' }
     password { 'password1' }
     first_name { 'Ivan' }
     second_name { 'Ivanov' }
     middle_name { 'Ivanovich' }
     birthday { '01/01/1970' }
-    sequence(:login) { |i| "login_#{i}" }
+    login { 'IvanovichII' }
     association(:role)
-    association(:address)
+    association(:company)
   end
 end
