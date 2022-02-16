@@ -6,11 +6,6 @@ const REGEX_MIX_LETTERS_NUMBERS = /^(?=.*?[0-9])/;
 const REGEX_SPECIAL_SYMBOL = /^(?=.*?[#?!@$%^&*-])/;
 const REGX_ONLY_NUMBER = /^[\d]+$/;
 
-const emailAddresses = [
-  'test@gmail.com',
-  'test2@gmail.com',
-  'test3@gmail.com',
-];
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -31,7 +26,6 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .lowercase()
     .email('Must be a valid email!')
-    .notOneOf(emailAddresses, 'Email already taken!')
     .required('Required!'),
 
   login: Yup.string()
@@ -50,16 +44,16 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Password must be the same!')
     .required('Required!'),
 
-  flat: Yup.string()
-    .matches(REGX_ONLY_NUMBER, 'Flat must be numbers only')
+  apartment: Yup.string()
+    .matches(REGX_ONLY_NUMBER, 'Apartment must be numbers only')
     .required('Required'),
 
-  house: Yup.string()
-    .matches(REGX_ONLY_NUMBER, 'Flat must be numbers only')
+  building: Yup.string()
+    .matches(REGX_ONLY_NUMBER, 'building must be numbers only')
     .required('Required'),
 
-  city: Yup.string()
-    .matches(REGX_ONLY_LETTER, 'City must be alphabets only')
+  town: Yup.string()
+    .matches(REGX_ONLY_LETTER, 'Town must be alphabets only')
     .min(2, 'Must be of length 2 to 255')
     .required('Required'),
 

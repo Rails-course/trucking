@@ -7,10 +7,10 @@ export interface FormValues {
   password: string;
   password_confirmation: string;
   birthday: string;
-  flat: string;
-  house: string;
+  apartment: string;
+  building: string;
   street: string;
-  city: string;
+  town: string;
   role: string,
 }
 
@@ -23,10 +23,10 @@ const initialValues: FormValues = {
   email: '',
   password: '',
   password_confirmation: '',
-  flat: '',
-  house: '',
+  apartment: '',
+  building: '',
   street: '',
-  city: '',
+  town: '',
   role: '',
 };
 

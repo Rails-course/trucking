@@ -25,7 +25,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   } = props;
 
   const handleSubmit = async (user: FormValues) => {
-    await axios.post('/users/create', user)
+    await axios.post('/users/create', { user: user })
       .catch((error) => {
         console.error('There was an error!', error);
       });
