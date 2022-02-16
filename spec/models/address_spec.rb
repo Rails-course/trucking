@@ -6,18 +6,17 @@ RSpec.describe Address, type: :model do
     expect(subject.save).to eq(true)
   end
   it 'shouldn\'t create Address with town name less than 3 chars' do
-    subject { build(:address) }
+    subject = build(:address)
     subject.town = 'te'
     expect(subject.save).to eq(false)
   end
   it 'shouldn\'t create Address with street name more than 30 chars' do
     subject = build(:address)
     subject.street = 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest'
-    p subject.town
     expect(subject.save).to eq(false)
   end
   it 'shouldn\'t create Address with building index less than 0' do
-    subject { build(:address) }
+    subject = build(:address)
     subject.building = -9
     expect(subject.save).to eq(false)
   end
