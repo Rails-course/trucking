@@ -1,16 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  before(:each) do
-    sign_in create(:user)
+  let(:user) { create(:user) }
+
+  before do
+    sign_in user
   end
-  describe "CREATE /users" do
-    it 'creates user' do
-      first_name = 'Ivan'
-      # middle_name = 'Ivanovich'
-      # second_name = 'Ivanov'
-      post "/users/create", :params => { :first_name => first_name}
-      expect(User.last.first_name).to eq(first_name)
+
+  describe 'GET methods' do
+    it 'get users/new' do
+      get '/users/new'
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'positive POST/PUT/DELETE methods' do
+    it 'POST users/create' do
+      post '/users/create',
+           params: { user: { first_name: 'Jhon', second_name: 'Doe', middle_name: 'Doevich',
+                             birthday: '01/01/2000', login: 'Jhondoe', email: 'JhonDoe@test.com',
+                             password: 'password', password_confirmation: 'password', role: 'dispatcher',
+                             town: 'London', street: 'Baker', building: 2, apartment: 21 } }
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'negative POST/PUT/DELETE methods' do
+    it 'POST users/create' do
+      post '/users/create',
+           params: { user: { first_name: 'as', second_name: 'Doe', middle_name: 'Doevich',
+                             birthday: '01/01/2000', login: 'Jhondoe', email: 'JhonDoe@test.com',
+                             password: 'password', password_confirmation: 'password', role: 'dispatcher',
+                             town: 'London', street: 'Baker', building: 2, apartment: 21 } }
+      expect(response.body).to include('Something went wrong with creating new user')
     end
   end
 end
