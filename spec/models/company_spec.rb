@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Company, type: :model do
-  subject = build(:company)
+
+  let(:subject) { build(:company) }
+
   it 'should create Company' do
     expect(subject.save).to eq(true)
   end
@@ -16,5 +18,12 @@ RSpec.describe Company, type: :model do
   it 'shouldn\'t create Company with empty name' do
     subject.name = ''
     expect(subject.save).to eq(false)
+  end
+  it 'shouldn\'t create Company with the same name' do
+    subject.name = 'Test'
+    subject2 = build(:company)
+    subject2.name = subject.name
+    expect(subject.save).to eq(true)
+    expect(subject2.save).to eq(false)
   end
 end

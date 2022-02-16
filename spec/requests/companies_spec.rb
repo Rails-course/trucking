@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Companies", type: :request do
 
-  let(:company) { create(:company) }
+  let(:company) { create(:company, name: 'Company') }
 
   before(:each) do
     sign_in create(:user)
@@ -23,7 +23,7 @@ RSpec.describe "Companies", type: :request do
   describe "CREATE /companies" do
     it 'creates company' do
       companyName = 'My comp'
-      post "/companies/create", :params => { :name => companyName }
+      post "/companies/create", params: { name: companyName }
       expect(Company.last.name).to eq(companyName)
     end
   end
