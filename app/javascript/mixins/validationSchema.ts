@@ -4,7 +4,6 @@ const REGX_ONLY_LETTER = /^[A-Za-z]*$/;
 const REGX_LOWER_UPPER_CASE = /^(?=.*?[A-Z])(?=.*?[a-z])/;
 const REGEX_MIX_LETTERS_NUMBERS = /^(?=.*?[0-9])/;
 const REGEX_SPECIAL_SYMBOL = /^(?=.*?[#?!@$%^&*-])/;
-const REGX_MAIL_FORMAT = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const REGX_ONLY_NUMBER = /^[\d]+$/;
 
 const emailAddresses = [
@@ -14,17 +13,17 @@ const emailAddresses = [
 ];
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
+  first_name: Yup.string()
     .matches(REGX_ONLY_LETTER, 'Name must be alphabets only')
     .min(2, 'Too Short!')
     .required('Required'),
 
-  middleName: Yup.string()
+  second_name: Yup.string()
     .matches(REGX_ONLY_LETTER, 'Name must be alphabets only')
     .min(2, 'Too Short!')
     .required('Required'),
 
-  lastName: Yup.string()
+  middle_name: Yup.string()
     .matches(REGX_ONLY_LETTER, 'Name must be alphabets only')
     .min(2, 'Too Short!')
     .required('Required'),
@@ -36,8 +35,8 @@ const validationSchema = Yup.object().shape({
     .required('Required!'),
 
   login: Yup.string()
-    .matches(REGX_MAIL_FORMAT)
-    .email('Login is invalid!')
+    .matches(REGX_ONLY_LETTER, 'Login must be alphabets only')
+    .min(2, 'Too Short!')
     .required('Required!'),
 
   password: Yup.string()
@@ -47,7 +46,7 @@ const validationSchema = Yup.object().shape({
     .min(8, 'Minimum 8 characters required!')
     .required('Required!'),
 
-  repeatPassword: Yup.string()
+  password_confirmation: Yup.string()
     .oneOf([Yup.ref('password')], 'Password must be the same!')
     .required('Required!'),
 

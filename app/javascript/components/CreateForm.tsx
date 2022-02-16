@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 
 import {
   Container,
-  Dialog, DialogActions, DialogContent, DialogTitle,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
@@ -24,8 +24,8 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     isActiveModal, handleClose,
   } = props;
 
-  const handleSubmit = async (values: FormValues) => {
-    await axios.post('/users/create', { user: values })
+  const handleSubmit = async (user: FormValues) => {
+    await axios.post('/users/create', user)
       .catch((error) => {
         console.error('There was an error!', error);
       });
@@ -33,43 +33,52 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
 
   return (
     <div>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+      <Dialog
+        open={isActiveModal}
+        onClose={handleClose}
+        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        maxWidth="xs"
       >
-        {({ dirty, isValid }) => (
-          <Dialog open={isActiveModal}>
-            <DialogTitle>Add User Of Company</DialogTitle>
-            <DialogContent>
-              <Form>
-                <Container maxWidth="sm">
-                  {userFields.map((column) => (
-                    <FormikField
-                      key={column.id}
-                      name={column.model}
-                      label={column.placeholder}
-                      required={column.required}
-                      type={column.type}
-                      variant="standard"
+        <DialogTitle>Add User Of Company</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} direction="column">
+            <Grid item xs={8}>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ dirty, isValid }) => (
+                  <Form>
+                    <Container maxWidth="sm">
+                      {userFields.map((column) => (
+                        <FormikField
+                          key={column.id}
+                          name={column.model}
+                          label={column.placeholder}
+                          required={column.required}
+                          type={column.type}
+                          variant="standard"
+                        />
+                      ))}
+                    </Container>
+                    <FormikSelect
+                      name="role"
+                      items={roleItems}
+                      label="Role"
+                      required
                     />
-                  ))}
-                </Container>
-                <FormikSelect
-                  name="role"
-                  items={roleItems}
-                  label="Role"
-                  required
-                />
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
-                  <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
-                </DialogActions>
-              </Form>
-            </DialogContent>
-          </Dialog>
-        )}
-      </Formik>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                    </DialogActions>
+                  </Form>
+                )}
+              </Formik>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

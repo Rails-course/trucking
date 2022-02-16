@@ -1,12 +1,12 @@
 export interface FormValues {
-  firstName: string;
-  middleName: string;
-  lastName: string;
+  first_name: string;
+  middle_name: string;
+  second_name: string;
   email: string;
   login: string;
   password: string;
-  repeatPassword: string;
-  date: string;
+  password_confirmation: string;
+  birthday: string;
   flat: string;
   house: string;
   street: string;
@@ -15,14 +15,14 @@ export interface FormValues {
 }
 
 const initialValues: FormValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  date: '',
+  first_name: '',
+  middle_name: '',
+  second_name: '',
+  birthday: '',
   login: '',
   email: '',
   password: '',
-  repeatPassword: '',
+  password_confirmation: '',
   flat: '',
   house: '',
   street: '',

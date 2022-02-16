@@ -4,7 +4,7 @@ export const userFields = [
   {
     id: uuidv4(),
     title: 'First Name',
-    model: 'firstName',
+    model: 'first_name',
     required: true,
     placeholder: 'Enter First Name',
     type: 'text',
@@ -12,7 +12,7 @@ export const userFields = [
   {
     id: uuidv4(),
     title: 'Middle name',
-    model: 'middleName',
+    model: 'middle_name',
     placeholder: 'Enter Middle Name',
     required: true,
     type: 'text',
@@ -20,14 +20,14 @@ export const userFields = [
   {
     id: uuidv4(),
     title: 'Last name',
-    model: 'lastName',
+    model: 'second_name',
     placeholder: 'Enter Last Name',
     required: true,
     type: 'text',
   },
   {
     id: uuidv4(),
-    model: 'date',
+    model: 'birthday',
     required: true,
     type: 'date',
   },
@@ -91,7 +91,7 @@ export const userFields = [
   {
     id: uuidv4(),
     title: 'Repeat password',
-    model: 'repeatPassword',
+    model: 'password_confirmation',
     placeholder: 'Repeat Password',
     required: true,
     type: 'text',

@@ -28,6 +28,9 @@
     "webpack-cli": "3.3.12",
     "yup": "^0.32.11"
   },
+  "scripts": {
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./app/javascript"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",

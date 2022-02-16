@@ -19,7 +19,7 @@ class PagesController < ApplicationController
 
   def user_params
     # TODO: Rename params on front side
-    params.require(:user).permit(:values, :firstName, :lastName, :middleName, :email, :password,
-                                 :repeatPassword, :flat, :house, :street, :city, :role)
+    params.require(:user).permit(:values, :first_name, :second_name, :middle_name, :birthday,
+                                 :login, :email, :password, :password_confirmation, :role)
   end
 end
