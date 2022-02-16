@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_130419) do
+ActiveRecord::Schema.define(version: 2022_02_15_211431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "town"
+    t.string "street"
+    t.integer "building"
+    t.integer "apartment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
@@ -41,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_02_11_130419) do
     t.date "birthday"
     t.string "login"
     t.bigint "company_id"
+    t.bigint "address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
