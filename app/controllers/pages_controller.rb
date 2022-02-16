@@ -7,14 +7,11 @@ class PagesController < ApplicationController
 
   def create_user
     @user = User.new(create_user_params)
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to 'users/new', success: 'User successfully created' }
-        format.json { render json: @user, status: :created }
-      else
-        format.html { redirect_to 'users/new', alert: 'Something went wrong while creating user' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.save
+      flash[:success] = 'User succesfully created'
+    else
+      flash[:alert] = 'Something went wrong with creating new user'
+      render action: 'pages/new_user'
     end
   end
 
