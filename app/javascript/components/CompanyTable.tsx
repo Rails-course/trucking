@@ -1,4 +1,6 @@
 import * as React from 'react';
+import axios from 'axios';
+
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
@@ -33,7 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CompanyTable() {
+const CompanyTable = () => {
   const [companies, setCompany] = React.useState(null);
   React.useEffect(() => {
     axios.get('/companies.json').then((response) => {
@@ -44,7 +45,6 @@ export default function CompanyTable() {
     axios
       .delete(`/companies/${id}`)
       .then(() => {
-        alert('Post deleted!');
         axios.get('/companies.json').then((response) => {
           setCompany(response.data);
         });
@@ -80,4 +80,6 @@ export default function CompanyTable() {
       </TableContainer>
     </div>
   );
-}
+};
+
+export default CompanyTable;
