@@ -9,9 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from "axios";
 import Button from '@mui/material/Button';
-
-
-
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import {Formik, Field, Form, FormikHelpers, useFormik} from 'formik';
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
@@ -36,7 +36,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
+
 export default function CompanyTable( ) {
+   
     const [companies, setCompany] = React.useState(null);
     React.useEffect(() => {
         axios.get('/companies.json').then((response) => {
@@ -44,14 +46,20 @@ export default function CompanyTable( ) {
         })
     }, []);
     function deleteCompany(id) {
-        axios
-            .delete(`/companies/${id}`)
+        axios.delete(`/companies/${id}`)
             .then(() => {
                 alert("Post deleted!");
                 axios.get('/companies.json').then((response)=>{
                     setCompany(response.data)
                 })
             }) }
+    function freezeCompany(id) {
+        axios.post(`/companies/change_status/${id}`)
+            .then(() => {
+                alert("Post was freeze!");
+            }) .catch((error) => {
+            console.log('There was an error!', error);
+        }); }
    if (!companies) return null
     return (<div >
             <TableContainer component={Paper}>
@@ -67,7 +75,11 @@ export default function CompanyTable( ) {
                                 <StyledTableCell component="th" scope="company">
                                     {company.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">some action</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <Button variant="outlined"  onClick={()=>freezeCompany(company.id)}>
+                                        suspend
+                                    </Button>
+                                </StyledTableCell>
                                 <StyledTableCell align="right">
                                         <Button variant="outlined"  onClick={()=>deleteCompany(company.id)}>
                                             Delete
@@ -77,7 +89,9 @@ export default function CompanyTable( ) {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer></div>
+            </TableContainer>
+
+    </div>
     );
 };
 
