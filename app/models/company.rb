@@ -2,6 +2,5 @@
 
 class Company < ApplicationRecord
   has_many :users, dependent: :destroy
-  validates :name, presence: true, length: { in: 3..30 }
-  validates :name, uniqueness: true
+  validates :name, presence: true, length: { in: 3..30 }, uniqueness: true
 end

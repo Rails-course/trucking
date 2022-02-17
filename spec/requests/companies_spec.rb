@@ -22,9 +22,9 @@ RSpec.describe "Companies", type: :request do
 
   describe "CREATE /companies" do
     it 'creates company' do
-      companyName = 'My comp'
+      companyName = 'Gonna give you up'
       post "/companies/create", params: { name: companyName }
-      expect(Company.last.name).to eq(companyName)
+      expect(Company.find_by(name: companyName).name).to eq(companyName)
     end
   end
 end
