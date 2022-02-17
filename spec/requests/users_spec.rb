@@ -27,12 +27,13 @@ RSpec.describe 'Users', type: :request do
 
   describe 'negative POST/PUT/DELETE methods' do
     it 'POST users/create' do
+      user_count = User.all.count
       post '/users/create',
            params: { user: { first_name: 'as', second_name: 'Doe', middle_name: 'Doevich',
                              birthday: '01/01/2000', login: 'Jhondoe', email: 'JhonDoe@test.com',
                              password: 'password', password_confirmation: 'password', role: 'dispatcher',
                              town: 'London', street: 'Baker', building: 2, apartment: 21 } }
-      expect(response.body).to include('Something went wrong with creating new user')
+      expect(User.all.count).to eq(user_count)
     end
   end
 end
