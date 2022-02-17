@@ -56,7 +56,9 @@ export default function CompanyTable( ) {
     function freezeCompany(id) {
         axios.post(`/companies/change_status/${id}`)
             .then(() => {
-                alert("Post was freeze!");
+                axios.get('/companies.json').then((response)=>{
+                    setCompany(response.data)
+                })
             }) .catch((error) => {
             console.log('There was an error!', error);
         }); }
@@ -77,7 +79,7 @@ export default function CompanyTable( ) {
                                 </StyledTableCell>
                                 <StyledTableCell align="right">
                                     <Button variant="outlined"  onClick={()=>freezeCompany(company.id)}>
-                                        suspend
+                                        {company.status ? 'suspend' : 'unsuspend'}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="right">
