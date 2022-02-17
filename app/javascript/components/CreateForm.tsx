@@ -7,12 +7,12 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import axios from 'axios';
 import FormikField from '../ui-components/FormikField';
 import FormikSelect from '../ui-components/FormikSelect';
 import validationSchema from '../mixins/validationSchema';
 import { userFields } from '../constants/userFields';
 import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
+import httpClient from '../api/httpClient';
 
 interface CreateFormProps {
   isActiveModal: boolean;
@@ -24,12 +24,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     isActiveModal, handleClose,
   } = props;
 
-  const handleSubmit = async (user: FormValues) => {
-    await axios.post('/users/create', { user: user })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
-  };
+  const handleSubmit = async (user: FormValues) => { await httpClient.users.create(user); };
 
   return (
     <div>

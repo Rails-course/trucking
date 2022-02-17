@@ -11,14 +11,14 @@ class PagesController < ApplicationController
       flash[:success] = 'User succesfully created'
     else
       flash[:alert] = 'Something went wrong with creating new user'
-      render action: 'pages/new_user'
+      render 'pages/new_user'
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :second_name, :middle_name, :birthday,
+    params.permit(:first_name, :second_name, :middle_name, :birthday,
                                  :login, :email, :password, :password_confirmation,
                                  :role, :town, :street, :building, :apartment)
   end
