@@ -11,8 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
+// const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
+// axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,8 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const CompanyTable = () => {
-  const [companies, setCompany] = React.useState(null);
+interface CompanyTableProps {
+  companies: any,
+  setCompany: any,
+}
+
+const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
+  const { companies, setCompany } = props;
+  // const [companies, setCompany] = React.useState(null);
   React.useEffect(() => {
     axios.get('/companies.json').then((response) => {
       setCompany(response.data);

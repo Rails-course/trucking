@@ -7,12 +7,12 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import FormikField from '../ui-components/FormikField';
-import FormikSelect from '../ui-components/FormikSelect';
-import validationSchema from '../mixins/validationSchema';
-import { userFields } from '../constants/userFields';
-import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
-import httpClient from '../api/httpClient';
+import FormikField from '../../../UI/FormikField';
+import FormikSelect from '../../../UI/FormikSelect';
+import validationSchema from '../../../mixins/validationSchema';
+import { userFields } from '../../../constants/userFields';
+import initialValues, { FormValues, roleItems } from '../../../mixins/initialValues/initialValues';
+import httpClient from '../../../api/httpClient';
 
 interface CreateFormProps {
   isActiveModal: boolean;

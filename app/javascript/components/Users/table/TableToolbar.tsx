@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  alpha, IconButton, Toolbar, Tooltip, Typography,
+  alpha, Button, IconButton, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 
 interface EnhancedTableToolbarProps {
@@ -41,15 +41,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Users of Company
         </Typography>
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
-            {/* /!* eslint-disable-next-line react/jsx-no-undef,no-undef *!/ */}
-            {/* <DeleteIcon /> */}
-          </IconButton>
+          <Button variant="outlined" color="error">Delete</Button>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">

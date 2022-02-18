@@ -8,11 +8,12 @@ import {
 import Button from '@mui/material/Button';
 
 import axios from 'axios';
-import FormikField from '../ui-components/FormikField';
+import FormikField from '../UI/FormikField';
 
 interface CreateCompanyFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
+    setCompany: any;
 }
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
@@ -20,7 +21,7 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
 const CreateCompanyForm:React.FC <CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose,
+    isActiveModal, handleClose, setCompany,
   } = props;
 
   const handleSubmit = async (values) => {
@@ -28,6 +29,11 @@ const CreateCompanyForm:React.FC <CreateCompanyFormProps> = (props: CreateCompan
       .catch((error) => {
         console.error('There was an error!', error);
       });
+    setTimeout(() => {
+      axios.get('/companies.json').then((response) => {
+        setCompany(response.data);
+      });
+    }, 10);
   };
 
   return (

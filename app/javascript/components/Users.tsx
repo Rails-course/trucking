@@ -1,26 +1,21 @@
 import * as React from 'react';
 import { useState } from 'react';
-// import axios from 'axios';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-import CreateForm from './CreateForm';
-import CustomizedTables from './UsersTable';
 
-function Users() {
+import CreateForm from './Users/form/CreateForm';
+import UsersTable from './Users/table/Table';
+
+const Users = () => {
   const [isActiveModal, setModalActive] = useState(false);
 
-  // const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
-  // axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
-
-  const handleClose = () => {
-    setModalActive(false);
-  };
+  const handleClose = () => setModalActive(false);
 
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column', alignItems: 'center',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
         <Grid item xs={12}>
@@ -29,13 +24,12 @@ function Users() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {/* <UsersTable /> */}
-          <CustomizedTables />
+          <UsersTable />
         </Grid>
       </Box>
       <CreateForm isActiveModal={isActiveModal} handleClose={handleClose} />
     </div>
   );
-}
+};
 
 export default Users;
