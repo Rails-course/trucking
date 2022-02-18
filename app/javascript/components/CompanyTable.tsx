@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -33,8 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CompanyTable() {
-  const [companies, setCompany] = React.useState(null);
+
+interface CompanyTableProps{
+  companies: any,
+  setCompany: any,
+}
+
+const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
+   const {companies, setCompany} = props;
   React.useEffect(() => {
     axios.get('/companies.json').then((response) => {
       setCompany(response.data);
@@ -80,4 +87,7 @@ export default function CompanyTable() {
       </TableContainer>
     </div>
   );
-}
+};
+
+export default CompanyTable;
+
