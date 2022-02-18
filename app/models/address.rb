@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Address < ApplicationRecord
   has_many :users, dependent: :nullify
   has_many :goods_owners, dependent: :nullify
