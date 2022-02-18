@@ -10,16 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_16_162843) do
+ActiveRecord::Schema.define(version: 2022_02_17_132541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "town"
+    t.string "street"
+    t.integer "building"
+    t.integer "apartment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "status"
+    t.index ["name"], name: "index_companies_on_name", unique: true
+  end
+
+  create_table "goods_owners", force: :cascade do |t|
+    t.string "warehouse_name", null: false
+    t.bigint "address_id"
+    t.index ["warehouse_name"], name: "index_goods_owners_on_warehouse_name", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
@@ -42,6 +58,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_162843) do
     t.date "birthday"
     t.string "login"
     t.bigint "company_id"
+    t.bigint "address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
