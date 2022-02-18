@@ -4,9 +4,9 @@ class User < ApplicationRecord
   belongs_to :role, optional: true
   belongs_to :company, optional: true
   belongs_to :address, optional: true
-  validates :first_name, length: { in: 3..30 }
-  validates :second_name, length: { in: 3..30 }
-  validates :middle_name, length: { in: 3..30 }
+  validates :first_name, presence: true, length: { in: 3..30 }
+  validates :second_name, presence: true, length: { in: 3..30 }
+  validates :middle_name, presence: true, length: { in: 3..30 }
   validates :login, presence: true, uniqueness: true, length: { in: 3..30 }
   validates_each :birthday do |record, attr, value|
     Date.parse(value.to_s)
