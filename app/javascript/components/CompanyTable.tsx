@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import Button from '@mui/material/Button';
+import httpClients from '../api/httpClient';
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
@@ -40,24 +41,16 @@ export default function CompanyTable() {
       setCompany(response.data);
     });
   }, []);
-  function deleteCompany(id) {
-    axios.delete(`/companies/${id}`)
-      .then(() => {
-        alert('Post deleted!');
-        axios.get('/companies.json').then((response) => {
-          setCompany(response.data);
-        });
-      });
-  }
-  function freezeCompany(id) {
-    axios.post(`/companies/change_status/${id}`)
-      .then(() => {
-        axios.get('/companies.json').then((response) => {
-          setCompany(response.data);
-        });
-      }).catch((error) => {
-        console.log('There was an error!', error);
-      });
+ function update_data(){
+   axios.get('/companies.json').then((response) => {
+     setCompany(response.data);
+   });
+ }
+ function delete_company(id){
+        httpClients.companies.delete(id).then(()=>{update_data()})
+    }
+  function susupend_company(id) {
+      httpClients.companies.suspend(id).then(()=>{update_data()})
   }
   if (!companies) return null;
   return (
@@ -77,12 +70,12 @@ export default function CompanyTable() {
                   {company.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() => freezeCompany(company.id)}>
+                  <Button variant="outlined" onClick={() => susupend_company(company.id)}>
                     {company.status ? 'suspend' : 'unsuspend'}
                   </Button>
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() => deleteCompany(company.id)}>
+                  <Button variant="outlined" onClick={() =>delete_company(company.id)} >
                     Delete
                   </Button>
                 </StyledTableCell>
