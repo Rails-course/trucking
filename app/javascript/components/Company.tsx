@@ -8,6 +8,7 @@ import CompanyTable from './CompanyTable';
 
 function Company() {
   const [isActiveModal, setModalActive] = useState(false);
+  const [companies, setCompany] = React.useState(null);
 
   const handleClose = () => {
     setModalActive(false);
@@ -25,10 +26,10 @@ function Company() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <CompanyTable />
+          <CompanyTable  companies={companies} setCompany={setCompany}/>
         </Grid>
       </Box>
-      <CreateCompanyForm isActiveModal={isActiveModal} handleClose={handleClose} />
+      <CreateCompanyForm isActiveModal={isActiveModal} setCompany={setCompany} handleClose={handleClose} />
     </div>
   );
 }

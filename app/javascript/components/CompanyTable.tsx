@@ -34,8 +34,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const CompanyTable = () => {
-  const [companies, setCompany] = React.useState(null);
+interface CompanyTableProps{
+  companies: any,
+  setCompany: any,
+}
+
+const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
+   const {companies, setCompany} = props;
   React.useEffect(() => {
     axios.get('/companies.json').then((response) => {
       setCompany(response.data);
