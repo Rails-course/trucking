@@ -11,6 +11,7 @@ FactoryBot.define do
     birthday { '01/01/1970' }
     sequence(:login) { |i| "login_#{i}" }
     association(:role)
+    association(:company)
     association(:address)
   end
 end

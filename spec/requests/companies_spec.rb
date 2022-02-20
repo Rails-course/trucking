@@ -33,5 +33,11 @@ RSpec.describe "Companies", type: :request do
       post "/companies/change_status/#{company.id+1}"
       expect(Company.find(company.id).status).to eq(false)
     end
+  describe "CREATE /companies" do
+    it 'creates company' do
+      companyName = 'Gonna give you up'
+      post "/companies/create", params: { name: companyName }
+      expect(Company.find_by(name: companyName).name).to eq(companyName)
+    end
   end
 end
