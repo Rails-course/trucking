@@ -41,16 +41,16 @@ export default function CompanyTable() {
       setCompany(response.data);
     });
   }, []);
- function update_data(){
-   axios.get('/companies.json').then((response) => {
-     setCompany(response.data);
-   });
- }
- function delete_company(id){
-        httpClients.companies.delete(id).then(()=>{update_data()})
-    }
-  function susupend_company(id) {
-      httpClients.companies.suspend(id).then(()=>{update_data()})
+  function updateData() {
+    axios.get('/companies.json').then((response) => {
+      setCompany(response.data);
+    });
+  }
+  function deleteCompany(id) {
+    httpClients.companies.delete(id).then(() => { updateData(); });
+  }
+  function suspendCompany(id) {
+    httpClients.companies.suspend(id).then(() => { updateData(); });
   }
   if (!companies) return null;
   return (
@@ -70,12 +70,12 @@ export default function CompanyTable() {
                   {company.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() => susupend_company(company.id)}>
+                  <Button variant="outlined" onClick={() => suspendCompany(company.id)}>
                     {company.status ? 'suspend' : 'unsuspend'}
                   </Button>
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() =>delete_company(company.id)} >
+                  <Button variant="outlined" onClick={() => deleteCompany(company.id)}>
                     Delete
                   </Button>
                 </StyledTableCell>

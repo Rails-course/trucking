@@ -7,10 +7,11 @@ function httpClient() {
       // get: (id) => axios.get(`${baseUrl}/posts/${id}`),
       // getAll: () => axios.get(`${baseUrl}/posts`),
       create: (user) => axios.post(`${createUserUrl}`, user),
-    },  companies: {
+    },
+    companies: {
       delete: (id) => axios.delete(`/companies/${id}`),
-      suspend:(id)=> axios.post(`/companies/change_status/${id}`)
-    }
+      suspend: (id) => axios.post(`/companies/suspend/${id}`),
+    },
   };
 }
 

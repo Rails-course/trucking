@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
     @companies = Company.all
   end
 
-  def status
+  def suspend
     company = Company.find(params.require(:id))
     company.update(status: !company.status)
   end
