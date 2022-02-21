@@ -37,12 +37,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CompanyTable() {
   const [companies, setCompany] = React.useState(null);
   React.useEffect(() => {
-    axios.get('/companies.json').then((response) => {
+    httpClients.companies.get_data().then((response) => {
       setCompany(response.data);
     });
   }, []);
   function updateData() {
-    axios.get('/companies.json').then((response) => {
+    httpClients.companies.get_data().then((response) => {
       setCompany(response.data);
     });
   }
@@ -60,7 +60,7 @@ export default function CompanyTable() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="right" colSpan="2">Action&nbsp;</StyledTableCell>
+              <StyledTableCell align="right" colSpan={2}>Action&nbsp;</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -71,7 +71,7 @@ export default function CompanyTable() {
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Button variant="outlined" onClick={() => suspendCompany(company.id)}>
-                    {company.status ? 'suspend' : 'unsuspend'}
+                    {company.status ? 'unsuspend' : 'suspend'}
                   </Button>
                 </StyledTableCell>
                 <StyledTableCell align="right">

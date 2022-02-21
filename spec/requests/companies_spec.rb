@@ -22,15 +22,15 @@ RSpec.describe "Companies", type: :request do
   end
   describe "status /companies" do
     it 'valid status request' do
-      post "/companies/change_status/#{company.id}"
+      post "/companies/suspend/#{company.id}"
       expect(response).to have_http_status(204)
     end
     it 'valid status action' do
-      post "/companies/change_status/#{company.id}"
+      post "/companies/suspend/#{company.id}"
       expect(Company.find(company.id).status).to eq(true)
     end
     it 'invalid status request' do
-      post "/companies/change_status/#{company.id+1}"
+      post "/companies/suspend/#{company.id+1}"
       expect(Company.find(company.id).status).to eq(false)
     end
   end
