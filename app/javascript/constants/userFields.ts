@@ -33,6 +33,14 @@ export const userFields = [
   },
   {
     id: uuidv4(),
+    title: 'Passport',
+    model: 'passport',
+    required: true,
+    placeholder: 'Enter passport id',
+    type: 'text',
+  },
+  {
+    id: uuidv4(),
     title: 'City',
     model: 'town',
     placeholder: 'City',
