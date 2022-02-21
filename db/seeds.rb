@@ -1,16 +1,39 @@
 # Roles
 roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
-                     { role_name: 'manager' }, { role_name: 'system administrator' }])
+                     { role_name: 'manager' }, { role_name: 'admin' } { role_name: 'system administrator' }])
 # Truck types
 truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
 # Companies
 companies = Company.create([{ name: 'IBM' }, { name: 'Trade power' }]
+# System admin
+sysAdmin = User.create( 
+  email: 'sysadmin@example.com',
+  password: 'sysadmin123',
+  first_name: 'sysAdmin',
+  second_name: 'sysAdminov',
+  middle_name: 'sysAdminovich',
+  birthday: Date.parse('01/01/1970'),
+  login: 'sysAdmin',
+  role: Role.find_by(role_name: 'system administrator'),
+  address: Address.new(town: 'Homel', street: 'Platonova', building: 50))
 # IBM trucks
 IBM_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 667455, truck_type: TruckType.find_by(truck_type_name: 'covered body') },
                            { fuel_consumption: 17.74, truck_number: 133788,
                              truck_type: TruckType.find_by(truck_type_name: 'covered body') }])
 # IBM users
+IBM_admin = User.create(
+  email: 'ibmadmin@example.com',
+  password: 'ibmadmin123',
+  first_name: 'Kirill',
+  second_name: 'Kirillov',
+  middle_name: 'Kirillovich',
+  birthday: Date.parse('13/11/1996'),
+  login: 'IBMAdmin',
+  role: Role.find_by(role_name: 'admin'),
+  address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 77, apartment: 45),
+  company: Company.find_by(name: 'IBM')
+)
 IBM_owner = User.create(
   email: 'ibmowner@example.com',
   password: 'Ibmowner123',
@@ -64,6 +87,18 @@ Tradep_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 739174, t
                               { fuel_consumption: 13.50, truck_number: 734517,
                                 truck_type: TruckType.find_by(truck_type_name: 'cistern') }])
 # Trade power users
+Tradep_admin = User.create(
+  email: 'tradepadmin@example.com',
+  password: 'tradepadmin123',
+  first_name: 'Albert',
+  second_name: 'Albertov',
+  middle_name: 'Albertovich',
+  birthday: Date.parse('26/10/1997'),
+  login: 'TradepAdmin',
+  role: Role.find_by(role_name: 'admin'),
+  address: Address.new(town: 'Homel', street: 'Pravdi', building: 113, apartment: 74),
+  company: Company.find_by(name: 'Trade power')
+)
 Tradep_owner = User.create(
   email: 'tradepowner@example.com',
   password: 'tradepowner123',
