@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   scope '/companies' do
     get '/new', to: 'companies#new_company'
     post '/create', to: 'companies#create_company'
-    post '/suspend/:id', to: 'companies#suspend'
+    patch '/suspend/:id', to: 'companies#suspend'
   end
 end

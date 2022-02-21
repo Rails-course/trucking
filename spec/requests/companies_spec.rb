@@ -22,16 +22,17 @@ RSpec.describe "Companies", type: :request do
   end
   describe "status /companies" do
     it 'valid status request' do
-      post "/companies/suspend/#{company.id}"
+      patch "/companies/suspend/#{company.id}"
       expect(response).to have_http_status(204)
     end
     it 'valid status action' do
-      post "/companies/suspend/#{company.id}"
-      expect(Company.find(company.id).status).to eq(true)
+      patch "/companies/suspend/#{company.id}"
+      expect(Company.find(company.id).is_suspended).to eq(true)
     end
     it 'invalid status request' do
-      post "/companies/suspend/#{company.id+1}"
-      expect(Company.find(company.id).status).to eq(false)
+      patch "/companies/suspend/#{company.id+1}"
+      expect(Company.find(company.id).is_suspended).to eq(false)
+    end
     end
   describe "CREATE /companies" do
     it 'creates company' do
