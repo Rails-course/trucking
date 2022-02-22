@@ -5,6 +5,9 @@ class CompaniesController < ApplicationController
     @companies = Company.all
   end
 
+  def suspend
+     Company.find(params.require(:id)).change_status
+   end
   def new_company; end
 
   def create_company

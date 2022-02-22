@@ -12,5 +12,6 @@ Rails.application.routes.draw do
 
   scope '/companies' do
     post '/create', to: 'companies#create_company'
+    patch '/suspend/:id', to: 'companies#suspend'
   end
 end
