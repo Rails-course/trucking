@@ -1,13 +1,13 @@
 # Roles
 roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
-                     { role_name: 'manager' }, { role_name: 'admin' } { role_name: 'system administrator' }])
+                     { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' }])
 # Truck types
 truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
 # Companies
-companies = Company.create([{ name: 'IBM' }, { name: 'Trade power' }]
+companies = Company.create([{ name: 'IBM' }, { name: 'Trade power' }])
 # System admin
-sysAdmin = User.create( 
+sys_Admin = User.create(
   email: 'sysadmin@example.com',
   password: 'sysadmin123',
   first_name: 'sysAdmin',
@@ -17,10 +17,11 @@ sysAdmin = User.create(
   passport: '11337218, issued by the police department of the Centralniy district of Homel',
   login: 'sysAdmin',
   role: Role.find_by(role_name: 'system administrator'),
-  address: Address.new(town: 'Homel', street: 'Platonova', building: 50))
+  address: Address.new(town: 'Homel', street: 'Platonova', building: 43, apartment: 83)
+)
 # IBM trucks
-IBM_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 667455, truck_type: TruckType.find_by(truck_type_name: 'covered body') },
-                           { fuel_consumption: 17.74, truck_number: 133788,
+IBM_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 667_455, truck_type: TruckType.find_by(truck_type_name: 'covered body') },
+                           { fuel_consumption: 17.74, truck_number: 133_788,
                              truck_type: TruckType.find_by(truck_type_name: 'covered body') }])
 # IBM users
 IBM_admin = User.create(
@@ -89,8 +90,8 @@ IBM_driver = User.create(
   company: Company.find_by(name: 'IBM')
 )
 # Trade power trucks
-Tradep_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 739174, truck_type: TruckType.find_by(truck_type_name: 'refrigerator') },
-                              { fuel_consumption: 13.50, truck_number: 734517,
+Tradep_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 739_174, truck_type: TruckType.find_by(truck_type_name: 'refrigerator') },
+                              { fuel_consumption: 13.50, truck_number: 734_517,
                                 truck_type: TruckType.find_by(truck_type_name: 'cistern') }])
 # Trade power users
 Tradep_admin = User.create(
@@ -160,5 +161,11 @@ TradeP_driver = User.create(
 )
 
 # Destination points
-Grocery_store = Destination.create(destination_name: 'Grocery store', address: Address.new(town: 'Homel', street: 'Sovetskaya', building 60))
-Shopping_center = Destination.create(destination_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building 79))
+Grocery_store = Destination.create(destination_name: 'Grocery store',
+                                   address: Address.new(
+                                     town: 'Homel', street: 'Sovetskaya', building: 60
+                                   ))
+Shopping_center = Destination.create(destination_name: 'Almi',
+                                     address: Address.new(
+                                       town: 'Homel', street: 'Mazurova', building: 79
+                                     ))
