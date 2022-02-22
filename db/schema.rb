@@ -32,26 +32,6 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.index ["name"], name: "index_companies_on_name", unique: true
   end
 
-  create_table "goods_owners", force: :cascade do |t|
-    t.string "warehouse_name", null: false
-    t.bigint "address_id"
-    t.index ["warehouse_name"], name: "index_goods_owners_on_warehouse_name", unique: true
-  end
-
-  create_table "destinations", force: :cascade do |t|
-    t.string "destination_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "address_id"
-    t.index ["destination_name"], name: "index_destinations_on_destination_name", unique: true
-  end
-
-  create_table "goods_owners", force: :cascade do |t|
-    t.string "warehouse_name", null: false
-    t.bigint "address_id"
-    t.index ["warehouse_name"], name: "index_goods_owners_on_warehouse_name", unique: true
-  end
-
   create_table "destinations", force: :cascade do |t|
     t.string "destination_name", null: false
     t.datetime "created_at", null: false
@@ -101,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.string "login"
     t.bigint "company_id"
     t.bigint "address_id"
+    t.text "passport"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

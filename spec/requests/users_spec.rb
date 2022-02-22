@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :request do
     it 'POST users/create' do
       post '/users/create',
            params: { user: { first_name: 'Jhon', second_name: 'Doe', middle_name: 'Doevich',
-                             birthday: '01/01/2000', login: 'Jhondoe', email: 'JhonDoe@test.com',
+                             birthday: '01/01/2000', passport: '13746423', login: 'Jhondoe', email: 'JhonDoe@test.com',
                              password: 'password', password_confirmation: 'password', role: 'dispatcher',
                              town: 'London', street: 'Baker', building: 2, apartment: 21 } }
       expect(response).to have_http_status(:success)
@@ -30,7 +30,7 @@ RSpec.describe 'Users', type: :request do
       user_count = User.all.count
       post '/users/create',
            params: { user: { first_name: 'as', second_name: 'Doe', middle_name: 'Doevich',
-                             birthday: '01/01/2000', login: 'Jhondoe', email: 'JhonDoe@test.com',
+                             birthday: '01/01/2000', passport: '---------', login: 'Jhondoe', email: 'JhonDoe@test.com',
                              password: 'password', password_confirmation: 'password', role: 'dispatcher',
                              town: 'London', street: 'Baker', building: 2, apartment: 21 } }
       expect(User.all.count).to eq(user_count)
