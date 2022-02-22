@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_21_151958) do
+ActiveRecord::Schema.define(version: 2022_02_22_151326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,20 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.datetime "updated_at", null: false
     t.boolean "is_suspended"
     t.index ["name"], name: "index_companies_on_name", unique: true
+  end
+
+  create_table "consignments", force: :cascade do |t|
+    t.string "status", null: false
+    t.string "bundle_seria", default: "BS", null: false
+    t.string "bundle_number", null: false
+    t.string "consignment_seria", null: false
+    t.integer "consignment_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "goods_owner_id"
+    t.bigint "destination_id"
+    t.bigint "truck_id"
   end
 
   create_table "destinations", force: :cascade do |t|
