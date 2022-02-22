@@ -27,9 +27,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
 
   const handleSubmit = async (user: FormValues) => {
     await httpClient.users.create(user);
-    setTimeout(() => {
-      httpClient.users.getAll().then((res) => setUser(res.data));
-    }, 10);
+    httpClient.users.getAll().then((res) => setUser(res.data));
   };
 
   return (

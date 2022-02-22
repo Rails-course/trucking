@@ -29,6 +29,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [userId, setUserId] = React.useState(null);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,14 +49,14 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name + n.id);
+      const newSelecteds = users.map((n) => `${n.id} ${n.firstName} ${n.middleName} ${n.secondName}`);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (event: React.MouseEvent<unknown>, name: string, id: number) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
     if (selectedIndex === -1) {
@@ -71,6 +72,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
       );
     }
     setSelected(newSelected);
+    setUserId(id);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +88,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} setUser={setUser} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          users={users}
+          setUser={setUser}
+          userId={userId}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -111,7 +118,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, String(name))}
+                      onClick={(event) => handleClick(event, String(name), +user.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

@@ -8,15 +8,21 @@ import httpClient from '../../../api/httpClient';
 
 interface EnhancedTableToolbarProps {
     numSelected: number;
-    // id: string;
+    users: any;
     setUser: any;
+    userId: number;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  // const { numSelected } = props;
-  const { numSelected, setUser } = props;
+  const {
+    numSelected, setUser, users, userId,
+  } = props;
 
-  const handlerDeleteBtn = (id) => httpClient.users.delete(id).then((res) => setUser(res.data));
+  const deleteUserByIds = () => {
+    const updatedData = users.filter((user) => user.id !== userId);
+    setUser(updatedData);
+    httpClient.users.delete(userId).then();
+  };
 
   return (
     <Toolbar
@@ -54,13 +60,11 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <Button variant="outlined" color="error" onClick={() => handlerDeleteBtn(numSelected)}>Delete</Button>
-          {/* <Button variant="outlined" color="error">Delete</Button> */}
+          <Button variant="outlined" color="error" onClick={deleteUserByIds}>Delete</Button>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            {/* eslint-disable-next-line react/jsx-no-undef,no-undef */}
             {/* <FilterListIcon /> */}
           </IconButton>
         </Tooltip>
