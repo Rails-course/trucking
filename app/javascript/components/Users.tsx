@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
+import { rows } from '../mixins/initialValues/userList';
 
 const Users = () => {
-  const [isActiveModal, setModalActive] = useState(false);
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [users, setUser] = React.useState(rows);
 
   const handleClose = () => setModalActive(false);
 
@@ -24,10 +25,14 @@ const Users = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <UsersTable />
+          <UsersTable users={users} setUser={setUser} />
         </Grid>
       </Box>
-      <CreateForm isActiveModal={isActiveModal} handleClose={handleClose} />
+      <CreateForm
+        isActiveModal={isActiveModal}
+        handleClose={handleClose}
+        setUser={setUser}
+      />
     </div>
   );
 };

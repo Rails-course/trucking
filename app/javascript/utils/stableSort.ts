@@ -26,7 +26,7 @@ export function getComparator<Key extends keyof any>(
 // need to support IE11, you can use Array.prototype.sort() directly
 // eslint-disable-next-line no-unused-vars
 export function stableSort<T>(array: Data[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  const stabilizedThis = array.map((el, index) => [el, index] as unknown as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {

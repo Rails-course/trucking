@@ -12,10 +12,17 @@ import {
 
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
-import { Data, Order, rows } from '../../../mixins/initialValues/userList';
+import { Data, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
+import httpClient from '../../../api/httpClient';
 
-export default function EnhancedTable() {
+interface EnhancedTableProps {
+  users: any;
+  setUser: any;
+}
+
+const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
+  const { users, setUser } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('login');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -28,7 +35,7 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -41,7 +48,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.name + n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -71,10 +78,15 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
+  React.useEffect(() => {
+    httpClient.users.getAll().then((response) => setUser(response.data));
+  }, []);
+
+  if (!users) return null;
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} setUser={setUser} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -87,22 +99,23 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={users.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(String(row.name));
+                .map((user, index) => {
+                  const name = `${user.firstName} ${user.middleName} ${user.secondName}`;
+                  const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, String(row.name))}
+                      onClick={(event) => handleClick(event, String(name))}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={name}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -120,10 +133,10 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {name}
                       </TableCell>
-                      <TableCell align="left">{row.login}</TableCell>
-                      <TableCell align="left">{row.role}</TableCell>
+                      <TableCell align="left">{user.login}</TableCell>
+                      <TableCell align="left">{user.roleName}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -142,7 +155,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={users.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -157,4 +170,6 @@ export default function EnhancedTable() {
       </div>
     </Box>
   );
-}
+};
+
+export default EnhancedTable;

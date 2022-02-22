@@ -1,14 +1,22 @@
 import * as React from 'react';
+
 import {
   alpha, Button, IconButton, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 
+import httpClient from '../../../api/httpClient';
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
+    // id: string;
+    setUser: any;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
+  // const { numSelected } = props;
+  const { numSelected, setUser } = props;
+
+  const handlerDeleteBtn = (id) => httpClient.users.delete(id).then((res) => setUser(res.data));
 
   return (
     <Toolbar
@@ -46,7 +54,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <Button variant="outlined" color="error">Delete</Button>
+          <Button variant="outlined" color="error" onClick={() => handlerDeleteBtn(numSelected)}>Delete</Button>
+          {/* <Button variant="outlined" color="error">Delete</Button> */}
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">

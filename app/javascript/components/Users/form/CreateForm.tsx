@@ -17,14 +17,20 @@ import httpClient from '../../../api/httpClient';
 interface CreateFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
+  setUser: any;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const {
-    isActiveModal, handleClose,
+    isActiveModal, handleClose, setUser,
   } = props;
 
-  const handleSubmit = async (user: FormValues) => { await httpClient.users.create(user); };
+  const handleSubmit = async (user: FormValues) => {
+    await httpClient.users.create(user);
+    setTimeout(() => {
+      httpClient.users.getAll().then((res) => setUser(res.data));
+    }, 10);
+  };
 
   return (
     <div>
