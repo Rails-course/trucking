@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.string "login"
     t.bigint "company_id"
     t.bigint "address_id"
+    t.text "passport"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
