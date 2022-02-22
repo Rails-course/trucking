@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :role, optional: true
   belongs_to :company, optional: true
   belongs_to :address, optional: true
+  has_many :consignments, dependent: :restrict_with_exception
   validates :first_name, presence: true, length: { in: 3..30 }
   validates :second_name, presence: true, length: { in: 3..30 }
   validates :middle_name, presence: true, length: { in: 3..30 }
