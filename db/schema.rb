@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_151326) do
+ActiveRecord::Schema.define(version: 2022_02_23_172725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 2022_02_22_151326) do
     t.integer "consignment_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "goods_owner_id"
-    t.bigint "destination_id"
+    t.bigint "driver_id"
     t.bigint "truck_id"
+    t.bigint "dispatcher_id"
+    t.bigint "manager_id"
   end
 
   create_table "destinations", force: :cascade do |t|
