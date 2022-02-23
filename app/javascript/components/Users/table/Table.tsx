@@ -10,6 +10,7 @@ import {
   Box, Checkbox, FormControlLabel, Switch, TablePagination,
 } from '@mui/material';
 
+import axios from 'axios';
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
 import { Data, Order } from '../../../mixins/initialValues/userList';
@@ -30,6 +31,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [userId, setUserId] = React.useState(null);
+
+  React.useEffect(() => {
+    axios.get('/users.json').then((response) => {
+      setUser(response.data);
+    });
+  }, [setUser]);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
