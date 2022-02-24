@@ -4,6 +4,6 @@ FactoryBot.define do
     quantity{ 12 }
     unit_of_measurement{ 'item' }
     status{ 'Not delivered' }
-    bundle_num{ 4 }
+    bundle_number{ 4 }
   end
 end
