@@ -8,7 +8,10 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @users }
+      format.json do
+        render json: @users.to_json
+        # render json: @users.to_json(include: { role: { only: [:role_name] } })
+      end
     end
   end
 
