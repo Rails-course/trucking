@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {
-  Box, Checkbox, FormControlLabel, Switch, TablePagination,
+  Box, Checkbox, FormControlLabel, Switch, TablePagination, Link
 } from '@mui/material';
 
 import axios from 'axios';
@@ -16,6 +16,7 @@ import EnhancedTableHead from './TableHead';
 import { Data, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
+import UpdateForm from '../form/UpdateForm';
 
 interface EnhancedTableProps {
   users: any;
@@ -31,6 +32,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [userId, setUserId] = React.useState([]);
+  const [isActiveModalUpdate, setUpdateModalActive] = React.useState(false);
+
+  const handleClose = () => {
+    setUpdateModalActive(false);
+  };
 
   React.useEffect(() => {
     httpClient.users.getAll().then();
@@ -153,7 +159,14 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         scope="row"
                         padding="none"
                       >
-                        {name}
+                        <Link
+                          component="button"
+                          underline='none'
+                          variant="body2"
+                          onClick={() => setUpdateModalActive(true)}
+                        >
+                          {name}
+                        </Link>
                       </TableCell>
                       <TableCell align="left">{user.login}</TableCell>
                       <TableCell align="left">{user.role}</TableCell>
@@ -188,6 +201,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           label="Dense padding"
         />
       </div>
+      <UpdateForm
+        isActiveModal={isActiveModalUpdate}
+        handleClose={handleClose}
+        setUser={setUser}
+      />
     </Box>
   );
 };
