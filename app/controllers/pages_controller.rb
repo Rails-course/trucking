@@ -30,7 +30,7 @@ class PagesController < ApplicationController
 
   def user_params
     params.permit(:first_name, :second_name, :middle_name, :birthday,
-                  :login, :email, :password, :password_confirmation,
+                  :passport, :login, :email, :password, :password_confirmation,
                   :role, :town, :street, :building, :apartment)
   end
 

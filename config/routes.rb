@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # match '*path', to: 'pages#home', via: :all
 
   scope '/companies' do
-    get '/new', to: 'companies#new_company'
     post '/create', to: 'companies#create_company'
+    patch '/suspend/:id', to: 'companies#suspend'
   end
 end

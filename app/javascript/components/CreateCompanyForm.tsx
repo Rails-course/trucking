@@ -11,15 +11,15 @@ import axios from 'axios';
 import FormikField from '../UI/FormikField';
 
 interface CreateCompanyFormProps {
-    isActiveModal: boolean;
-    handleClose: () => void;
-    setCompany: any;
+  isActiveModal: boolean;
+  handleClose: () => void;
+  setCompany: any,
 }
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
-const CreateCompanyForm:React.FC <CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
+const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
     isActiveModal, handleClose, setCompany,
   } = props;
@@ -33,7 +33,7 @@ const CreateCompanyForm:React.FC <CreateCompanyFormProps> = (props: CreateCompan
       axios.get('/companies.json').then((response) => {
         setCompany(response.data);
       });
-    }, 10);
+    }, 100);
   };
 
   return (

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -9,7 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+
 import Button from '@mui/material/Button';
+import httpClients from '../api/httpClient';
 
 // const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 // axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
@@ -39,22 +41,23 @@ interface CompanyTableProps {
   setCompany: any,
 }
 
-const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
+const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const { companies, setCompany } = props;
-  // const [companies, setCompany] = React.useState(null);
   React.useEffect(() => {
-    axios.get('/companies.json').then((response) => {
+    httpClients.companies.get_data().then((response) => {
       setCompany(response.data);
     });
   }, []);
+  function updateData() {
+    httpClients.companies.get_data().then((response) => {
+      setCompany(response.data);
+    });
+  }
   function deleteCompany(id) {
-    axios
-      .delete(`/companies/${id}`)
-      .then(() => {
-        axios.get('/companies.json').then((response) => {
-          setCompany(response.data);
-        });
-      });
+    httpClients.companies.delete(id).then(() => { updateData(); });
+  }
+  function suspendCompany(id) {
+    httpClients.companies.suspend(id).then(() => { updateData(); });
   }
   if (!companies) return null;
   return (
@@ -73,7 +76,11 @@ const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) =>
                 <StyledTableCell component="th" scope="company">
                   {company.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">some action</StyledTableCell>
+                <StyledTableCell align="right">
+                  <Button variant="outlined" onClick={() => suspendCompany(company.id)}>
+                    {company.status ? 'unsuspend' : 'suspend'}
+                  </Button>
+                </StyledTableCell>
                 <StyledTableCell align="right">
                   <Button variant="outlined" onClick={() => deleteCompany(company.id)}>
                     Delete
@@ -84,6 +91,7 @@ const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) =>
           </TableBody>
         </Table>
       </TableContainer>
+
     </div>
   );
 };

@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :company do
-    name {'test'}
+    sequence(:name) { |i| "first#{i}" }
+    is_suspended { false }
   end
 end
