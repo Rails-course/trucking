@@ -1,10 +1,12 @@
 import axios from 'axios';
-import { createUserUrl, deleteUserUrl, getAllUserUrl, updateUserUrl } from './clientAPI';
+import {
+  createUserUrl, deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl,
+} from './clientAPI';
 
 function httpClient() {
   return {
     users: {
-      // get: (id) => axios.get(`${baseUrl}/posts/${id}`),
+      get: (id) => axios.get(`${getUserUrl}/${id}`),
       getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
       update: (id) => axios.patch(`${updateUserUrl}/${id}`),

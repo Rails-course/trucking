@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {
-  Box, Checkbox, FormControlLabel, Switch, TablePagination, Link
+  Box, Checkbox, FormControlLabel, Switch, TablePagination, Link,
 } from '@mui/material';
 
 import axios from 'axios';
@@ -16,27 +16,28 @@ import EnhancedTableHead from './TableHead';
 import { Data, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
-import UpdateForm from '../form/UpdateForm';
+import CreateForm from '../form/CreateForm';
 
 interface EnhancedTableProps {
   users: any;
   setUser: any;
+  userIds: number[];
+  setUserId: any;
+  isActiveModal: boolean;
+  setModalActive: any;
+  handleClose: () => void;
 }
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
-  const { users, setUser } = props;
+  const {
+    users, setUser, userIds, setUserId, handleClose, isActiveModal, setModalActive,
+  } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('login');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [userId, setUserId] = React.useState([]);
-  const [isActiveModalUpdate, setUpdateModalActive] = React.useState(false);
-
-  const handleClose = () => {
-    setUpdateModalActive(false);
-  };
 
   React.useEffect(() => {
     httpClient.users.getAll().then();
@@ -71,22 +72,22 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const handleClick = (event: React.MouseEvent<unknown>, name: string, id: number) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
-    const getId = userId;
+    const getId = userIds;
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
       getId.push(id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
-      userId.push(id);
+      userIds.push(id);
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
-      userId.push(id);
+      userIds.push(id);
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
       );
-      userId.push(id);
+      userIds.push(id);
     }
     setSelected(newSelected);
     setUserId(getId);
@@ -111,7 +112,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           numSelected={selected.length}
           users={users}
           setUser={setUser}
-          userId={userId}
+          userIds={userIds}
         />
         <TableContainer>
           <Table
@@ -161,9 +162,9 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                       >
                         <Link
                           component="button"
-                          underline='none'
+                          underline="none"
                           variant="body2"
-                          onClick={() => setUpdateModalActive(true)}
+                          onClick={() => setModalActive(true)}
                         >
                           {name}
                         </Link>
@@ -201,9 +202,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           label="Dense padding"
         />
       </div>
-      <UpdateForm
-        isActiveModal={isActiveModalUpdate}
+      <CreateForm
+        isActiveModal={isActiveModal}
         handleClose={handleClose}
+        userIds={userIds}
+        users={users}
         setUser={setUser}
       />
     </Box>

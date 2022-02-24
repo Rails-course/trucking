@@ -17,13 +17,36 @@ import httpClient from '../../../api/httpClient';
 interface CreateFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
-  setUser: any;
+  userIds: any;
+setUser: any;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const {
-    isActiveModal, handleClose, setUser,
+    isActiveModal, handleClose, setUser, userIds,
   } = props;
+  // const [nameId, setNameId] = React.useState(null);
+  const isUpdateModal = true;
+  let title = 'Add User Of Company';
+  // const [newUserDatas, setNewUserDatas] = React.useState(initialValues);
+  // const [oldUserDatas, setOldUserDatas] = React.useState(initialValues);
+
+  if (isUpdateModal) {
+    userIds.forEach(() => {
+      title = 'Update Profile';
+      userIds.map((it) => {
+        httpClient.users.get(it);
+        console.log(it);
+      });
+    });
+  } else {
+    console.log('asdfsf');
+
+    // console.log(isUpdateModal);
+  }
+  // console.log(nameId);
+
+  // console.log(users.map((user) => httpClient.users.get(user.id)));
 
   const handleSubmit = async (user: FormValues) => {
     await httpClient.users.create(user);
@@ -39,7 +62,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
         maxWidth="xs"
       >
-        <DialogTitle>Add User Of Company</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>

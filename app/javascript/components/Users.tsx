@@ -10,6 +10,7 @@ import { rows } from '../mixins/initialValues/userList';
 const Users = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [users, setUser] = React.useState(rows);
+  const [userIds, setUserId] = React.useState([]);
 
   const handleClose = () => setModalActive(false);
 
@@ -25,12 +26,22 @@ const Users = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <UsersTable users={users} setUser={setUser} />
+          <UsersTable
+            users={users}
+            setUser={setUser}
+            userIds={userIds}
+            setUserId={setUserId}
+            isActiveModal={isActiveModal}
+            setModalActive={setModalActive}
+            handleClose={handleClose}
+          />
         </Grid>
       </Box>
       <CreateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
+        userIds={userIds}
+        users={users}
         setUser={setUser}
       />
     </div>
