@@ -128,12 +128,13 @@ body {
     margin: 0;
     padding: 10px 8px;
 }
-.client_content{
-    width: 90%;
-    padding-top: 70px;
-}
+/*.client_content{*/
+/*    width: 90%;*/
+/*    padding-top: 70px;*/
+/*}*/
 .wrapper {
-    margin: 20px auto;
+    width: 90%;
+    margin: 70px auto;
 }
 .FormikSelect {
     margin: 10px 0;

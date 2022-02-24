@@ -3,7 +3,9 @@
 class PagesController < ApplicationController
   def home; end
 
-  def new_user; end
+  def new_user
+    @users = User.all
+  end
 
   def create_user
     @user = User.new(create_user_params)
@@ -13,6 +15,10 @@ class PagesController < ApplicationController
       flash[:alert] = 'Something went wrong with creating new user'
       render 'pages/new_user'
     end
+  end
+
+  def destroy_user
+    User.find(params.require(:id)).destroy
   end
 
   private

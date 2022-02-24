@@ -1,18 +1,17 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-import CreateCompanyForm from './CreateCompanyForm';
-import CompanyTable from './CompanyTable';
 
-function Company() {
-  const [isActiveModal, setModalActive] = useState(false);
-  const [companies, setCompany] = React.useState(null);
+import CreateForm from './Users/form/CreateForm';
+import UsersTable from './Users/table/Table';
+import { rows } from '../mixins/initialValues/userList';
 
-  const handleClose = () => {
-    setModalActive(false);
-  };
+const Users = () => {
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [users, setUser] = React.useState(rows);
+
+  const handleClose = () => setModalActive(false);
 
   return (
     <div className="wrapper">
@@ -22,20 +21,20 @@ function Company() {
       >
         <Grid item xs={12}>
           <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
-            Create Company
+            Create User
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <CompanyTable companies={companies} setCompany={setCompany} />
+          <UsersTable users={users} setUser={setUser} />
         </Grid>
       </Box>
-      <CreateCompanyForm
+      <CreateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        setCompany={setCompany}
+        setUser={setUser}
       />
     </div>
   );
-}
+};
 
-export default Company;
+export default Users;
