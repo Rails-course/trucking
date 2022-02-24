@@ -30,12 +30,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [userId, setUserId] = React.useState(null);
+  const [userId, setUserId] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get('/users.json').then((response) => {
-      setUser(response.data);
-    });
+    httpClient.users.getAll().then();
   }, [setUser]);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
@@ -56,30 +54,36 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => `${n.id} ${n.firstName} ${n.middleName} ${n.secondName}`);
+      const newSelecteds = users.map((n) => `${n.id} ${n.first_name} ${n.middle_name} ${n.second_name}`);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
+    setUserId([]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string, id: number) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
+    const getId = userId;
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
+      getId.push(id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
+      userId.push(id);
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
+      userId.push(id);
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
       );
+      userId.push(id);
     }
     setSelected(newSelected);
-    setUserId(id);
+    setUserId(getId);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +92,9 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   };
 
   React.useEffect(() => {
-    httpClient.users.getAll().then((response) => setUser(response.data));
+    axios.get('/users.json').then((response) => {
+      setUser(response.data);
+    });
   }, []);
 
   if (!users) return null;
@@ -119,7 +125,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
-                  const name = `${user.firstName} ${user.middleName} ${user.secondName}`;
+                  const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
                   const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
@@ -150,7 +156,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         {name}
                       </TableCell>
                       <TableCell align="left">{user.login}</TableCell>
-                      <TableCell align="left">{user.roleName}</TableCell>
+                      <TableCell align="left">{user.role}</TableCell>
                     </TableRow>
                   );
                 })}

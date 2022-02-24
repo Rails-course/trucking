@@ -10,7 +10,7 @@ interface EnhancedTableToolbarProps {
     numSelected: number;
     users: any;
     setUser: any;
-    userId: number;
+    userId: number[];
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
@@ -18,10 +18,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     numSelected, setUser, users, userId,
   } = props;
 
-  const deleteUserByIds = () => {
-    const updatedData = users.filter((user) => user.id !== userId);
-    setUser(updatedData);
-    httpClient.users.delete(userId).then();
+  const deleteUserByIds = async () => {
+    const promises: Promise<any>[] = userId.map((it) => httpClient.users.delete(it));
+    await Promise.all(promises);
+    setUser(users.filter((user) => !userId.includes(user.id)));
   };
 
   return (

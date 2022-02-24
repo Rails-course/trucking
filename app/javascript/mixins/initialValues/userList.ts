@@ -4,28 +4,37 @@ export type Order = 'asc' | 'desc';
 
 export interface Data {
   id: string,
-  firstName: string,
-  middleName: string,
-  secondName: string,
+  first_name: string,
+  middle_name: string,
+  second_name: string,
   login: string,
-  roleName: string,
+  role: string,
 }
 
 function createData(
   id: string,
-  firstName: string,
-  middleName: string,
-  secondName: string,
+  // eslint-disable-next-line camelcase
+  first_name: string,
+  // eslint-disable-next-line camelcase
+  middle_name: string,
+  // eslint-disable-next-line camelcase
+  second_name: string,
+  // eslint-disable-next-line camelcase
   login: string,
-  roleName: string,
+  // eslint-disable-next-line camelcase
+  role: string,
 ): Data {
   return {
     id,
-    firstName,
-    middleName,
-    secondName,
+    // eslint-disable-next-line camelcase
+    first_name,
+    // eslint-disable-next-line camelcase
+    middle_name,
+    // eslint-disable-next-line camelcase
+    second_name,
     login,
-    roleName,
+    // eslint-disable-next-line camelcase
+    role,
   };
 }
 
