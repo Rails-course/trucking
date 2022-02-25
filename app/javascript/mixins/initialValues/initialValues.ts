@@ -1,4 +1,5 @@
 export interface FormValues {
+  id: string | number;
   first_name: string;
   middle_name: string;
   second_name: string;
@@ -16,6 +17,7 @@ export interface FormValues {
 }
 
 const initialValues: FormValues = {
+  id: null,
   first_name: '',
   middle_name: '',
   second_name: '',

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export type Order = 'asc' | 'desc';
 
 export interface Data {
-  id: string,
+  id: string | number,
   first_name: string,
   middle_name: string,
   second_name: string,
@@ -12,7 +12,7 @@ export interface Data {
 }
 
 function createData(
-  id: string,
+  id: string | number,
   // eslint-disable-next-line camelcase
   first_name: string,
   // eslint-disable-next-line camelcase

@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {
-  Box, Checkbox, FormControlLabel, Switch, TablePagination, Link,
+  Box, Checkbox, FormControlLabel, Switch, TablePagination, Button,
 } from '@mui/material';
 
 import axios from 'axios';
@@ -16,21 +16,18 @@ import EnhancedTableHead from './TableHead';
 import { Data, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
-import CreateForm from '../form/CreateForm';
 
 interface EnhancedTableProps {
   users: any;
   setUser: any;
   userIds: number[];
   setUserId: any;
-  isActiveModal: boolean;
-  setModalActive: any;
-  handleClose: () => void;
+  setEditUserModal: any;
 }
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, userIds, setUserId, handleClose, isActiveModal, setModalActive,
+    users, setUser, userIds, setUserId, setEditUserModal,
   } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('login');
@@ -160,14 +157,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         scope="row"
                         padding="none"
                       >
-                        <Link
-                          component="button"
-                          underline="none"
-                          variant="body2"
-                          onClick={() => setModalActive(true)}
+                        <Button
+                          variant="text"
+                          onClick={() => setEditUserModal(user.id)}
                         >
                           {name}
-                        </Link>
+                        </Button>
                       </TableCell>
                       <TableCell align="left">{user.login}</TableCell>
                       <TableCell align="left">{user.role}</TableCell>
@@ -202,13 +197,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           label="Dense padding"
         />
       </div>
-      <CreateForm
-        isActiveModal={isActiveModal}
-        handleClose={handleClose}
-        userIds={userIds}
-        users={users}
-        setUser={setUser}
-      />
     </Box>
   );
 };

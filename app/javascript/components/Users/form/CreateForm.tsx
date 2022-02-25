@@ -11,48 +11,21 @@ import FormikField from '../../../UI/FormikField';
 import FormikSelect from '../../../UI/FormikSelect';
 import validationSchema from '../../../mixins/validationSchema';
 import { userFields } from '../../../constants/userFields';
-import initialValues, { FormValues, roleItems } from '../../../mixins/initialValues/initialValues';
+import initialValues, { roleItems } from '../../../mixins/initialValues/initialValues';
 import httpClient from '../../../api/httpClient';
 
 interface CreateFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
-  userIds: any;
-setUser: any;
+  editUserModal: any;
+  title: string;
+  handleSubmit: any;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const {
-    isActiveModal, handleClose, setUser, userIds,
+    isActiveModal, handleClose, handleSubmit, editUserModal, title,
   } = props;
-  // const [nameId, setNameId] = React.useState(null);
-  const isUpdateModal = true;
-  let title = 'Add User Of Company';
-  // const [newUserDatas, setNewUserDatas] = React.useState(initialValues);
-  // const [oldUserDatas, setOldUserDatas] = React.useState(initialValues);
-
-  if (isUpdateModal) {
-    userIds.forEach(() => {
-      title = 'Update Profile';
-      userIds.map((it) => {
-        httpClient.users.get(it);
-        console.log(it);
-      });
-    });
-  } else {
-    console.log('asdfsf');
-
-    // console.log(isUpdateModal);
-  }
-  // console.log(nameId);
-
-  // console.log(users.map((user) => httpClient.users.get(user.id)));
-
-  const handleSubmit = async (user: FormValues) => {
-    await httpClient.users.create(user);
-    setUser((prevUser) => [...prevUser, user]);
-    httpClient.users.getAll().then();
-  };
 
   return (
     <div>

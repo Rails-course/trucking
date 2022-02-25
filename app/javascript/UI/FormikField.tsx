@@ -8,10 +8,11 @@ interface FormikFieldProps {
   type: string;
   required: boolean;
   variant: string;
+  [key: string]: any;
 }
 
 const FormikField: React.FC<FormikFieldProps> = ({
-  name, label, type, required, variant,
+  name, label, type, required, variant, ...other
 }) => (
   <div className="FormikField">
     <Field
@@ -24,6 +25,7 @@ const FormikField: React.FC<FormikFieldProps> = ({
       type={type}
       helperText={<ErrorMessage name={name} className="error-msg" />}
       variant={variant}
+      {...other}
     />
   </div>
 );
