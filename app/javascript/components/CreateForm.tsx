@@ -11,7 +11,7 @@ import FormikField from '../ui-components/FormikField';
 import FormikSelect from '../ui-components/FormikSelect';
 import validationSchema from '../mixins/validationSchema';
 import { userFields } from '../constants/userFields';
-import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
+import userInitialValues, { userFormValues, roleItems } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 
 interface CreateFormProps {
@@ -24,7 +24,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     isActiveModal, handleClose,
   } = props;
 
-  const handleSubmit = async (user: FormValues) => { await httpClient.users.create(user); };
+  const handleSubmit = async (user: userFormValues) => { await httpClient.users.create(user); };
 
   return (
     <div>
@@ -39,7 +39,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
               <Formik
-                initialValues={initialValues}
+                initialValues={userInitialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >

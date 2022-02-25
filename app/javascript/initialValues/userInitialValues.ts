@@ -1,4 +1,4 @@
-export interface FormValues {
+export interface userFormValues {
   first_name: string;
   middle_name: string;
   second_name: string;
@@ -15,7 +15,7 @@ export interface FormValues {
   passport: string,
 }
 
-const initialValues: FormValues = {
+const userInitialValues: userFormValues = {
   first_name: '',
   middle_name: '',
   second_name: '',
@@ -56,4 +56,4 @@ export const roleItems: FormikSelectItem[] = [
   },
 ];
 
-export default initialValues;
+export default userInitialValues;

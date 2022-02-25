@@ -5,22 +5,22 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { FormikSelectItem } from '../initialValues/initialValues';
+import { FormikSelectItem } from '../initialValues/userInitialValues';
 
 // import './FormikSelect.css';
 
 interface FormikSelectProps {
-    name: string;
-    items: FormikSelectItem[];
-    label: string;
-    required: boolean;
+  name: string;
+  items: FormikSelectItem[];
+  label: string;
+  required: boolean;
 }
 
 interface MaterialUISelectFieldProps extends FieldInputProps<string> {
-    errorString: string;
-    children: ReactNode;
-    label: string;
-    required: boolean;
+  errorString: string;
+  children: ReactNode;
+  label: string;
+  required: boolean;
 }
 
 const MaterialUISelectField: React.FC<MaterialUISelectFieldProps> = ({
