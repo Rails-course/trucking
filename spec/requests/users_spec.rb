@@ -20,7 +20,7 @@ RSpec.describe 'Users', type: :request do
            params: { user: { first_name: 'Jhon', second_name: 'Doe', middle_name: 'Doevich',
                              birthday: '01/01/2000', passport: '13746423', login: 'Jhondoe', email: 'JhonDoe@test.com',
                              password: 'password', password_confirmation: 'password', role: 'dispatcher',
-                             town: 'London', street: 'Baker', building: 2, apartment: 21 } }
+                             town: 'London', street: 'Baker', building: 2, apartment: 21, company: 'jetlogistic' } }
       expect(response).to have_http_status(:success)
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe 'Users', type: :request do
            params: { user: { first_name: 'as', second_name: 'Doe', middle_name: 'Doevich',
                              birthday: '01/01/2000', passport: '---------', login: 'Jhondoe', email: 'JhonDoe@test.com',
                              password: 'password', password_confirmation: 'password', role: 'dispatcher',
-                             town: 'London', street: 'Baker', building: 2, apartment: 21 } }
+                             town: 'London', street: 'Baker', building: 2, apartment: 21, company: 'gruzivmse' } }
       expect(User.all.count).to eq(user_count)
     end
   end
