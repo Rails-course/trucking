@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     get '/new', to: 'pages#new_user'
     post '/create', to: 'pages#create_user'
   end
-  # match '*path', to: 'pages#home', via: :all
+  resources :consignments
 
   scope '/companies' do
     post '/create', to: 'companies#create_company'
