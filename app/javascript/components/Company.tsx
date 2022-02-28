@@ -26,10 +26,14 @@ function Company() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <CompanyTable  companies={companies} setCompany={setCompany}/>
+          <CompanyTable companies={companies} setCompany={setCompany} />
         </Grid>
       </Box>
-      <CreateCompanyForm isActiveModal={isActiveModal} setCompany={setCompany} handleClose={handleClose} />
+      <CreateCompanyForm
+        isActiveModal={isActiveModal}
+        setCompany={setCompany}
+        handleClose={handleClose}
+      />
     </div>
   );
 }
