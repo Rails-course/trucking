@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
+  Autocomplete,
   Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
@@ -20,11 +21,18 @@ interface CreateFormProps {
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
+  const [companies, setCompanies] = React.useState(null);
   const {
     isActiveModal, handleClose,
   } = props;
 
   const handleSubmit = async (user: userFormValues) => { await httpClient.users.create(user); };
+
+  React.useEffect(() => {
+    httpClient.companies.get_data().then((response) => {
+      setCompanies(response.data);
+    });
+  }, []);
 
   return (
     <div>
@@ -43,7 +51,9 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ dirty, isValid }) => (
+                {({
+                  dirty, isValid, handleChange, values,
+                }) => (
                   <Form>
                     <Container maxWidth="sm">
                       {userFields.map((column) => (
@@ -57,6 +67,21 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                         />
                       ))}
                     </Container>
+                    <Autocomplete
+                      id="company"
+                      options={companies}
+                      getOptionLabel={(option) => option['name']}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onChange={handleChange}
+                          margin="normal"
+                          label="Company"
+                          fullWidth
+                          value={values?.company}
+                        />
+                      )}
+                    />
                     <FormikSelect
                       name="role"
                       items={roleItems}

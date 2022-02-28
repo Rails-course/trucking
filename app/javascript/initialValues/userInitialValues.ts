@@ -13,6 +13,7 @@ export interface userFormValues {
   town: string;
   role: string,
   passport: string,
+  company: string,
 }
 
 const userInitialValues: userFormValues = {
@@ -30,6 +31,7 @@ const userInitialValues: userFormValues = {
   town: '',
   role: '',
   passport: '',
+  company: '',
 };
 
 export interface FormikSelectItem {
