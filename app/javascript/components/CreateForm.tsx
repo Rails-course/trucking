@@ -74,7 +74,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          onChange={handleChange}
+                          onSelect={handleChange}
                           margin="normal"
                           label="Company"
                           fullWidth

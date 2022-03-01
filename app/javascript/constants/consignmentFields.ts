@@ -55,6 +55,6 @@ export const consignmentFields = [
     model: 'quantity',
     placeholder: 'Quantity of goods',
     required: true,
-    type: 'text',
+    type: 'number',
   },
 ];

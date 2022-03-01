@@ -16,29 +16,32 @@ import httpClient from '../api/httpClient';
 interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
-  setConsignment: any,
 }
 
-let drivers = [
-  { name: "Jhon Doe", passport: "18231873, issued by the police department of the Centralniy district of Homel" },
-  { name: "Driver2", passport: "18232323, issued by the police department of the Centralniy district of Homel" }
-]
 const CreateConsignmentForm: React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
+
+  const [drivers, setDrivers] = React.useState(null);
+  const [trucks, setTrucks] = React.useState(null);
+
   const {
-    isActiveModal, handleClose, setConsignment,
+    isActiveModal, handleClose,
   } = props;
 
-  const handleSubmit = async (values) => {
-    // await axios.post('/companies/create', values)
-    //   .catch((error) => {
-    //     console.error('There was an error!', error);
-    //   });
-    // setTimeout(() => {
-    //   axios.get('/companies.json').then((response) => {
-    //     setConsignment(response.data);
-    //   });
-    // }, 100);
+  const handleSubmit = async (consignment: consignmentFormValues) => {
+    await httpClient.consignments.create(consignment);
   };
+
+  React.useEffect(() => {
+    httpClient.trucks.get_trucks().then((response) => {
+      setTrucks(response.data);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    httpClient.users.get_drivers().then((response) => {
+      setDrivers(response.data);
+    });
+  }, []);
 
   return (
     <div>
@@ -73,15 +76,30 @@ const CreateConsignmentForm: React.FC<CreateConsignmentFormProps> = (props: Crea
                     <Autocomplete
                       id="driver"
                       options={drivers}
-                      getOptionLabel={(option) => option['name']}
+                      getOptionLabel={(option) => option['first_name']}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          onChange={handleChange}
+                          onSelect={handleChange}
                           margin="normal"
                           label="Driver"
                           fullWidth
                           value={values?.driver}
+                        />
+                      )}
+                    />
+                    <Autocomplete
+                      id="truck"
+                      options={trucks}
+                      getOptionLabel={(option) => option['truck_number']}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onSelect={handleChange}
+                          margin="normal"
+                          label="Truck"
+                          fullWidth
+                          value={values?.truck}
                         />
                       )}
                     />

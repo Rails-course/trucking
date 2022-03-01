@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import axios from 'axios';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-import CreateForm from './CreateForm';
 import CreateConsignmentForm from './CreateConsignmentForm';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = useState(false);
-  const [consignments, setConsignment] = React.useState(null);
 
   const handleClose = () => {
     setModalActive(false);
@@ -30,7 +27,7 @@ function Consignment() {
           {/* <ConsignmentTable consignments={consignments} setConsignment={setConsignment} /> */}
         </Grid>
       </Box>
-      <CreateConsignmentForm isActiveModal={isActiveModal} setConsignment={setConsignment} handleClose={handleClose} />
+      <CreateConsignmentForm isActiveModal={isActiveModal} handleClose={handleClose} />
     </div>
   );
 }

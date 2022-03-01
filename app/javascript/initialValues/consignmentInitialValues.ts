@@ -7,17 +7,21 @@ export interface consignmentFormValues {
   unit_of_measurement: string;
   quantity: number;
   driver: string;
+  truck: string;
+  status: string;
 }
 
 const consignmentInitialValues: consignmentFormValues = {
   bundle_seria: '',
   bundle_number: '',
   consignment_seria: '',
-  consignment_number: null,
+  consignment_number: 0,
   good_name: '',
   unit_of_measurement: '',
-  quantity: null,
+  quantity: 0,
   driver: '',
+  truck: '',
+  status: 'uncommited',
 };
 
 export default consignmentInitialValues;
