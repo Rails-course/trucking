@@ -122,16 +122,21 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+.nav-left, .nav-right {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+}
+.nav-right {
+    justify-content: flex-end;
+}
 .log-out-btn {
-    width: 5%;
+    width: 12%;
     display: block;
     margin: 0;
     padding: 10px 8px;
 }
-/*.client_content{*/
-/*    width: 90%;*/
-/*    padding-top: 70px;*/
-/*}*/
 .wrapper {
     width: 90%;
     margin: 70px auto;

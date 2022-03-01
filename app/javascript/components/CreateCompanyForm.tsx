@@ -26,9 +26,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
+      .catch((error) => error);
     setTimeout(() => {
       axios.get('/companies.json').then((response) => {
         setCompany(response.data);

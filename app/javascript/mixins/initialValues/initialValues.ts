@@ -12,7 +12,7 @@ export interface FormValues {
   building: string;
   street: string;
   town: string;
-  role: string,
+  role: { role_name: string},
   passport: string,
 }
 
@@ -30,7 +30,7 @@ const initialValues: FormValues = {
   building: '',
   street: '',
   town: '',
-  role: '',
+  role: { role_name: '' },
   passport: '',
 };
 
