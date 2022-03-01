@@ -20,8 +20,8 @@ sys_Admin = User.create(
   address: Address.new(town: 'Homel', street: 'Platonova', building: 43, apartment: 83)
 )
 # jetlogistic trucks
-jetlogistic_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 667_455, truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') },
-                                   { fuel_consumption: 17.74, truck_number: 133_788,
+jetlogistic_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 'MAN 32-66 BY', truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') },
+                                   { fuel_consumption: 17.74, truck_number: 'МАЗ 13-33 BY',
                                      truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') }])
 # jetlogistic users
 jetlogistic_admin = User.create(
@@ -90,8 +90,8 @@ jetlogistic_driver = User.create(
   company: Company.find_by(name: 'jetlogistic')
 )
 # gruzimvse trucks
-gruzimvse_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 739_174, truck_type: TruckType.find_by(truck_type_name: 'refrigerator'), company: Company.find_by(name: 'gruzimvse') },
-                                 { fuel_consumption: 13.50, truck_number: 734_517,
+gruzimvse_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 'MAN 07-81 BY', truck_type: TruckType.find_by(truck_type_name: 'refrigerator'), company: Company.find_by(name: 'gruzimvse') },
+                                 { fuel_consumption: 13.50, truck_number: 'МАЗ 51-44 BY',
                                    truck_type: TruckType.find_by(truck_type_name: 'cistern'), company: Company.find_by(name: 'gruzimvse') }])
 # gruzimvse users
 gruzimvse_admin = User.create(
