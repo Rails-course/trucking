@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_122814) do
+ActiveRecord::Schema.define(version: 2022_02_24_145711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,8 +47,18 @@ ActiveRecord::Schema.define(version: 2022_02_22_122814) do
     t.string "status", null: false
     t.string "bundle_seria", null: false
     t.integer "bundle_number"
+  create_table "consignments", force: :cascade do |t|
+    t.string "status", null: false
+    t.string "bundle_seria", default: "BS", null: false
+    t.string "bundle_number", null: false
+    t.string "consignment_seria", null: false
+    t.integer "consignment_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "driver_id"
+    t.bigint "truck_id"
+    t.bigint "dispatcher_id"
+    t.bigint "manager_id"
   end
 
   create_table "goods_owners", force: :cascade do |t|
@@ -70,10 +80,11 @@ ActiveRecord::Schema.define(version: 2022_02_22_122814) do
 
   create_table "trucks", force: :cascade do |t|
     t.float "fuel_consumption", null: false
-    t.integer "truck_number", null: false
+    t.string "truck_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "truck_type_id"
+    t.bigint "company_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -92,6 +103,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_122814) do
     t.string "login"
     t.bigint "company_id"
     t.bigint "address_id"
+    t.text "passport"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

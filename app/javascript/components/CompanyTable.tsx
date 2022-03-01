@@ -35,14 +35,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
 interface CompanyTableProps{
   companies: any,
   setCompany: any,
 }
 
 const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
-   const {companies, setCompany} = props;
+  const { companies, setCompany } = props;
   React.useEffect(() => {
     httpClients.companies.get_data().then((response) => {
       setCompany(response.data);
@@ -97,4 +96,3 @@ const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) =>
 };
 
 export default CompanyTable;
-

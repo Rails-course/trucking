@@ -12,6 +12,8 @@ export interface FormValues {
   street: string;
   town: string;
   role: string,
+  passport: string,
+  company: string,
 }
 
 const initialValues: FormValues = {
@@ -28,6 +30,8 @@ const initialValues: FormValues = {
   street: '',
   town: '',
   role: '',
+  passport: '',
+  company: '',
 };
 
 export interface FormikSelectItem {
