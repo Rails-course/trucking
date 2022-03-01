@@ -5,13 +5,13 @@ import { Box, Grid } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
-import { Data, rows } from '../mixins/initialValues/userList';
+import { Data } from '../mixins/initialValues/userList';
 import { FormValues } from '../mixins/initialValues/initialValues';
 import httpClient from '../api/httpClient';
 
 const Users = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [users, setUser] = React.useState<Data[]>(rows);
+  const [users, setUser] = React.useState<Data[]>(null);
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
 
@@ -26,10 +26,19 @@ const Users = () => {
     setUser((prevUser) => [...prevUser, user]);
   };
 
-  // const handleEditSubmit = async (user: FormValues) => {
-  //   await httpClient.users.create(user);
-  //   setUser((prevUser) => [...prevUser, user]);
-  // };
+  const handleEditSubmit = async (data) => {
+    await httpClient.users.update(data.id, data).then(() => {
+      const newUsers = [...users];
+      const userIndex = newUsers.findIndex((it) => it.id === data.id);
+      if (userIndex !== -1) {
+        newUsers[userIndex] = {
+          ...newUsers[userIndex],
+          ...data,
+        };
+        setUser(newUsers);
+      }
+    });
+  };
 
   return (
     <div className="wrapper">
@@ -56,8 +65,9 @@ const Users = () => {
         isActiveModal={isModalActive}
         handleClose={handleClose}
         editUserModal={editUserModal}
-        handleSubmit={handleSubmit}
+        handleSubmit={isActiveModal ? handleSubmit : handleEditSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
+        btnTitle={editUserModal ? 'Update' : 'Create'}
       />
     </div>
   );

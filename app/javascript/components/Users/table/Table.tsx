@@ -101,7 +101,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     });
   }, []);
 
-  if (!users) return null;
+  if (!users) { return (<p>Loading...</p>); }
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

@@ -20,11 +20,13 @@ interface CreateFormProps {
   editUserModal: any;
   title: string;
   handleSubmit: any;
+  btnTitle: string;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, editUserModal, title,
+    isActiveModal, handleClose, handleSubmit, editUserModal,
+    title, btnTitle,
   } = props;
 
   return (
@@ -66,7 +68,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>
                     </DialogActions>
                   </Form>
                 )}

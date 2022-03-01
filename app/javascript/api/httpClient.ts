@@ -9,7 +9,7 @@ function httpClient() {
       get: (id) => axios.get(`${getUserUrl}/${id}`),
       getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
-      update: (id) => axios.patch(`${updateUserUrl}/${id}`),
+      update: (id, data) => axios.patch(`${updateUserUrl}/${id}`, data),
       delete: (id) => axios.delete(`${deleteUserUrl}/${id}`),
     },
     companies: {
