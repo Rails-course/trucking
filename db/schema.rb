@@ -32,6 +32,20 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.index ["name"], name: "index_companies_on_name", unique: true
   end
 
+  create_table "consignments", force: :cascade do |t|
+    t.string "status", null: false
+    t.string "bundle_seria", default: "BS", null: false
+    t.string "bundle_number", null: false
+    t.string "consignment_seria", null: false
+    t.integer "consignment_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "driver_id"
+    t.bigint "truck_id"
+    t.bigint "dispatcher_id"
+    t.bigint "manager_id"
+  end
+
   create_table "destinations", force: :cascade do |t|
     t.string "destination_name", null: false
     t.datetime "created_at", null: false
@@ -47,18 +61,8 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.string "status", null: false
     t.string "bundle_seria", null: false
     t.integer "bundle_number"
-  create_table "consignments", force: :cascade do |t|
-    t.string "status", null: false
-    t.string "bundle_seria", default: "BS", null: false
-    t.string "bundle_number", null: false
-    t.string "consignment_seria", null: false
-    t.integer "consignment_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "driver_id"
-    t.bigint "truck_id"
-    t.bigint "dispatcher_id"
-    t.bigint "manager_id"
   end
 
   create_table "goods_owners", force: :cascade do |t|
