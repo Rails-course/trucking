@@ -64,6 +64,7 @@ class PagesController < ApplicationController
                                         street: permit_user_params[:street],
                                         building: permit_user_params[:building],
                                         apartment: permit_user_params[:apartment])
+    user_params[:company] = Company.find_by(name: permit_user_params[:company])
     user_params.except(:town, :street, :building, :apartment)
   end
 end
