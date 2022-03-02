@@ -8,22 +8,27 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import FormikField from '../ui-components/FormikField';
-import FormikSelect from '../ui-components/FormikSelect';
-import validationSchema from '../mixins/validationSchema';
-import { userFields } from '../constants/userFields';
-import initialValues, { FormValues, roleItems } from '../initialValues/initialValues';
-import httpClient from '../api/httpClient';
+import FormikField from '../../../UI/FormikField';
+import FormikSelect from '../../../UI/FormikSelect';
+import validationSchema from '../../../mixins/validationSchema';
+import { userFields } from '../../../constants/userFields';
+import initialValues, { roleItems } from '../../../mixins/initialValues/initialValues';
+import httpClient from '../../../api/httpClient';
 
 interface CreateFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
+  editUserModal: any;
+  title: string;
+  handleSubmit: any;
+  btnTitle: string;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const [companies, setCompanies] = React.useState(null);
   const {
-    isActiveModal, handleClose,
+    isActiveModal, handleClose, handleSubmit, editUserModal,
+    title, btnTitle,
   } = props;
 
   React.useEffect(() => {
@@ -31,8 +36,6 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
       setCompanies(response.data);
     });
   }, []);
-
-  const handleSubmit = async (user: FormValues) => { await httpClient.users.create(user); };
 
   return (
     <div>
@@ -42,7 +45,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
         maxWidth="xs"
       >
-        <DialogTitle>Add User Of Company</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
@@ -90,7 +93,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>
                     </DialogActions>
                   </Form>
                 )}

@@ -22,6 +22,9 @@ const validationSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .required('Required'),
 
+  birthday: Yup.date()
+    .required('Required'),
+
   email: Yup.string()
     .lowercase()
     .email('Must be a valid email!')

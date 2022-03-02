@@ -15,7 +15,7 @@ RSpec.describe Address, type: :model do
     subject.street = 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest'
     expect(subject.save).to eq(false)
   end
-  it 'shouldn\'t create Address with building index less than 0' do
+  it 'shouldn\'t create Address with building new_user less than 0' do
     subject = build(:address)
     subject.building = -9
     expect(subject.save).to eq(false)

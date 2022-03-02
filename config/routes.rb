@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   root 'pages#home'
   resources :companies
+  get '/users', to: 'pages#users_index'
   scope '/users' do
-    get '/new', to: 'pages#new_user'
     post '/create', to: 'pages#create_user'
+    delete '/:id', to: 'pages#destroy_user'
+    get '/:id', to: 'pages#user_data'
+    patch 'edit/:id', to: 'pages#update_user'
   end
   # match '*path', to: 'pages#home', via: :all
 

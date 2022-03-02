@@ -2,6 +2,6 @@
 
 class AddRoleAssociationToUsers < ActiveRecord::Migration[5.2]
   def change
-    add_reference :users, :role, index: false
+    add_reference :users, :role, new_user: false
   end
 end

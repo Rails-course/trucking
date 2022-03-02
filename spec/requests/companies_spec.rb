@@ -1,26 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe "Companies", type: :request do
+RSpec.describe 'Companies', type: :request do
   let(:company) { create(:company) }
   before(:each) do
     sign_in create(:user)
   end
-  describe "DELETE /companies" do
+  describe 'DELETE /companies' do
     it 'valid delete request' do
       delete "/companies/#{company.id}"
       expect(response).to have_http_status(204)
     end
     it 'valid delete action' do
-      company_count=Company.all.count
+      company_count = Company.all.count
       delete "/companies/#{company.id}"
       expect(Company.all.count).to eq(company_count)
     end
     it 'invalid delete request' do
-      delete "/companies/#{company.id+1}"
+      delete "/companies/#{company.id + 1}"
       expect(response).to have_http_status(404)
+    end
   end
-  end
-  describe "status /companies" do
+  describe 'status /companies' do
     it 'valid status request' do
       patch "/companies/suspend/#{company.id}"
       expect(response).to have_http_status(204)
@@ -30,14 +30,14 @@ RSpec.describe "Companies", type: :request do
       expect(Company.find(company.id).is_suspended).to eq(true)
     end
     it 'invalid status request' do
-      patch "/companies/suspend/#{company.id+1}"
+      patch "/companies/suspend/#{company.id + 1}"
       expect(Company.find(company.id).is_suspended).to eq(false)
     end
-    end
-  describe "CREATE /companies" do
+  end
+  describe 'CREATE /companies' do
     it 'creates company' do
       companyName = 'Gonna give you up'
-      post "/companies/create", params: { name: companyName }
+      post '/companies/create', params: { name: companyName }
       expect(Company.find_by(name: companyName).name).to eq(companyName)
     end
   end

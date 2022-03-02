@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Truck < ApplicationRecord
   belongs_to :truck_type
   belongs_to :company
