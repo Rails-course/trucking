@@ -54,7 +54,7 @@ class PagesController < ApplicationController
   def permit_user_params
     params.permit(:first_name, :second_name, :middle_name, :birthday,
                   :passport, :login, :email, :password, :password_confirmation,
-                  :role, :town, :street, :building, :apartment)
+                  :role, :town, :street, :building, :apartment, :company)
   end
 
   def user_params
