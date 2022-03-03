@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 
 import {
   Autocomplete,
@@ -30,6 +30,21 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     isActiveModal, handleClose, handleSubmit, editUserModal,
     title, btnTitle,
   } = props;
+
+  const AutoUpdateForm = ({ id }) => {
+    const { setFieldValue } = useFormikContext();
+
+    React.useEffect(() => {
+      if (id) {
+        httpClient.users.get(id).then(({ data }) => {
+          Object.keys(data).forEach((filedName) => {
+            setFieldValue(filedName, data[filedName], false);
+          });
+        });
+      }
+    }, [id]);
+    return null;
+  };
 
   React.useEffect(() => {
     httpClient.companies.get_data().then((response) => {
@@ -73,7 +88,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="company"
                       options={companies}
-                      getOptionLabel={(option) => option['name']}
+                      getOptionLabel={(option) => option.name}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -95,6 +110,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                       <Button onClick={handleClose}>Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>
                     </DialogActions>
+                    <AutoUpdateForm id={editUserModal} />
                   </Form>
                 )}
               </Formik>
