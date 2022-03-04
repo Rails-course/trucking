@@ -11,9 +11,12 @@ import axios from 'axios';
 import FormikField from '../ui-components/FormikField';
 import CompanyTable from "./CompanyTable";
 import {useState} from "react";
+import CreateRoutes from "./CreateRoutes";
 
 const CreateWaybill:React.FC  = () => {
+  const [isActiveRoute, setRouteActive] = useState(false);
   const [isActiveModal, setModalActive] = useState(false);
+  const [routes, setRoutes] = useState(null);
   const handleSubmit = async (values) => {
   console.log(values)
 };
@@ -23,6 +26,9 @@ const CreateWaybill:React.FC  = () => {
   const handleOpen= ()=> {
     setModalActive(true);
   }
+    const RoutehandleClose = () => {
+        setModalActive(false);
+    };
     return (
         <div>
           <Button variant="outlined" onClick={()=>{handleOpen()}} >
@@ -103,6 +109,7 @@ const CreateWaybill:React.FC  = () => {
                             type="date"
                             variant="standard"
                         />
+                          <CreateRoutes  isActiveModal={isActiveRoute} setRoutes={setRoutes} RoutehandleClose={RoutehandleClose}/>
                       </Container>
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
@@ -110,6 +117,9 @@ const CreateWaybill:React.FC  = () => {
                       </DialogActions>
                     </Form>
                   </Formik>
+                    <Button variant="outlined" onClick={() => setRouteActive(true)} color="inherit">
+                        Checkpoints
+                    </Button>
                 </Grid>
               </Grid>
             </DialogContent>
