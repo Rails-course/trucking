@@ -5,7 +5,7 @@ class CreateDestinations < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_reference :destinations, :address, index: false
+    add_reference :destinations, :address, new_user: false
     add_index :destinations, :destination_name, unique: true
   end
 end

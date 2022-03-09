@@ -17,7 +17,7 @@ function Company() {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
         <Grid item xs={12}>
@@ -31,8 +31,8 @@ function Company() {
       </Box>
       <CreateCompanyForm
         isActiveModal={isActiveModal}
-        setCompany={setCompany}
         handleClose={handleClose}
+        setCompany={setCompany}
       />
     </div>
   );

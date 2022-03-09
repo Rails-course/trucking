@@ -8,12 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
 import Button from '@mui/material/Button';
-import httpClients from '../api/httpClient';
 
-const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
+import httpClients from '../api/httpClient';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,12 +32,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-interface CompanyTableProps{
+interface CompanyTableProps {
   companies: any,
   setCompany: any,
 }
 
-const CompanyTable: React.FC <CompanyTableProps> = (props: CompanyTableProps) => {
+const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const { companies, setCompany } = props;
   React.useEffect(() => {
     httpClients.companies.get_data().then((response) => {
