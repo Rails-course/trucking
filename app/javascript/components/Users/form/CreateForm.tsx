@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 
 import {
   Autocomplete,
@@ -30,7 +30,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     isActiveModal, handleClose, handleSubmit, editUserModal,
     title, btnTitle,
   } = props;
-  
+
   const AutoUpdateForm = ({ id }) => {
     const { setFieldValue } = useFormikContext();
 
