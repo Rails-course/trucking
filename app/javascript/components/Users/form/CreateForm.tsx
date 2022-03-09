@@ -10,9 +10,8 @@ import FormikField from '../../../UI/FormikField';
 import FormikSelect from '../../../UI/FormikSelect';
 import validationSchema from '../../../mixins/validationSchema';
 import { userFields } from '../../../constants/userFields';
-import initialValues, { roleItems } from '../../../mixins/initialValues/initialValues';
 import httpClient from '../../../api/httpClient';
-import userInitialValues, { userFormValues } from '../../../initialValues/userInitialValues';
+import userInitialValues, { userFormValues, roleItems } from '../../../initialValues/userInitialValues';
 
 interface CreateFormProps {
   isActiveModal: boolean;
