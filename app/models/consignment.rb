@@ -3,12 +3,13 @@ class Consignment < ApplicationRecord
   belongs_to :dispatcher, class_name: 'User', optional: true
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
-  validates :status, inclusion: { in: %w[uncommited registered checked delivered] }
+  before_validation :set_registered_status
+  validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
+  validates :consignment_seria, presence: true, length: { in: 3..10 }
   validate :driver_role
   validate :dispatcher_role
   validate :manager_role
-  before_create :set_registered_status
 
   private
 
