@@ -6,7 +6,7 @@ import { Box, Grid } from '@mui/material';
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
 import { Data } from '../mixins/initialValues/userList';
-import { FormValues } from '../mixins/initialValues/initialValues';
+import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 
 const Users = () => {
@@ -21,7 +21,7 @@ const Users = () => {
     setEditUserModal(null);
   };
 
-  const handleSubmit = async (user: FormValues) => {
+  const handleSubmit = async (user: userFormValues) => {
     await httpClient.users.create(user);
     setUser((prevUser) => [...prevUser, user]);
   };
@@ -65,7 +65,7 @@ const Users = () => {
         isActiveModal={isModalActive}
         handleClose={handleClose}
         editUserModal={editUserModal}
-        handleSubmit={isActiveModal ? handleSubmit : handleEditSubmit}
+        handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
         btnTitle={editUserModal ? 'Update' : 'Create'}
       />
