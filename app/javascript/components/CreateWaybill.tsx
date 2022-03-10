@@ -7,35 +7,36 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import axios from 'axios';
 import FormikField from '../ui-components/FormikField';
-import CompanyTable from "./CompanyTable";
 import {useState} from "react";
 import CreateRoutes from "./CreateRoutes";
 
 const CreateWaybill:React.FC  = () => {
-  const [isActiveRoute, setRouteActive] = useState(false);
-  const [isActiveModal, setModalActive] = useState(false);
-  const [routes, setRoutes] = useState(null);
+  // модальное окно путевого листа
+  const [isActiveWayBill, setWayBillActive] = useState(false);
+  const [isCreateRoutes, setCreateRoutes] = useState(false);
+  // список чекпоинтов
+  const [routes, setRoutes] = useState([{name:'asd'},{name:'asd1'}]);
+
   const handleSubmit = async (values) => {
-  console.log(values)
+  console.log(routes)
 };
+  const CloseCreateRoutes=()=>{
+    setCreateRoutes(false)
+    }
   const handleClose = () => {
-    setModalActive(false);
+    setWayBillActive(false);
   };
-  const handleOpen= ()=> {
-    setModalActive(true);
-  }
-    const RoutehandleClose = () => {
-        setModalActive(false);
+    const handleOpen = () => {
+      setCreateRoutes(true);
     };
     return (
         <div>
-          <Button variant="outlined" onClick={()=>{handleOpen()}} >
+          <Button variant="outlined" onClick={()=>{setWayBillActive(true)}} >
             Open
           </Button>
           <Dialog
-              open={isActiveModal}
+              open={isActiveWayBill}
               onClose={handleClose}
               sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
               maxWidth="xs"
@@ -109,17 +110,23 @@ const CreateWaybill:React.FC  = () => {
                             type="date"
                             variant="standard"
                         />
-                          <CreateRoutes  isActiveModal={isActiveRoute} setRoutes={setRoutes} RoutehandleClose={RoutehandleClose}/>
                       </Container>
+
+                        <Container maxWidth="sm">
+                          <br/><br/><br/>
+                        {routes.map((route) => (
+                            route.name
+                        ))}
+                        </Container>
+
                       <DialogActions>
+                        <Button onClick={handleOpen}>open</Button>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit" onClick={handleClose}>Create</Button>
                       </DialogActions>
                     </Form>
                   </Formik>
-                    <Button variant="outlined" onClick={() => setRouteActive(true)} color="inherit">
-                        Checkpoints
-                    </Button>
+                  <CreateRoutes isActiveModal={isCreateRoutes} RoutehandleClose={CloseCreateRoutes} setRoutes={setRoutes} routes={routes} />
                 </Grid>
               </Grid>
             </DialogContent>
