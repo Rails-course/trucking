@@ -8,15 +8,17 @@ import Button from "@mui/material/Button";
 interface CreateRoutesFormProps {
     isActiveModal: boolean;
      RoutehandleClose: () => void;
-    setRoutes: any,
+    setRoutes: any,routes: any
 }
 
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
     const {
-        isActiveModal, RoutehandleClose, setRoutes,
+        isActiveModal, RoutehandleClose, setRoutes,routes
     } = props;
 
-    const handleSubmit = async (values) => {alert(values)}
+    const handleSubmit =(values) => {
+       setRoutes((prevroutes)=>{ [...prevroutes, values]})
+    }
     return (
         <div>
           <Dialog
@@ -30,13 +32,13 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
               <Grid container spacing={2} direction="column">
                 <Grid item xs={8}>
                   <Formik
-                      initialValues={{city_name: '' }}
+                      initialValues={{name: '' }}
                       onSubmit={handleSubmit}
                   >
                     <Form>
                       <Container maxWidth="sm">
                         <FormikField
-                            name="city_name"
+                            name="name"
                             label="Enter city name"
                             required
                             type="text"
