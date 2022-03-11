@@ -1,32 +1,48 @@
 import * as React from 'react';
-import { Form, Formik } from 'formik';
-
+import { Form, Formik, useFormikContext } from 'formik';
 import {
   Autocomplete,
   Container,
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-
-import FormikField from '../ui-components/FormikField';
-import FormikSelect from '../ui-components/FormikSelect';
-import validationSchema from '../mixins/validationSchema';
-import { userFields } from '../constants/userFields';
-import userInitialValues, { userFormValues, roleItems } from '../initialValues/userInitialValues';
-import httpClient from '../api/httpClient';
+import FormikField from '../../../UI/FormikField';
+import FormikSelect from '../../../UI/FormikSelect';
+import validationSchema from '../../../mixins/validationSchema';
+import { userFields } from '../../../constants/userFields';
+import httpClient from '../../../api/httpClient';
+import userInitialValues, { userFormValues, roleItems } from '../../../initialValues/userInitialValues';
 
 interface CreateFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
+  editUserModal: any;
+  title: string;
+  handleSubmit: any;
+  btnTitle: string;
 }
 
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const [companies, setCompanies] = React.useState(null);
   const {
-    isActiveModal, handleClose,
+    isActiveModal, handleClose, handleSubmit, editUserModal,
+    title, btnTitle,
   } = props;
 
-  const handleSubmit = async (user: userFormValues) => { await httpClient.users.create(user); };
+  const AutoUpdateForm = ({ id }) => {
+    const { setFieldValue } = useFormikContext();
+
+    React.useEffect(() => {
+      if (id) {
+        httpClient.users.get(id).then(({ data }) => {
+          Object.keys(data).forEach((filedName) => {
+            setFieldValue(filedName, data[filedName], false);
+          });
+        });
+      }
+    }, [id]);
+    return null;
+  };
 
   React.useEffect(() => {
     httpClient.companies.get_data().then((response) => {
@@ -42,7 +58,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
         maxWidth="xs"
       >
-        <DialogTitle>Add User Of Company</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
@@ -90,8 +106,9 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>
                     </DialogActions>
+                    <AutoUpdateForm id={editUserModal} />
                   </Form>
                 )}
               </Formik>

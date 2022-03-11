@@ -17,7 +17,7 @@ class ConsignmentsController < ApplicationController
 
   def permit_consignment_params
     params.permit(:consignment_number, :consignment_seria, :truck, :driver, :bundle_number,
-                  :bundle_seria, :status)
+                  :bundle_seria)
   end
 
   def consignment_params

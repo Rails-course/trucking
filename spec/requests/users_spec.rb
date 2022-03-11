@@ -8,8 +8,8 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET methods' do
-    it 'get users/new' do
-      get '/users/new'
+    it 'get users' do
+      get '/users'
       expect(response).to have_http_status(:success)
     end
   end

@@ -7,6 +7,6 @@ class AddColumnsToUsers < ActiveRecord::Migration[5.2]
     add_column :users, :birthday, :date
     add_column :users, :login, :string
     add_index :users, :login, unique: true
-    add_reference :users, :company, index: false
+    add_reference :users, :company, new_user: false
   end
 end

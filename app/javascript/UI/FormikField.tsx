@@ -1,17 +1,18 @@
-import React from 'react';
+import * as React from 'react';
 import { ErrorMessage, Field } from 'formik';
 import TextField from '@mui/material/TextField';
 
 interface FormikFieldProps {
-    name: string;
-    label: string;
-    type: string;
-    required: boolean;
-    variant: string;
+  name: string;
+  label: string;
+  type: string;
+  required: boolean;
+  variant: string;
+  [key: string]: any;
 }
 
 const FormikField: React.FC<FormikFieldProps> = ({
-  name, label, type, required, variant,
+  name, label, type, required, variant, ...other
 }) => (
   <div className="FormikField">
     <Field
@@ -24,6 +25,7 @@ const FormikField: React.FC<FormikFieldProps> = ({
       type={type}
       helperText={<ErrorMessage name={name} className="error-msg" />}
       variant={variant}
+      {...other}
     />
   </div>
 );

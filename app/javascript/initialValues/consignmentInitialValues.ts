@@ -8,7 +8,6 @@ export interface consignmentFormValues {
   quantity: number;
   driver: string;
   truck: string;
-  status: string;
 }
 
 const consignmentInitialValues: consignmentFormValues = {
@@ -21,7 +20,6 @@ const consignmentInitialValues: consignmentFormValues = {
   quantity: 0,
   driver: '',
   truck: '',
-  status: 'uncommited',
 };
 
 export default consignmentInitialValues;

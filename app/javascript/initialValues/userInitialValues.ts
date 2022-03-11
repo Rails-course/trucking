@@ -1,4 +1,5 @@
 export interface userFormValues {
+  id: string | number;
   first_name: string;
   middle_name: string;
   second_name: string;
@@ -11,12 +12,13 @@ export interface userFormValues {
   building: string;
   street: string;
   town: string;
-  role: string,
+  role: { role_name: string },
   passport: string,
   company: string,
 }
 
 const userInitialValues: userFormValues = {
+  id: null,
   first_name: '',
   middle_name: '',
   second_name: '',
@@ -29,7 +31,7 @@ const userInitialValues: userFormValues = {
   building: '',
   street: '',
   town: '',
-  role: '',
+  role: { role_name: '' },
   passport: '',
   company: '',
 };

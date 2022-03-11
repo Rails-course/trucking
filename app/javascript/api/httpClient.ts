@@ -1,13 +1,18 @@
 import axios from 'axios';
-import { createConsignmentUrl, createUserUrl, getDriversUrl, getTrucksUrl } from './clientAPI';
+
+import {
+  createConsignmentUrl, getDriversUrl, getTrucksUrl, createUserUrl, deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl,
+} from './clientAPI';
 
 function httpClient() {
   return {
     users: {
-      // get: (id) => axios.get(`${baseUrl}/posts/${id}`),
-      // getAll: () => axios.get(`${baseUrl}/posts`),
       get_drivers: () => axios.get(`${getDriversUrl}`),
+      get: (id) => axios.get(`${getUserUrl}/${id}`),
+      getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
+      update: (id, data) => axios.patch(`${updateUserUrl}/${id}`, data),
+      delete: (id) => axios.delete(`${deleteUserUrl}/${id}`),
     },
     companies: {
       get_data: () => axios.get('/companies.json'),

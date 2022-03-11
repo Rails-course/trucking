@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import FormikField from '../ui-components/FormikField';
+import FormikField from '../UI/FormikField';
 import { consignmentAddFields, consignmentFields } from '../constants/consignmentFields';
 import consignmentInitialValues, { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import httpClient from '../api/httpClient';
