@@ -14,10 +14,10 @@ interface CreateRoutesFormProps {
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
     const {
         isActiveModal, RoutehandleClose, setRoutes,routes
-    } = props;
+    } = props; 
 
     const handleSubmit =(values) => {
-       setRoutes((prevroutes)=>{ [...prevroutes, values]})
+       setRoutes([...routes,values])
     }
     return (
         <div>

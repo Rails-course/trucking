@@ -16,7 +16,7 @@ const CreateWaybill:React.FC  = () => {
   const [isActiveWayBill, setWayBillActive] = useState(false);
   const [isCreateRoutes, setCreateRoutes] = useState(false);
   // список чекпоинтов
-  const [routes, setRoutes] = useState([{name:'asd'},{name:'asd1'}]);
+  const [routes, setRoutes] = useState([]);
 
   const handleSubmit = async (values) => {
   console.log(routes)
@@ -49,8 +49,10 @@ const CreateWaybill:React.FC  = () => {
                       initialValues={{ name: '' ,ttn_date:'',driver_fio:'',truck_num:'',startpoint:'',endpoint:'',start_date:'',end_date:''}}
                       onSubmit={handleSubmit}
                   >
-                    <Form>
-                      <Container maxWidth="sm">
+                    <Form><Container maxWidth="sm">
+                      <table>
+                        <tr>
+                          <td>
                         <FormikField
                             name="ttn_number"
                             label="Enter ttn number"
@@ -110,15 +112,14 @@ const CreateWaybill:React.FC  = () => {
                             type="date"
                             variant="standard"
                         />
-                      </Container>
-
-                        <Container maxWidth="sm">
-                          <br/><br/><br/>
+                          </td>
+                        <td>
                         {routes.map((route) => (
-                            route.name
+                            <p>{route.name}</p>
                         ))}
-                        </Container>
-
+                        </td>
+                       </tr>
+                      </table> </Container>
                       <DialogActions>
                         <Button onClick={handleOpen}>open</Button>
                         <Button onClick={handleClose}>Cancel</Button>
