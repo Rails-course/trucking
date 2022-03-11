@@ -33,6 +33,9 @@ export const consignmentFields = [
     required: true,
     type: 'text',
   },
+];
+
+export const consignmentAddFields = [
   {
     id: uuidv4(),
     title: 'Product name',
