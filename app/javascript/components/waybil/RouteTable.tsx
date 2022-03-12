@@ -1,20 +1,17 @@
 import React from "react"
-import PropTypes from "prop-types"
-import Button from "@mui/material/Button";
 
 interface RoutesTableFormProps {
-  Routes:any,
-  setRoutes: any,
+  routes:any
 }
 
 const RouteTable:React.FC <RoutesTableFormProps> = (props: RoutesTableFormProps) =>{
   const {
-    Routes, setRoutes
+    routes
   } = props;
 return (
       <React.Fragment>
-        {Routes.map((route) => (
-           route.name
+        {routes.map((route) => (
+         <p> {route.name}</p>
         ))}
       </React.Fragment>
     );

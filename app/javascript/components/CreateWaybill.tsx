@@ -9,17 +9,17 @@ import Button from '@mui/material/Button';
 
 import FormikField from '../ui-components/FormikField';
 import {useState} from "react";
-import CreateRoutes from "./CreateRoutes";
+import CreateRoutes from "./waybil/CreateRoutes";
+import RouteTable from "./waybil/RouteTable";
 
 const CreateWaybill:React.FC  = () => {
-  // модальное окно путевого листа
+
   const [isActiveWayBill, setWayBillActive] = useState(false);
   const [isCreateRoutes, setCreateRoutes] = useState(false);
-  // список чекпоинтов
   const [routes, setRoutes] = useState([]);
 
   const handleSubmit = async (values) => {
-  console.log(routes)
+  console.log(values)
 };
   const CloseCreateRoutes=()=>{
     setCreateRoutes(false)
@@ -27,9 +27,6 @@ const CreateWaybill:React.FC  = () => {
   const handleClose = () => {
     setWayBillActive(false);
   };
-    const handleOpen = () => {
-      setCreateRoutes(true);
-    };
     return (
         <div>
           <Button variant="outlined" onClick={()=>{setWayBillActive(true)}} >
@@ -114,14 +111,13 @@ const CreateWaybill:React.FC  = () => {
                         />
                           </td>
                         <td>
-                        {routes.map((route) => (
-                            <p>{route.name}</p>
-                        ))}
+                      <RouteTable routes={routes} />
                         </td>
                        </tr>
-                      </table> </Container>
+                      </table>
+                    </Container>
                       <DialogActions>
-                        <Button onClick={handleOpen}>open</Button>
+                        <Button onClick={setCreateRoutes(true)}>create new checkpoints</Button>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit" onClick={handleClose}>Create</Button>
                       </DialogActions>
