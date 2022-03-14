@@ -11,7 +11,7 @@ const RouteTable:React.FC <RoutesTableFormProps> = (props: RoutesTableFormProps)
 return (
       <React.Fragment>
         {routes.map((route) => (
-         <p> {route.name}</p>
+         <p className='paragr'> {route.city_name}</p>
         ))}
       </React.Fragment>
     );

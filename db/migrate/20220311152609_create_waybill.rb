@@ -3,7 +3,10 @@ class CreateWaybill < ActiveRecord::Migration[5.2]
     create_table :waybills do |t|
       t.date :start_date, null: false
       t.date :end_date, null: false
-      t.integer :ttn_id
+      t.integer :start_point, null: false
+      t.integer :end_point, null: false
+      t.integer :ttn_id, null: false
+      t.string :status
       t.timestamps
     end
   end

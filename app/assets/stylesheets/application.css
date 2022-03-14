@@ -144,3 +144,10 @@ body {
 .FormikSelect {
     margin: 10px 0;
 }
+.cell{
+    vertical-align: top;
+    min-width:200px;
+}
+.paragr{
+    text-align: center;
+}

@@ -11,6 +11,7 @@ import FormikField from '../ui-components/FormikField';
 import {useState} from "react";
 import CreateRoutes from "./waybil/CreateRoutes";
 import RouteTable from "./waybil/RouteTable";
+import httpClients from '../api/httpClient';
 
 const CreateWaybill:React.FC  = () => {
 
@@ -18,8 +19,9 @@ const CreateWaybill:React.FC  = () => {
   const [isCreateRoutes, setCreateRoutes] = useState(false);
   const [routes, setRoutes] = useState([]);
 
-  const handleSubmit = async (values) => {
-  console.log(values)
+  const handleSubmit =(values) => {
+    Object.assign(values,{checkpoints:routes})
+    httpClients.waybill.create(values)
 };
   const CloseCreateRoutes=()=>{
     setCreateRoutes(false)
@@ -41,13 +43,12 @@ const CreateWaybill:React.FC  = () => {
             <DialogTitle>Add Waybill</DialogTitle>
             <DialogContent>
               <Grid container spacing={2} direction="column">
-                <Grid item xs={8}>
                   <Formik
-                      initialValues={{ name: '' ,ttn_date:'',driver_fio:'',truck_num:'',startpoint:'',endpoint:'',start_date:'',end_date:''}}
+                      initialValues={{ttn_date:'',driver_fio:'',truck_num:'',startpoint:'',endpoint:'',start_date:'',end_date:''}}
                       onSubmit={handleSubmit}
                   >
                     <Form><Container maxWidth="sm">
-                      <table>
+                      <table >
                         <tr>
                           <td>
                         <FormikField
@@ -110,21 +111,21 @@ const CreateWaybill:React.FC  = () => {
                             variant="standard"
                         />
                           </td>
-                        <td>
+                        <td className="cell">
                       <RouteTable routes={routes} />
                         </td>
                        </tr>
                       </table>
                     </Container>
                       <DialogActions>
-                        <Button onClick={setCreateRoutes(true)}>create new checkpoints</Button>
+                        <Button onClick={()=>setCreateRoutes(true)}>create new checkpoints</Button>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit" onClick={handleClose}>Create</Button>
                       </DialogActions>
                     </Form>
                   </Formik>
                   <CreateRoutes isActiveModal={isCreateRoutes} RoutehandleClose={CloseCreateRoutes} setRoutes={setRoutes} routes={routes} />
-                </Grid>
+
               </Grid>
             </DialogContent>
           </Dialog>
