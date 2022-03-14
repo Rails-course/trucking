@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Truck < ApplicationRecord
   belongs_to :truck_type
   validates :fuel_consumption, presence: true, numericality: { greater_than: 0 }
