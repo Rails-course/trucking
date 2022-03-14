@@ -1,15 +1,23 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-import CreateConsignmentForm from './CreateConsignmentForm';
+
+import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
+import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
+import { ConsignmentData } from '../mixins/initialValues/consignmentList';
+import httpClient from '../api/httpClient';
+import ConsignmentTable from './Consignment/ConsigmentTable';
 
 function Consignment() {
-  const [isActiveModal, setModalActive] = useState(false);
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
 
-  const handleClose = () => {
-    setModalActive(false);
+  const handleClose = () => setModalActive(false);
+
+  const handleSubmit = async (consignment: consignmentFormValues) => {
+    await httpClient.consignments.create(consignment);
+    setConsignment((prevConsignment) => [...prevConsignment, consignment]);
   };
 
   return (
@@ -24,10 +32,14 @@ function Consignment() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {/* <ConsignmentTable consignments={consignments} setConsignment={setConsignment} /> */}
+          <ConsignmentTable consignments={consignments} setConsignment={setConsignment} />
         </Grid>
       </Box>
-      <CreateConsignmentForm isActiveModal={isActiveModal} handleClose={handleClose} />
+      <CreateConsignmentForm
+        isActiveModal={isActiveModal}
+        handleClose={handleClose}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 }

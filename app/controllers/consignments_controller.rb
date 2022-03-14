@@ -1,7 +1,16 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-  def index; end
+  def index
+    @consignments = Consignment.all
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: @consignments.to_json
+      end
+    end
+  end
 
   def create
     @consignment = Consignment.new(consignment_params)

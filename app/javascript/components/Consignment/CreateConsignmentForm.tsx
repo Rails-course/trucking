@@ -8,14 +8,15 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 
-import FormikField from '../UI/FormikField';
-import { consignmentAddFields, consignmentFields } from '../constants/consignmentFields';
-import consignmentInitialValues, { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import httpClient from '../api/httpClient';
+import FormikField from '../../UI/FormikField';
+import { consignmentAddFields, consignmentFields } from '../../constants/consignmentFields';
+import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
+import httpClient from '../../api/httpClient';
 
 interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
+    handleSubmit: any;
 }
 
 const CreateConsignmentForm:
@@ -25,12 +26,8 @@ const CreateConsignmentForm:
       const [fieldList, setFieldList] = React.useState([{ field: '' }]);
 
       const {
-        isActiveModal, handleClose,
+        isActiveModal, handleClose, handleSubmit,
       } = props;
-
-      const handleSubmit = async (consignment: consignmentFormValues) => {
-        await httpClient.consignments.create(consignment);
-      };
 
       React.useEffect(() => {
         httpClient.trucks.get_trucks().then((response) => {
