@@ -10,3 +10,5 @@ export const getTrucksUrl = '/trucks.json';
 // CONSIGNMENTS
 export const createConsignmentUrl = '/consignments';
 export const getAllConsignmentUrl = '/consignments.json';
+// GOODS
+export const createGoodsUrl = '/goods';
