@@ -8,15 +8,19 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import { ConsignmentData } from '../mixins/initialValues/consignmentList';
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
+import { goodsFormValues } from '../initialValues/goodsInitialValues';
+import { GoodsData } from '../mixins/initialValues/goodsList';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
+  const [goods, setGoods] = React.useState<GoodsData[]>([]);
 
   const handleClose = () => setModalActive(false);
 
-  const handleSubmit = async (consignment: consignmentFormValues) => {
+  const handleSubmit = async (consignment: consignmentFormValues, goods: goodsFormValues) => {
     await httpClient.consignments.create(consignment);
+    // await httpClient.goods.create(goods);
     setConsignment((prevConsignment) => [...prevConsignment, consignment]);
   };
 

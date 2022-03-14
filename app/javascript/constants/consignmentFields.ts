@@ -41,7 +41,7 @@ export const consignmentAddFields = [
     title: 'Product name',
     model: 'good_name',
     placeholder: 'Product name',
-    required: true,
+    required: false,
     type: 'text',
   },
   {
@@ -49,7 +49,7 @@ export const consignmentAddFields = [
     title: 'Measurement unit',
     model: 'unit_of_measurement',
     placeholder: 'Measurement unit',
-    required: true,
+    required: false,
     type: 'text',
   },
   {
@@ -57,7 +57,7 @@ export const consignmentAddFields = [
     title: 'Quantity',
     model: 'quantity',
     placeholder: 'Quantity of goods',
-    required: true,
+    required: false,
     type: 'number',
   },
 ];
