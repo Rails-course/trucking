@@ -14,7 +14,7 @@ import { GoodsData } from '../mixins/initialValues/goodsList';
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
-  const [goods, setGoods] = React.useState<GoodsData[]>([]);
+  // const [goods, setGoods] = React.useState<GoodsData[]>([]);
 
   const handleClose = () => setModalActive(false);
 
