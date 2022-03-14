@@ -6,7 +6,7 @@ class Consignment < ApplicationRecord
   before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
-  validates :consignment_seria, presence: true, length: { in: 3..10 }
+  validates :consignment_seria, presence: true, length: { in: 2..10 }
   validate :driver_role
   validate :dispatcher_role
   validate :manager_role

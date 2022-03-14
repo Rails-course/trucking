@@ -19,11 +19,6 @@ RSpec.describe Consignment, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'status should not be valid (not in the statuses list)' do
-      subject.status = 'foobar'
-      expect(subject).to_not be_valid
-    end
-
     it 'consignment number should not be valid (blank)' do
       subject.consignment_number = ''
       expect(subject).to_not be_valid
