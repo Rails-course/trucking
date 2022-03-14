@@ -15,6 +15,6 @@ Rails.application.routes.draw do
     patch '/suspend/:id', to: 'companies#suspend'
   end
   scope '/waybill' do
-    post '/create/:ttn_id' ,to:'waybill#creaate_company'
+    post '/create/:ttn_id' ,to:'waybill#create'
   end
 end

@@ -13,6 +13,9 @@ function httpClient() {
       delete: (id) => axios.delete(`/companies/${id}`),
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
+    waybill:{
+      create:(waybill)=>axios.post(`/waybill/create/1}`,waybill)
+    }
   };
 }
 

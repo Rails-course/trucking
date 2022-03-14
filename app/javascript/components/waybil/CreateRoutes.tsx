@@ -31,13 +31,13 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
               <Grid container spacing={2} direction="column">
                 <Grid item xs={8}>
                   <Formik
-                      initialValues={{name: '' }}
+                      initialValues={{city_name: '' }}
                       onSubmit={handleSubmit}
                   >
                     <Form>
                       <Container maxWidth="sm">
                         <FormikField
-                            name="name"
+                            name="city_name"
                             label="Enter city name"
                             required
                             type="text"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_21_151958) do
+ActiveRecord::Schema.define(version: 2022_03_11_152609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,14 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
   end
 
+  create_table "routes", force: :cascade do |t|
+    t.string "city"
+    t.date "pass_date"
+    t.boolean "is_passed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "truck_types", force: :cascade do |t|
     t.string "truck_type_name", null: false
     t.datetime "created_at", null: false
@@ -85,6 +93,14 @@ ActiveRecord::Schema.define(version: 2022_02_21_151958) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "waybills", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.integer "ttn_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
