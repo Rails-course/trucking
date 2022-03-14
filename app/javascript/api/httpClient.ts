@@ -1,21 +1,35 @@
 import axios from 'axios';
-import { createUserUrl } from './clientAPI';
+
+import {
+  createConsignmentUrl, getDriversUrl, getTrucksUrl, createUserUrl,
+  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl,
+} from './clientAPI';
 
 function httpClient() {
   return {
     users: {
-      // get: (id) => axios.get(`${baseUrl}/posts/${id}`),
-      // getAll: () => axios.get(`${baseUrl}/posts`),
+      get_drivers: () => axios.get(`${getDriversUrl}`),
+      get: (id) => axios.get(`${getUserUrl}/${id}`),
+      getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
+      update: (id, data) => axios.patch(`${updateUserUrl}/${id}`, data),
+      delete: (id) => axios.delete(`${deleteUserUrl}/${id}`),
     },
     companies: {
-      get_data:()=> axios.get('/companies.json'),
+      get_data: () => axios.get('/companies.json'),
       delete: (id) => axios.delete(`/companies/${id}`),
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
     waybill:{
       create:(waybill)=>axios.post(`/waybill/create/1}`,waybill)
-    }
+    },
+    trucks: {
+      get_trucks: () => axios.get(`${getTrucksUrl}`),
+    },
+    consignments: {
+      getAll: () => axios.get(`${getAllConsignmentUrl}`),
+      create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
+    },
   };
 }
 

@@ -4,15 +4,20 @@ Rails.application.routes.draw do
   devise_for :users
   root 'pages#home'
   resources :companies
-  scope '/users' do
-    get '/new', to: 'pages#new_user'
-    post '/create', to: 'pages#create_user'
-  end
-  # match '*path', to: 'pages#home', via: :all
-
   scope '/companies' do
     post '/create', to: 'companies#create_company'
     patch '/suspend/:id', to: 'companies#suspend'
+  end
+  resources :goods
+  resources :consignments
+  resources :trucks
+  get '/users', to: 'pages#users_index'
+  scope '/users' do
+    post '/create', to: 'pages#create_user'
+    get '/drivers', to: 'pages#get_drivers'
+    delete '/:id', to: 'pages#destroy_user'
+    get '/:id', to: 'pages#user_data'
+    patch 'edit/:id', to: 'pages#update_user'
   end
   scope '/waybill' do
     post '/create/:ttn_id' ,to:'waybill#create'

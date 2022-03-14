@@ -1,12 +1,16 @@
 <% if user_signed_in? %>
   <nav class="nav-wrapper">
     <div class="nav">
-      <div>
-        <%= link_to "Users", new_path, class:"share-links" %>
+      <div class="nav-left">
+        <%= link_to "Users", users_path, class:"share-links" %>
         <%= link_to "Companies", companies_path, class:"share-links" %>
-        <%= link_to "Edit Profile", edit_user_registration_path, class:"share-links" %>
+        <%= link_to "Consignments", consignments_path, class:"share-links" %>
       </div>
-      <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
+      <div class="nav-right">
+        <%= link_to "Edit Profile", edit_user_registration_path, class:"share-links" %>
+        <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
+      </div>
     </div>
   </nav>
 <% end %>
+
