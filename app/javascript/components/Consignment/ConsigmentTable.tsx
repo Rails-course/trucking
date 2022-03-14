@@ -52,25 +52,32 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               <StyledTableCell align="right">Seria</StyledTableCell>
               <StyledTableCell align="right">Bundle seria</StyledTableCell>
               <StyledTableCell align="right">Bundle number</StyledTableCell>
+              <StyledTableCell align="right">Dispatcher</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {consignments.map((consignment) => (
-              <StyledTableRow key={consignment.consignment_number}>
-                <StyledTableCell component="th" scope="company">
-                  {consignment.consignment_number}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {consignment.consignment_seria}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {consignment.bundle_seria}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {consignment.bundle_number}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {consignments.map((consignment) => {
+              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`
+              return (
+                <StyledTableRow key={consignment.consignment_number}>
+                  <StyledTableCell component="th" scope="company">
+                    {consignment.consignment_number}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {consignment.consignment_seria}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {consignment.bundle_seria}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {consignment.bundle_number}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {dispatcher_FIO}
+                  </StyledTableCell>
+                </StyledTableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

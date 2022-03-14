@@ -7,7 +7,8 @@ class ConsignmentsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: @consignments.to_json
+        render json: @consignments.to_json(include: { dispatcher: { only: %i[first_name
+                                                                             second_name middle_name] } })
       end
     end
   end
@@ -34,6 +35,7 @@ class ConsignmentsController < ApplicationController
     consignment_params[:driver] =
       User.find_by(company: current_user.company, first_name: consignment_params[:driver])
     consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
+    consignment_params[:dispatcher] = current_user
     consignment_params
   end
 end

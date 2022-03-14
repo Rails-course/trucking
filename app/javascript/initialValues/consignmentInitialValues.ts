@@ -8,6 +8,7 @@ export interface consignmentFormValues {
   quantity: number;
   driver: string;
   truck: string;
+  dispatcher: { first_name: string, second_name: string, middle_name: string };
 }
 
 const consignmentInitialValues: consignmentFormValues = {
@@ -20,6 +21,7 @@ const consignmentInitialValues: consignmentFormValues = {
   quantity: 0,
   driver: '',
   truck: '',
+  dispatcher: { first_name: '', second_name: '', middle_name: '' }
 };
 
 export default consignmentInitialValues;
