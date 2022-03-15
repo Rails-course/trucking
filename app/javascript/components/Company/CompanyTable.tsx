@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-import httpClients from '../../api/httpClient';
+import httpClient from '../../api/httpClient';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -40,20 +40,20 @@ interface CompanyTableProps {
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const { companies, setCompany } = props;
   React.useEffect(() => {
-    httpClients.companies.get_data().then((response) => {
+    httpClient.companies.get_data().then((response) => {
       setCompany(response.data);
     });
   }, []);
   function updateData() {
-    httpClients.companies.get_data().then((response) => {
+    httpClient.companies.get_data().then((response) => {
       setCompany(response.data);
     });
   }
   function deleteCompany(id) {
-    httpClients.companies.delete(id).then(() => { updateData(); });
+    httpClient.companies.delete(id).then(() => { updateData(); });
   }
   function suspendCompany(id) {
-    httpClients.companies.suspend(id).then(() => { updateData(); });
+    httpClient.companies.suspend(id).then(() => { updateData(); });
   }
   if (!companies) return null;
   return (

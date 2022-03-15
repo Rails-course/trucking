@@ -106,7 +106,7 @@ const CreateConsignmentForm:
                               required
                             />
                             {fieldList.length - 1 === index && fieldList.length < 4
-                              && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add Field</Button>}
+                              && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add product</Button>}
                           </div>
                         ))}
                       </Container>
