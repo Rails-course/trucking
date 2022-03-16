@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_24_145711) do
+ActiveRecord::Schema.define(version: 2022_03_16_115347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,14 +44,6 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.bigint "truck_id"
     t.bigint "dispatcher_id"
     t.bigint "manager_id"
-  end
-
-  create_table "destinations", force: :cascade do |t|
-    t.string "destination_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "address_id"
-    t.index ["destination_name"], name: "index_destinations_on_destination_name", unique: true
   end
 
   create_table "goods", force: :cascade do |t|
@@ -111,6 +103,14 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "warehouses", force: :cascade do |t|
+    t.string "warehouse_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "address_id"
+    t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 
 end
