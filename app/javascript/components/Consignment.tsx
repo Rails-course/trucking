@@ -5,23 +5,47 @@ import { Box, Grid } from '@mui/material';
 
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import { ConsignmentData } from '../mixins/initialValues/consignmentList';
+// import { ConsignmentData } from '../mixins/initialValues/consignmentList';
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
-import { GoodsData } from '../mixins/initialValues/goodsList';
+// import { GoodsData } from '../mixins/initialValues/goodsList';
+
+type UnionConsGoodType = {consignment: consignmentFormValues} | {goods: goodsFormValues}
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
-  // const [goods, setGoods] = React.useState<GoodsData[]>([]);
+  const [consignments, setConsignment] = React.useState(null);
+  const [goods, setGood] = React.useState([{
+    good_name: '', unit_of_measurement: '', quantity: 0,
+  }]);
+
+  const handleFieldAdd = () => setGood(
+    [...goods, {
+      good_name: '', unit_of_measurement: '', quantity: 0,
+    }],
+  );
+
+  const handleFieldChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...goods];
+    list[index][name] = value;
+    setGood(list);
+  };
 
   const handleClose = () => setModalActive(false);
 
-  const handleSubmit = async (consignment: consignmentFormValues, goods: goodsFormValues) => {
-    await httpClient.consignments.create(consignment);
-    // await httpClient.goods.create(goods);
-    setConsignment((prevConsignment) => [...prevConsignment, consignment]);
+  const handleSubmit = (values: UnionConsGoodType) => {
+    const requests = [
+      httpClient.consignments.create({ values }),
+      httpClient.goods.create({ ...values, goods }),
+    ];
+
+    Promise.all(requests)
+      .then(() => {
+        setConsignment((prevConsignment) => [...prevConsignment, values]);
+        // setGood(() => [...goods, values]);
+      });
   };
 
   return (
@@ -43,6 +67,9 @@ function Consignment() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        goods={goods}
+        handleFieldAdd={handleFieldAdd}
+        handleFieldChange={handleFieldChange}
       />
     </div>
   );

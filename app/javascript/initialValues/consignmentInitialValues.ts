@@ -15,7 +15,7 @@ const consignmentInitialValues: consignmentFormValues = {
   consignment_number: '',
   driver: '',
   truck: '',
-  dispatcher: { first_name: '', second_name: '', middle_name: '' }
+  dispatcher: { first_name: '', second_name: '', middle_name: '' },
 };
 
 export default consignmentInitialValues;

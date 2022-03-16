@@ -13,34 +13,30 @@ import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
 import httpClient from '../../api/httpClient';
+// import goodsInitialValues from '../../initialValues/goodsInitialValues';
 
 interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
   handleSubmit: any;
+  goods: any;
+  handleFieldAdd: any;
+  handleFieldChange: any;
 }
 
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
-    const { isActiveModal, handleClose, handleSubmit } = props;
+    const {
+      isActiveModal, handleClose, handleSubmit, goods, handleFieldAdd, handleFieldChange,
+    } = props;
 
     const [drivers, setDrivers] = React.useState(null);
     const [trucks, setTrucks] = React.useState(null);
-    const [fieldList, setFieldList] = React.useState([{ good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
     React.useEffect(() => {
       httpClient.trucks.get_trucks().then((response) => setTrucks(response.data));
       httpClient.users.get_drivers().then((response) => setDrivers(response.data));
     }, []);
-
-    const handleFieldAdd = () => setFieldList([...fieldList, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
-
-    const handleFieldChange = (e, index) => {
-      const { name, value } = e.target;
-      const list = [...fieldList];
-      list[index][name] = value;
-      setFieldList(list);
-    };
 
     return (
       <div>
@@ -73,7 +69,7 @@ const CreateConsignmentForm:
                             variant="standard"
                           />
                         ))}
-                        {fieldList.map((singleField, index) => (
+                        {goods.map((singleField, index) => (
                           <div key={index}>
                             <FormikField
                               id={uuidv4()}
@@ -105,7 +101,7 @@ const CreateConsignmentForm:
                               onChange={(e) => handleFieldChange(e, index)}
                               required
                             />
-                            {fieldList.length - 1 === index && fieldList.length < 4
+                            {goods.length - 1 === index && goods.length < 4
                               && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add product</Button>}
                           </div>
                         ))}
