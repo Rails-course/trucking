@@ -11,6 +11,7 @@ class Consignment < ApplicationRecord
   validate :dispatcher_role
   validate :manager_role
 
+  has_one :waybill
   private
 
   def driver_role

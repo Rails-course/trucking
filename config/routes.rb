@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     patch 'edit/:id', to: 'pages#update_user'
   end
   scope '/waybill' do
-    post '/create/:ttn_id' ,to:'waybill#create'
+    post '/create' ,to:'waybill#create'
   end
+  post '/route/create',to: 'route#create'
 end

@@ -21,7 +21,7 @@ function httpClient() {
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
     waybill:{
-      create:(waybill)=>axios.post(`/waybill/create/1}`,waybill)
+      create:(waybill,routes)=>axios.post(`/waybill/create`,{waybill,routes})
     },
     trucks: {
       get_trucks: () => axios.get(`${getTrucksUrl}`),
@@ -30,6 +30,9 @@ function httpClient() {
       getAll: () => axios.get(`${getAllConsignmentUrl}`),
       create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
     },
+    routes:{
+      create:(routes)=> axios.post(`/route/create`,routes)
+    }
   };
 }
 

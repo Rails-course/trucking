@@ -6,12 +6,12 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-
-import FormikField from '../ui-components/FormikField';
+import FormikField from '../UI/FormikField';
 import {useState} from "react";
 import CreateRoutes from "./waybil/CreateRoutes";
 import RouteTable from "./waybil/RouteTable";
 import httpClients from '../api/httpClient';
+import waybillInitialValues from "../initialValues/waybillInitianalValue";
 
 const CreateWaybill:React.FC  = () => {
 
@@ -20,8 +20,9 @@ const CreateWaybill:React.FC  = () => {
   const [routes, setRoutes] = useState([]);
 
   const handleSubmit =(values) => {
-    Object.assign(values,{checkpoints:routes})
-    httpClients.waybill.create(values)
+      let names=routes.map((name)=>name.city_name)
+      httpClients.waybill.create(values,names)
+      console.log(1)
 };
   const CloseCreateRoutes=()=>{
     setCreateRoutes(false)
@@ -44,72 +45,78 @@ const CreateWaybill:React.FC  = () => {
             <DialogContent>
               <Grid container spacing={2} direction="column">
                   <Formik
-                      initialValues={{ttn_date:'',driver_fio:'',truck_num:'',startpoint:'',endpoint:'',start_date:'',end_date:''}}
+                      initialValues={waybillInitialValues}
                       onSubmit={handleSubmit}
                   >
                     <Form><Container maxWidth="sm">
                       <table >
                         <tr>
                           <td>
+                              <FormikField
+                                  name="ttn_id"
+                                  label="Enter ttn_id"
+                                  required
+                                  type="text"
+                                  variant="standard"
+                              />
+                              <FormikField
+                                  name="town"
+                                  label="Enter town"
+                                  required
+                                  type="text"
+                                  variant="standard"
+                              />
+                              <FormikField
+                                  name="street"
+                                  label="Enter street"
+                                  required
+                                  type="text"
+                                  variant="standard"
+                              />
+                              <FormikField
+                                  name="building"
+                                  label="Enter building"
+                                  required
+                                  type="text"
+                                  variant="standard"
+                              />
+                              <FormikField
+                                  name="end_town"
+                                  label="Enter end_town"
+                                  required
+                                  type="text"
+                                  variant="standard"
+                              />
                         <FormikField
-                            name="ttn_number"
-                            label="Enter ttn number"
+                            name="end_street"
+                            label="Enter end_street"
                             required
                             type="text"
                             variant="standard"
                         />
-                        <label>ttn_date</label>
                         <FormikField
-                            name="ttn_date"
-                            label=""
-                            required
-                            type="date"
-                            variant="standard"
-                        />
-                        <FormikField
-                            name="driver_fio"
-                            label="Enter driver fio"
+                            name="end_building"
+                            label="Enter end_building"
                             required
                             type="text"
                             variant="standard"
                         />
-                        <FormikField
-                            name="truck_num"
-                            label="Enter truck num"
-                            required
-                            type="text"
-                            variant="standard"
-                        />
-                        <FormikField
-                            name="startpoint"
-                            label="Enter startpoint"
-                            required
-                            type="text"
-                            variant="standard"
-                        />
-                        <FormikField
-                            name="endpoint"
-                            label="Enter endpoint"
-                            required
-                            type="text"
-                            variant="standard"
-                        />
-                        <label>ttn_date</label>
-                        <FormikField
-                            name="start_date"
-                            label=""
-                            required
-                            type="date"
-                            variant="standard"
-                        />
-                        <label>ttn_date</label>
-                        <FormikField
-                            name="end_date"
-                            label=""
-                            required
-                            type="date"
-                            variant="standard"
-                        />
+                              <label>start date</label>
+                              <FormikField
+                                  name="start_date"
+                                  label=""
+                                  required
+                                  type="date"
+                                  variant="standard"
+                              />
+                              <label>end date</label>
+                              <FormikField
+                                  name="end_date"
+                                  label=""
+                                  required
+                                  type="date"
+                                  variant="standard"
+                              />
                           </td>
                         <td className="cell">
                       <RouteTable routes={routes} />

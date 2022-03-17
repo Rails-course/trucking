@@ -1,7 +1,7 @@
-import React from "react"
+import * as React from 'react';
 import {Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid} from "@mui/material";
 import {Form, Formik} from "formik";
-import FormikField from "../../ui-components/FormikField";
+import FormikField from '../../UI/FormikField'
 import Button from "@mui/material/Button";
 
 interface CreateRoutesFormProps {

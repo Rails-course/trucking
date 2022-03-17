@@ -8,7 +8,7 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import { ConsignmentData } from '../mixins/initialValues/consignmentList';
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-
+import CreateWaybill from './CreateWaybill'
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
@@ -26,6 +26,7 @@ function Consignment() {
         flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
       }}
       >
+          <CreateWaybill/>
         <Grid item xs={12}>
           <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
             Create Consignment
