@@ -10,6 +10,7 @@ class Consignment < ApplicationRecord
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
+  has_one :waybill
   private
 
   def upcase_bundle_consignment_seria
