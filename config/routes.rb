@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'pages#home'
   resources :companies
+  resources :warehouses
   get '/users', to: 'pages#users_index'
   scope '/users' do
     post '/create', to: 'pages#create_user'
