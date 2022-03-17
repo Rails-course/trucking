@@ -19,12 +19,7 @@ class ConsignmentsController < ApplicationController
       render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
                                                                           second_name middle_name] } })
     else
-      respond_to do |format|
-        format.html { render 'consignment/index' }
-        format.json do
-          render json: @consignment.errors.full_messages.to_json
-        end
-      end
+      render json: @consignment.errors.full_messages, status: :unprocessable_entity
     end
   end
 

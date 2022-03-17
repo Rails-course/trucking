@@ -7,7 +7,7 @@ class GoodsController < ApplicationController
         @goods = Good.create!(goods_params)
       end
     rescue ActiveRecord::RecordInvalid => e
-      @bands = { error: { status: 422, message: e } }
+      @goods = { error: { status: 422, message: e } }
     end
 
     render json: @goods
