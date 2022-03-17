@@ -28,7 +28,7 @@ function httpClient() {
       create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
     },
     goods: {
-      create: (goods) => axios.post(`${createGoodsUrl}`, goods)
+      create: (goods) => axios.post(`${createGoodsUrl}`, goods),
     },
   };
 }
