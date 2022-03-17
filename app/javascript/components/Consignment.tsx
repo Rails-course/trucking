@@ -11,7 +11,7 @@ import ConsignmentTable from './Consignment/ConsigmentTable';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
 // import { GoodsData } from '../mixins/initialValues/goodsList';
 
-type UnionConsGoodType = {consignment: consignmentFormValues} | {goods: goodsFormValues}
+type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);

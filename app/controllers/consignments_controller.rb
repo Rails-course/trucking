@@ -26,12 +26,12 @@ class ConsignmentsController < ApplicationController
   private
 
   def permit_consignment_params
-    params.permit(:consignment_number, :consignment_seria, :truck, :driver, :bundle_number,
-                  :bundle_seria)
+    params.permit(values: %i[bundle_seria bundle_number consignment_number consignment_seria driver
+                             truck])
   end
 
   def consignment_params
-    consignment_params = permit_consignment_params
+    consignment_params = permit_consignment_params[:values]
     consignment_params[:driver] =
       User.find_by(company: current_user.company, first_name: consignment_params[:driver])
     consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])

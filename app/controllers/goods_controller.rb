@@ -15,8 +15,16 @@ class GoodsController < ApplicationController
 
   private
 
+  def permit_goods_params
+    params.permit(:bundle_seria, :bundle_number, goods: %i[good_name quantity unit_of_measurement])
+  end
+
   def goods_params
-    params.permit(goods: %i[bundle_seria bundle_number good_name quantity
-                            unit_of_measurement]).require(:goods)
+    goods_params = permit_goods_params[:goods]
+    goods_params.each do |item|
+      item[:bundle_seria] = permit_goods_params[:bundle_seria]
+      item[:bundle_number] = permit_goods_params[:bundle_number]
+    end
+    goods_params
   end
 end

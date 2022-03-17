@@ -1,5 +1,5 @@
 class Consignment < ApplicationRecord
-  belongs_to :driver, class_name: 'User', optional: true
+  belongs_to :driver, class_name: 'User'
   belongs_to :dispatcher, class_name: 'User', optional: true
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
@@ -10,8 +10,14 @@ class Consignment < ApplicationRecord
   validate :driver_role
   validate :dispatcher_role
   validate :manager_role
+  before_save :upcase_bundle_consignment_seria
 
   private
+
+  def upcase_bundle_consignment_seria
+    self.consignment_seria = consignment_seria.upcase
+    self.bundle_seria = bundle_seria.upcase
+  end
 
   def driver_role
     if driver && driver.role != Role.find_by(role_name: 'driver')

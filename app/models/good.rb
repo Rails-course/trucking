@@ -6,8 +6,13 @@ class Good < ApplicationRecord
   validates :status, presence: true, inclusion: { in: %w[accepted checked delivered lost] }
   validates :bundle_number, numericality: { greater_than: 0 }
   validates :bundle_seria, presence: true, length: { in: 2..10 }
+  before_save :upcase_bundle_seria
 
   private
+
+  def upcase_bundle_seria
+    self.bundle_seria = bundle_seria.upcase
+  end
 
   def set_accepted_status
     self.status = 'accepted'
