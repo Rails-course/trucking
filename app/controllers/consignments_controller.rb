@@ -14,12 +14,17 @@ class ConsignmentsController < ApplicationController
   end
 
   def create
-    @consignment = Consignment.new(consignment_params)
+    @consignment = Consignment.new(create_consignment_params)
     if @consignment.save
-      flash[:success] = 'Consignment was successfully created'
+      render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
+                                                                          second_name middle_name] } })
     else
-      flash[:error] = 'Something went wrong with creating consignment'
-      render 'consignments/index'
+      respond_to do |format|
+        format.html { render 'consignment/index' }
+        format.json do
+          render json: @consignment.errors.full_messages.to_json
+        end
+      end
     end
   end
 
@@ -30,12 +35,19 @@ class ConsignmentsController < ApplicationController
                              truck])
   end
 
-  def consignment_params
+  def create_consignment_params
     consignment_params = permit_consignment_params[:values]
-    consignment_params[:driver] =
-      User.find_by(company: current_user.company, first_name: consignment_params[:driver])
+    set_driver(consignment_params)
     consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
     consignment_params[:dispatcher] = current_user
+    consignment_params
+  end
+
+  def set_driver(consignment_params)
+    driver_FIO = consignment_params[:driver].split
+    consignment_params[:driver] =
+      User.find_by(company: current_user.company, second_name: driver_FIO[0],
+                   first_name: driver_FIO[1], middle_name: driver_FIO[2])
     consignment_params
   end
 end

@@ -36,16 +36,22 @@ function Consignment() {
   const handleClose = () => setModalActive(false);
 
   const handleSubmit = (values: UnionConsGoodType) => {
-    const requests = [
-      httpClient.consignments.create({ values }),
-      httpClient.goods.create({ ...values, goods }),
-    ];
+    httpClient.consignments.create({ values }).then((response) => {
+      setConsignment((prevConsignment) => [...prevConsignment, response.data]);
+    })
+    httpClient.goods.create({ ...values, goods })
+    // const requests = [
+    //   httpClient.consignments.create({ values }).then((response) => {
+    //     setConsignment((prevConsignment) => [...prevConsignment, response.data]);
+    //   }),
+    //   httpClient.goods.create({ ...values, goods }),
+    // ];
 
-    Promise.all(requests)
-      .then(() => {
-        setConsignment((prevConsignment) => [...prevConsignment, values]);
-        // setGood(() => [...goods, values]);
-      });
+    // Promise.all(requests)
+    //   .then(() => {
+    //     // setConsignment((prevConsignment) => [...prevConsignment, values]);
+    //     // setGood(() => [...goods, values]);
+    //   });
   };
 
   return (
