@@ -170,12 +170,12 @@ gruzimvseower_goods_owner = GoodsOwner.create(warehouse_name: 'Trade power',
                                                 town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
                                               ))
 
-# Destination points
-Grocery_store = Destination.create(
-  destination_name: 'Grocery store', address: Address.new(town: 'Homel', street: 'Sovetskaya',
-                                                          building: 60, apartment: 1)
+# Warehouses
+Grocery_store = Warehouse.create(
+  warehouse_name: 'Grocery store', address: Address.new(town: 'Homel', street: 'Sovetskaya',
+                                                        building: 60, apartment: 1), trusted: false
 )
-Shopping_center = Destination.create(
-  destination_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
-                                                 apartment: 1)
+Shopping_center = Warehouse.create(
+  warehouse_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
+                                               apartment: 1), trusted: true
 )
