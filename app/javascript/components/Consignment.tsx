@@ -5,11 +5,9 @@ import { Box, Grid } from '@mui/material';
 
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-// import { ConsignmentData } from '../mixins/initialValues/consignmentList';
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
-// import { GoodsData } from '../mixins/initialValues/goodsList';
 
 type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
 
@@ -40,18 +38,6 @@ function Consignment() {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
     })
     httpClient.goods.create({ ...values, goods })
-    // const requests = [
-    //   httpClient.consignments.create({ values }).then((response) => {
-    //     setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-    //   }),
-    //   httpClient.goods.create({ ...values, goods }),
-    // ];
-
-    // Promise.all(requests)
-    //   .then(() => {
-    //     // setConsignment((prevConsignment) => [...prevConsignment, values]);
-    //     // setGood(() => [...goods, values]);
-    //   });
   };
 
   return (

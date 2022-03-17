@@ -7,7 +7,7 @@ class Consignment < ApplicationRecord
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
   validates :consignment_seria, presence: true, length: { in: 2..10 }
-  validate :user_roles
+  validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
   private
@@ -17,7 +17,7 @@ class Consignment < ApplicationRecord
     self.bundle_seria = bundle_seria.upcase
   end
 
-  def user_roles
+  def validate_user_roles
     consignment_users = { driver: driver, dispatcher: dispatcher, manager: manager }
     consignment_users.each do |key, value|
       errors.add(key, 'user role is not valid') if value && value.role.role_name != key.to_s

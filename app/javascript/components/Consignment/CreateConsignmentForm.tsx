@@ -13,7 +13,6 @@ import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
 import httpClient from '../../api/httpClient';
-// import goodsInitialValues from '../../initialValues/goodsInitialValues';
 
 interface CreateConsignmentFormProps {
   isActiveModal: boolean;
@@ -109,7 +108,7 @@ const CreateConsignmentForm:
                       <Autocomplete
                         id="driver"
                         options={drivers}
-                        getOptionLabel={(option) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                        getOptionLabel={(option) => `${option['second_name']} ${option['first_name']} ${option['middle_name']}`}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -124,7 +123,7 @@ const CreateConsignmentForm:
                       <Autocomplete
                         id="truck"
                         options={trucks}
-                        getOptionLabel={(option) => option.truck_number}
+                        getOptionLabel={(option) => option['truck_number']}
                         renderInput={(params) => (
                           <TextField
                             {...params}
