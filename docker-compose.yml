@@ -27,7 +27,6 @@ services:
     ports:
       - "3000:3000"
     environment:
-      RAILS_ENV: development
       DATABASE_URL: postgres://postgres@database
 
 volumes:

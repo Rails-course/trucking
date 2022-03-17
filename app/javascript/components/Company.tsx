@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-import CreateCompanyForm from './CreateCompanyForm';
-import CompanyTable from './CompanyTable';
+import CompanyTable from './Company/CompanyTable';
+import CreateCompanyForm from './Company/CreateCompanyForm';
 
 function Company() {
   const [isActiveModal, setModalActive] = useState(false);
