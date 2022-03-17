@@ -38,7 +38,7 @@ function Consignment() {
   const handleSubmit = (values: UnionConsGoodType) => {
     const requests = [
       httpClient.consignments.create({ values }),
-      httpClient.goods.create({ goods }),
+      httpClient.goods.create({ ...values, goods }),
     ];
 
     Promise.all(requests)
