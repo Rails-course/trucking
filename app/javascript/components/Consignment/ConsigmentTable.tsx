@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,
+  Table, TableBody, TableCell, TableRow, TableContainer,
+  TableHead, Paper, tableCellClasses, Tooltip,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
@@ -30,10 +31,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface ConsignmentTableProps {
   consignments: any,
   setConsignment: any,
+  setModalGoodsActive: any,
+  setConsID: any,
 }
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
-  const { consignments, setConsignment } = props;
+  const {
+    consignments, setConsignment, setModalGoodsActive, setConsID,
+  } = props;
 
   React.useEffect(() => {
     httpClient.consignments.getAll().then((response) => {
@@ -55,30 +60,35 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               <StyledTableCell align="right">Dispatcher</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {consignments.map((consignment) => {
-              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`
-              return (
-                <StyledTableRow key={consignment.consignment_number}>
-                  <StyledTableCell component="th" scope="company">
-                    {consignment.consignment_number}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {consignment.consignment_seria}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {consignment.bundle_seria}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {consignment.bundle_number}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {dispatcher_FIO}
-                  </StyledTableCell>
-                </StyledTableRow>
-              )
-            })}
-          </TableBody>
+          <Tooltip describeChild title="Click for open goods conformity form">
+            <TableBody onClick={() => setModalGoodsActive(true)}>
+              {consignments.map((consignment) => {
+                const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+                return (
+                  <StyledTableRow
+                    key={consignment.consignment_number}
+                    onClick={() => setConsID(consignment.id)}
+                  >
+                    <StyledTableCell component="th" scope="company">
+                      {consignment.consignment_number}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {consignment.consignment_seria}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {consignment.bundle_seria}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {consignment.bundle_number}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {dispatcherFIO}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
+            </TableBody>
+          </Tooltip>
         </Table>
       </TableContainer>
     </div>

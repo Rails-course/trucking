@@ -8,21 +8,20 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
+import ConsignmentGoods from './Consignment/ConsignmentGoods';
 
 type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
+  const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
+  const [consId, setConsID] = React.useState(null);
   const [goods, setGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
 
-  const handleFieldAdd = () => setGood(
-    [...goods, {
-      good_name: '', unit_of_measurement: '', quantity: 0,
-    }],
-  );
+  const handleFieldAdd = () => setGood([...goods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
@@ -31,13 +30,16 @@ function Consignment() {
     setGood(list);
   };
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setModalGoodsActive(false);
+  };
 
   const handleSubmit = (values: UnionConsGoodType) => {
     httpClient.consignments.create({ values }).then((response) => {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-    })
-    httpClient.goods.create({ ...values, goods })
+    });
+    httpClient.goods.create({ ...values, goods });
   };
 
   return (
@@ -52,7 +54,12 @@ function Consignment() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <ConsignmentTable consignments={consignments} setConsignment={setConsignment} />
+          <ConsignmentTable
+            consignments={consignments}
+            setConsignment={setConsignment}
+            setModalGoodsActive={setModalGoodsActive}
+            setConsID={setConsID}
+          />
         </Grid>
       </Box>
       <CreateConsignmentForm
@@ -62,6 +69,11 @@ function Consignment() {
         goods={goods}
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
+      />
+      <ConsignmentGoods
+        isActiveModal={isActiveGoodsModal}
+        handleClose={handleClose}
+        consId={consId}
       />
     </div>
   );

@@ -13,7 +13,7 @@ import FormikSelect from '../../../UI/FormikSelect';
 import validationSchema from '../../../mixins/validationSchema';
 import { userFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
-import userInitialValues, { userFormValues, roleItems } from '../../../initialValues/userInitialValues';
+import userInitialValues, { roleItems } from '../../../initialValues/userInitialValues';
 
 interface CreateFormProps {
   isActiveModal: boolean;
@@ -88,7 +88,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="company"
                       options={companies}
-                      getOptionLabel={(option) => option['name']}
+                      getOptionLabel={(option) => option.name}
                       renderInput={(params) => (
                         <TextField
                           {...params}

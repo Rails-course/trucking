@@ -15,7 +15,7 @@ export const consignmentFields = [
     model: 'bundle_number',
     placeholder: 'Bundle number',
     required: true,
-    type: 'text',
+    type: 'number',
   },
   {
     id: uuidv4(),
@@ -31,6 +31,6 @@ export const consignmentFields = [
     model: 'consignment_number',
     placeholder: 'Consignment number',
     required: true,
-    type: 'text',
+    type: 'number',
   },
 ];
