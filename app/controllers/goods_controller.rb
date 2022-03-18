@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 class GoodsController < ApplicationController
+  before_action :set_consignment, only: %i[get_consignment_goods]
+
+  def get_consignment_goods
+    @goods = Good.where(bundle_seria: @consignment.bundle_seria,
+                        bundle_number: @consignment.bundle_number)
+    render json: @goods.to_json
+  end
+
   def create
     begin
       Good.transaction do
@@ -14,6 +22,10 @@ class GoodsController < ApplicationController
   end
 
   private
+
+  def set_consignment
+    @consignment = Consignment.find(params[:id])
+  end
 
   def permit_goods_params
     params.permit(:bundle_seria, :bundle_number, goods: %i[good_name quantity unit_of_measurement])

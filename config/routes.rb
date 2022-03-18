@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   resources :goods
   resources :consignments
+  get '/consignments/:id/goods', to: 'goods#get_consignment_goods'
   resources :trucks
   get '/users', to: 'pages#users_index'
   scope '/users' do

@@ -12,3 +12,4 @@ export const createConsignmentUrl = '/consignments';
 export const getAllConsignmentUrl = '/consignments.json';
 // GOODS
 export const createGoodsUrl = '/goods';
+export const getConsignmentGoodsUrl = '/consignments'

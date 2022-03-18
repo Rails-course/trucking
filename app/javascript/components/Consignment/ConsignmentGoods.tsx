@@ -6,6 +6,7 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
   ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
 } from '@mui/material';
+import httpClient from '../../api/httpClient';
 
 interface ConsignmentGoodsProps {
   isActiveModal: boolean;
@@ -17,6 +18,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   const { isActiveModal, handleClose, consId } = props;
 
   const [checked, setChecked] = React.useState([0]);
+  const [goods, setGoods] = React.useState([])
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -28,6 +30,12 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     }
     setChecked(newChecked);
   };
+  // Call useEffect when open modal
+  React.useEffect(() => {
+    httpClient.goods.getConsignmentGoods(/*Input consignment id here*/1).then((response) => {
+      setGoods(response.data);
+    });
+  }, []);
 
   const handleSubmit = () => {
     console.log(checked, 'checked');
@@ -52,16 +60,16 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
               >
                 <Form>
                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {[0, 1, 2, 3].map((value) => {
+                    {goods.map((value) => {
                       const labelId = `checkbox-list-label-${value}`;
                       return (
                         <ListItem
-                          key={value}
+                          key={value.id}
                           secondaryAction={(
                             <IconButton edge="end" aria-label="comments">
                               <CommentIcon />
                             </IconButton>
-                                  )}
+                          )}
                           disablePadding
                         >
                           <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
@@ -74,7 +82,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                 inputProps={{ 'aria-labelledby': labelId }}
                               />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+                            <ListItemText id={labelId} primary={`${value.good_name} ${value.quantity} ${value.unit_of_measurement}`} />
                           </ListItemButton>
                         </ListItem>
                       );
