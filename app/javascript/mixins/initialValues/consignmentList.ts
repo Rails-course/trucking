@@ -4,10 +4,7 @@ export interface ConsignmentData {
   bundle_seria: string;
   bundle_number: string;
   consignment_seria: string;
-  consignment_number: number;
-  good_name: string;
-  unit_of_measurement: string;
-  quantity: number;
+  consignment_number: string;
   driver: string;
   truck: string;
 }

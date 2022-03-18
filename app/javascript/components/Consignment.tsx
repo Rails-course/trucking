@@ -5,19 +5,39 @@ import { Box, Grid } from '@mui/material';
 
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import { ConsignmentData } from '../mixins/initialValues/consignmentList';
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import CreateWaybill from './CreateWaybill'
+import { goodsFormValues } from '../initialValues/goodsInitialValues';
+
+type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
+
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [consignments, setConsignment] = React.useState<ConsignmentData[]>(null);
+  const [consignments, setConsignment] = React.useState(null);
+  const [goods, setGood] = React.useState([{
+    good_name: '', unit_of_measurement: '', quantity: 0,
+  }]);
+
+  const handleFieldAdd = () => setGood(
+    [...goods, {
+      good_name: '', unit_of_measurement: '', quantity: 0,
+    }],
+  );
+
+  const handleFieldChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...goods];
+    list[index][name] = value;
+    setGood(list);
+  };
 
   const handleClose = () => setModalActive(false);
 
-  const handleSubmit = async (consignment: consignmentFormValues) => {
-    await httpClient.consignments.create(consignment);
-    setConsignment((prevConsignment) => [...prevConsignment, consignment]);
+  const handleSubmit = (values: UnionConsGoodType) => {
+    httpClient.consignments.create({ values }).then((response) => {
+      setConsignment((prevConsignment) => [...prevConsignment, response.data]);
+    })
+    httpClient.goods.create({ ...values, goods })
   };
 
   return (
@@ -26,7 +46,6 @@ function Consignment() {
         flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
       }}
       >
-          <CreateWaybill/>
         <Grid item xs={12}>
           <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
             Create Consignment
@@ -40,6 +59,9 @@ function Consignment() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        goods={goods}
+        handleFieldAdd={handleFieldAdd}
+        handleFieldChange={handleFieldChange}
       />
     </div>
   );

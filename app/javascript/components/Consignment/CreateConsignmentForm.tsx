@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   Autocomplete,
@@ -9,7 +10,7 @@ import {
 import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
-import { consignmentAddFields, consignmentFields } from '../../constants/consignmentFields';
+import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
 import httpClient from '../../api/httpClient';
 
@@ -17,33 +18,24 @@ interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
   handleSubmit: any;
+  goods: any;
+  handleFieldAdd: any;
+  handleFieldChange: any;
 }
 
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
-    const [drivers, setDrivers] = React.useState(null);
-    const [trucks, setTrucks] = React.useState(null);
-    const [fieldList, setFieldList] = React.useState([{ field: '' }]);
-
     const {
-      isActiveModal, handleClose, handleSubmit,
+      isActiveModal, handleClose, handleSubmit, goods, handleFieldAdd, handleFieldChange,
     } = props;
 
-    React.useEffect(() => {
-      httpClient.trucks.get_trucks().then((response) => {
-        setTrucks(response.data);
-      });
-    }, []);
+    const [drivers, setDrivers] = React.useState(null);
+    const [trucks, setTrucks] = React.useState(null);
 
     React.useEffect(() => {
-      httpClient.users.get_drivers().then((response) => {
-        setDrivers(response.data);
-      });
+      httpClient.trucks.get_trucks().then((response) => setTrucks(response.data));
+      httpClient.users.get_drivers().then((response) => setDrivers(response.data));
     }, []);
-
-    const handleFieldAdd = () => (
-      setFieldList([...fieldList, { field: '' }])
-    );
 
     return (
       <div>
@@ -76,20 +68,40 @@ const CreateConsignmentForm:
                             variant="standard"
                           />
                         ))}
-                        {fieldList.map((singleField, index) => (
+                        {goods.map((singleField, index) => (
                           <div key={index}>
-                            {consignmentAddFields.map((column) => (
-                              <FormikField
-                                key={column.id}
-                                name={column.model}
-                                label={column.placeholder}
-                                required={column.required}
-                                type={column.type}
-                                variant="standard"
-                              />
-                            ))}
-                            {fieldList.length - 1 === index && fieldList.length < 4
-                              && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add Field</Button>}
+                            <FormikField
+                              id={uuidv4()}
+                              name="good_name"
+                              label="Product name"
+                              type="text"
+                              variant="standard"
+                              value={singleField.good_name}
+                              onChange={(e) => handleFieldChange(e, index)}
+                              required
+                            />
+                            <FormikField
+                              id={uuidv4()}
+                              name="unit_of_measurement"
+                              label="Measurement unit"
+                              type="text"
+                              variant="standard"
+                              value={singleField.unit_of_measurement}
+                              onChange={(e) => handleFieldChange(e, index)}
+                              required
+                            />
+                            <FormikField
+                              id={uuidv4()}
+                              name="quantity"
+                              label="Quantity of goods"
+                              type="number"
+                              variant="standard"
+                              value={singleField.quantity}
+                              onChange={(e) => handleFieldChange(e, index)}
+                              required
+                            />
+                            {goods.length - 1 === index && goods.length < 4
+                              && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add product</Button>}
                           </div>
                         ))}
                       </Container>

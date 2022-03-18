@@ -8,7 +8,7 @@ import {
 import Button from '@mui/material/Button';
 
 import axios from 'axios';
-import FormikField from '../UI/FormikField';
+import FormikField from '../../UI/FormikField';
 
 interface CreateCompanyFormProps {
   isActiveModal: boolean;

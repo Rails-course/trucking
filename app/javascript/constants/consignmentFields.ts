@@ -34,30 +34,3 @@ export const consignmentFields = [
     type: 'text',
   },
 ];
-
-export const consignmentAddFields = [
-  {
-    id: uuidv4(),
-    title: 'Product name',
-    model: 'good_name',
-    placeholder: 'Product name',
-    required: true,
-    type: 'text',
-  },
-  {
-    id: uuidv4(),
-    title: 'Measurement unit',
-    model: 'unit_of_measurement',
-    placeholder: 'Measurement unit',
-    required: true,
-    type: 'text',
-  },
-  {
-    id: uuidv4(),
-    title: 'Quantity',
-    model: 'quantity',
-    placeholder: 'Quantity of goods',
-    required: true,
-    type: 'number',
-  },
-];

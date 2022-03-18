@@ -1,5 +1,5 @@
 class Consignment < ApplicationRecord
-  belongs_to :driver, class_name: 'User', optional: true
+  belongs_to :driver, class_name: 'User'
   belongs_to :dispatcher, class_name: 'User', optional: true
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
@@ -7,28 +7,21 @@ class Consignment < ApplicationRecord
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
   validates :consignment_seria, presence: true, length: { in: 2..10 }
-  validate :driver_role
-  validate :dispatcher_role
-  validate :manager_role
+  validate :validate_user_roles
+  before_save :upcase_bundle_consignment_seria
 
   has_one :waybill
   private
 
-  def driver_role
-    if driver && driver.role != Role.find_by(role_name: 'driver')
-      errors.add(:driver, 'user doesnt have driver role')
-    end
+  def upcase_bundle_consignment_seria
+    self.consignment_seria = consignment_seria.upcase
+    self.bundle_seria = bundle_seria.upcase
   end
 
-  def dispatcher_role
-    if dispatcher && dispatcher.role != Role.find_by(role_name: 'dispatcher')
-      errors.add(:dispatcher, 'user doesnt have dispatcher role')
-    end
-  end
-
-  def manager_role
-    if manager && manager.role != Role.find_by(role_name: 'manager')
-      errors.add(:manager, 'user doesnt have manager role')
+  def validate_user_roles
+    consignment_users = { driver: driver, dispatcher: dispatcher, manager: manager }
+    consignment_users.each do |key, value|
+      errors.add(key, 'user role is not valid') if value && value.role.role_name != key.to_s
     end
   end
 

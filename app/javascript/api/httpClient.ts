@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   createConsignmentUrl, getDriversUrl, getTrucksUrl, createUserUrl,
-  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl,
+  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl, createGoodsUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -30,9 +30,9 @@ function httpClient() {
       getAll: () => axios.get(`${getAllConsignmentUrl}`),
       create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
     },
-    routes:{
-      create:(routes)=> axios.post(`/route/create`,routes)
-    }
+    goods: {
+      create: (goods) => axios.post(`${createGoodsUrl}`, goods),
+    },
   };
 }
 
