@@ -21,10 +21,10 @@ class WaybillController < ApplicationController
     end_point = Address.new(town: waybill_params[:end_town], street: waybill_params[:end_street],
                             building: waybill_params[:end_building])
     end_point.save
-    owner=GoodsOwner.find_by(warehouse_name: waybill_params[:goods_owner]).id
+    owner = GoodsOwner.find_by(warehouse_name: waybill_params[:goods_owner]).id
     waybill = { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
                 startpoint: start_point.id, endpoint: end_point.id, consignment_id: waybill_params[:ttn_id],
-                goods_owner_id:owner }
+                goods_owner_id: owner }
   end
 
   def checkpoints(waybill)

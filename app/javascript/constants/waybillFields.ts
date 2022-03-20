@@ -56,6 +56,7 @@ export const waybillFields = [
         title: '',
         model: 'start_date',
         required: true,
+        placeholder: 'start date',
         type: 'date',
     },
     {
@@ -64,6 +65,7 @@ export const waybillFields = [
         title: '',
         model: 'end_date',
         required: true,
+        placeholder: 'end date',
         type: 'date',
     }
 ];
