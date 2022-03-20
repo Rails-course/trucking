@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 2022_03_15_193052) do
     t.integer "consignment_id"
     t.integer "endpoint"
     t.integer "startpoint"
+    t.integer "goods_owner_id"
+    t.string "status", default: "transportation started"
   end
 
 end

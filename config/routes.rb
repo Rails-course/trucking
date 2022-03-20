@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   scope '/waybill' do
     post '/create' ,to:'waybill#create'
   end
-  post '/route/create',to: 'route#create'
+  get '/consignment/waybill_data/:ttn_id' ,to: 'consignments#waybill_data'
+  get '/goodsowners' ,to: 'goods_owner#index'
 end

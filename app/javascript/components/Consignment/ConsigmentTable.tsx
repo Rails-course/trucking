@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
+import CreateWaybill from "../CreateWaybill";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +54,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               <StyledTableCell align="right">Bundle seria</StyledTableCell>
               <StyledTableCell align="right">Bundle number</StyledTableCell>
               <StyledTableCell align="right">Dispatcher</StyledTableCell>
+                <StyledTableCell align="right">Waybill</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -74,6 +76,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {dispatcher_FIO}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <CreateWaybill id={consignment.id}/>
                   </StyledTableCell>
                 </StyledTableRow>
               )

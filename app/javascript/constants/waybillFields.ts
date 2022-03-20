@@ -1,14 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export const waybillFields = [
-    {
-        id: uuidv4(),
-        title: 'ttn_id',
-        model: 'ttn_id',
-        required: true,
-        placeholder: 'ttn_id',
-        type: 'number',
-    },
+
     {
         id: uuidv4(),
         title: 'town',
@@ -60,19 +53,17 @@ export const waybillFields = [
     {
         id: uuidv4(),
         label:'start date',
-        title: 'start_date',
+        title: '',
         model: 'start_date',
         required: true,
-        placeholder: 'start_date',
         type: 'date',
     },
     {
         id: uuidv4(),
         label:'end date',
-        title: 'end_date',
+        title: '',
         model: 'end_date',
         required: true,
-        placeholder: 'end_date',
         type: 'date',
     }
 ];
