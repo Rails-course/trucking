@@ -8,18 +8,21 @@ export interface waybillFormValues {
     street:string,
     building:number,
     end_date:string,
-    start_date:string
+    start_date:string,
+    goods_owner:string,
 }
 
-const waybillInitialValues: waybillFormValues = {
-    ttn_id:0,
+export const waybillInitialValues: waybillFormValues = {
+    ttn_id:null,
     end_town:'',
     end_street:'',
-    end_building:0,
+    end_building:null,
     town:'',
     street:'',
-    building:0,
+    building:null,
     end_date:'',
-    start_date:''
+    start_date:'',
+    goods_owner: '' ,
 };
+
 export default waybillInitialValues;

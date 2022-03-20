@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Consignment < ApplicationRecord
   belongs_to :driver, class_name: 'User'
   belongs_to :dispatcher, class_name: 'User', optional: true
@@ -10,7 +12,8 @@ class Consignment < ApplicationRecord
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
-  has_one :waybill
+  belongs_to :waybill
+
   private
 
   def upcase_bundle_consignment_seria
