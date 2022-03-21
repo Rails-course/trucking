@@ -10,10 +10,10 @@ import Button from '@mui/material/Button';
 
 import FormikField from '../../../UI/FormikField';
 import FormikSelect from '../../../UI/FormikSelect';
-import validationSchema from '../../../mixins/validationSchema';
 import { userFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
 import userInitialValues, { roleItems } from '../../../initialValues/userInitialValues';
+import userValidation from '../../../mixins/validation_schema/user';
 
 interface CreateFormProps {
   isActiveModal: boolean;
@@ -66,7 +66,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
             <Grid item xs={8}>
               <Formik
                 initialValues={userInitialValues}
-                validationSchema={validationSchema}
+                validationSchema={userValidation}
                 onSubmit={handleSubmit}
               >
                 {({

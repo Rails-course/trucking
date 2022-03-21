@@ -3,16 +3,28 @@ import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Box, Grid } from '@mui/material';
-// import CreateCompanyForm from './CreateCompanyForm';
-// import CompanyTable from './CompanyTable';
+import WarehouseTable from './Warehouse/WarehouseTable';
+import httpClient from '../api/httpClient';
+import WarehouseCreateForm from './Warehouse/CreateForm';
+import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
 
 function Warehouse() {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState(null);
 
-  const handleClose = () => {
-    setModalActive(false);
+  const handleClose = () => setModalActive(false);
+
+  const handleSubmit = (warehouse: warehouseFormValues) => {
+    httpClient.warehouses.create(warehouse).then((response) => {
+      setWarehouses((prev) => [...prev, response.data]);
+    });
   };
+
+  React.useEffect(() => {
+    httpClient.warehouses.get_all().then((response) => {
+      setWarehouses(response.data);
+    });
+  }, []);
 
   return (
     <div className="wrapper">
@@ -26,15 +38,14 @@ function Warehouse() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <p>Warehouse table</p>
-          {/* <CompanyTable companies={companies} setCompany={setCompany} /> */}
+          <WarehouseTable warehouses={warehouses} setWarehouses={setWarehouses} />
         </Grid>
       </Box>
-      {/* <CreateCompanyForm
+      <WarehouseCreateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        setCompany={setCompany}
-      /> */}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 }
