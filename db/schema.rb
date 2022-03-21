@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_193052) do
+ActiveRecord::Schema.define(version: 2022_03_16_121106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,14 +46,6 @@ ActiveRecord::Schema.define(version: 2022_03_15_193052) do
     t.bigint "manager_id"
   end
 
-  create_table "destinations", force: :cascade do |t|
-    t.string "destination_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "address_id"
-    t.index ["destination_name"], name: "index_destinations_on_destination_name", unique: true
-  end
-
   create_table "goods", force: :cascade do |t|
     t.string "good_name", null: false
     t.integer "quantity", null: false
@@ -74,15 +66,6 @@ ActiveRecord::Schema.define(version: 2022_03_15_193052) do
   create_table "roles", force: :cascade do |t|
     t.string "role_name", null: false
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
-  end
-
-  create_table "routes", force: :cascade do |t|
-    t.string "city"
-    t.date "pass_date"
-    t.boolean "is_passed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "waybill_id"
   end
 
   create_table "truck_types", force: :cascade do |t|
@@ -122,17 +105,13 @@ ActiveRecord::Schema.define(version: 2022_03_15_193052) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "waybills", force: :cascade do |t|
-    t.date "start_date", null: false
-    t.date "end_date", null: false
-    t.integer "ttn_id"
+  create_table "warehouses", force: :cascade do |t|
+    t.string "warehouse_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "consignment_id"
-    t.integer "endpoint"
-    t.integer "startpoint"
-    t.integer "goods_owner_id"
-    t.string "status", default: "transportation started"
+    t.bigint "address_id"
+    t.boolean "trusted", default: false, null: false
+    t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 
 end
