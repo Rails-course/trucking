@@ -38,8 +38,11 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   }, []);
 
   const handleSubmit = () => {
-    console.log(checked, 'checked');
-    console.log(consId, 'consignment id');
+    httpClient.goods.setConsignmentGoodsChecked(/*Input consignment id here*/1, goods).then((response) => {
+      console.log(response.data);
+    })
+    // console.log(checked, 'checked');
+    // console.log(consId, 'consignment id');
   };
 
   return (
