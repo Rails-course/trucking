@@ -1,21 +1,23 @@
-import React from "react"
+import React from 'react';
 
 interface RoutesTableFormProps {
   routes:any
 }
 
-const RouteTable:React.FC <RoutesTableFormProps> = (props: RoutesTableFormProps) =>{
+const RouteTable:React.FC <RoutesTableFormProps> = (props: RoutesTableFormProps) => {
   const {
-    routes
+    routes,
   } = props;
-return (
-      <React.Fragment>
-        {routes.map((route) => (
-         <p className='paragr'> {route.city_name}</p>
-        ))}
-      </React.Fragment>
-    );
-  }
+  return (
+    <>
+      {routes.map((route) => (
+        <p className="paragr">
+          {' '}
+          {route.city_name}
+        </p>
+      ))}
+    </>
+  );
+};
 
-
-export default RouteTable
+export default RouteTable;

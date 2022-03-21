@@ -88,7 +88,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="company"
                       options={companies}
-                      getOptionLabel={(option) => option['name']}
+                      getOptionLabel={(option) => option.name}
                       renderInput={(params) => (
                         <TextField
                           {...params}
