@@ -31,11 +31,11 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     setChecked(newChecked);
   };
   // Call useEffect when open modal
-  React.useEffect(() => {
-    httpClient.goods.getConsignmentGoods(/*Input consignment id here*/1).then((response) => {
-      setGoods(response.data);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   httpClient.goods.getConsignmentGoods(/*Input consignment id here*/1).then((response) => {
+  //     setGoods(response.data);
+  //   });
+  // }, []);
 
   const handleSubmit = () => {
     console.log(checked, 'checked');

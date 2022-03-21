@@ -89,35 +89,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               );
             })}
           </TableBody>
-          <Tooltip describeChild title="Click for open goods conformity form">
-            <TableBody onClick={() => setModalGoodsActive(true)}>
-              {consignments.map((consignment) => {
-                const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
-                return (
-                  <StyledTableRow
-                    key={consignment.consignment_number}
-                    onClick={() => setConsID(consignment.id)}
-                  >
-                    <StyledTableCell component="th" scope="company">
-                      {consignment.consignment_number}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.consignment_seria}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.bundle_seria}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.bundle_number}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {dispatcherFIO}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                );
-              })}
-            </TableBody>
-          </Tooltip>
         </Table>
       </TableContainer>
     </div>

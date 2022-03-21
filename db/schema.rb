@@ -67,6 +67,15 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
     t.string "role_name", null: false
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
   end
+  
+  create_table "routes", force: :cascade do |t|
+    t.string "city"
+    t.date "pass_date"
+    t.boolean "is_passed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "waybill_id"
+  end
 
   create_table "truck_types", force: :cascade do |t|
     t.string "truck_type_name", null: false
