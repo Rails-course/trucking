@@ -2,7 +2,6 @@
 
 class WaybillController < ApplicationController
   def create
-    byebug
     waybill = Waybill.new(create_waybill)
     flash[:success] = 'waybill succesfully created' if waybill.save && checkpoints(waybill)
   end
@@ -11,7 +10,7 @@ class WaybillController < ApplicationController
 
   def waybill_params
     params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
-                                    :end_town, :end_street, :end_building, :ttn_id, :goods_owner)
+                                    :end_town, :end_street, :end_building, :goods_owner)
   end
 
   def create_waybill
@@ -23,7 +22,7 @@ class WaybillController < ApplicationController
     end_point.save
     owner = GoodsOwner.find_by(warehouse_name: waybill_params[:goods_owner]).id
     waybill = { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
-                startpoint: start_point.id, endpoint: end_point.id, consignment_id: waybill_params[:ttn_id],
+                startpoint: start_point.id, endpoint: end_point.id, consignment_id:  params.permit(:ttn_id)[:ttn_id],
                 goods_owner_id: owner }
   end
 
