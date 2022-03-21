@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class GoodsController < ApplicationController
-  before_action :set_consignment, only: %i[get_consignment_goods]
+  before_action :set_consignment_goods, only: %i[get_consignment_goods set_goods_cheked_status]
 
   def get_consignment_goods
-    @goods = Good.where(bundle_seria: @consignment.bundle_seria,
-                        bundle_number: @consignment.bundle_number)
     render json: @goods.to_json
   end
 
@@ -21,10 +19,17 @@ class GoodsController < ApplicationController
     render json: @goods
   end
 
+  def set_goods_cheked_status
+    @goods.each { |item| item.set_checked_status }
+    render json: @goods.to_json
+  end
+
   private
 
-  def set_consignment
+  def set_consignment_goods
     @consignment = Consignment.find(params[:id])
+    @goods = Good.where(bundle_seria: @consignment.bundle_seria,
+                        bundle_number: @consignment.bundle_number)
   end
 
   def permit_goods_params
