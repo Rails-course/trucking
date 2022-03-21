@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class WarehousesController < ApplicationController
+  before_action :set_warehouse, only: %i[trust_warehouse destroy]
   def index
     @warehouses = Warehouse.all
 
@@ -22,10 +23,18 @@ class WarehousesController < ApplicationController
   end
 
   def destroy
-    Warehouse.find(params.require(:id)).destroy
+    @warehouse.destroy
+  end
+
+  def trust_warehouse
+    @warehouse.toggle_trusted
   end
 
   private
+
+  def set_warehouse
+    @warehouse = Warehouse.find(params.require(:id))
+  end
 
   def permit_warehouse_params
     params.permit(%i[warehouse_name apartment building street town])

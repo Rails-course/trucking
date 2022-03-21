@@ -5,7 +5,7 @@ import {
   createUserUrl, deleteUserUrl, getAllUserUrl,
   getUserUrl, updateUserUrl, getAllConsignmentUrl,
   createGoodsUrl, getConsignmentGoodsUrl,
-  createWarehouseUrl, deleteWarehouseUrl, getAllWarehouseUrl,
+  createWarehouseUrl, WarehouseUrl, getAllWarehouseUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -44,8 +44,8 @@ function httpClient() {
     warehouses: {
       create: (warehouse) => axios.post(`${createWarehouseUrl}`, warehouse),
       get_all: () => axios.get(`${getAllWarehouseUrl}`),
-      delete: (id) => axios.delete(`${deleteWarehouseUrl}/${id}`),
-
+      delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
+      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}}`),
     },
   };
 }

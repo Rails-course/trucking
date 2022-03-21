@@ -31,6 +31,10 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     setWarehouses(warehouses.filter((warehouse) => warehouse.id !== id));
   };
 
+  const setWarehouseTrusted = async (id) => {
+    await httpClient.warehouses.trust(id);
+  };
+
   if (!warehouses) return (<p>No data found...</p>);
 
   return (
@@ -52,7 +56,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
               >
                 <DeleteIcon />
               </IconButton>
-                  )}
+            )}
             disablePadding
           >
             <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
@@ -60,7 +64,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                 <Checkbox
                   edge="start"
                   checked={checked.indexOf(value) !== -1}
-                  onClick={() => console.log(value?.id)}
+                  onClick={() => setWarehouseTrusted(value?.id)}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
