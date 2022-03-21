@@ -20,7 +20,7 @@ class GoodsController < ApplicationController
   end
 
   def set_goods_cheked_status
-    @goods.each { |item| item.set_checked_status }
+    @goods.each { |item| item.update(status: 'checked') }
     render json: @goods.to_json
   end
 

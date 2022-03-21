@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_24_145711) do
-
+ActiveRecord::Schema.define(version: 20_220_321_160_435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +57,7 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.string "good_name", null: false
     t.integer "quantity", null: false
     t.string "unit_of_measurement", null: false
-    t.string "status", null: false
+    t.string "status", default: "accepted", null: false
     t.string "bundle_seria", null: false
     t.integer "bundle_number"
     t.datetime "created_at", null: false
@@ -112,5 +111,4 @@ ActiveRecord::Schema.define(version: 2022_02_24_145711) do
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
 end

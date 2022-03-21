@@ -17,32 +17,27 @@ interface ConsignmentGoodsProps {
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const { isActiveModal, handleClose, consId } = props;
 
-  const [checked, setChecked] = React.useState([0]);
+  const [checkedGoods, setCheckedGooods] = React.useState([]);
   const [goods, setGoods] = React.useState([])
 
   const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const currentIndex = checkedGoods.indexOf(value);
+    const newCheckedGoods = [...checkedGoods];
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newCheckedGoods.push(value);
     } else {
-      newChecked.splice(currentIndex, 1);
+      newCheckedGoods.splice(currentIndex, 1);
     }
-    setChecked(newChecked);
+    setCheckedGooods(newCheckedGoods);
   };
+
   // Call useEffect when open modal
   React.useEffect(() => {
-    httpClient.goods.getConsignmentGoods(/*Input consignment id here*/1).then((response) => {
-      setGoods(response.data);
-    });
-  }, []);
+    httpClient.goods.getConsignmentGoods(/*consId here*/1).then((response) => setGoods(response.data))
+  }, [])
 
   const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(/*Input consignment id here*/1, goods).then((response) => {
-      console.log(response.data);
-    })
-    // console.log(checked, 'checked');
-    // console.log(consId, 'consignment id');
+    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
   };
 
   return (
@@ -79,7 +74,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                             <ListItemIcon>
                               <Checkbox
                                 edge="start"
-                                checked={checked.indexOf(value) !== -1}
+                                checked={checkedGoods.indexOf(value) !== -1}
                                 tabIndex={-1}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': labelId }}
