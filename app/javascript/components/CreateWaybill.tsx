@@ -29,7 +29,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
         httpClients.waybill.get_data_waybill(id).then((response)=>{
             setData(response.data)
         })
-        httpClients.goods_owner.get_names().then((response)=>{setOwners(response.data);console.log(response.data)})
+        httpClients.goods_owner.get_names().then((response)=>{setOwners(response.data);})
     }, []);
   const [isActiveWayBill, setWayBillActive] = useState(false);
   const [isCreateRoutes, setCreateRoutes] = useState(false);
