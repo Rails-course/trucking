@@ -45,6 +45,7 @@ function httpClient() {
       create: (warehouse) => axios.post(`${createWarehouseUrl}`, warehouse),
       get_all: () => axios.get(`${getAllWarehouseUrl}`),
       delete: (id) => axios.delete(`${deleteWarehouseUrl}/${id}`),
+
     },
   };
 }

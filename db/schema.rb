@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_121106) do
+ActiveRecord::Schema.define(version: 2022_03_21_114432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,18 @@ ActiveRecord::Schema.define(version: 2022_03_16_121106) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "waybills", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "consignment_id"
+    t.integer "endpoint"
+    t.integer "startpoint"
+    t.integer "goods_owner_id"
+    t.string "status", default: "transportation started"
   end
 
   create_table "warehouses", force: :cascade do |t|

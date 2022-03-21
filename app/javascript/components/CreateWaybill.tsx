@@ -2,7 +2,10 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete,
+  Container,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
@@ -11,31 +14,46 @@ import CreateRoutes from './waybil/CreateRoutes';
 import RouteTable from './waybil/RouteTable';
 import httpClients from '../api/httpClient';
 import waybillInitialValues from '../initialValues/waybillInitianalValue';
-import waybill from '../mixins/validation_schema/waybill';
+import validationWaybill from '../mixins/validationWaybill';
 import { waybillFields } from '../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
-    id:number;
+  id: number;
 }
-const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
+const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const { id } = props;
 
-  const [isActiveWayBill, setWayBillActive] = useState(false);
-  const [isCreateRoutes, setCreateRoutes] = useState(false);
-  const [routes, setRoutes] = useState([]);
-  const [data, setData] = useState(null);
-  const [owners, setOwners] = useState([]);
-
+  // <<<<<<< HEAD
+  // =======
   React.useEffect(() => {
     httpClients.waybill.get_data_waybill(id).then((response) => {
       setData(response.data);
     });
     httpClients.goods_owner.get_names().then((response) => { setOwners(response.data); });
   }, []);
+  // >>>>>>> develop
+  const [isActiveWayBill, setWayBillActive] = useState(false);
+  const [isCreateRoutes, setCreateRoutes] = useState(false);
+  const [routes, setRoutes] = useState([]);
+  const [data, setData] = useState(null);
+  const [owners, setOwners] = useState([]);
+  // <<<<<<< HEAD
 
+  //   React.useEffect(() => {
+  //     httpClients.waybill.get_data_waybill(id).then((response) => {
+  //       setData(response.data);
+  //     });
+  //     httpClients.goods_owner.get_names().then((response) => { setOwners(response.data); });
+  //   }, []);
+
+  //   const handleSubmit = (values) => {
+  //     const cityNames = routes.map((name) => name.city_name);
+  //     httpClients.waybill.create(values, cityNames, id);
+  // =======
   const handleSubmit = (values) => {
-    const cityNames = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, cityNames, id);
+    const city_names = routes.map((name) => name.city_name);
+    httpClients.waybill.create(values, city_names, id);
+    // >>>>>>> develop
   };
   const CloseCreateRoutes = () => {
     setCreateRoutes(false);
@@ -61,13 +79,13 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
             <Formik
               initialValues={waybillInitialValues}
               onSubmit={handleSubmit}
-              validationSchema={waybill}
+              validationSchema={validationWaybill}
             >
               {({
                 dirty, isValid, handleChange, values,
               }) => (
                 <Form>
-                  <Container>
+                  <Container align="left" maxWidth="md">
                     <table>
                       <tr>
                         <td>
@@ -125,17 +143,12 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
                   </DialogActions>
                 </Form>
               )}
-            </Formik>
-            <CreateRoutes
-              isActiveModal={isCreateRoutes}
-              RoutehandleClose={CloseCreateRoutes}
-              setRoutes={setRoutes}
-              routes={routes}
-            />
-          </Grid>
-        </DialogContent>
-      </Dialog>
-    </div>
+            </Formik >
+            <CreateRoutes isActiveModal={isCreateRoutes} RoutehandleClose={CloseCreateRoutes} setRoutes={setRoutes} routes={routes} />
+          </Grid >
+        </DialogContent >
+      </Dialog >
+    </div >
   );
 };
 

@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from "../CreateWaybill";
+import CreateWaybill from '../CreateWaybill';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -59,12 +59,12 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               <StyledTableCell align="right">Bundle seria</StyledTableCell>
               <StyledTableCell align="right">Bundle number</StyledTableCell>
               <StyledTableCell align="right">Dispatcher</StyledTableCell>
-                <StyledTableCell align="right">Waybill</StyledTableCell>
+              <StyledTableCell align="right">Waybill</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {consignments.map((consignment) => {
-              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`
+              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
               return (
                 <StyledTableRow key={consignment.consignment_number}>
                   <StyledTableCell component="th" scope="company">
@@ -83,10 +83,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     {dispatcher_FIO}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    <CreateWaybill id={consignment.id}/>
+                    <CreateWaybill id={consignment.id} />
                   </StyledTableCell>
                 </StyledTableRow>
-              )
+              );
             })}
           </TableBody>
           <Tooltip describeChild title="Click for open goods conformity form">
