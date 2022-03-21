@@ -5,14 +5,13 @@ class Consignment < ApplicationRecord
   belongs_to :dispatcher, class_name: 'User', optional: true
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
+  belongs_to :waybill, optional: true
   before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
   validates :consignment_seria, presence: true, length: { in: 2..10 }
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
-
-  belongs_to :waybill
 
   private
 
