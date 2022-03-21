@@ -7,7 +7,7 @@ export const waybillFields = [
     title: 'town',
     model: 'town',
     required: true,
-    placeholder: 'town',
+    placeholder: 'start town',
     type: 'text',
   },
   {
@@ -15,7 +15,7 @@ export const waybillFields = [
     title: 'street',
     model: 'street',
     required: true,
-    placeholder: 'street',
+    placeholder: 'start street',
     type: 'text',
   },
   {
@@ -23,7 +23,7 @@ export const waybillFields = [
     title: 'building',
     model: 'building',
     required: true,
-    placeholder: 'building',
+    placeholder: 'start building',
     type: 'number',
   },
   {
@@ -31,7 +31,7 @@ export const waybillFields = [
     title: 'end_town',
     model: 'end_town',
     required: true,
-    placeholder: 'end_town',
+    placeholder: 'end town',
     type: 'text',
   },
   {
@@ -39,7 +39,7 @@ export const waybillFields = [
     title: 'end_street',
     model: 'end_street',
     required: true,
-    placeholder: 'end_street',
+    placeholder: 'end street',
     type: 'text',
   },
   {
@@ -47,7 +47,7 @@ export const waybillFields = [
     title: 'end_building',
     model: 'end_building',
     required: true,
-    placeholder: 'end_building',
+    placeholder: 'end building',
     type: 'number',
   },
   {
