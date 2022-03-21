@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Consignment < ApplicationRecord
   belongs_to :driver, class_name: 'User'
   belongs_to :dispatcher, class_name: 'User', optional: true
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
+  belongs_to :waybill, optional: true
   before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }

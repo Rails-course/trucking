@@ -36,8 +36,8 @@ function Consignment() {
   const handleSubmit = (values: UnionConsGoodType) => {
     httpClient.consignments.create({ values }).then((response) => {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-    })
-    httpClient.goods.create({ ...values, goods })
+    });
+    httpClient.goods.create({ ...values, goods });
   };
 
   return (

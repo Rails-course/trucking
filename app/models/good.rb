@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Good < ApplicationRecord
   before_validation :set_accepted_status
   validates :good_name, presence: true, length: { in: 2..45 }

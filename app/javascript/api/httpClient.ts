@@ -20,6 +20,10 @@ function httpClient() {
       delete: (id) => axios.delete(`/companies/${id}`),
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
+    waybill: {
+      create: (waybill, routes, ttn_id) => axios.post('/waybill/create', { waybill, routes, ttn_id }),
+      get_data_waybill: (id) => axios.get(`/consignment/waybill_data/${id}`),
+    },
     trucks: {
       get_trucks: () => axios.get(`${getTrucksUrl}`),
     },
@@ -29,6 +33,9 @@ function httpClient() {
     },
     goods: {
       create: (goods) => axios.post(`${createGoodsUrl}`, goods),
+    },
+    goods_owner: {
+      get_names: () => axios.get('/goodsowners'),
     },
   };
 }
