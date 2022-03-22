@@ -19,9 +19,8 @@ Rails.application.routes.draw do
     get '/:id', to: 'pages#user_data'
     patch 'edit/:id', to: 'pages#update_user'
   end
-  scope '/waybill' do
-    post '/create' ,to:'waybill#create'
-  end
+  resources :waybill
+  get '/routes/:id',to: 'waybill#routes'
   get '/consignment/waybill_data/:ttn_id' ,to: 'consignments#waybill_data'
   get '/goodsowners' ,to: 'goods_owner#index'
 end

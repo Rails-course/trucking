@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 class WaybillController < ApplicationController
+  def index
+    #waybills=[]
+    @data=[]
+    # current_user.driver_consignments.each{|ttn| waybills.append(ttn.find_waybill)}
+    Waybills.all.each{|waybill| @data.append({id:waybill.id,
+                                 startpoint: waybill.start_point.full_address,
+                                 endpoint: waybill.end_point.full_address})}
+    @data
+  end
+  def routes
+    render json: Waybill.find(params.permit(:id)[:id]).routes
+  end
   def create
     waybill = Waybill.new(create_waybill)
     flash[:success] = 'waybill succesfully created' if waybill.save && checkpoints(waybill)

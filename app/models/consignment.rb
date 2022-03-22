@@ -12,7 +12,9 @@ class Consignment < ApplicationRecord
   validates :consignment_seria, presence: true, length: { in: 2..10 }
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
-
+  def find_waybill
+    Waybill.find_by(consignment_id:id)
+  end
   private
 
   def upcase_bundle_consignment_seria
@@ -30,4 +32,5 @@ class Consignment < ApplicationRecord
   def set_registered_status
     self.status = 'registered'
   end
+
 end
