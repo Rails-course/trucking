@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_22_120627) do
+ActiveRecord::Schema.define(version: 2022_03_22_142332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 2022_03_22_120627) do
     t.datetime "updated_at", null: false
     t.bigint "address_id"
     t.boolean "trusted", default: false, null: false
+    t.bigint "warehouseman_id"
     t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 

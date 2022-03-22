@@ -20,7 +20,8 @@ RSpec.describe Warehouse, type: :model do
     end
 
     it 'warehouse name should not be valid (not unique)' do
-      warehouse = build(:warehouse, warehouse_name: subject.warehouse_name)
+      warehouse = build(:warehouse, warehouse_name: subject.warehouse_name,
+                                    warehouseman: subject.warehouseman)
       expect(warehouse).to_not be_valid
     end
   end
