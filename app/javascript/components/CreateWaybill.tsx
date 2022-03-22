@@ -131,12 +131,12 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                   </DialogActions>
                 </Form>
               )}
-            </Formik >
+            </Formik>
             <CreateRoutes isActiveModal={isCreateRoutes} RoutehandleClose={CloseCreateRoutes} setRoutes={setRoutes} routes={routes} />
-          </Grid >
-        </DialogContent >
-      </Dialog >
-    </div >
+          </Grid>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

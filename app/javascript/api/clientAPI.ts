@@ -18,3 +18,5 @@ export const getConsignmentGoodsUrl = '/consignments';
 export const createWarehouseUrl = '/warehouses';
 export const getAllWarehouseUrl = '/warehouses.json';
 export const WarehouseUrl = '/warehouses';
+// ROLES
+export const getAllRolesUrl = '/roles.json';

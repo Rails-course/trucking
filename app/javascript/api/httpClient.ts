@@ -6,6 +6,7 @@ import {
   getUserUrl, updateUserUrl, getAllConsignmentUrl,
   createGoodsUrl, getConsignmentGoodsUrl,
   createWarehouseUrl, WarehouseUrl, getAllWarehouseUrl,
+  getAllRolesUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -46,6 +47,9 @@ function httpClient() {
       get_all: () => axios.get(`${getAllWarehouseUrl}`),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
       trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}}`),
+    },
+    roles: {
+      getAllRoles: () => axios.get(`${getAllRolesUrl}`),
     },
   };
 }

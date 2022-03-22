@@ -5,8 +5,11 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    @users = User.all
-
+    @users = if current_user.company
+               User.where(company: current_user.company)
+             else
+               User.all
+             end
     respond_to do |format|
       format.html
       format.json do

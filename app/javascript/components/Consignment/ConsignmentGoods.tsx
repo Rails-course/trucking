@@ -18,7 +18,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   const { isActiveModal, handleClose, consId } = props;
 
   const [checked, setChecked] = React.useState([0]);
-  const [goods, setGoods] = React.useState([])
+  const [goods, setGoods] = React.useState([]);
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);

@@ -64,7 +64,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
           </TableHead>
           <TableBody>
             {consignments.map((consignment) => {
-              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+              const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
               return (
                 <StyledTableRow key={consignment.consignment_number}>
                   <StyledTableCell component="th" scope="company">
@@ -80,7 +80,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     {consignment.bundle_number}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {dispatcher_FIO}
+                    {dispatcherFIO}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <CreateWaybill id={consignment.id} />

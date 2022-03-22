@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root 'pages#home'
   resources :goods
   resources :trucks
+  resources :roles, only: :index
   resources :warehouses
   patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
   get '/goodsowners', to: 'goods_owner#index'
