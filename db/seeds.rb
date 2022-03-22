@@ -167,14 +167,14 @@ gruzimvse_driver = User.create(
 )
 
 # Goods owners
-jetlogistic_goods_owner = GoodsOwner.create(warehouse_name: 'IBM',
-                                            address: Address.new(
-                                              town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
-                                            ))
-gruzimvseower_goods_owner = GoodsOwner.create(warehouse_name: 'Trade power',
-                                              address: Address.new(
-                                                town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
-                                              ))
+goods_owner_ibm = GoodsOwner.create(goods_owner_name: 'IBM',
+                                    address: Address.new(
+                                      town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
+                                    ))
+goods_owner_tradep = GoodsOwner.create(goods_owner_name: 'Trade power',
+                                       address: Address.new(
+                                         town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
+                                       ))
 
 # Warehouses
 Grocery_store = Warehouse.create(

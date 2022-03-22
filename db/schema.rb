@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_21_114432) do
+ActiveRecord::Schema.define(version: 2022_03_22_120627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,16 +58,16 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
   end
 
   create_table "goods_owners", force: :cascade do |t|
-    t.string "warehouse_name", null: false
+    t.string "goods_owner_name", null: false
     t.bigint "address_id"
-    t.index ["warehouse_name"], name: "index_goods_owners_on_warehouse_name", unique: true
+    t.index ["goods_owner_name"], name: "index_goods_owners_on_goods_owner_name", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "role_name", null: false
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
   end
-  
+
   create_table "routes", force: :cascade do |t|
     t.string "city"
     t.date "pass_date"
@@ -114,6 +114,15 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "warehouses", force: :cascade do |t|
+    t.string "warehouse_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "address_id"
+    t.boolean "trusted", default: false, null: false
+    t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
+  end
+
   create_table "waybills", force: :cascade do |t|
     t.date "start_date", null: false
     t.date "end_date", null: false
@@ -124,15 +133,6 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
     t.integer "startpoint"
     t.integer "goods_owner_id"
     t.string "status", default: "transportation started"
-  end
-
-  create_table "warehouses", force: :cascade do |t|
-    t.string "warehouse_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "address_id"
-    t.boolean "trusted", default: false, null: false
-    t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 
 end
