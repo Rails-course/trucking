@@ -23,6 +23,23 @@ interface CreateConsignmentFormProps {
   handleFieldChange: any;
 }
 
+interface driver {
+  id: number;
+  first_name: string;
+  second_name: string;
+  middle_name: string;
+  email: string;
+  birthday: any;
+  login: string;
+  passport: string;
+}
+
+interface truck {
+  id: number;
+  truck_number: string;
+  fuel_consumption: number;
+}
+
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
@@ -108,7 +125,7 @@ const CreateConsignmentForm:
                       <Autocomplete
                         id="driver"
                         options={drivers}
-                        getOptionLabel={(option) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                        getOptionLabel={(option: driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -123,7 +140,7 @@ const CreateConsignmentForm:
                       <Autocomplete
                         id="truck"
                         options={trucks}
-                        getOptionLabel={(option) => option.truck_number}
+                        getOptionLabel={(option: truck) => option.truck_number}
                         renderInput={(params) => (
                           <TextField
                             {...params}

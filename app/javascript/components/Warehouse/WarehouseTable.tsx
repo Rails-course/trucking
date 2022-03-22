@@ -10,12 +10,16 @@ interface WarehouseTableProps {
   warehouses: [];
   setWarehouses: any;
 }
+interface warehouse {
+  id: number;
+  warehouse_name: string;
+}
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const { warehouses, setWarehouses } = props;
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = React.useState([]);
 
-  const handleToggle = (value: number) => () => {
+  const handleToggle = (value: warehouse) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
     if (currentIndex === -1) {
@@ -28,7 +32,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
-    setWarehouses(warehouses.filter((warehouse) => warehouse.id !== id));
+    setWarehouses(warehouses.filter((warehouse: warehouse) => warehouse.id !== id));
   };
 
   const setWarehouseTrusted = async (id) => {
@@ -42,7 +46,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
       width: '100%', maxWidth: '70%', bgcolor: 'background.paper',
     }}
     >
-      {warehouses.map((value) => {
+      {warehouses.map((value: warehouse) => {
         const labelId = `checkbox-list-label-${value}`;
 
         return (
