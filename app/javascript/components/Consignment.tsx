@@ -16,18 +16,20 @@ function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
+  const [goodAll, setGoods] = React.useState([])
   const [consId, setConsID] = React.useState(null);
-  const [goods, setGood] = React.useState([{
+  const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
 
-  const handleFieldAdd = () => setGood([...goods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
+
+  const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
-    const list = [...goods];
+    const list = [...newGoods];
     list[index][name] = value;
-    setGood(list);
+    setNewGood(list);
   };
 
   const handleClose = () => {
@@ -39,7 +41,7 @@ function Consignment() {
     httpClient.consignments.create({ values }).then((response) => {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
     });
-    httpClient.goods.create({ ...values, goods });
+    httpClient.goods.create({ ...values, newGoods });
   };
 
   return (
@@ -59,6 +61,8 @@ function Consignment() {
             setConsignment={setConsignment}
             setModalGoodsActive={setModalGoodsActive}
             setConsID={setConsID}
+            setGoods={setGoods}
+            consId={consId}
           />
         </Grid>
       </Box>
@@ -66,7 +70,7 @@ function Consignment() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
-        goods={goods}
+        newGoods={newGoods}
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
       />
@@ -74,6 +78,7 @@ function Consignment() {
         isActiveModal={isActiveGoodsModal}
         handleClose={handleClose}
         consId={consId}
+        goodAll={goodAll}
       />
     </div>
   );

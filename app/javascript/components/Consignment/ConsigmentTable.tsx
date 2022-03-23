@@ -33,11 +33,13 @@ interface ConsignmentTableProps {
   setConsignment: any,
   setModalGoodsActive: any,
   setConsID: any,
+  setGoods: any,
+  consId: any,
 }
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setConsID,
+    consignments, setConsignment, setModalGoodsActive, setConsID, setGoods, consId
   } = props;
 
   React.useEffect(() => {
@@ -45,6 +47,15 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       setConsignment(response.data);
     });
   }, []);
+
+  const handleGetGoods = () => {
+    // BUGFIX: first click return consId = null
+    if (consId) {
+      setModalGoodsActive(true);
+      httpClient.goods.getConsignmentGoods(consId).then((response) => setGoods(response.data))
+    }
+    return
+  }
 
   if (!consignments) return (<p>Loading...</p>);
   return (
@@ -61,7 +72,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
             </TableRow>
           </TableHead>
           <Tooltip describeChild title="Click for open goods conformity form">
-            <TableBody onClick={() => setModalGoodsActive(true)}>
+            <TableBody onClick={handleGetGoods}>
               {consignments.map((consignment) => {
                 const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
                 return (

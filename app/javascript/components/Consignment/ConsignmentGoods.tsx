@@ -12,13 +12,13 @@ interface ConsignmentGoodsProps {
   isActiveModal: boolean;
   handleClose: () => void;
   consId: number;
+  goodAll: [];
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
-  const { isActiveModal, handleClose, consId } = props;
+  const { isActiveModal, handleClose, consId, goodAll } = props;
 
   const [checkedGoods, setCheckedGooods] = React.useState([]);
-  const [goods, setGoods] = React.useState([])
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checkedGoods.indexOf(value);
@@ -32,9 +32,9 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   };
 
   // Call useEffect when open modal
-  React.useEffect(() => {
-    httpClient.goods.getConsignmentGoods(/*consId here*/1).then((response) => setGoods(response.data))
-  }, [])
+  // React.useEffect(() => {
+  //   httpClient.goods.getConsignmentGoods(/*consId here*/1).then((response) => setGoods(response.data))
+  // }, [])
 
   const handleSubmit = () => {
     httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
@@ -58,7 +58,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
               >
                 <Form>
                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {goods.map((value) => {
+                    {goodAll.map((value) => {
                       const labelId = `checkbox-list-label-${value}`;
                       return (
                         <ListItem
@@ -80,7 +80,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                 inputProps={{ 'aria-labelledby': labelId }}
                               />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`${value.good_name} ${value.quantity} ${value.unit_of_measurement}`} />
+                            <ListItemText id={labelId} primary={`${value?.good_name} ${value?.quantity} ${value?.unit_of_measurement}`} />
                           </ListItemButton>
                         </ListItem>
                       );
