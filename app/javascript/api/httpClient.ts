@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   createConsignmentUrl, getDriversUrl, getTrucksUrl, createUserUrl,
-  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl, createGoodsUrl,
+  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl, createGoodsUrl, writeOffActUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -36,6 +36,10 @@ function httpClient() {
     },
     goods_owner: {
       get_names: () => axios.get('/goodsowners'),
+    },
+    writeOffActs: {
+      getAll: () => axios.get(`${writeOffActUrl}.json`),
+      create: (writeOffAct) => axios.post(`${writeOffActUrl}`, writeOffAct)
     },
   };
 }
