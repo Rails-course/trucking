@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_21_114432) do
+ActiveRecord::Schema.define(version: 2022_03_24_174954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
   end
 
   create_table "consignments", force: :cascade do |t|
-    t.string "status", null: false
+    t.string "status", default: "registered", null: false
     t.string "bundle_seria", default: "BS", null: false
     t.string "bundle_number", null: false
     t.string "consignment_seria", null: false
@@ -132,6 +132,14 @@ ActiveRecord::Schema.define(version: 2022_03_21_114432) do
     t.integer "startpoint"
     t.integer "goods_owner_id"
     t.string "status", default: "transportation started"
+  end
+
+  create_table "write_off_acts", force: :cascade do |t|
+    t.string "good_name", null: false
+    t.integer "lost_quantity", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "consignment_id"
   end
 
 end
