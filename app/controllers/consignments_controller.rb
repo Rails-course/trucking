@@ -15,6 +15,8 @@ class ConsignmentsController < ApplicationController
 
   def create
     @consignment = Consignment.new(create_consignment_params)
+    # Delete line below on merge to develop
+    @consignment.status = 'registered'
     if @consignment.save
       render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
                                                                           second_name middle_name] } })
