@@ -12,11 +12,11 @@ interface ConsignmentGoodsProps {
   isActiveModal: boolean;
   handleClose: () => void;
   consId: number;
-  goodAll: [];
+  goods: [];
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
-  const { isActiveModal, handleClose, consId, goodAll } = props;
+  const { isActiveModal, handleClose, consId, goods } = props;
 
   const [checkedGoods, setCheckedGooods] = React.useState([]);
 
@@ -30,11 +30,6 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     }
     setCheckedGooods(newCheckedGoods);
   };
-
-  // Call useEffect when open modal
-  // React.useEffect(() => {
-  //   httpClient.goods.getConsignmentGoods(/*consId here*/1).then((response) => setGoods(response.data))
-  // }, [])
 
   const handleSubmit = () => {
     httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
@@ -58,7 +53,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
               >
                 <Form>
                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {goodAll.map((value) => {
+                    {goods.map((value) => {
                       const labelId = `checkbox-list-label-${value}`;
                       return (
                         <ListItem

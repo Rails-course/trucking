@@ -97,6 +97,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     <StyledTableCell align="right">
                       {dispatcherFIO}
                     </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <CreateWaybill id={consignment.id} />
+                    </StyledTableCell>
                   </StyledTableRow>
                 );
               })}

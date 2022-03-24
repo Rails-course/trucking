@@ -18,7 +18,7 @@ interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
   handleSubmit: any;
-    newGoods: any;
+  newGoods: any;
   handleFieldAdd: any;
   handleFieldChange: any;
 }

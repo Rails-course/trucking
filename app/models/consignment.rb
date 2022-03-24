@@ -7,7 +7,6 @@ class Consignment < ApplicationRecord
   belongs_to :truck
   belongs_to :waybill, optional: true
   has_one :write_off_act, dependent: :restrict_with_exception
-  before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
   validates :consignment_seria, presence: true, length: { in: 2..10 }
@@ -26,9 +25,5 @@ class Consignment < ApplicationRecord
     consignment_users.each do |key, value|
       errors.add(key, 'user role is not valid') if value && value.role.role_name != key.to_s
     end
-  end
-
-  def set_registered_status
-    self.status = 'registered'
   end
 end

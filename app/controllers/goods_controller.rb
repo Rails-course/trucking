@@ -21,6 +21,7 @@ class GoodsController < ApplicationController
 
   def set_goods_cheked_status
     @goods.each { |item| item.update(status: 'checked') }
+    @consignment.update(status: 'checked')
     render json: @goods.to_json
   end
 
@@ -33,11 +34,12 @@ class GoodsController < ApplicationController
   end
 
   def permit_goods_params
-    params.permit(:bundle_seria, :bundle_number, goods: %i[good_name quantity unit_of_measurement])
+    params.permit(:bundle_seria, :bundle_number,
+                  newGoods: %i[good_name quantity unit_of_measurement])
   end
 
   def goods_params
-    goods_params = permit_goods_params[:goods]
+    goods_params = permit_goods_params[:newGoods]
     goods_params.each do |item|
       item[:bundle_seria] = permit_goods_params[:bundle_seria]
       item[:bundle_number] = permit_goods_params[:bundle_number]
