@@ -50,10 +50,11 @@ const CheckpointWindow:React.FC <CheckpointWindowFormProps> = (props: Checkpoint
             onSubmit={handleSubmit}
           >
             <Form>
+              <label>Pass date</label>
               <FormikField
                 name="pass_date"
-                label="pass date"
                 required
+                label=''
                 type="date"
                 variant="standard"
               />
