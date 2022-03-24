@@ -5,14 +5,16 @@ import {
   createUserUrl, deleteUserUrl, getAllUserUrl,
   getUserUrl, updateUserUrl, getAllConsignmentUrl,
   createGoodsUrl, getConsignmentGoodsUrl,
-  createWarehouseUrl, WarehouseUrl, getAllWarehouseUrl,
+  WarehouseUrl, getAllWarehouseUrl,
   getAllRolesUrl,
+  getWarehousemansUrl,
 } from './clientAPI';
 
 function httpClient() {
   return {
     users: {
       get_drivers: () => axios.get(`${getDriversUrl}`),
+      get_warehousemans: () => axios.get(`${getWarehousemansUrl}`),
       get: (id) => axios.get(`${getUserUrl}/${id}`),
       getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
@@ -43,10 +45,10 @@ function httpClient() {
       get_names: () => axios.get('/goodsowners'),
     },
     warehouses: {
-      create: (warehouse) => axios.post(`${createWarehouseUrl}`, warehouse),
+      create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       get_all: () => axios.get(`${getAllWarehouseUrl}`),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
-      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}}`),
+      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
     },
     roles: {
       getAllRoles: () => axios.get(`${getAllRolesUrl}`),

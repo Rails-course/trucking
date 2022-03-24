@@ -28,6 +28,7 @@ class WarehousesController < ApplicationController
 
   def trust_warehouse
     @warehouse.toggle_trusted
+    render json: @warehouse.to_json
   end
 
   private
@@ -37,7 +38,7 @@ class WarehousesController < ApplicationController
   end
 
   def permit_warehouse_params
-    params.permit(%i[warehouse_name apartment building street town])
+    params.permit(%i[warehouse_name apartment building street town warehouseman])
   end
 
   def warehouse_params
@@ -46,6 +47,14 @@ class WarehousesController < ApplicationController
                                              street: permit_warehouse_params[:street],
                                              building: permit_warehouse_params[:building],
                                              apartment: permit_warehouse_params[:apartment])
+    set_warehouseman(warehouse_params)
     warehouse_params.except(:town, :street, :building, :apartment)
+  end
+
+  def set_warehouseman(warehouse_params)
+    warehouseman_FIO = warehouse_params[:warehouseman].split
+    warehouse_params[:warehouseman] = User.find_by(second_name: warehouseman_FIO[0],
+                                                   first_name: warehouseman_FIO[1], middle_name: warehouseman_FIO[2])
+    warehouse_params
   end
 end
