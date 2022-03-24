@@ -6,6 +6,7 @@ class Consignment < ApplicationRecord
   belongs_to :manager, class_name: 'User', optional: true
   belongs_to :truck
   belongs_to :waybill, optional: true
+  has_one :write_off_act, dependent: :restrict_with_exception
   before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
