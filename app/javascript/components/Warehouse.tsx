@@ -8,9 +8,15 @@ import httpClient from '../api/httpClient';
 import WarehouseCreateForm from './Warehouse/CreateForm';
 import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
 
+interface warehouse {
+  id: number;
+  warehouse_name: string;
+  trusted: boolean;
+}
+
 function Warehouse() {
   const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState(null);
+  const [warehouses, setWarehouses] = React.useState<warehouse[]>([]);
 
   const handleClose = () => setModalActive(false);
 

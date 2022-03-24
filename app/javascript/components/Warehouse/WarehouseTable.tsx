@@ -10,20 +10,23 @@ import { pink } from '@mui/material/colors';
 import httpClient from '../../api/httpClient';
 
 interface WarehouseTableProps {
-  warehouses: [];
+  warehouses: warehouse[];
   setWarehouses: any;
 }
 interface warehouse {
   id: number;
   warehouse_name: string;
+  trusted: boolean;
 }
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const { warehouses, setWarehouses } = props;
-  const [checked, setChecked] = React.useState([]);
 
-  const setWarehouseTrusted = async (id) => {
-    await httpClient.warehouses.trust(id);
+  const setWarehouseTrusted = async (warehouse: warehouse) => {
+    warehouses.splice(warehouses.indexOf(warehouse), 1);
+    await httpClient.warehouses.trust(warehouse.id).then((response) => {
+      setWarehouses([...warehouses, response.data]);
+    });
   };
 
   const handleDeleteWarehouse = async (id) => {
@@ -32,15 +35,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   };
 
   const handleToggle = (value: warehouse) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-    setWarehouseTrusted(value?.id).then();
+    setWarehouseTrusted(value)
   };
 
   if (!warehouses) return (<p>No data found...</p>);
@@ -73,7 +68,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                 >
                   <DeleteIcon />
                 </IconButton>
-                    )}
+              )}
               disablePadding
               sx={{ width: '95%' }}
             >
@@ -81,7 +76,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={checked.indexOf(value) !== -1 || value?.trusted}
+                    checked={value?.trusted}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
