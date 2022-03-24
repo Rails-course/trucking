@@ -21,10 +21,10 @@ function httpClient() {
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
     waybill: {
-      create: (waybill, routes, ttn_id) => axios.post('/waybill', { waybill, routes, ttn_id }),
+      create: (waybill, routes, ttn_id) => axios.post('/waybills', { waybill, routes, ttn_id }),
       get_data_waybill: (id) => axios.get(`/consignment/waybill_data/${id}`),
-      gets_waybills: () => axios.get('/waybill.json'),
-      finish: (data) => axios.patch('/waybill/endTrucking', data),
+      gets_waybills: () => axios.get('/waybills.json'),
+      finish: (data) => axios.patch('/waybills/endTrucking', data),
     },
     route: {
       get_routes: (id) => axios.get(`/routes/${id}`),

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WaybillController < ApplicationController
+class WaybillsController < ApplicationController
   def index
     # waybills=[]
     @data = []
@@ -20,13 +20,13 @@ class WaybillController < ApplicationController
 
   def create
     waybill = Waybill.new(create_waybill)
-    flash[:success] = 'waybill succesfully created' if waybill.save && checkpoints(waybill)
+    flash[:success] = 'waybills succesfully created' if waybill.save && checkpoints(waybill)
   end
 
   def update
     waybill = Waybill.find(params.permit(:ids)[:ids])
     if waybill.update(status: 'Delivered to the recipient') && waybill.consignment.update(status: 'Transportation completed')
-      flash[:success] = 'waybill succesfully updated'
+      flash[:success] = 'waybills succesfully updated'
     else
       flash[:error] = 'something did wrong '
     end
