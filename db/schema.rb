@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_220_321_160_435) do
+ActiveRecord::Schema.define(version: 2022_03_23_160750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,6 +75,15 @@ ActiveRecord::Schema.define(version: 20_220_321_160_435) do
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
   end
 
+  create_table "routes", force: :cascade do |t|
+    t.string "city"
+    t.date "pass_date"
+    t.boolean "is_passed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "waybill_id"
+  end
+
   create_table "truck_types", force: :cascade do |t|
     t.string "truck_type_name", null: false
     t.datetime "created_at", null: false
@@ -110,5 +119,25 @@ ActiveRecord::Schema.define(version: 20_220_321_160_435) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "waybills", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "consignment_id"
+    t.integer "endpoint"
+    t.integer "startpoint"
+    t.integer "goods_owner_id"
+    t.string "status", default: "transportation started"
+  end
+
+  create_table "write_off_acts", force: :cascade do |t|
+    t.string "good_name", null: false
+    t.integer "lost_quantity", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "consignment_id"
   end
 end

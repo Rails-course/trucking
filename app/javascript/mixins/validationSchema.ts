@@ -63,6 +63,7 @@ const validationSchema = Yup.object().shape({
     .matches(REGX_ONLY_LETTER, 'Street must be alphabets only')
     .min(2, 'Must be of length 2 to 255')
     .required('Required'),
+
 });
 
 export default validationSchema;
