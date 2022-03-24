@@ -199,4 +199,4 @@ CS_2_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 202, good_name: '
                             unit_of_measurement: 'liter', quantity: 22 }])
 # Write-off Acts
 write_off_act_CS_1 = WriteOffAct.create(good_name: 'potato', lost_quantity: 5,
-                                        consignment_id: CS_1.id)
+                                        consignment_id: CS_1.id, description: 'Lost during shipment')

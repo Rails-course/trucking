@@ -52,6 +52,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
               <StyledTableCell align="right">Lost quantity</StyledTableCell>
               <StyledTableCell align="right">Bundle seria</StyledTableCell>
               <StyledTableCell align="right">Bundle number</StyledTableCell>
+              <StyledTableCell align="right">Description</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -69,6 +70,9 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {writeOffAct.consignment.bundle_number}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {writeOffAct.description}
                   </StyledTableCell>
                 </StyledTableRow>
               );

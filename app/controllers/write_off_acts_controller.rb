@@ -25,7 +25,7 @@ class WriteOffActsController < ApplicationController
   private
 
   def permit_write_off_act_params
-    params.permit(:good_name, :lost_quantity, :consignment)
+    params.permit(:good_name, :lost_quantity, :consignment, :description)
   end
 
   def create_write_off_act_params

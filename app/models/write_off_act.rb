@@ -4,6 +4,7 @@ class WriteOffAct < ApplicationRecord
   belongs_to :consignment
   validates :good_name, presence: true, length: { in: 2..45 }
   validates :lost_quantity, presence: true, numericality: { greater_than: 0 }
+  validates :description, allow_blank: true, length: { in: 2..255 }
   validate :good_name_and_quantity
 
   private

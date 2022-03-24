@@ -77,6 +77,15 @@ const CreateWriteOffActForm:
                           />
                         ))}
                       </Container>
+                      <TextField
+                        id="description"
+                        label="Description"
+                        multiline
+                        fullWidth
+                        maxRows={4}
+                        value={values.description}
+                        onChange={handleChange}
+                      />
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
