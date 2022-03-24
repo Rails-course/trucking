@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   resources :goods
   resources :consignments
+  resources :write_off_acts, only: %i[index create]
   resources :trucks
   get '/users', to: 'pages#users_index'
   scope '/users' do
@@ -19,8 +20,9 @@ Rails.application.routes.draw do
     get '/:id', to: 'pages#user_data'
     patch 'edit/:id', to: 'pages#update_user'
   end
+  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
   resources :waybills
-  patch '/waybills/endTrucking',to: 'waybills#end_trucking'
+  patch '/waybill/endTrucking',to: 'waybill#end_trucking'
   scope '/routes' do
     patch '/rollback' ,to: 'routes#rollback'
     patch '/passCheckpoint' ,to: 'routes#pass_checkpoint'

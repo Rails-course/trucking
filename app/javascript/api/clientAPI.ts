@@ -12,3 +12,5 @@ export const createConsignmentUrl = '/consignments';
 export const getAllConsignmentUrl = '/consignments.json';
 // GOODS
 export const createGoodsUrl = '/goods';
+// WRITE-OFF ACTS
+export const writeOffActUrl = '/write_off_acts'
