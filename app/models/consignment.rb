@@ -10,7 +10,11 @@ class Consignment < ApplicationRecord
   before_validation :set_registered_status
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
-  validates :consignment_seria, presence: true, length: { in: 2..10 }
+  validates :consignment_seria, presence: true, length: { in: 2..10 },
+                                uniqueness: { scope: :consignment_number }
+  validates :bundle_number, presence: true, numericality: { greater_than: 0 }
+  validates :bundle_seria, presence: true, length: { in: 2..10 },
+                           uniqueness: { scope: :bundle_number }
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
