@@ -5,9 +5,12 @@ class WaybillController < ApplicationController
     #waybills=[]
     @data=[]
     # current_user.driver_consignments.each{|ttn| waybills.append(ttn.find_waybill)}
-    Waybills.all.each{|waybill| @data.append({id:waybill.id,
+    Waybill.all.each{|waybill| @data.append({id:waybill.id,
                                  startpoint: waybill.start_point.full_address,
-                                 endpoint: waybill.end_point.full_address})}
+                                             endpoint: waybill.end_point.full_address,
+                                             status:waybill.status
+
+                                            })}
     @data
   end
   def routes
@@ -17,7 +20,14 @@ class WaybillController < ApplicationController
     waybill = Waybill.new(create_waybill)
     flash[:success] = 'waybill succesfully created' if waybill.save && checkpoints(waybill)
   end
-
+  def update
+    waybill=Waybill.find(params.permit(:ids)[:ids])
+    if waybill.update(status:'Delivered to the recipient')&&waybill.consignment.update(status:'Transportation completed')
+      flash[:success] = 'waybill succesfully updated'
+    else
+      flash[:error] = 'something did wrong '
+    end
+  end
   private
 
   def waybill_params

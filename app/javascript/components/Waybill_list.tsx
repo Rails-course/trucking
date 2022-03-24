@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,
+  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,Button
 } from '@mui/material';
 
 import httpClients from '../api/httpClient';
@@ -31,25 +31,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Waybill_list= () => {
   const[waybills,setWaybill]=useState(null);
-  const [isActiveRoutes, setActiveRoutes] = useState(false);
+
 
   React.useEffect(() => {
     httpClients.waybill.gets_waybills().then((response) => {
-      setWaybill(response.data);console.log(response.data)
+      setWaybill(response.data)
     });
   }, []);
-  const handleClose = () => {
-    setActiveRoutes(false)
-  }
-  if (!waybills) return (<p>Loadiddng...</p>);
+  if (!waybills) return (<p>Loading...</p>);
   return (
       <div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Number</StyledTableCell>
-                <StyledTableCell align="right">number</StyledTableCell>
+                <StyledTableCell align="right">status</StyledTableCell>
                 <StyledTableCell align="right">startpoint</StyledTableCell>
                 <StyledTableCell align="right">endpoint</StyledTableCell>
                 <StyledTableCell align="right">action</StyledTableCell>
@@ -60,13 +56,16 @@ const Waybill_list= () => {
                 return (
                     <StyledTableRow key={waybill.id}>
                       <StyledTableCell align="right">
+                        {waybill.status}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
                         {waybill.startpoint}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {waybill.endpoint}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                       <Checkpoints id={waybill.id} isActiveRoutes={isActiveRoutes} handleClose={handleClose}/>
+                     <Checkpoints id={waybill.id}/>
                       </StyledTableCell>
                     </StyledTableRow>
                 );
