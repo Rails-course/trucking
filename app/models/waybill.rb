@@ -8,6 +8,7 @@ class Waybill < ApplicationRecord
   def start_point
     Address.find(startpoint)
   end
+
   def end_point
     Address.find(endpoint)
   end

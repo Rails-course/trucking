@@ -11,8 +11,9 @@ class Consignment < ApplicationRecord
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
   def find_waybill
-    Waybill.find_by(consignment_id:id)
+    Waybill.find_by(consignment_id: id)
   end
+
   private
 
   def upcase_bundle_consignment_seria

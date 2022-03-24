@@ -2,32 +2,36 @@
 
 class WaybillController < ApplicationController
   def index
-    #waybills=[]
-    @data=[]
+    # waybills=[]
+    @data = []
     # current_user.driver_consignments.each{|ttn| waybills.append(ttn.find_waybill)}
-    Waybill.all.each{|waybill| @data.append({id:waybill.id,
-                                 startpoint: waybill.start_point.full_address,
-                                             endpoint: waybill.end_point.full_address,
-                                             status:waybill.status
-
-                                            })}
+    Waybill.all.each do |waybill|
+      @data.append({ id: waybill.id,
+                     startpoint: waybill.start_point.full_address,
+                     endpoint: waybill.end_point.full_address,
+                     status: waybill.status })
+    end
     @data
   end
+
   def routes
     render json: Waybill.find(params.permit(:id)[:id]).routes
   end
+
   def create
     waybill = Waybill.new(create_waybill)
     flash[:success] = 'waybill succesfully created' if waybill.save && checkpoints(waybill)
   end
+
   def update
-    waybill=Waybill.find(params.permit(:ids)[:ids])
-    if waybill.update(status:'Delivered to the recipient')&&waybill.consignment.update(status:'Transportation completed')
+    waybill = Waybill.find(params.permit(:ids)[:ids])
+    if waybill.update(status: 'Delivered to the recipient') && waybill.consignment.update(status: 'Transportation completed')
       flash[:success] = 'waybill succesfully updated'
     else
       flash[:error] = 'something did wrong '
     end
   end
+
   private
 
   def waybill_params
@@ -43,8 +47,9 @@ class WaybillController < ApplicationController
                             building: waybill_params[:end_building])
     end_point.save
     owner = GoodsOwner.find_by(warehouse_name: waybill_params[:goods_owner]).id
-    waybill = { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
-                startpoint: start_point.id, endpoint: end_point.id, consignment_id:  params.permit(:ttn_id)[:ttn_id],
+    { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
+                startpoint: start_point.id, endpoint: end_point.id,
+                consignment_id:  params.permit(:ttn_id)[:ttn_id],
                 goods_owner_id: owner }
   end
 

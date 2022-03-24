@@ -2,12 +2,13 @@ import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,Button
+  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,
 } from '@mui/material';
 
+import { useState } from 'react';
 import httpClients from '../api/httpClient';
-import {useState} from "react";
-import Checkpoints from './driver/Checkpoints'
+import Checkpoints from './driver/Checkpoints';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -28,52 +29,48 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-const Waybill_list= () => {
-  const[waybills,setWaybill]=useState(null);
-
+const Waybill_list = () => {
+  const [waybills, setWaybill] = useState(null);
 
   React.useEffect(() => {
     httpClients.waybill.gets_waybills().then((response) => {
-      setWaybill(response.data)
+      setWaybill(response.data);
     });
   }, []);
   if (!waybills) return (<p>Loading...</p>);
   return (
-      <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="right">status</StyledTableCell>
-                <StyledTableCell align="right">startpoint</StyledTableCell>
-                <StyledTableCell align="right">endpoint</StyledTableCell>
-                <StyledTableCell align="right">action</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {waybills.map((waybill) => {
-                return (
-                    <StyledTableRow key={waybill.id}>
-                      <StyledTableCell align="right">
-                        {waybill.status}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {waybill.startpoint}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {waybill.endpoint}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                     <Checkpoints id={waybill.id}/>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+    <div>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="right">status</StyledTableCell>
+              <StyledTableCell align="right">startpoint</StyledTableCell>
+              <StyledTableCell align="right">endpoint</StyledTableCell>
+              <StyledTableCell align="right">action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {waybills.map((waybill) => (
+              <StyledTableRow key={waybill.id}>
+                <StyledTableCell align="right">
+                  {waybill.status}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {waybill.startpoint}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {waybill.endpoint}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <Checkpoints id={waybill.id} />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 
