@@ -17,9 +17,9 @@ import validationWaybill from '../mixins/validationWaybill';
 import { waybillFields } from '../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
-    id:number;
+  id: number;
 }
-const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
+const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const { id } = props;
 
   React.useEffect(() => {
@@ -48,7 +48,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
   return (
     <div>
       <Button variant="outlined" onClick={() => { setWayBillActive(true); }}>
-        Open waybill
+        Create waybill
       </Button>
       <Dialog
         open={isActiveWayBill}
@@ -57,7 +57,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
         fullWidth
         maxWidth="md"
       >
-        <DialogTitle>Add Waybill</DialogTitle>
+        <DialogTitle>Create Waybill Form</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Formik
