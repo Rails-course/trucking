@@ -16,6 +16,9 @@ class Consignment < ApplicationRecord
                            uniqueness: { scope: :bundle_number }
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
+  def find_waybill
+    Waybill.find_by(consignment_id: id)
+  end
 
   private
 

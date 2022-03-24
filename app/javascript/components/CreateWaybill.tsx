@@ -33,6 +33,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
   const [routes, setRoutes] = useState([]);
   const [data, setData] = useState(null);
   const [owners, setOwners] = useState([]);
+
   const handleSubmit = (values) => {
     const city_names = routes.map((name) => name.city_name);
     httpClients.waybill.create(values, city_names, id);
@@ -43,6 +44,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
   const handleClose = () => {
     setWayBillActive(false);
   };
+  // @ts-ignore
   return (
     <div>
       <Button variant="outlined" onClick={() => { setWayBillActive(true); }}>
