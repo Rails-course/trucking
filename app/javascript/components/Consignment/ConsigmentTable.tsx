@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../CreateWaybill';
+import CreateWaybill from '../waybil/CreateWaybill';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

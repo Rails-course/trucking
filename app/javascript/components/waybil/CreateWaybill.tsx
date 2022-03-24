@@ -2,25 +2,31 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete,
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions,
+  DialogContent, DialogTitle, Grid, TextField,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
-import FormikField from '../UI/FormikField';
-import CreateRoutes from './waybil/CreateRoutes';
-import RouteTable from './waybil/RouteTable';
-import httpClients from '../api/httpClient';
-import waybillInitialValues from '../initialValues/waybillInitianalValue';
-import validationWaybill from '../mixins/validationWaybill';
-import { waybillFields } from '../constants/waybillFields';
+
+import FormikField from '../../UI/FormikField';
+import CreateRoutes from './CreateRoutes';
+import RouteTable from './RouteTable';
+import httpClients from '../../api/httpClient';
+import waybillInitialValues from '../../initialValues/waybillInitianalValue';
+import validationWaybill from '../../mixins/validationWaybill';
+import { waybillFields } from '../../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
     id:number;
 }
+
 const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const { id } = props;
+
+  const [isActiveWayBill, setWayBillActive] = React.useState(false);
+  const [isCreateRoutes, setCreateRoutes] = React.useState(false);
+  const [routes, setRoutes] = React.useState([]);
+  const [data, setData] = React.useState(null);
+  const [owners, setOwners] = React.useState([]);
 
   React.useEffect(() => {
     httpClients.waybill.get_data_waybill(id).then((response) => {
@@ -28,23 +34,16 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
     });
     httpClients.goods_owner.get_names().then((response) => { setOwners(response.data); });
   }, []);
-  const [isActiveWayBill, setWayBillActive] = useState(false);
-  const [isCreateRoutes, setCreateRoutes] = useState(false);
-  const [routes, setRoutes] = useState([]);
-  const [data, setData] = useState(null);
-  const [owners, setOwners] = useState([]);
 
   const handleSubmit = (values) => {
-    const city_names = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, city_names, id);
+    const cityNames = routes.map((name) => name.city_name);
+    httpClients.waybill.create(values, cityNames, id);
   };
-  const CloseCreateRoutes = () => {
-    setCreateRoutes(false);
-  };
-  const handleClose = () => {
-    setWayBillActive(false);
-  };
-  // @ts-ignore
+
+  const CloseCreateRoutes = () => setCreateRoutes(false);
+
+  const handleClose = () => setWayBillActive(false);
+
   return (
     <div>
       <Button variant="outlined" onClick={() => { setWayBillActive(true); }}>
@@ -69,7 +68,7 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
                 dirty, isValid, handleChange, values,
               }) => (
                 <Form>
-                  <Container align="left" maxWidth="md">
+                  <Container>
                     <table>
                       <tr>
                         <td>
@@ -128,7 +127,12 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
                 </Form>
               )}
             </Formik>
-            <CreateRoutes isActiveModal={isCreateRoutes} RoutehandleClose={CloseCreateRoutes} setRoutes={setRoutes} routes={routes} />
+            <CreateRoutes
+              isActiveModal={isCreateRoutes}
+              routeHandleClose={CloseCreateRoutes}
+              setRoutes={setRoutes}
+              routes={routes}
+            />
           </Grid>
         </DialogContent>
       </Dialog>
