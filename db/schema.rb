@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2022_03_24_151911) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,7 +59,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_151911) do
     t.string "good_name", null: false
     t.integer "quantity", null: false
     t.string "unit_of_measurement", null: false
-    t.string "status", null: false
+    t.string "status", default: "accepted", null: false
     t.string "bundle_seria", null: false
     t.integer "bundle_number"
     t.datetime "created_at", null: false
@@ -146,5 +144,4 @@ ActiveRecord::Schema.define(version: 2022_03_24_151911) do
     t.bigint "consignment_id"
     t.text "description"
   end
-
 end

@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   end
   resources :goods
   resources :consignments
+  scope '/consignments' do
+    get '/:id/goods', to: 'goods#get_consignment_goods'
+    patch '/:id/goods', to: 'goods#set_goods_cheked_status'
+  end
   resources :write_off_acts, only: %i[index create]
   resources :trucks
   get '/users', to: 'pages#users_index'

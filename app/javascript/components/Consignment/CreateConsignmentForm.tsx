@@ -18,7 +18,7 @@ interface CreateConsignmentFormProps {
   isActiveModal: boolean;
   handleClose: () => void;
   handleSubmit: any;
-  goods: any;
+  newGoods: any;
   handleFieldAdd: any;
   handleFieldChange: any;
 }
@@ -26,7 +26,7 @@ interface CreateConsignmentFormProps {
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit, goods, handleFieldAdd, handleFieldChange,
+      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd, handleFieldChange,
     } = props;
 
     const [drivers, setDrivers] = React.useState(null);
@@ -68,7 +68,7 @@ const CreateConsignmentForm:
                             variant="standard"
                           />
                         ))}
-                        {goods.map((singleField, index) => (
+                        {newGoods.map((singleField, index) => (
                           <div key={index}>
                             <FormikField
                               id={uuidv4()}
@@ -100,7 +100,7 @@ const CreateConsignmentForm:
                               onChange={(e) => handleFieldChange(e, index)}
                               required
                             />
-                            {goods.length - 1 === index && goods.length < 4
+                            {newGoods.length - 1 === index && newGoods.length < 4
                               && <Button variant="outlined" onClick={handleFieldAdd} fullWidth>Add product</Button>}
                           </div>
                         ))}
