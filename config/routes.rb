@@ -28,4 +28,13 @@ Rails.application.routes.draw do
   scope '/waybill' do
     post '/create', to: 'waybill#create'
   end
+  resources :waybills
+  patch '/waybills/endTrucking', to: 'waybills#end_trucking'
+  scope '/routes' do
+    patch '/rollback', to: 'routes#rollback'
+    patch '/passCheckpoint', to: 'routes#pass_checkpoint'
+  end
+  get '/routes/:id', to: 'waybills#routes'
+  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
+  get '/goodsowners', to: 'goods_owner#index'
 end

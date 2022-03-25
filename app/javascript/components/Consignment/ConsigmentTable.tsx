@@ -54,11 +54,12 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Number</StyledTableCell>
-              <StyledTableCell align="right">Seria</StyledTableCell>
-              <StyledTableCell align="right">Bundle seria</StyledTableCell>
+              <StyledTableCell>Consignment number</StyledTableCell>
+              <StyledTableCell align="right">Consignment seria</StyledTableCell>
               <StyledTableCell align="right">Bundle number</StyledTableCell>
+              <StyledTableCell align="right">Bundle seria</StyledTableCell>
               <StyledTableCell align="right">Dispatcher</StyledTableCell>
+              <StyledTableCell align="right">Status</StyledTableCell>
               <StyledTableCell align="right">Waybill</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -74,13 +75,16 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     {consignment.consignment_seria}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {consignment.bundle_seria}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
                     {consignment.bundle_number}
                   </StyledTableCell>
                   <StyledTableCell align="right">
+                    {consignment.bundle_seria}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
                     {dispatcherFIO}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {consignment.status}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <CreateWaybill id={consignment.id} />
