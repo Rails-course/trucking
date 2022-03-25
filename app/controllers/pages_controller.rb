@@ -5,8 +5,11 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    @users = User.all
-
+    @users = if current_user.company
+               User.where(company: current_user.company)
+             else
+               User.all
+             end
     respond_to do |format|
       format.html
       format.json do
@@ -43,6 +46,15 @@ class PagesController < ApplicationController
 
   def get_drivers
     @users = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
+    respond_to do |format|
+      format.json do
+        render json: @users.to_json
+      end
+    end
+  end
+
+  def get_warehousemans
+    @users = User.where(role: Role.find_by(role_name: 'warehouseman'))
     respond_to do |format|
       format.json do
         render json: @users.to_json

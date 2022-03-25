@@ -1,6 +1,7 @@
 # Roles
 roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
-                     { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' }])
+                     { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' },
+                     { role_name: 'warehouseman' }])
 # Truck types
 truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
@@ -167,23 +168,47 @@ gruzimvse_driver = User.create(
 )
 
 # Goods owners
-jetlogistic_goods_owner = GoodsOwner.create(warehouse_name: 'IBM',
-                                            address: Address.new(
-                                              town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
-                                            ))
-gruzimvseower_goods_owner = GoodsOwner.create(warehouse_name: 'Trade power',
-                                              address: Address.new(
-                                                town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
-                                              ))
+goods_owner_ibm = GoodsOwner.create(goods_owner_name: 'IBM',
+                                    address: Address.new(
+                                      town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
+                                    ))
+goods_owner_tradep = GoodsOwner.create(goods_owner_name: 'Trade power',
+                                       address: Address.new(
+                                         town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
+                                       ))
 
-# Destination points
-Grocery_store = Destination.create(
-  destination_name: 'Grocery store', address: Address.new(town: 'Homel', street: 'Sovetskaya',
-                                                          building: 60, apartment: 1)
+# Warehouses and their owners
+grocery_store_owner = User.create(
+  email: 'grocerystoreowner@example.com',
+  password: 'grocerystoreowner123',
+  first_name: 'Jhon',
+  second_name: 'Jhonov',
+  middle_name: 'jhonovich',
+  birthday: Date.parse('12/03/1997'),
+  passport: '15206181, issued by the police department of the Centralniy district of Vilnus',
+  login: 'grocerystoreowner',
+  role: Role.find_by(role_name: 'warehouseman'),
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
 )
-Shopping_center = Destination.create(
-  destination_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
-                                                 apartment: 1)
+Grocery_store = Warehouse.create(
+  warehouse_name: 'Grocery store', warehouseman: grocery_store_owner, address: Address.new(town: 'Homel', street: 'Sovetskaya',
+                                                                                           building: 60, apartment: 1), trusted: false
+)
+shopping_center_owner = User.create(
+  email: 'shoppingcenterowner@example.com',
+  password: 'shoppingcenterowner123',
+  first_name: 'Mira',
+  second_name: 'Mirova',
+  middle_name: 'Mironovna',
+  birthday: Date.parse('31/12/1998'),
+  passport: '18397261, issued by the police department of the Centralniy district of Vilnus',
+  login: 'shoppingcenterowner',
+  role: Role.find_by(role_name: 'warehouseman'),
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
+)
+Shopping_center = Warehouse.create(
+  warehouse_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
+                                               apartment: 1), trusted: true, warehouseman: shopping_center_owner
 )
 # Consignments
 CS_1 = Consignment.create(bundle_seria: 'BS', bundle_number: 101, consignment_seria: 'CS',

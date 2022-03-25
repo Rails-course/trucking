@@ -5,13 +5,13 @@ import { Box, Grid } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
-import { Data } from '../mixins/initialValues/userList';
+import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 
 const Users = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [users, setUser] = React.useState<Data[]>(null);
+  const [users, setUser] = React.useState<UserData[]>(null);
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
 

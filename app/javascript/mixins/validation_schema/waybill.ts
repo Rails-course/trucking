@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 const REGX_ONLY_LETTER_SPACES = /^[a-zA-Z\s]*$/
 const REGX_ONLY_NUMBER = /^[\d]+$/;
 
-const validationWaybill = Yup.object().shape({
+const waybillValidation = Yup.object().shape({
   building: Yup.string()
     .matches(REGX_ONLY_NUMBER, 'building must be numbers only')
     .required('Required'),
@@ -37,4 +37,4 @@ const validationWaybill = Yup.object().shape({
     .required('Required'),
 });
 
-export default validationWaybill;
+export default waybillValidation;

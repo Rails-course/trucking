@@ -22,11 +22,15 @@ FactoryBot.define do
     trait :driver do
       role_name { 'driver' }
     end
+    trait :warehouseman do
+      role_name { 'warehouseman' }
+    end
     factory :sysAdmin_role, traits: [:sysAdmin]
     factory :admin_role, traits: [:admin]
     factory :owner_role, traits: [:owner]
     factory :dispatcher_role, traits: [:dispatcher]
     factory :manager_role, traits: [:manager]
     factory :driver_role, traits: [:driver]
+    factory :warehouseman_role, traits: [:warehouseman]
   end
 end

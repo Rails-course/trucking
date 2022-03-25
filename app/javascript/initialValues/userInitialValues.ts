@@ -36,28 +36,4 @@ const userInitialValues: userFormValues = {
   company: '',
 };
 
-export interface FormikSelectItem {
-  label: string;
-  value: string;
-}
-
-export const roleItems: FormikSelectItem[] = [
-  {
-    label: 'Dispatcher',
-    value: 'dispatcher',
-  },
-  {
-    label: 'Manager',
-    value: 'manager',
-  },
-  {
-    label: 'Driver',
-    value: 'driver',
-  },
-  {
-    label: 'Owner',
-    value: 'owner',
-  },
-];
-
 export default userInitialValues;
