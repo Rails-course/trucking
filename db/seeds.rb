@@ -185,3 +185,18 @@ Shopping_center = Destination.create(
   destination_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
                                                  apartment: 1)
 )
+# Consignments
+CS_1 = Consignment.create(bundle_seria: 'BS', bundle_number: 101, consignment_seria: 'CS',
+                          consignment_number: 101, driver_id: 6, truck_id: 2, dispatcher_id: 4)
+CS_2 = Consignment.create(bundle_seria: 'BS', bundle_number: 202, consignment_seria: 'CS',
+                          consignment_number: 202, driver_id: 6, truck_id: 2, dispatcher_id: 4)
+# Goods
+CS_1_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 101, good_name: 'potato', unit_of_measurement: 'kg', quantity: 20 },
+                          { bundle_seria: 'BS', bundle_number: 101, good_name: 'carrot',
+                            unit_of_measurement: 'kg', quantity: 15 }])
+CS_2_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 202, good_name: 'milk', unit_of_measurement: 'liter', quantity: 11 },
+                          { bundle_seria: 'BS', bundle_number: 202, good_name: 'cola',
+                            unit_of_measurement: 'liter', quantity: 22 }])
+# Write-off Acts
+write_off_act_CS_1 = WriteOffAct.create(good_name: 'potato', lost_quantity: 5,
+                                        consignment_id: CS_1.id, description: 'Lost during shipment')

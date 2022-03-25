@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_23_160750) do
+ActiveRecord::Schema.define(version: 2022_03_24_151911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2022_03_23_160750) do
   end
 
   create_table "consignments", force: :cascade do |t|
-    t.string "status", null: false
+    t.string "status", default: "registered", null: false
     t.string "bundle_seria", default: "BS", null: false
     t.string "bundle_number", null: false
     t.string "consignment_seria", null: false
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2022_03_23_160750) do
     t.bigint "truck_id"
     t.bigint "dispatcher_id"
     t.bigint "manager_id"
+    t.index ["bundle_seria", "bundle_number"], name: "index_consignments_on_bundle_seria_and_bundle_number", unique: true
+    t.index ["consignment_seria", "consignment_number"], name: "index_consignments_on_consignment_seria_and_consignment_number", unique: true
   end
 
   create_table "destinations", force: :cascade do |t|
@@ -62,6 +64,7 @@ ActiveRecord::Schema.define(version: 2022_03_23_160750) do
     t.integer "bundle_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["good_name", "bundle_seria", "bundle_number"], name: "index_goods_on_good_name_and_bundle_seria_and_bundle_number", unique: true
   end
 
   create_table "goods_owners", force: :cascade do |t|
@@ -139,5 +142,6 @@ ActiveRecord::Schema.define(version: 2022_03_23_160750) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "consignment_id"
+    t.text "description"
   end
 end

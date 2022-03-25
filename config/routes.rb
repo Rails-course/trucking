@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get '/:id/goods', to: 'goods#get_consignment_goods'
     patch '/:id/goods', to: 'goods#set_goods_cheked_status'
   end
+  resources :write_off_acts, only: %i[index create]
   resources :trucks
   get '/users', to: 'pages#users_index'
   scope '/users' do
@@ -23,9 +24,14 @@ Rails.application.routes.draw do
     get '/:id', to: 'pages#user_data'
     patch 'edit/:id', to: 'pages#update_user'
   end
-  scope '/waybill' do
-    post '/create' ,to:'waybill#create'
+  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
+  resources :waybills
+  patch '/waybill/endTrucking',to: 'waybill#end_trucking'
+  scope '/routes' do
+    patch '/rollback' ,to: 'routes#rollback'
+    patch '/passCheckpoint' ,to: 'routes#pass_checkpoint'
   end
+  get '/routes/:id',to: 'waybills#routes'
   get '/consignment/waybill_data/:ttn_id' ,to: 'consignments#waybill_data'
   get '/goodsowners' ,to: 'goods_owner#index'
 end
