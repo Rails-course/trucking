@@ -15,14 +15,13 @@ const WriteOffActs = () => {
 
   React.useEffect(() => {
     httpClient.writeOffActs.getAll().then((response) => {
-      setWriteOffActs(response.data)
-    })
+      setWriteOffActs(response.data);
+    });
   }, []);
 
   const handleSubmit = async (writeOffAct) => {
     await httpClient.writeOffActs.create(writeOffAct).then((response) => setWriteOffActs((prev) => [...prev, response.data]));
   };
-
 
   return (
     <div className="wrapper">

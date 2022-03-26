@@ -1,27 +1,32 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
 
-import CommentIcon from '@mui/icons-material/Comment';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
-  ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
+  ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox,
 } from '@mui/material';
 import httpClient from '../../api/httpClient';
 
-interface ConsignmentGoodsProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  consId: number;
-  goods: [];
+interface WaybillGoodsProps {
+  wayId: number;
 }
 
-const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
-  const {
-    isActiveModal, handleClose, consId, goods,
-  } = props;
-
+const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => {
+  const wayId = props;
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [goods, setGoods] = React.useState([]);
   const [checkedGoods, setCheckedGooods] = React.useState([]);
 
+  const handleGetGoods = () => {
+    // BUGFIX: if statement probably unnecessary
+    if (wayId) {
+      setModalActive(true);
+      httpClient.goods.getWaybillGoods(wayId.wayId).then((response) => setGoods(response.data));
+    }
+  };
+  const handleClose = () => {
+    setModalActive(false);
+  };
   const handleToggle = (value: number) => () => {
     const currentIndex = checkedGoods.indexOf(value);
     const newCheckedGoods = [...checkedGoods];
@@ -34,11 +39,12 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   };
 
   const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
+    httpClient.goods.setWaybillGoodsStatus(wayId.wayId, checkedGoods);
   };
 
   return (
     <div>
+      <Button onClick={() => { handleGetGoods(); }}>Open goods</Button>
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
@@ -60,12 +66,6 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                       return (
                         <ListItem
                           key={value.id}
-                          secondaryAction={(
-                            <IconButton edge="end" aria-label="comments">
-                              <CommentIcon />
-                            </IconButton>
-                          )}
-                          disablePadding
                         >
                           <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
                             <ListItemIcon>
@@ -97,4 +97,4 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   );
 };
 
-export default ConsignmentGoods;
+export default WaybillGoods;

@@ -54,7 +54,7 @@ const CheckpointWindow:React.FC <CheckpointWindowFormProps> = (props: Checkpoint
               <FormikField
                 name="pass_date"
                 required
-                label=''
+                label=""
                 type="date"
                 variant="standard"
               />

@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import httpClients from '../api/httpClient';
 import Checkpoints from './driver/Checkpoints';
+import WaybillGoods from './driver/WaybillGoods';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,6 +49,7 @@ const Waybill_list = () => {
               <StyledTableCell align="right">startpoint</StyledTableCell>
               <StyledTableCell align="right">endpoint</StyledTableCell>
               <StyledTableCell align="right">action</StyledTableCell>
+              <StyledTableCell align="right">goods</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,6 +66,9 @@ const Waybill_list = () => {
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Checkpoints id={waybill.id} />
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <WaybillGoods wayId={waybill.id} />
                 </StyledTableCell>
               </StyledTableRow>
             ))}

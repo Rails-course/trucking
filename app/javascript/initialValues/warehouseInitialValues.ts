@@ -16,8 +16,8 @@ const userInitialValues: warehouseFormValues = {
   street: '',
   town: '',
   warehouseman: {
-    first_name: '', second_name: '', middle_name: ''
-  }
+    first_name: '', second_name: '', middle_name: '',
+  },
 };
 
 export default userInitialValues;

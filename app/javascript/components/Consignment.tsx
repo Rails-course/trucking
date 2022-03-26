@@ -16,12 +16,11 @@ function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
-  const [goods, setGoods] = React.useState([])
+  const [goods, setGoods] = React.useState([]);
   const [consId, setConsID] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
-
 
   const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 

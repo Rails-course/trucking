@@ -56,27 +56,25 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
             </TableRow>
           </TableHead>
           <TableBody>
-            {writeOffActs.map((writeOffAct) => {
-              return (
-                <StyledTableRow key={writeOffAct.id}>
-                  <StyledTableCell component="th" scope="company">
-                    {writeOffAct.good_name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {writeOffAct.lost_quantity}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {writeOffAct.consignment.bundle_seria}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {writeOffAct.consignment.bundle_number}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {writeOffAct.description}
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
+            {writeOffActs.map((writeOffAct) => (
+              <StyledTableRow key={writeOffAct.id}>
+                <StyledTableCell component="th" scope="company">
+                  {writeOffAct.good_name}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {writeOffAct.lost_quantity}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {writeOffAct.consignment.bundle_seria}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {writeOffAct.consignment.bundle_number}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {writeOffAct.description}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

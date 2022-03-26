@@ -16,5 +16,5 @@ export const writeOffActFields = [
     required: true,
     placeholder: 'Lost quantity',
     type: 'number',
-  }
+  },
 ];
