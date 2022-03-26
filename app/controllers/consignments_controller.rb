@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-  def index
-    @consignments = Consignment.all
+  before_action :company_consignments, only: :index
 
+  def index
+    authorize! :read, Consignment
     respond_to do |format|
       format.html
       format.json do
@@ -15,8 +16,7 @@ class ConsignmentsController < ApplicationController
 
   def create
     @consignment = Consignment.new(create_consignment_params)
-    # Delete line below on merge to develop
-    @consignment.status = 'registered'
+    authorize! :create, @consignment
     if @consignment.save
       render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
                                                                           second_name middle_name] } })
@@ -33,6 +33,12 @@ class ConsignmentsController < ApplicationController
   end
 
   private
+
+  def company_consignments
+    company_dispatchers = User.where(role: Role.find_by_role_name('dispatcher'),
+                                     company: current_user.company)
+    @consignments = Consignment.where(dispatcher: company_dispatchers)
+  end
 
   def permit_consignment_params
     params.permit(values: %i[bundle_seria bundle_number consignment_number consignment_seria driver

@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 class CompaniesController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @companies = Company.all
+    @companies = if current_user.company
+                   Company.accessible_by(current_ability)
+                 else
+                   Company.all
+                 end
   end
 
   def suspend

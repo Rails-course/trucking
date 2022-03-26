@@ -19,20 +19,33 @@ class WaybillsController < ApplicationController
   end
 
   def create
-    waybill = Waybill.new(create_waybill)
-    flash[:success] = 'waybills succesfully created' if waybill.save && checkpoints(waybill)
+    @waybill = Waybill.new(create_waybill)
+    flash[:success] = 'waybills succesfully created' if @waybill.save && checkpoints(@waybill)
   end
 
   def update
-    waybill = Waybill.find(params.permit(:ids)[:ids])
-    if waybill.update(status: 'Delivered to the recipient') && waybill.consignment.update(status: 'Transportation completed')
-      flash[:success] = 'waybills succesfully updated'
-    else
-      flash[:error] = 'something did wrong '
+    authorize! :update, Waybill
+    @waybill = Waybill.find(params.permit(:ids)[:ids])
+    begin
+      ActiveRecord::Base.transaction do
+        @waybill.update(status: 'Delivered to the recipient')
+        @waybill.consignment.update(status: 'delivered')
+        @goods = get_waybill_consignment_goods(@waybill)
+        @goods.each { |item| item.update(status: 'delivered') }
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      @waybill = { error: { status: 422, message: e } }
     end
+
+    render json: @waybill
   end
 
   private
+
+  def get_waybill_consignment_goods(waybill)
+    @consignment = waybill.consignment
+    Good.where(bundle_seria: @consignment.bundle_seria, bundle_number: @consignment.bundle_number)
+  end
 
   def waybill_params
     params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
@@ -46,11 +59,11 @@ class WaybillsController < ApplicationController
     end_point = Address.new(town: waybill_params[:end_town], street: waybill_params[:end_street],
                             building: waybill_params[:end_building])
     end_point.save
-    owner = GoodsOwner.find_by(warehouse_name: waybill_params[:goods_owner]).id
+    owner = GoodsOwner.find_by(goods_owner_name: waybill_params[:goods_owner]).id
     { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
-                startpoint: start_point.id, endpoint: end_point.id,
-                consignment_id:  params.permit(:ttn_id)[:ttn_id],
-                goods_owner_id: owner }
+      startpoint: start_point.id, endpoint: end_point.id,
+      consignment_id: params.permit(:ttn_id)[:ttn_id],
+      goods_owner_id: owner }
   end
 
   def checkpoints(waybill)

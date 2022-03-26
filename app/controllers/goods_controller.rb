@@ -4,10 +4,12 @@ class GoodsController < ApplicationController
   before_action :set_consignment_goods, only: %i[get_consignment_goods set_goods_cheked_status]
 
   def get_consignment_goods
+    authorize! :read, Good
     render json: @goods.to_json
   end
 
   def create
+    authorize! :create, Good
     begin
       Good.transaction do
         @goods = Good.create!(goods_params)
@@ -20,6 +22,8 @@ class GoodsController < ApplicationController
   end
 
   def set_goods_cheked_status
+    authorize! :update, Good
+    authorize! :update, Consignment
     @goods.each { |item| item.update(status: 'checked') }
     @consignment.update(status: 'checked')
     render json: @goods.to_json
