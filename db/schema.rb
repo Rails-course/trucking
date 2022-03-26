@@ -53,17 +53,6 @@ ActiveRecord::Schema.define(version: 20_220_324_174_954) do
     t.string 'good_name', null: false
     t.integer 'quantity', null: false
     t.string 'unit_of_measurement', null: false
-    t.string 'status', null: false
-    t.string 'bundle_seria', null: false
-    t.integer 'bundle_number'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-  end
-
-  create_table 'goods', force: :cascade do |t|
-    t.string 'good_name', null: false
-    t.integer 'quantity', null: false
-    t.string 'unit_of_measurement', null: false
     t.string 'status', default: 'accepted', null: false
     t.string 'bundle_seria', null: false
     t.integer 'bundle_number'
