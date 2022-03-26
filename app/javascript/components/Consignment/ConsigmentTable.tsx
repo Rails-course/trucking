@@ -40,7 +40,7 @@ interface ConsignmentTableProps {
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setConsID, setGoods, consId
+    consignments, setConsignment, setModalGoodsActive, setConsID, setGoods, consId,
   } = props;
 
   React.useEffect(() => {
@@ -53,10 +53,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     // BUGFIX: first click return consId = null
     if (consId) {
       setModalGoodsActive(true);
-      httpClient.goods.getConsignmentGoods(consId).then((response) => setGoods(response.data))
+      httpClient.goods.getConsignmentGoods(consId).then((response) => setGoods(response.data));
     }
-    return
-  }
+  };
 
   if (!consignments) return (<p>Loading...</p>);
   return (

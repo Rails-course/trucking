@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const REGX_ONLY_LETTER_SPACES = /^[a-zA-Z\s]*$/
+const REGX_ONLY_LETTER_SPACES = /^[a-zA-Z\s]*$/;
 const REGX_ONLY_NUMBER = /^[\d]+$/;
 
 const waybillValidation = Yup.object().shape({

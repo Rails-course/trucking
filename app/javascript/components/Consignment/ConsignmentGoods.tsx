@@ -16,7 +16,9 @@ interface ConsignmentGoodsProps {
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
-  const { isActiveModal, handleClose, consId, goods } = props;
+  const {
+    isActiveModal, handleClose, consId, goods,
+  } = props;
 
   const [checkedGoods, setCheckedGooods] = React.useState([]);
 
@@ -32,7 +34,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   };
 
   const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
+    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
   };
 
   return (

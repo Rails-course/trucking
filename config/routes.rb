@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   resources :consignments
   scope '/consignments' do
     get '/:id/goods', to: 'goods#get_consignment_goods'
+    get '/:id/waybill_goods', to: 'goods#waybill_goods'
     patch '/:id/goods', to: 'goods#set_goods_cheked_status'
+    patch '/:id/waybill_goods', to: 'goods#set_goods_delivered_status'
   end
   resources :write_off_acts, only: %i[index create]
   resources :trucks
