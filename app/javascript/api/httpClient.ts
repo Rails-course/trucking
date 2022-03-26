@@ -46,8 +46,10 @@ function httpClient() {
     },
     goods: {
       getConsignmentGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/goods`),
+      getWaybillGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/waybill_goods`),
       create: (goods) => axios.post(`${createGoodsUrl}`, goods),
-      setConsignmentGoodsChecked: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, goods)
+      setConsignmentGoodsChecked: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, goods),
+      setWaybillGoodsStatus: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}//waybill_goods`, goods),
     },
     goods_owner: {
       get_names: () => axios.get('/goodsowners'),

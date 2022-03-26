@@ -35,7 +35,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   };
 
   const handleToggle = (value: warehouse) => () => {
-    setWarehouseTrusted(value)
+    setWarehouseTrusted(value);
   };
 
   if (!warehouses) return (<p>No data found...</p>);

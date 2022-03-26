@@ -25,7 +25,7 @@ const CreateWriteOffActForm:
       isActiveModal, handleClose, handleSubmit,
     } = props;
 
-    const [consignments, setConsignments] = React.useState([])
+    const [consignments, setConsignments] = React.useState([]);
     React.useEffect(() => {
       httpClient.consignments.getAll().then((response) => setConsignments(response.data));
     }, []);

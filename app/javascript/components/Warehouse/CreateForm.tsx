@@ -55,7 +55,9 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                 validationSchema={warehouseValidation}
                 onSubmit={handleSubmit}
               >
-                {({ dirty, isValid, handleChange, values }) => (
+                {({
+                  dirty, isValid, handleChange, values,
+                }) => (
                   <Form>
                     <Container maxWidth="sm">
                       {warehouseFields.map((column) => (
