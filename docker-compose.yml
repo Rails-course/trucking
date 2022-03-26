@@ -12,8 +12,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
 
-  app:
-    container_name: app
+  web:
     build:
       context: .
       dockerfile: Dockerfile
