@@ -34,6 +34,8 @@ class GoodsController < ApplicationController
   end
 
   def set_goods_delivered_status
+    authorize! :update, Good
+    authorize! :update, Consignment
     @goods.each { |item| item.update(status: 'delivered') }
     @consignment.update(status: 'delivered')
     render json: @goods.to_json

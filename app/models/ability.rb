@@ -40,9 +40,9 @@ class Ability
     # Driver rules
     if user.role.role_name == 'driver'
       # can %i[read update], Route
-      can :read, Good
+      can %i[read update], Good
       can %i[read update], Waybill
-      can :read, Consignment
+      can %i[read update], Consignment
       can %i[create read], WriteOffAct
     end
 
