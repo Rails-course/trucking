@@ -1,28 +1,18 @@
 module Api
   module V1
     class ConsignmentsController < ApiController
-      before_action :company_consignments, only: :index
       def index
         authorize! :read, Consignment
-        respond_to do |format|
-          format.html
-          format.json do
-            render json: @consignments.to_json(include: { dispatcher: { only: %i[first_name
-                                                                                 second_name middle_name] } })
-          end
+        excluded_columns = %w[id created_at updated_at]
+        consignment_api_columns = Consignment.attribute_names.reject do |column|
+          excluded_columns.include? column
         end
-      end
-
-      private
-
-      def company_consignments
-        if ['system administrator', 'warehouseman'].include?(current_user.role.role_name)
-          return @consignments = Consignment.all
-        end
-
-        company_dispatchers = User.where(role: Role.find_by_role_name('dispatcher'),
-                                         company: current_user.company)
-        @consignments = Consignment.where(dispatcher: company_dispatchers)
+        render json: Consignment.select(consignment_api_columns), include: [
+          truck: { only: %i[truck_number],
+                   include: [truck_type: { only: :truck_type_name }] },
+          driver: { except: %i[id created_at updated_at role_id email login company_id address_id],
+                    include: [role: { only: :role_name }] }
+        ]
       end
     end
   end
