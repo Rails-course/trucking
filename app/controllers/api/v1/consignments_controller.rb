@@ -3,7 +3,7 @@ module Api
     class ConsignmentsController < ApiController
       def index
         authorize! :read, Consignment
-        excluded_columns = %w[id created_at updated_at]
+        excluded_columns = %w[created_at updated_at]
         consignment_api_columns = Consignment.attribute_names.reject do |column|
           excluded_columns.include? column
         end

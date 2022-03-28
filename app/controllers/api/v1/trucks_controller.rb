@@ -3,7 +3,7 @@ module Api
     class TrucksController < ApiController
       def index
         authorize! :read, Truck
-        excluded_columns = %w[id created_at updated_at]
+        excluded_columns = %w[created_at updated_at]
         trucks_api_columns = Truck.attribute_names.reject do |column|
           excluded_columns.include? column
         end
