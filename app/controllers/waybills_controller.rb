@@ -19,8 +19,23 @@ class WaybillsController < ApplicationController
   end
 
   def create
-    @waybill = Waybill.new(create_waybill)
-    flash[:success] = 'waybills succesfully created' if @waybill.save && checkpoints(@waybill)
+    data = create_waybill
+    start_point = Address.new(data[:startpoint])
+    end_point = Address.new(data[:endpoint])
+    ActiveRecord::Base.transaction do
+      start_point.save
+      end_point.save
+      waybill = Waybill.new(start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
+                            startpoint: start_point.id, endpoint: end_point.id,
+                            consignment_id: params.permit(:ttn_id)[:ttn_id],
+                            goods_owner_id: data[:owner])
+      waybill.save
+      params.permit(routes: [])[:routes].each do |city_name|
+        Route.new(city: city_name, waybill_id: waybill.id).save
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { error: { status: 422, message: e } }
+      end
+    end
   end
 
   def update
@@ -53,22 +68,10 @@ class WaybillsController < ApplicationController
   end
 
   def create_waybill
-    start_point = Address.new(town: waybill_params[:town], street: waybill_params[:street],
-                              building: waybill_params[:building])
-    start_point.save
-    end_point = Address.new(town: waybill_params[:end_town], street: waybill_params[:end_street],
-                            building: waybill_params[:end_building])
-    end_point.save
-    owner = GoodsOwner.find_by(goods_owner_name: waybill_params[:goods_owner]).id
-    { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
-      startpoint: start_point.id, endpoint: end_point.id,
-      consignment_id: params.permit(:ttn_id)[:ttn_id],
-      goods_owner_id: owner }
-  end
-
-  def checkpoints(waybill)
-    params.permit(routes: [])[:routes].each do |city_name|
-      Route.new(city: city_name, waybill_id: waybill.id).save
-    end
+    { startpoint: { town: waybill_params[:town], street: waybill_params[:street],
+                    building: waybill_params[:building] },
+      endpoint: { town: waybill_params[:end_town], street: waybill_params[:end_street],
+                  building: waybill_params[:end_building] },
+      owner: GoodsOwner.find_by(goods_owner_name: waybill_params[:goods_owner]).id }
   end
 end

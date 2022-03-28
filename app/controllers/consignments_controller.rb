@@ -27,9 +27,8 @@ class ConsignmentsController < ApplicationController
 
   def waybill_data
     ttn = Consignment.find(params.permit(:ttn_id)[:ttn_id])
-    @waybill_data = { driver_fio: User.find(ttn.driver_id).full_name,
-                      truck_number: ttn.truck.truck_number }
-    render json: @waybill_data
+    render json: { driver_fio: User.find(ttn.driver_id).full_name,
+                   truck_number: ttn.truck.truck_number }
   end
 
   private
@@ -37,7 +36,7 @@ class ConsignmentsController < ApplicationController
   def company_consignments
     return @consignments = Consignment.all if current_user.role.role_name == 'system administrator'
 
-    company_dispatchers = User.where(role: Role.find_by_role_name('dispatcher'),
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     @consignments = Consignment.where(dispatcher: company_dispatchers)
   end

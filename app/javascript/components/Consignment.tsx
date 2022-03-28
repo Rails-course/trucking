@@ -61,7 +61,6 @@ function Consignment() {
             setModalGoodsActive={setModalGoodsActive}
             setConsID={setConsID}
             setGoods={setGoods}
-            consId={consId}
           />
         </Grid>
       </Box>

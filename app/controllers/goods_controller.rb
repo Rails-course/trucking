@@ -28,16 +28,28 @@ class GoodsController < ApplicationController
   def set_goods_cheked_status
     authorize! :update, Good
     authorize! :update, Consignment
-    @goods.each { |item| item.update(status: 'checked') }
-    @consignment.update(status: 'checked')
+    begin
+      Good.transaction do
+        @goods.each { |item| item.update(status: 'checked') }
+        @consignment.update(status: 'checked')
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      @goods = { error: { status: 422, message: e } }
+    end
     render json: @goods.to_json
   end
 
   def set_goods_delivered_status
     authorize! :update, Good
     authorize! :update, Consignment
-    @goods.each { |item| item.update(status: 'delivered') }
-    @consignment.update(status: 'delivered')
+    begin
+      Good.transaction do
+        @goods.each { |item| item.update(status: 'delivered') }
+        @consignment.update(status: 'delivered')
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      @goods = { error: { status: 422, message: e } }
+    end
     render json: @goods.to_json
   end
 

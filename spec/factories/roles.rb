@@ -20,7 +20,7 @@ FactoryBot.define do
       role_name { 'manager' }
     end
     trait :driver do
-      role_name { 'driver' }
+      role_name { 'Driver' }
     end
     trait :warehouseman do
       role_name { 'warehouseman' }
