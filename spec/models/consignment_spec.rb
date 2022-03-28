@@ -4,7 +4,7 @@ RSpec.describe Consignment, type: :model do
   subject { create(:consignment) }
 
   context 'When credentials are not correct' do
-    it 'subject should not be valid (invalid driver)' do
+    it 'subject should not be valid (invalid Driver)' do
       subject.driver = create(:user)
       expect(subject).to_not be_valid
     end

@@ -9,13 +9,13 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import FormikField from '../UI/FormikField';
-import CreateRoutes from './waybill/CreateRoutes';
-import RouteTable from './waybill/RouteTable';
-import httpClients from '../api/httpClient';
-import waybillInitialValues from '../initialValues/waybillInitianalValue';
-import validationWaybill from '../mixins/validation_schema/waybill';
-import { waybillFields } from '../constants/waybillFields';
+import FormikField from '../../UI/FormikField';
+import CreateRoutes from './CreateRoutes';
+import RouteTable from './RouteTable';
+import httpClients from '../../api/httpClient';
+import waybillInitialValues from '../../initialValues/waybillInitianalValue';
+import validationWaybill from '../../mixins/validation_schema/waybill';
+import { waybillFields } from '../../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
   id: number;
