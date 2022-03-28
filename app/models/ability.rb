@@ -38,7 +38,7 @@ class Ability
     end
 
     # Driver rules
-    if user.role.role_name == 'Driver'
+    if user.role.role_name == 'driver'
       # can %i[read update], Route
       can %i[read update], Good
       can %i[read update], Waybill

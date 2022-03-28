@@ -1,5 +1,5 @@
 # Roles
-roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'Driver' },
+roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
                      { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' },
                      { role_name: 'warehouseman' }])
 # Truck types
@@ -89,7 +89,7 @@ jetlogistic_driver = User.create(
   birthday: Date.parse('04/04/2004'),
   passport: '84485967, issued by the police department of the Centralniy district of Homel',
   login: 'jetlogisticDriver',
-  role: Role.find_by(role_name: 'Driver'),
+  role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 14, apartment: 41),
   company: Company.find_by(name: 'jetlogistic')
 )
@@ -162,7 +162,7 @@ gruzimvse_driver = User.create(
   birthday: Date.parse('07/07/2002'),
   passport: '70006831, issued by the police department of the Centralniy district of Homel',
   login: 'gruzimvseDriver',
-  role: Role.find_by(role_name: 'Driver'),
+  role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 77, apartment: 8),
   company: Company.find_by(name: 'gruzimvse')
 )
