@@ -52,5 +52,12 @@ class Ability
       can :read, Waybill
       can :read, WriteOffAct
     end
+
+    # Warehouseman rules
+    if user.role.role_name == 'warehouseman'
+      can :read, Consignment
+      can :read, Waybill
+      can :read, WriteOffAct
+    end
   end
 end
