@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-import { styled } from '@mui/material/styles';
 import {
   Table, TableBody, TableCell, TableRow, TableContainer,
-  TableHead, Paper, tableCellClasses, Button,
+  TableHead, Paper, tableCellClasses, Button, styled,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../CreateWaybill';
+import CreateWaybill from '../waybill/CreateWaybill';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,14 +32,13 @@ interface ConsignmentTableProps {
   consignments: any,
   setConsignment: any,
   setModalGoodsActive: any,
-  setConsID: any,
   setGoods: any,
-  consId: any,
+  setConsID: any,
 }
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setConsID, setGoods, consId,
+    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID,
   } = props;
 
   React.useEffect(() => {
@@ -49,12 +47,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     });
   }, []);
 
-  const handleGetGoods = () => {
-    // BUGFIX: first click return consId = null
-    if (consId) {
-      setModalGoodsActive(true);
-      httpClient.goods.getConsignmentGoods(consId).then((response) => setGoods(response.data));
-    }
+  const handleGetGoods = (id) => {
+    setModalGoodsActive(true);
+    setConsID(id);
+    httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
   };
 
   if (!consignments) return (<p>Loading...</p>);
@@ -80,7 +76,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               return (
                 <StyledTableRow
                   key={consignment.consignment_number}
-                  onClick={() => setConsID(consignment.id)}
                 >
                   <StyledTableCell component="th" scope="company" align="center">
                     {consignment.consignment_number}
@@ -101,7 +96,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     {consignment.status}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <Button variant="outlined" onClick={() => { handleGetGoods() }}>
+                    <Button variant="outlined" onClick={() => handleGetGoods(consignment.id)}>
                       Check goods
                     </Button>
                   </StyledTableCell>
@@ -114,7 +109,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
           </TableBody>
         </Table>
       </TableContainer>
-    </div >
+    </div>
   );
 };
 

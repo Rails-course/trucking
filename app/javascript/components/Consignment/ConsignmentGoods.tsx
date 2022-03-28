@@ -12,7 +12,7 @@ interface ConsignmentGoodsProps {
   isActiveModal: boolean;
   handleClose: () => void;
   consId: number;
-  goods: [];
+  goods: any;
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
