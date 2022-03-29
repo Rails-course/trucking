@@ -19,9 +19,11 @@ import { waybillFields } from '../../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
   id: number;
+  status: string;
+  waybillStatus: string;
 }
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
-  const { id } = props;
+  const { id, status, waybillStatus } = props;
 
   const [isActiveWayBill, setWayBillActive] = useState(false);
   const [isCreateRoutes, setCreateRoutes] = useState(false);
@@ -51,7 +53,10 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   // @ts-ignore
   return (
     <div>
-      <Button variant="outlined" onClick={() => { setWayBillActive(true); }}>
+      <Button variant="outlined"
+        disabled={(status === 'checked' && !waybillStatus) ? false : true}
+        onClick={() => { setWayBillActive(true); }}
+      >
         Create waybill
       </Button>
       <Dialog

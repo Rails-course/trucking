@@ -23,3 +23,12 @@ export type Truck = {
     truck_number: string;
     fuel_consumption: number;
 }
+
+export type Item = {
+    id: number;
+    good_name: string;
+    quantity: number;
+    unit_of_measurement: string;
+    bundle_seria: string;
+    bundle_number: string;
+}

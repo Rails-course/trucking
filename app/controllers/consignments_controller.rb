@@ -8,8 +8,13 @@ class ConsignmentsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: @consignments.to_json(include: { dispatcher: { only: %i[first_name
-                                                                             second_name middle_name] } })
+        render json: @consignments.to_json(
+          include: [
+            dispatcher: { only: %i[first_name second_name middle_name] },
+            manager: { only: %i[first_name second_name middle_name] },
+            waybill: { only: :status }
+          ]
+        )
       end
     end
   end
