@@ -28,24 +28,22 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <Table aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="right" colSpan={2}>Action&nbsp;</StyledTableCell>
+              <StyledTableCell align="right" colSpan={1} style={{ width: '30%' }}>Action&nbsp;</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {companies.map((company) => (
               <StyledTableRow key={company.name}>
                 <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() => suspendCompany(company.id)}>
+                <StyledTableCell align="right" style={{ width: '30%' }}>
+                  <Button variant="outlined" color="warning" onClick={() => suspendCompany(company.id)} style={{ marginRight: '10px' }}>
                     {company.status ? 'unsuspend' : 'suspend'}
                   </Button>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button variant="outlined" onClick={() => deleteCompany(company.id)}>
+                  <Button variant="outlined" color="error" onClick={() => deleteCompany(company.id)}>
                     Delete
                   </Button>
                 </StyledTableCell>

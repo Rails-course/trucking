@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import {
-  Table, TableBody, TableRow, TableContainer,
-  TableHead, Paper, Button,
+  Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
@@ -34,7 +33,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              {consignmentTable.map((cell) => <StyledTableCell align="center">{cell.title}</StyledTableCell>)}
+              {consignmentTable.map((cell) => <StyledTableCell align="center" key={cell.id}>{cell.title}</StyledTableCell>)}
             </TableRow>
           </TableHead>
           <TableBody>

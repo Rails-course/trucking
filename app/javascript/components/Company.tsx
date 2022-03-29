@@ -15,11 +15,11 @@ const Company = () => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create Company
           </Button>
         </Grid>

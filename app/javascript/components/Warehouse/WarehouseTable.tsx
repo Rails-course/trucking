@@ -5,7 +5,7 @@ import {
   Checkbox, IconButton, ListItemIcon, Box,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { pink } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 import httpClient from '../../api/httpClient';
 import { WarehouseData, WarehouseTableProps } from '../../common/interfaces_types';
@@ -33,12 +33,15 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   return (
     <div>
       <List sx={{
-        width: '100%', maxWidth: '70%', bgcolor: 'background.paper',
+        width: '100%', bgcolor: 'background.paper', paddingTop: '0px',
       }}
       >
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{
+          width: '100%', display: 'flex', justifyContent: 'space-between', backgroundColor: 'black',
+        }}
+        >
           {warehouseTable.map((cell) => (
-            <Box key={cell.id} component="div" display="inline" p={1} m={1} bgcolor="background.paper">
+            <Box key={cell.id} component="div" display="inline" p={2} color="#fff">
               {cell.title}
             </Box>
           ))}
@@ -54,7 +57,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                   aria-label="delete"
                   onClick={() => handleDeleteWarehouse(value?.id)}
                 >
-                  <DeleteIcon />
+                  <DeleteIcon color="error" />
                 </IconButton>
               )}
               disablePadding
@@ -69,9 +72,9 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
                     sx={{
-                      color: pink[800],
+                      color: blue[800],
                       '&.Mui-checked': {
-                        color: pink[600],
+                        color: blue[600],
                       },
                     }}
                   />

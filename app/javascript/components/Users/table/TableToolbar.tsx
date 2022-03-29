@@ -56,7 +56,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <Button variant="outlined" color="error" onClick={deleteUserByIds}>Delete</Button>
+          <Button variant="contained" color="error" size="large" onClick={deleteUserByIds}>Delete</Button>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">

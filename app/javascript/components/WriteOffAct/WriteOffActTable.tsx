@@ -25,18 +25,18 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
           <TableHead>
             <TableRow>
               {writeOffActTableCell.map((cell) => (
-                <StyledTableCell key={cell.id} align={cell.align}>{cell.title}</StyledTableCell>
+                <StyledTableCell key={cell.id} align="center">{cell.title}</StyledTableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {writeOffActs.map((writeOffAct) => (
               <StyledTableRow key={writeOffAct.id}>
-                <StyledTableCell component="th" scope="company">{writeOffAct.good_name}</StyledTableCell>
-                <StyledTableCell align="right">{writeOffAct.lost_quantity}</StyledTableCell>
-                <StyledTableCell align="right">{writeOffAct.consignment.bundle_seria}</StyledTableCell>
-                <StyledTableCell align="right">{writeOffAct.consignment.bundle_number}</StyledTableCell>
-                <StyledTableCell align="right">{writeOffAct.description}</StyledTableCell>
+                <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>
+                <StyledTableCell align="center">{writeOffAct.lost_quantity}</StyledTableCell>
+                <StyledTableCell align="center">{writeOffAct.consignment.bundle_seria}</StyledTableCell>
+                <StyledTableCell align="center">{writeOffAct.consignment.bundle_number}</StyledTableCell>
+                <StyledTableCell align="center">{writeOffAct.description}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

@@ -45,8 +45,8 @@ function Consignment() {
         flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create Consignment
           </Button>
         </Grid>

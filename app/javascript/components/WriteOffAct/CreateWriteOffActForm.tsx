@@ -42,21 +42,6 @@ const CreateWriteOffActForm:
                     dirty, isValid, handleChange, values,
                   }) => (
                     <Form>
-                      <Autocomplete
-                        id="consignment"
-                        options={consignments}
-                        getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Consignment"
-                            fullWidth
-                            value={values?.consignment}
-                          />
-                        )}
-                      />
                       <Container maxWidth="sm">
                         {writeOffActFields.map((column) => (
                           <FormikField
@@ -66,18 +51,35 @@ const CreateWriteOffActForm:
                             required={column.required}
                             type={column.type}
                             variant="standard"
+                            style={{ marginBottom: '10px' }}
                           />
                         ))}
+                        <Autocomplete
+                          id="consignment"
+                          options={consignments}
+                          getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              onSelect={handleChange}
+                              margin="normal"
+                              label="Consignment"
+                              fullWidth
+                              value={values?.consignment}
+                            />
+                          )}
+                        />
+                        <TextField
+                          id="description"
+                          label="Description"
+                          multiline
+                          fullWidth
+                          maxRows={4}
+                          value={values.description}
+                          onChange={handleChange}
+                        />
                       </Container>
-                      <TextField
-                        id="description"
-                        label="Description"
-                        multiline
-                        fullWidth
-                        maxRows={4}
-                        value={values.description}
-                        onChange={handleChange}
-                      />
+
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
