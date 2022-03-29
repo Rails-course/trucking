@@ -31,7 +31,7 @@ class GoodsController < ApplicationController
     begin
       Good.transaction do
         @goods.each { |item| item.update(status: 'checked') }
-        @consignment.update(status: 'checked')
+        @consignment.update(status: 'checked', manager: current_user)
       end
     rescue ActiveRecord::RecordInvalid => e
       @goods = { error: { status: 422, message: e } }
