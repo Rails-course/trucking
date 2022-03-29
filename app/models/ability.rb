@@ -5,32 +5,61 @@ class Ability
 
   def initialize(user)
     user ||= User.new # guest user (not logged in)
-    can :manage, :all if user.role == Role.find_by(role_name: 'sysAdmin')
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+    # System admin rules
+    can :manage, :all if user.role.role_name == 'system administrator'
+
+    # Company admin rules
+    if user.role.role_name == 'admin'
+      can :manage, Warehouse
+      can :manage, User, company: user.company
+      can :read, Company, name: user.company.name
+    end
+
+    # Dispatcher rules
+    if user.role.role_name == 'dispatcher'
+      can %i[read create], Consignment
+      # can :read, :all
+      can %i[create read], Good
+      can %i[read], Truck
+      can %i[read], User
+      can %i[read], GoodsOwner
+    end
+
+    # Manager rules
+    if user.role.role_name == 'manager'
+      # can :manage, :all
+      can %i[read update], Consignment
+      can %i[read update], Good
+      can %i[read create], Waybill
+      can %i[read create], Route
+      can %i[read create], WriteOffAct
+      can %i[read], GoodsOwner
+    end
+
+    # Driver rules
+    if user.role.role_name == 'driver'
+      # can %i[read update], Route
+      can %i[read update], Good
+      can %i[read update], Waybill
+      can %i[read update], Consignment
+      can %i[create read], WriteOffAct
+    end
+
+    # Owner rules
+    if user.role.role_name == 'owner'
+      can :read, Consignment
+      can :read, Waybill
+      can :read, WriteOffAct
+    end
+
+    # Warehouseman rules
+    if user.role.role_name == 'warehouseman'
+      can :read, Consignment
+      can :read, Waybill
+      can :read, WriteOffAct
+      can :read, Truck
+      can :read, User, role: Role.find_by_role_name('driver')
+    end
   end
 end

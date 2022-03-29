@@ -1,14 +1,20 @@
 import axios from 'axios';
 
 import {
-  createConsignmentUrl, getDriversUrl, getTrucksUrl, createUserUrl,
-  deleteUserUrl, getAllUserUrl, getUserUrl, updateUserUrl, getAllConsignmentUrl, createGoodsUrl,
+  createConsignmentUrl, getDriversUrl, getTrucksUrl,
+  createUserUrl, deleteUserUrl, getAllUserUrl,
+  getUserUrl, updateUserUrl, getAllConsignmentUrl,
+  createGoodsUrl, ConsignmentGoodsUrl,
+  WarehouseUrl, getAllWarehouseUrl,
+  getAllRolesUrl, writeOffActUrl,
+  getWarehousemansUrl,
 } from './clientAPI';
 
 function httpClient() {
   return {
     users: {
       get_drivers: () => axios.get(`${getDriversUrl}`),
+      get_warehousemans: () => axios.get(`${getWarehousemansUrl}`),
       get: (id) => axios.get(`${getUserUrl}/${id}`),
       getAll: () => axios.get(`${getAllUserUrl}`),
       create: (user) => axios.post(`${createUserUrl}`, user),
@@ -39,10 +45,27 @@ function httpClient() {
       create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
     },
     goods: {
+      getConsignmentGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/goods`),
+      getWaybillGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/waybill_goods`),
       create: (goods) => axios.post(`${createGoodsUrl}`, goods),
+      setConsignmentGoodsChecked: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, goods),
+      setWaybillGoodsStatus: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}//waybill_goods`, goods),
     },
     goods_owner: {
       get_names: () => axios.get('/goodsowners'),
+    },
+    writeOffActs: {
+      getAll: () => axios.get(`${writeOffActUrl}.json`),
+      create: (writeOffAct) => axios.post(`${writeOffActUrl}`, writeOffAct),
+    },
+    warehouses: {
+      create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
+      get_all: () => axios.get(`${getAllWarehouseUrl}`),
+      delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
+      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
+    },
+    roles: {
+      getAllRoles: () => axios.get(`${getAllRolesUrl}`),
     },
   };
 }

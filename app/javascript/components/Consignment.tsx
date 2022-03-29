@@ -8,36 +8,39 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import httpClient from '../api/httpClient';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
+import ConsignmentGoods from './Consignment/ConsignmentGoods';
 
 type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
+  const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
-  const [goods, setGood] = React.useState([{
+  const [goods, setGoods] = React.useState([]);
+  const [consId, setConsID] = React.useState(null);
+  const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
 
-  const handleFieldAdd = () => setGood(
-    [...goods, {
-      good_name: '', unit_of_measurement: '', quantity: 0,
-    }],
-  );
+  const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
-    const list = [...goods];
+    const list = [...newGoods];
     list[index][name] = value;
-    setGood(list);
+    setNewGood(list);
   };
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setModalGoodsActive(false);
+  };
 
   const handleSubmit = (values: UnionConsGoodType) => {
     httpClient.consignments.create({ values }).then((response) => {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
     });
-    httpClient.goods.create({ ...values, goods });
+    httpClient.goods.create({ ...values, newGoods });
   };
 
   return (
@@ -52,16 +55,28 @@ function Consignment() {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <ConsignmentTable consignments={consignments} setConsignment={setConsignment} />
+          <ConsignmentTable
+            consignments={consignments}
+            setConsignment={setConsignment}
+            setModalGoodsActive={setModalGoodsActive}
+            setConsID={setConsID}
+            setGoods={setGoods}
+          />
         </Grid>
       </Box>
       <CreateConsignmentForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
-        goods={goods}
+        newGoods={newGoods}
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
+      />
+      <ConsignmentGoods
+        isActiveModal={isActiveGoodsModal}
+        handleClose={handleClose}
+        consId={consId}
+        goods={goods}
       />
     </div>
   );

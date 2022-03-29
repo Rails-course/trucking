@@ -151,3 +151,10 @@ body {
 .paragr{
     text-align: center;
 }
+
+#nav-bar-info {
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 15px;
+}

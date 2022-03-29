@@ -9,11 +9,10 @@ import {
 import Button from '@mui/material/Button';
 
 import FormikField from '../../../UI/FormikField';
-import FormikSelect from '../../../UI/FormikSelect';
-import validationSchema from '../../../mixins/validationSchema';
 import { userFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
-import userInitialValues, { userFormValues, roleItems } from '../../../initialValues/userInitialValues';
+import userInitialValues from '../../../initialValues/userInitialValues';
+import userValidation from '../../../mixins/validation_schema/user';
 
 interface CreateFormProps {
   isActiveModal: boolean;
@@ -24,8 +23,19 @@ interface CreateFormProps {
   btnTitle: string;
 }
 
+interface company {
+  id: number;
+  name: string;
+}
+
+interface role {
+  id: number;
+  role_name: string;
+}
+
 const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const [companies, setCompanies] = React.useState(null);
+  const [roles, setRoles] = React.useState(null);
   const {
     isActiveModal, handleClose, handleSubmit, editUserModal,
     title, btnTitle,
@@ -52,6 +62,12 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
     });
   }, []);
 
+  React.useEffect(() => {
+    httpClient.roles.getAllRoles().then((response) => {
+      setRoles(response.data);
+    });
+  }, []);
+
   return (
     <div>
       <Dialog
@@ -66,7 +82,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
             <Grid item xs={8}>
               <Formik
                 initialValues={userInitialValues}
-                validationSchema={validationSchema}
+                validationSchema={userValidation}
                 onSubmit={handleSubmit}
               >
                 {({
@@ -88,7 +104,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="company"
                       options={companies}
-                      getOptionLabel={(option) => option.name}
+                      getOptionLabel={(option: company) => option.name}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -100,11 +116,20 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                         />
                       )}
                     />
-                    <FormikSelect
-                      name="role"
-                      items={roleItems}
-                      label="Role"
-                      required
+                    <Autocomplete
+                      id="role"
+                      options={roles}
+                      getOptionLabel={(option: role) => option.role_name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onSelect={handleChange}
+                          margin="normal"
+                          label="Role"
+                          fullWidth
+                          value={values?.role}
+                        />
+                      )}
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>

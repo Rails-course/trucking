@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { styled } from '@mui/material/styles';
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper, tableCellClasses,
+  Table, TableBody, TableCell, TableRow, TableContainer,
+  TableHead, Paper, tableCellClasses, Button, styled,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../waybil/CreateWaybill';
+import CreateWaybill from '../waybill/CreateWaybill';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,16 +31,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface ConsignmentTableProps {
   consignments: any,
   setConsignment: any,
+  setModalGoodsActive: any,
+  setGoods: any,
+  setConsID: any,
 }
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
-  const { consignments, setConsignment } = props;
+  const {
+    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID,
+  } = props;
 
   React.useEffect(() => {
     httpClient.consignments.getAll().then((response) => {
       setConsignment(response.data);
     });
   }, []);
+
+  const handleGetGoods = (id) => {
+    setModalGoodsActive(true);
+    setConsID(id);
+    httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
+  };
 
   if (!consignments) return (<p>Loading...</p>);
   return (
@@ -49,36 +60,57 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Number</StyledTableCell>
-              <StyledTableCell align="right">Seria</StyledTableCell>
-              <StyledTableCell align="right">Bundle seria</StyledTableCell>
-              <StyledTableCell align="right">Bundle number</StyledTableCell>
-              <StyledTableCell align="right">Dispatcher</StyledTableCell>
-              <StyledTableCell align="right">Waybill</StyledTableCell>
+              <StyledTableCell align="center">Consignment series</StyledTableCell>
+              <StyledTableCell align="center">Consignment number</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="center">Bundle series</StyledTableCell>
+              <StyledTableCell align="center">Bundle number</StyledTableCell>
+              <StyledTableCell align="center">Bundle goods</StyledTableCell>
+              <StyledTableCell align="center">Waybill</StyledTableCell>
+              <StyledTableCell align="center">Dispatcher</StyledTableCell>
+              <StyledTableCell align="center">Inspector</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {consignments.map((consignment) => {
-              const dispatcher_FIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+              const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+              const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
+              let waybillStatus = null;
+              if (consignment.hasOwnProperty('waybill')) {
+                waybillStatus = consignment.waybill.status
+              }
               return (
-                <StyledTableRow key={consignment.consignment_number}>
-                  <StyledTableCell component="th" scope="company">
-                    {consignment.consignment_number}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
+                <StyledTableRow
+                  key={consignment.consignment_number}
+                >
+                  <StyledTableCell align="center">
                     {consignment.consignment_seria}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell component="th" scope="company" align="center">
+                    {consignment.consignment_number}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {consignment.status}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     {consignment.bundle_seria}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {consignment.bundle_number}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {dispatcher_FIO}
+                  <StyledTableCell align="center">
+                    <Button variant="outlined" onClick={() => handleGetGoods(consignment.id)}>
+                      Goods
+                    </Button>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <CreateWaybill id={consignment.id} />
+                  <StyledTableCell align="center">
+                    <CreateWaybill id={consignment.id} status={consignment.status} waybillStatus={waybillStatus} />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {dispatcherFIO}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {consignment.manager ? managerFIO : "Isn't checked"}
                   </StyledTableCell>
                 </StyledTableRow>
               );

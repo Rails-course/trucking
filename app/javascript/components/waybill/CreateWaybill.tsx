@@ -2,30 +2,33 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete, Box, Container, Dialog, DialogActions,
-  DialogContent, DialogTitle, Grid, TextField, Button, InputLabel,
-} from '@mui/material';
+  Autocomplete, Box,
+  Container, Button, InputLabel,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
 
+} from '@mui/material';
+import { useState } from 'react';
 import FormikField from '../../UI/FormikField';
 import CreateRoutes from './CreateRoutes';
 import RouteTable from './RouteTable';
 import httpClients from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
-import validationWaybill from '../../mixins/validationWaybill';
+import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
 
 interface CreateWaybillsFormProps {
-    id:number;
+  id: number;
+  status: string;
+  waybillStatus: string;
 }
+const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
+  const { id, status, waybillStatus } = props;
 
-const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
-  const { id } = props;
-
-  const [isActiveWayBill, setWayBillActive] = React.useState(false);
-  const [isCreateRoutes, setCreateRoutes] = React.useState(false);
-  const [routes, setRoutes] = React.useState([]);
-  const [data, setData] = React.useState(null);
-  const [owners, setOwners] = React.useState([]);
+  const [isActiveWayBill, setWayBillActive] = useState(false);
+  const [isCreateRoutes, setCreateRoutes] = useState(false);
+  const [routes, setRoutes] = useState([]);
+  const [data, setData] = useState(null);
+  const [owners, setOwners] = useState([]);
 
   React.useEffect(() => {
     httpClients.waybill.get_data_waybill(id).then((response) => setData(response.data));
@@ -40,11 +43,14 @@ const CreateWaybill:React.FC <CreateWaybillsFormProps> = (props: CreateWaybillsF
   const CloseCreateRoutes = () => setCreateRoutes(false);
 
   const handleClose = () => setWayBillActive(false);
-
   return (
     <div>
-      <Button variant="outlined" onClick={() => { setWayBillActive(true); }}>
-        Open waybill
+      <Button variant="outlined"
+        disabled={(status === 'checked' && !waybillStatus) ? false : true}
+        onClick={() => { setWayBillActive(true); }}
+      >
+        Create waybill
+
       </Button>
       <Dialog
         open={isActiveWayBill}

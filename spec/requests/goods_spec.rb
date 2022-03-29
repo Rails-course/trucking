@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Goods', type: :request do
-  let(:user) { create(:user) }
+  let(:user) { create(:user_sysAdmin) }
 
   before do
     sign_in user
@@ -10,7 +10,7 @@ RSpec.describe 'Goods', type: :request do
   describe 'positive POST/PUT/DELETE methods' do
     it 'POST goods' do
       post '/goods',
-           params: { goods: [
+           params: { newGoods: [
              { bundle_seria: 'BS', bundle_numbe: 11, good_name: 'Potato',
                unit_of_measurement: 'kilos',
                quantity: 10 },

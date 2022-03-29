@@ -44,31 +44,26 @@ ActiveRecord::Schema.define(version: 2022_03_24_174954) do
     t.bigint "truck_id"
     t.bigint "dispatcher_id"
     t.bigint "manager_id"
-  end
-
-  create_table "destinations", force: :cascade do |t|
-    t.string "destination_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "address_id"
-    t.index ["destination_name"], name: "index_destinations_on_destination_name", unique: true
+    t.index ["bundle_seria", "bundle_number"], name: "index_consignments_on_bundle_seria_and_bundle_number", unique: true
+    t.index ["consignment_seria", "consignment_number"], name: "index_consignments_on_consignment_seria_and_consignment_number", unique: true
   end
 
   create_table "goods", force: :cascade do |t|
     t.string "good_name", null: false
     t.integer "quantity", null: false
     t.string "unit_of_measurement", null: false
-    t.string "status", null: false
+    t.string "status", default: "accepted", null: false
     t.string "bundle_seria", null: false
     t.integer "bundle_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["good_name", "bundle_seria", "bundle_number"], name: "index_goods_on_good_name_and_bundle_seria_and_bundle_number", unique: true
   end
 
   create_table "goods_owners", force: :cascade do |t|
-    t.string "warehouse_name", null: false
+    t.string "goods_owner_name", null: false
     t.bigint "address_id"
-    t.index ["warehouse_name"], name: "index_goods_owners_on_warehouse_name", unique: true
+    t.index ["goods_owner_name"], name: "index_goods_owners_on_goods_owner_name", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
@@ -122,6 +117,16 @@ ActiveRecord::Schema.define(version: 2022_03_24_174954) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "warehouses", force: :cascade do |t|
+    t.string "warehouse_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "address_id"
+    t.boolean "trusted", default: false, null: false
+    t.bigint "warehouseman_id"
+    t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
+  end
+
   create_table "waybills", force: :cascade do |t|
     t.date "start_date", null: false
     t.date "end_date", null: false
@@ -140,6 +145,6 @@ ActiveRecord::Schema.define(version: 2022_03_24_174954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "consignment_id"
+    t.text "description"
   end
-
 end

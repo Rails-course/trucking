@@ -6,7 +6,8 @@ import {
 } from '@mui/material';
 
 import httpClients from '../api/httpClient';
-import Checkpoints from './driver/Checkpoints';
+import Checkpoints from './Driver/Checkpoints';
+import WaybillGoods from './Driver/WaybillGoods';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

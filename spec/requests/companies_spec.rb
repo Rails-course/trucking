@@ -2,9 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Companies', type: :request do
   let(:company) { create(:company) }
-  before(:each) do
-    sign_in create(:user)
+  let(:user) { create(:user_sysAdmin) }
+
+  before do
+    sign_in user
   end
+
   describe 'DELETE /companies' do
     it 'valid delete request' do
       delete "/companies/#{company.id}"

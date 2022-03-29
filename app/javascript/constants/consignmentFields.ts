@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 export const consignmentFields = [
   {
     id: uuidv4(),
-    title: 'Bundle seria',
+    title: 'Bundle series',
     model: 'bundle_seria',
     required: true,
-    placeholder: 'Bundle seria',
+    placeholder: 'Bundle series',
     type: 'text',
   },
   {
@@ -15,13 +15,13 @@ export const consignmentFields = [
     model: 'bundle_number',
     placeholder: 'Bundle number',
     required: true,
-    type: 'text',
+    type: 'number',
   },
   {
     id: uuidv4(),
-    title: 'Consignment seria',
+    title: 'Consignment series',
     model: 'consignment_seria',
-    placeholder: 'Consignment seria',
+    placeholder: 'Consignment series',
     required: true,
     type: 'text',
   },
@@ -31,6 +31,6 @@ export const consignmentFields = [
     model: 'consignment_number',
     placeholder: 'Consignment number',
     required: true,
-    type: 'text',
+    type: 'number',
   },
 ];

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 interface RoutesTableFormProps {
-  routes:any
+  routes: any
 }
 
-const RouteTable:React.FC <RoutesTableFormProps> = (props: RoutesTableFormProps) => {
+const RouteTable: React.FC<RoutesTableFormProps> = (props: RoutesTableFormProps) => {
   const { routes } = props;
   return (
     <>

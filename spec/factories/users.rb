@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  # TODO: add association fields after creating certain tables
   factory :user do
     sequence(:email) { |i| "test#{i}@test.com" }
     password { 'password1' }
@@ -15,6 +14,10 @@ FactoryBot.define do
     association(:address)
     role
 
+    trait :sysAdmin do
+      association :role, factory: :sysAdmin_role
+    end
+
     trait :driver do
       association :role, factory: :driver_role
     end
@@ -27,8 +30,14 @@ FactoryBot.define do
       association :role, factory: :manager_role
     end
 
+    trait :warehouseman do
+      association :role, factory: :warehouseman_role
+    end
+
     factory :user_driver, traits: [:driver]
     factory :user_dispatcher, traits: [:dispatcher]
     factory :user_manager, traits: [:manager]
+    factory :user_warehouseman, traits: [:warehouseman]
+    factory :user_sysAdmin, traits: [:sysAdmin]
   end
 end

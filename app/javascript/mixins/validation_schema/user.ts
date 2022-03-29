@@ -6,7 +6,7 @@ const REGEX_MIX_LETTERS_NUMBERS = /^(?=.*?[0-9])/;
 const REGEX_SPECIAL_SYMBOL = /^(?=.*?[#?!@$%^&*-])/;
 const REGX_ONLY_NUMBER = /^[\d]+$/;
 
-const validationSchema = Yup.object().shape({
+const userValidation = Yup.object().shape({
   first_name: Yup.string()
     .matches(REGX_ONLY_LETTER, 'Name must be alphabets only')
     .min(2, 'Too Short!')
@@ -66,4 +66,4 @@ const validationSchema = Yup.object().shape({
 
 });
 
-export default validationSchema;
+export default userValidation;
