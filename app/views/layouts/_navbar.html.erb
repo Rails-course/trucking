@@ -3,22 +3,22 @@
     <div class="nav">
       <div class="nav-left">
         <% if can? :manage, User %>
-          <%= link_to "Users", users_path, class:"share-links" %>
+          <%= link_to "Users", users_path, class:"share-links #{'active' if current_page?('/users')}" %>
         <% end %>
         <% if can? :manage, Company %>
-          <%= link_to "Companies", companies_path, class:"share-links" %>
+          <%= link_to "Companies", companies_path, class:"share-links #{'active' if current_page?('/companies')}" %>
         <% end %>
         <% if can? :manage, Warehouse %>
-          <%= link_to "Warehouses", warehouses_path, class:"share-links" %>
+          <%= link_to "Warehouses", warehouses_path, class:"share-links #{'active' if current_page?('/warehouses')}" %>
         <% end %>
         <% if can? :read, Consignment %>
-          <%= link_to "Consignments", consignments_path, class:"share-links" %>
+          <%= link_to "Consignments", consignments_path, class:"share-links #{'active' if current_page?('/consignments')}" %>
         <% end %>
         <% if can? :read, Waybill %>
-          <%= link_to "Waybills", waybills_path, class:"share-links" %>
+          <%= link_to "Waybills", waybills_path, class:"share-links #{'active' if current_page?('/waybills')}" %>
         <% end %>
         <% if can? :read, WriteOffAct %>
-          <%= link_to "Write-off acts", write_off_acts_path, class:"share-links" %>
+          <%= link_to "Write-off acts", write_off_acts_path, class:"share-links #{'active' if current_page?('/write_off_acts')}" %>
         <% end %>
       </div>
       <div class="nav-right">

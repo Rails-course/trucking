@@ -76,6 +76,10 @@ body {
 .share-links:hover {
     color: #2ecc71;
 }
+.share-links.active {
+    font-weight: bold;
+    color: #2ecc71;
+}
 .btn, .cancel-btn, .log-out-btn {
     width: 30%;
     display: block;
