@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
@@ -16,6 +15,7 @@ const Users = () => {
   const [editUserModal, setEditUserModal] = React.useState(null);
 
   const isModalActive = isActiveModal || !!editUserModal;
+
   const handleClose = () => {
     setModalActive(false);
     setEditUserModal(null);

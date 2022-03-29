@@ -1,35 +1,27 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
-import WarehouseTable from './Warehouse/WarehouseTable';
+import { Box, Grid, Button } from '@mui/material';
+
 import httpClient from '../api/httpClient';
+import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateForm';
 import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
-
-interface warehouse {
-  id: number;
-  warehouse_name: string;
-  trusted: boolean;
-}
+import { WarehouseData } from '../common/interfaces_types';
 
 function Warehouse() {
   const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<warehouse[]>([]);
+  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
 
   const handleClose = () => setModalActive(false);
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
-    httpClient.warehouses.create(warehouse).then((response) => {
-      setWarehouses((prev) => [...prev, response.data]);
-    });
+    httpClient.warehouses.create(warehouse)
+      .then((response) => setWarehouses((prev) => [...prev, response.data]));
   };
 
   React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
-      setWarehouses(response.data);
-    });
+    httpClient.warehouses.get_all().then((response) => setWarehouses(response.data));
   }, []);
 
   return (

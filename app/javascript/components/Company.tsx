@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
+
 import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 
-function Company() {
+const Company = () => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
 
-  const handleClose = () => {
-    setModalActive(false);
-  };
+  const handleClose = () => setModalActive(false);
 
   return (
     <div className="wrapper">
@@ -36,6 +34,6 @@ function Company() {
       />
     </div>
   );
-}
+};
 
 export default Company;

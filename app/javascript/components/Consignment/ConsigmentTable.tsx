@@ -77,7 +77,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
               let waybillStatus = null;
               if (consignment.hasOwnProperty('waybill')) {
-                waybillStatus = consignment.waybill.status
+                waybillStatus = consignment.waybill.status;
               }
               return (
                 <StyledTableRow

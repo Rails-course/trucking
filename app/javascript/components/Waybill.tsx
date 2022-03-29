@@ -1,41 +1,20 @@
 import * as React from 'react';
 
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer,
-  TableHead, Paper, tableCellClasses, styled, Box,
+  Table, TableBody, TableRow, TableContainer, TableHead, Paper, Box,
 } from '@mui/material';
 
 import httpClients from '../api/httpClient';
 import Checkpoints from './Driver/Checkpoints';
 import WaybillGoods from './Driver/WaybillGoods';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 17,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
+import { waybillTableCell } from '../constants/waybillFields';
+import { StyledTableCell, StyledTableRow } from '../utils/style';
 
 const Waybill = () => {
   const [waybills, setWaybill] = React.useState(null);
 
   React.useEffect(() => {
-    httpClients.waybill.gets_waybills().then((response) => {
-      setWaybill(response.data);
-    });
+    httpClients.waybill.gets_waybills().then((response) => setWaybill(response.data));
   }, []);
 
   if (!waybills) return (<p>No data yet ...</p>);
@@ -50,31 +29,19 @@ const Waybill = () => {
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Status</StyledTableCell>
-                <StyledTableCell align="center">Start point</StyledTableCell>
-                <StyledTableCell align="center">End point</StyledTableCell>
-                <StyledTableCell align="right">Action</StyledTableCell>
-                <StyledTableCell align="right">Goods</StyledTableCell>
+                {waybillTableCell.map((cell) => (
+                  <StyledTableCell key={cell.id} align={cell.align}>{cell.title}</StyledTableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {waybills.map((waybill) => (
                 <StyledTableRow key={waybill.id}>
-                  <StyledTableCell>
-                    {waybill.status}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {waybill.startpoint}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {waybill.endpoint}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Checkpoints id={waybill.id} />
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <WaybillGoods wayId={waybill.id} />
-                  </StyledTableCell>
+                  <StyledTableCell>{waybill.status}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
+                  <StyledTableCell align="right"><Checkpoints id={waybill.id} /></StyledTableCell>
+                  <StyledTableCell align="right"><WaybillGoods wayId={waybill.id} /></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
