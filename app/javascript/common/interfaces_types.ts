@@ -1,5 +1,7 @@
+import * as React from 'react';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
+import { Order, UserData } from '../mixins/initialValues/userList';
 
 // INTERFACES
 export interface CreateConsignmentFormProps {
@@ -68,6 +70,17 @@ export interface EnhancedTableProps {
     userIds: number[];
     setUserId: any;
     setEditUserModal: any;
+}
+
+export interface EnhancedHeadTableProps {
+    numSelected: number;
+    // eslint-disable-next-line no-unused-vars
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof UserData) => void;
+    // eslint-disable-next-line no-unused-vars
+    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    order: Order;
+    orderBy: string;
+    rowCount: number;
 }
 
 // TYPES
