@@ -1,28 +1,19 @@
 import * as React from 'react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
-import axios from 'axios';
 import FormikField from '../../UI/FormikField';
-
-interface CreateCompanyFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  setCompany: any,
-}
+import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
-  const {
-    isActiveModal, handleClose, setCompany,
-  } = props;
+  const { isActiveModal, handleClose, setCompany } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)

@@ -1,26 +1,18 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
 
-import CommentIcon from '@mui/icons-material/Comment';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
   ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
 } from '@mui/material';
-import httpClient from '../../api/httpClient';
-import { Item } from '../../common/interfaces_types';
+import CommentIcon from '@mui/icons-material/Comment';
 
-interface ConsignmentGoodsProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  consId: number;
-  goods: Item[];
-  consignments: any;
-  setConsignment: any;
-}
+import httpClient from '../../api/httpClient';
+import { ConsignmentGoodsProps, Item } from '../../common/interfaces_types';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, consId, goods, consignments, setConsignment
+    isActiveModal, handleClose, consId, goods, consignments, setConsignment,
   } = props;
 
   const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
@@ -29,7 +21,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     if (checkedGoods.indexOf(value) === -1) {
       setCheckedGooods([...checkedGoods, value]);
     } else {
-      setCheckedGooods(checkedGoods.filter(item => item !== value));
+      setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
   };
 
@@ -37,15 +29,15 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   // Should render new consignemnt status and create waybill button should unlock
   const handleSubmit = async () => {
     await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
-      const objIndex = consignments.findIndex(element => element.id === consId);
-      console.log(objIndex + 'before')
+      const objIndex = consignments.findIndex((element) => element.id === consId);
+      console.log(`${objIndex}before`);
       console.log(consignments);
-      consignments[objIndex] = response.data.consignment
-      setConsignment(consignments)
-      console.log('after')
+      consignments[objIndex] = response.data.consignment;
+      setConsignment(consignments);
+      console.log('after');
       console.log(consignments);
     });
-    setCheckedGooods([])
+    setCheckedGooods([]);
   };
 
   return (

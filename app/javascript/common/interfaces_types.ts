@@ -3,6 +3,45 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import { goodsFormValues } from '../initialValues/goodsInitialValues';
 import { Order, UserData } from '../mixins/initialValues/userList';
 
+// TYPES
+export type Driver = {
+    id: number;
+    first_name: string;
+    second_name: string;
+    middle_name: string;
+    email: string;
+    birthday: any;
+    login: string;
+    passport: string;
+}
+
+export type Truck = {
+    id: number;
+    truck_number: string;
+    fuel_consumption: number;
+}
+
+export type Item = {
+    id: number;
+    good_name: string;
+    quantity: number;
+    unit_of_measurement: string;
+    bundle_seria: string;
+    bundle_number: string;
+}
+
+export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
+
+export type CompanyType = {
+    id: number;
+    name: string;
+}
+
+export type RoleType = {
+    id: number;
+    role_name: string;
+}
+
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -83,31 +122,60 @@ export interface EnhancedHeadTableProps {
     rowCount: number;
 }
 
-// TYPES
-export type Driver = {
-    id: number;
-    first_name: string;
-    second_name: string;
-    middle_name: string;
-    email: string;
-    birthday: any;
-    login: string;
-    passport: string;
+export interface EnhancedTableToolbarProps {
+    numSelected: number;
+    users: any;
+    setUser: any;
+    userIds: number[];
 }
 
-export type Truck = {
-    id: number;
-    truck_number: string;
-    fuel_consumption: number;
+export interface UserCreateFormProps {
+    isActiveModal: boolean;
+    handleClose: () => void;
+    editUserModal: any;
+    title: string;
+    handleSubmit: any;
+    btnTitle: string;
 }
 
-export type Item = {
-    id: number;
-    good_name: string;
-    quantity: number;
-    unit_of_measurement: string;
-    bundle_seria: string;
-    bundle_number: string;
+export interface WaybillGoodsProps {
+    wayId: number;
 }
 
-export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
+export interface CheckpointWindowFormProps {
+    id:number,
+    status:boolean,
+    updateData:()=>void,
+}
+
+export interface CheckpointsFormProps {
+    id:number,
+}
+
+export interface ConsignmentGoodsProps {
+    isActiveModal: boolean;
+    handleClose: () => void;
+    consId: number;
+    goods: Item[];
+    consignments: any;
+    setConsignment: any;
+}
+
+export interface ConsignmentTableProps {
+    consignments: any,
+    setConsignment: any,
+    setModalGoodsActive: any,
+    setGoods: any,
+    setConsID: any,
+}
+
+export interface CreateCompanyFormProps {
+    isActiveModal: boolean;
+    handleClose: () => void;
+    setCompany: any,
+}
+
+export interface CompanyTableProps {
+    companies: any,
+    setCompany: any,
+}

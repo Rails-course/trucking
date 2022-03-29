@@ -2,44 +2,25 @@ import * as React from 'react';
 import { Form, Formik, useFormikContext } from 'formik';
 
 import {
-  Autocomplete,
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions, Button,
+  DialogContent, DialogTitle, Grid, TextField,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../../UI/FormikField';
 import { userFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
+import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/interfaces_types';
 
-interface CreateFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  editUserModal: any;
-  title: string;
-  handleSubmit: any;
-  btnTitle: string;
-}
-
-interface company {
-  id: number;
-  name: string;
-}
-
-interface role {
-  id: number;
-  role_name: string;
-}
-
-const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
-  const [companies, setCompanies] = React.useState(null);
-  const [roles, setRoles] = React.useState(null);
+const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
     isActiveModal, handleClose, handleSubmit, editUserModal,
     title, btnTitle,
   } = props;
+
+  const [companies, setCompanies] = React.useState(null);
+  const [roles, setRoles] = React.useState(null);
 
   const AutoUpdateForm = ({ id }) => {
     const { setFieldValue } = useFormikContext();
@@ -57,15 +38,8 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   };
 
   React.useEffect(() => {
-    httpClient.companies.get_data().then((response) => {
-      setCompanies(response.data);
-    });
-  }, []);
-
-  React.useEffect(() => {
-    httpClient.roles.getAllRoles().then((response) => {
-      setRoles(response.data);
-    });
+    httpClient.companies.get_data().then((response) => setCompanies(response.data));
+    httpClient.roles.getAllRoles().then((response) => setRoles(response.data));
   }, []);
 
   return (
@@ -104,7 +78,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="company"
                       options={companies}
-                      getOptionLabel={(option: company) => option.name}
+                      getOptionLabel={(option: CompanyType) => option.name}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -119,7 +93,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                     <Autocomplete
                       id="role"
                       options={roles}
-                      getOptionLabel={(option: role) => option.role_name}
+                      getOptionLabel={(option: RoleType) => option.role_name}
                       renderInput={(params) => (
                         <TextField
                           {...params}

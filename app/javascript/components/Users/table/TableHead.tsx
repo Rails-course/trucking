@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {
-  Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
+  Box, Checkbox, TableHead, TableSortLabel,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 

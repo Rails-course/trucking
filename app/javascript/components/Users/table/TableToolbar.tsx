@@ -5,13 +5,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../../api/httpClient';
-
-interface EnhancedTableToolbarProps {
-    numSelected: number;
-    users: any;
-    setUser: any;
-    userIds: number[];
-}
+import { EnhancedTableToolbarProps } from '../../../common/interfaces_types';
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const {
