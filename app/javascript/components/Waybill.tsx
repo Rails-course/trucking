@@ -54,6 +54,7 @@ const Waybill = () => {
                 <StyledTableCell align="center">Start point</StyledTableCell>
                 <StyledTableCell align="center">End point</StyledTableCell>
                 <StyledTableCell align="right">Action</StyledTableCell>
+                <StyledTableCell align="right">Goods</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -70,6 +71,9 @@ const Waybill = () => {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <Checkpoints id={waybill.id} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <WaybillGoods wayId={waybill.id} />
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
