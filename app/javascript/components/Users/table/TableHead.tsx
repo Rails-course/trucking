@@ -1,26 +1,16 @@
 import * as React from 'react';
 
 import {
-  Box,
-  Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
+  Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
-import { UserData, Order } from '../../../mixins/initialValues/userList';
+import { UserData } from '../../../mixins/initialValues/userList';
 import { headCells } from '../../../constants/usersList';
+import { EnhancedHeadTableProps } from '../../../common/interfaces_types';
+import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
-interface EnhancedTableProps {
-    numSelected: number;
-    // eslint-disable-next-line no-unused-vars
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof UserData) => void;
-    // eslint-disable-next-line no-unused-vars
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
+function EnhancedTableHead(props: EnhancedHeadTableProps) {
   const {
     onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,
   } = props;
@@ -31,8 +21,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   return (
     <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+      <StyledTableRow>
+        <StyledTableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -42,9 +32,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               'aria-label': 'select all desserts',
             }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -54,6 +44,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              style={{ color: 'white' }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -62,9 +53,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
-      </TableRow>
+      </StyledTableRow>
     </TableHead>
   );
 }

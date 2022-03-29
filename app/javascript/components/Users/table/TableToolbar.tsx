@@ -35,6 +35,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             theme.palette.action.activatedOpacity,
           ),
         }),
+        backgroundColor: '#000',
+        color: '#fff',
       }}
     >
       {numSelected > 0 ? (
