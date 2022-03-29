@@ -42,3 +42,18 @@ export const warehouseFields = [
     type: 'number',
   },
 ];
+
+export const warehouseTable = [
+  {
+    id: uuidv4(),
+    title: 'Trusted',
+  },
+  {
+    id: uuidv4(),
+    title: 'Warehouse title',
+  },
+  {
+    id: uuidv4(),
+    title: '',
+  },
+];

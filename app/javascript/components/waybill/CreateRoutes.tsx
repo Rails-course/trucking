@@ -2,17 +2,11 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
-
-interface CreateRoutesFormProps {
-    isActiveModal: boolean;
-    routeHandleClose: () => void;
-    setRoutes: any, routes: any
-}
+import { CreateRoutesFormProps } from '../../common/interfaces_types';
 
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
   const {

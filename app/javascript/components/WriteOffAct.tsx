@@ -20,7 +20,8 @@ const WriteOffActs = () => {
   }, []);
 
   const handleSubmit = async (writeOffAct) => {
-    await httpClient.writeOffActs.create(writeOffAct).then((response) => setWriteOffActs((prev) => [...prev, response.data]));
+    await httpClient.writeOffActs.create(writeOffAct)
+      .then((response) => setWriteOffActs((prev) => [...prev, response.data]));
   };
 
   return (

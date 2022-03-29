@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export const waybillLeftFields = [
-
   {
     id: uuidv4(),
     title: 'town',
@@ -71,5 +70,35 @@ export const waybillBottomFields = [
     required: true,
     placeholder: '',
     type: 'date',
+  },
+];
+
+export declare type AlignType = 'left' | 'center' | 'right';
+
+export const waybillTableCell = [
+  {
+    id: uuidv4(),
+    title: 'Status',
+    align: 'left' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Start point',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'End point',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Action',
+    align: 'right' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Goods',
+    align: 'right' as AlignType,
   },
 ];

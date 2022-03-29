@@ -6,13 +6,13 @@ import {
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
-import { Data, Order } from '../../../mixins/initialValues/userList';
+import { UserData, Order } from '../../../mixins/initialValues/userList';
 import { headCells } from '../../../constants/usersList';
 
 interface EnhancedTableProps {
     numSelected: number;
     // eslint-disable-next-line no-unused-vars
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof UserData) => void;
     // eslint-disable-next-line no-unused-vars
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
@@ -24,7 +24,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const {
     onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,
   } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+
+  const createSortHandler = (property: keyof UserData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 

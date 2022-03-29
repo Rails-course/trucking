@@ -2,30 +2,22 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete,
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions,
+  DialogContent, DialogTitle, Grid, TextField, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
 import httpClient from '../../api/httpClient';
 import writeOffActInitialValues from '../../initialValues/writeOffActInitialValues';
 import { writeOffActFields } from '../../constants/writeOffActFields';
-
-interface CreateWriteOffActFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  handleSubmit: any;
-}
+import { CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
-    const {
-      isActiveModal, handleClose, handleSubmit,
-    } = props;
+    const { isActiveModal, handleClose, handleSubmit } = props;
 
     const [consignments, setConsignments] = React.useState([]);
+
     React.useEffect(() => {
       httpClient.consignments.getAll().then((response) => setConsignments(response.data));
     }, []);

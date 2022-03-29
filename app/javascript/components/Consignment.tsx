@@ -1,16 +1,12 @@
 import * as React from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
 
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
-import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import httpClient from '../api/httpClient';
-import ConsignmentTable from './Consignment/ConsigmentTable';
-import { goodsFormValues } from '../initialValues/goodsInitialValues';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
-
-type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
+import ConsignmentTable from './Consignment/ConsigmentTable';
+import httpClient from '../api/httpClient';
+import { UnionConsGoodType } from '../common/interfaces_types';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);

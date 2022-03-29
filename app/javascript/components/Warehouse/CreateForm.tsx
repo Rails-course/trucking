@@ -2,37 +2,20 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete,
-  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions,
+  DialogContent, DialogTitle, Grid, TextField, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
 import { warehouseFields } from '../../constants/warehouseFields';
 import warehouseInitialValues from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
 import httpClient from '../../api/httpClient';
-
-interface CreateFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  handleSubmit: any;
-}
-
-interface warehouseman {
-  id: number;
-  first_name: string;
-  second_name: string;
-  middle_name: string;
-  email: string;
-  birthday: any;
-  login: string;
-  passport: string;
-}
+import { CreateFormProps, Warehouseman } from '../../common/interfaces_types';
 
 const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const { isActiveModal, handleClose, handleSubmit } = props;
-  const [warehousemans, setWarehousemans] = React.useState<warehouseman[]>([]);
+  const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
 
   React.useEffect(() => {
     httpClient.users.get_warehousemans().then((response) => setWarehousemans(response.data));
@@ -74,7 +57,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                     <Autocomplete
                       id="warehouseman"
                       options={warehousemans}
-                      getOptionLabel={(option: warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                      getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                       renderInput={(params) => (
                         <TextField
                           {...params}

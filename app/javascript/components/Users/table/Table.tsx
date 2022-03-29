@@ -1,36 +1,26 @@
 import * as React from 'react';
+import axios from 'axios';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import {
-  Box, Checkbox, FormControlLabel, Switch, TablePagination, Button,
+  Table, TableBody, TableContainer, Paper, Box,
+  Checkbox, FormControlLabel, Switch, TablePagination, Button,
 } from '@mui/material';
 
-import axios from 'axios';
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
-import { Data, Order } from '../../../mixins/initialValues/userList';
+import { UserData, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
-
-interface EnhancedTableProps {
-  users: any;
-  setUser: any;
-  userIds: number[];
-  setUserId: any;
-  setEditUserModal: any;
-}
+import { EnhancedTableProps } from '../../../common/interfaces_types';
+import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
     users, setUser, userIds, setUserId, setEditUserModal,
   } = props;
+
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('login');
+  const [orderBy, setOrderBy] = React.useState<keyof UserData>('login');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -49,7 +39,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof UserData,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -96,12 +86,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   };
 
   React.useEffect(() => {
-    axios.get('/users.json').then((response) => {
-      setUser(response.data);
-    });
+    axios.get('/users.json').then((response) => setUser(response.data));
   }, []);
 
-  if (!users) { return (<p>Loading...</p>); }
+  if (!users) return (<p>No data yet...</p>);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -133,7 +122,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <TableRow
+                    <StyledTableRow
                       hover
                       onClick={(event) => handleClick(event, String(name), +user.id)}
                       role="checkbox"
@@ -142,7 +131,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                       key={name}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      <StyledTableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -150,8 +139,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                             'aria-labelledby': labelId,
                           }}
                         />
-                      </TableCell>
-                      <TableCell
+                      </StyledTableCell>
+                      <StyledTableCell
                         component="th"
                         id={labelId}
                         scope="row"
@@ -163,20 +152,18 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         >
                           {name}
                         </Button>
-                      </TableCell>
-                      <TableCell align="left">{user.login}</TableCell>
-                      <TableCell align="left">{user.role?.role_name}</TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">{user.login}</StyledTableCell>
+                      <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
+                    </StyledTableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
+                <StyledTableRow
+                  style={{ height: (dense ? 33 : 53) * emptyRows }}
                 >
-                  <TableCell colSpan={6} />
-                </TableRow>
+                  <StyledTableCell colSpan={6} />
+                </StyledTableRow>
               )}
             </TableBody>
           </Table>
