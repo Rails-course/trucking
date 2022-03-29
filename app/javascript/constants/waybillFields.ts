@@ -7,7 +7,7 @@ export const waybillLeftFields = [
     title: 'town',
     model: 'town',
     required: true,
-    placeholder: 'start town',
+    placeholder: 'start city',
     type: 'text',
   },
   {
@@ -34,7 +34,7 @@ export const waybillRightFields = [
     title: 'end_town',
     model: 'end_town',
     required: true,
-    placeholder: 'end town',
+    placeholder: 'end city',
     type: 'text',
   },
   {

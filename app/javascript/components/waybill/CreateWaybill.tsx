@@ -58,7 +58,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 550 } }}
         maxWidth="xs"
       >
-        <DialogTitle>Add Waybill</DialogTitle>
+        <DialogTitle>Create Waybill</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
@@ -146,7 +146,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={owners}
-                        getOptionLabel={(option) => option.warehouse_name}
+                        getOptionLabel={(option) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -166,7 +166,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                     }}
                     >
                       {waybillBottomFields.map((column) => (
-                        <div>
+                        <div key={column.id}>
                           <InputLabel shrink htmlFor="bootstrap-input">
                             {column.label}
                           </InputLabel>
