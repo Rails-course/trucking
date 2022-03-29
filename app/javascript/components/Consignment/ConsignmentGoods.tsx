@@ -7,12 +7,13 @@ import {
   ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
 } from '@mui/material';
 import httpClient from '../../api/httpClient';
+import { Item } from '../../common/interfaces_types';
 
 interface ConsignmentGoodsProps {
   isActiveModal: boolean;
   handleClose: () => void;
   consId: number;
-  goods: any;
+  goods: Item[];
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
@@ -20,21 +21,19 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     isActiveModal, handleClose, consId, goods,
   } = props;
 
-  const [checkedGoods, setCheckedGooods] = React.useState([]);
+  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
 
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checkedGoods.indexOf(value);
-    const newCheckedGoods = [...checkedGoods];
-    if (currentIndex === -1) {
-      newCheckedGoods.push(value);
+  const handleToggle = (value: Item) => () => {
+    if (checkedGoods.indexOf(value) === -1) {
+      setCheckedGooods([...checkedGoods, value]);
     } else {
-      newCheckedGoods.splice(currentIndex, 1);
+      setCheckedGooods(checkedGoods.filter(item => item !== value));
     }
-    setCheckedGooods(newCheckedGoods);
   };
 
   const handleSubmit = () => {
     httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
+    setCheckedGooods([])
   };
 
   return (
