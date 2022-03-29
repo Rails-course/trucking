@@ -10,8 +10,12 @@ import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 const WriteOffActs = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
+  const [formErrors, setFormErrors] = React.useState([]);
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  }
 
   React.useEffect(() => {
     httpClient.writeOffActs.getAll().then((response) => {
@@ -21,7 +25,13 @@ const WriteOffActs = () => {
 
   const handleSubmit = async (writeOffAct) => {
     await httpClient.writeOffActs.create(writeOffAct)
-      .then((response) => setWriteOffActs((prev) => [...prev, response.data]));
+      .then((response) => {
+        setWriteOffActs((prev) => [...prev, response.data])
+        setModalActive(false);
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data)
+      });
   };
 
   return (
@@ -46,6 +56,7 @@ const WriteOffActs = () => {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        formErrors={formErrors}
       />
     </div>
   );

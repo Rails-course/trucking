@@ -67,6 +67,7 @@ export interface CreateWriteOffActFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
     handleSubmit: any;
+    formErrors: any;
 }
 
 export interface CreateWaybillsFormProps {
@@ -143,13 +144,13 @@ export interface WaybillGoodsProps {
 }
 
 export interface CheckpointWindowFormProps {
-    id:number,
-    status:boolean,
-    updateData:()=>void,
+    id: number,
+    status: boolean,
+    updateData: () => void,
 }
 
 export interface CheckpointsFormProps {
-    id:number,
+    id: number,
 }
 
 export interface ConsignmentGoodsProps {

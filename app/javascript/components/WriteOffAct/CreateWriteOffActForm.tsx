@@ -14,7 +14,7 @@ import { CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
-    const { isActiveModal, handleClose, handleSubmit } = props;
+    const { isActiveModal, handleClose, handleSubmit, formErrors } = props;
 
     const [consignments, setConsignments] = React.useState([]);
 
@@ -32,6 +32,7 @@ const CreateWriteOffActForm:
         >
           <DialogTitle>Write-off Act Form</DialogTitle>
           <DialogContent>
+            {formErrors ? <p className={'error-msg'}>{formErrors}</p> : null}
             <Grid container spacing={2} direction="column">
               <Grid item xs={12}>
                 <Formik
@@ -82,7 +83,8 @@ const CreateWriteOffActForm:
 
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                        {/* <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button> */}
+                        <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                       </DialogActions>
                     </Form>
                   )}
