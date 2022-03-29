@@ -73,6 +73,8 @@ function Consignment() {
         handleClose={handleClose}
         consId={consId}
         goods={goods}
+        consignments={consignments}
+        setConsignment={setConsignment}
       />
     </div>
   );

@@ -14,11 +14,13 @@ interface ConsignmentGoodsProps {
   handleClose: () => void;
   consId: number;
   goods: Item[];
+  consignments: any;
+  setConsignment: any;
 }
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, consId, goods,
+    isActiveModal, handleClose, consId, goods, consignments, setConsignment
   } = props;
 
   const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
@@ -31,8 +33,18 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     }
   };
 
-  const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
+  // TODO: after Submit cheking goods update Consignment table with new consignment value
+  // Should render new consignemnt status and create waybill button should unlock
+  const handleSubmit = async () => {
+    await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
+      const objIndex = consignments.findIndex(element => element.id === consId);
+      console.log(objIndex + 'before')
+      console.log(consignments);
+      consignments[objIndex] = response.data.consignment
+      setConsignment(consignments)
+      console.log('after')
+      console.log(consignments);
+    });
     setCheckedGooods([])
   };
 
