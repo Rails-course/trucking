@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const waybillFields = [
+export const waybillLeftFields = [
 
   {
     id: uuidv4(),
     title: 'town',
     model: 'town',
     required: true,
-    placeholder: 'start town',
+    placeholder: 'start city',
     type: 'text',
   },
   {
@@ -26,12 +26,15 @@ export const waybillFields = [
     placeholder: 'start building',
     type: 'number',
   },
+];
+
+export const waybillRightFields = [
   {
     id: uuidv4(),
     title: 'end_town',
     model: 'end_town',
     required: true,
-    placeholder: 'end town',
+    placeholder: 'end city',
     type: 'text',
   },
   {
@@ -50,22 +53,23 @@ export const waybillFields = [
     placeholder: 'end building',
     type: 'number',
   },
+];
+
+export const waybillBottomFields = [
   {
     id: uuidv4(),
-    label: 'start date',
-    title: '',
+    label: 'Start date',
     model: 'start_date',
     required: true,
-    placeholder: 'start date',
+    placeholder: '',
     type: 'date',
   },
   {
     id: uuidv4(),
-    label: 'end date',
-    title: '',
+    label: 'End date',
     model: 'end_date',
     required: true,
-    placeholder: 'end date',
+    placeholder: '',
     type: 'date',
   },
 ];

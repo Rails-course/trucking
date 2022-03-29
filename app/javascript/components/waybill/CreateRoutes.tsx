@@ -1,30 +1,31 @@
 import * as React from 'react';
+import { Form, Formik } from 'formik';
+
 import {
   Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid,
 } from '@mui/material';
-import { Form, Formik } from 'formik';
 import Button from '@mui/material/Button';
+
 import FormikField from '../../UI/FormikField';
 
 interface CreateRoutesFormProps {
     isActiveModal: boolean;
-     RoutehandleClose: () => void;
+    routeHandleClose: () => void;
     setRoutes: any, routes: any
 }
 
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
   const {
-    isActiveModal, RoutehandleClose, setRoutes, routes,
+    isActiveModal, routeHandleClose, setRoutes, routes,
   } = props;
 
-  const handleSubmit = (values) => {
-    setRoutes([...routes, values]);
-  };
+  const handleSubmit = (values) => setRoutes([...routes, values]);
+
   return (
     <div>
       <Dialog
         open={isActiveModal}
-        onClose={RoutehandleClose}
+        onClose={routeHandleClose}
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
         maxWidth="xs"
       >
@@ -47,8 +48,8 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={RoutehandleClose}>Cancel</Button>
-                    <Button type="submit" onClick={RoutehandleClose}>Create</Button>
+                    <Button onClick={routeHandleClose}>Cancel</Button>
+                    <Button type="submit" onClick={routeHandleClose}>Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>
