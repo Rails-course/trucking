@@ -41,7 +41,9 @@ Rails.application.routes.draw do
   get '/routes/:id', to: 'waybills#routes'
   namespace :api do
     namespace :v1 do
-      resources :consignments, only: [:index]
+      resources :consignments, only: %i[index show] do
+        resources :consignment_goods, only: :index
+      end
       resources :drivers, only: [:index]
       resources :trucks, only: [:index]
     end
