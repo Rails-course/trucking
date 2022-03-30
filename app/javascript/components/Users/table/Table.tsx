@@ -89,6 +89,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     axios.get('/users.json').then((response) => setUser(response.data));
   }, []);
 
+  if (!users) { return (<p>Loading...</p>); }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -113,61 +115,57 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               rowCount={users.length}
             />
             <TableBody>
-              {!users
-                ? (
-                  <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
-                  </TableRow>
-                )
-                : stableSort(users, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user, index) => {
-                    const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
-                    const isItemSelected = isSelected(String(name));
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <StyledTableRow
-                        hover
-                        onClick={(event) => handleClick(event, String(name), +user.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={user.id}
-                        selected={isItemSelected}
+              {stableSort(users, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user, index) => {
+                  const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
+                  const isItemSelected = isSelected(String(name));
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, String(name), +user.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={name}
+                      selected={isItemSelected}
+                    >
+                      <StyledTableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
                       >
-                        <StyledTableCell padding="checkbox">
-                          <Checkbox
-                            color="primary"
-                            checked={isItemSelected}
-                            inputProps={{
-                              'aria-labelledby': labelId,
-                            }}
-                          />
-                        </StyledTableCell>
-                        <StyledTableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
+                        <Button
+                          variant="text"
+                          onClick={() => setEditUserModal(user.id)}
                         >
-                          <Button
-                            variant="text"
-                            onClick={() => setEditUserModal(user.id)}
-                          >
-                            {name}
-                          </Button>
-                        </StyledTableCell>
-                        <StyledTableCell align="left">{user.login}</StyledTableCell>
-                        <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })}
+                          {name}
+                        </Button>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">{user.login}</StyledTableCell>
+                      <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{ height: (dense ? 33 : 53) * emptyRows }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
+              <StyledTableRow
+                style={{
+                  height: (dense ? 33 : 53) * emptyRows,
+                }}
+              >
+                <StyledTableCell colSpan={6} />
+              </StyledTableRow>
               )}
             </TableBody>
           </Table>
