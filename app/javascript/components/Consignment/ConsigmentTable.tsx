@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../waybill/CreateWaybill';
+import CreateWaybill from '../Waybill/CreateWaybill';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
