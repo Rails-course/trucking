@@ -59,7 +59,7 @@ class Ability
       can :read, Waybill
       can :read, WriteOffAct
       can :read, Truck
-      can :read, User, role: Role.find_by_role_name('driver')
+      can :read, User
     end
   end
 end
