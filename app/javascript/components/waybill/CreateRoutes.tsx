@@ -10,7 +10,7 @@ import { CreateRoutesFormProps } from '../../common/interfaces_types';
 
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
   const {
-    isActiveModal, routeHandleClose, setRoutes, routes,
+    isActiveModal, routeHandleClose, setRoutes, routes, formErrors,
   } = props;
 
   const handleSubmit = (values) => setRoutes([...routes, values]);
@@ -33,6 +33,7 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
               >
                 <Form>
                   <Container maxWidth="sm">
+                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                     <FormikField
                       name="city_name"
                       label="Enter city name"

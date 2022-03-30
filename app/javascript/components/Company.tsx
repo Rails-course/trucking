@@ -9,8 +9,12 @@ import CreateCompanyForm from './Company/CreateCompanyForm';
 const Company = () => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
+  const [formErrors, setFormErrors] = React.useState([]);
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   return (
     <div className="wrapper">
@@ -31,6 +35,8 @@ const Company = () => {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         setCompany={setCompany}
+        formErrors={formErrors}
+        setFormErrors={setFormErrors}
       />
     </div>
   );

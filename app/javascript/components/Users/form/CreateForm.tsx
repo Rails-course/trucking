@@ -3,11 +3,11 @@ import { Form, Formik, useFormikContext } from 'formik';
 
 import {
   Autocomplete, Container, Dialog, DialogActions, Button,
-  DialogContent, DialogTitle, Grid, TextField,
+  DialogContent, DialogTitle, Grid, TextField, Box,
 } from '@mui/material';
 
 import FormikField from '../../../UI/FormikField';
-import { userFields } from '../../../constants/userFields';
+import { userFields, userFirstFields, userSecondFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
@@ -15,8 +15,7 @@ import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/inte
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, editUserModal,
-    title, btnTitle,
+    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle, formErrors,
   } = props;
 
   const [companies, setCompanies] = React.useState(null);
@@ -47,7 +46,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 735 } }}
         maxWidth="xs"
       >
         <DialogTitle>{title}</DialogTitle>
@@ -64,6 +63,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                 }) => (
                   <Form>
                     <Container maxWidth="sm">
+                      {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                       {userFields.map((column) => (
                         <FormikField
                           key={column.id}
@@ -74,37 +74,77 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                           variant="standard"
                         />
                       ))}
+                      <div style={{ width: '100%', display: 'flex' }}>
+                        <Box
+                          component="div"
+                          display="flex"
+                          flexDirection="row"
+                          columnGap="15px"
+                          bgcolor="background.paper"
+                        >
+                          {userFirstFields.map((column) => (
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="standard"
+                            />
+                          ))}
+                        </Box>
+                      </div>
+                      <div style={{ width: '100%', display: 'flex' }}>
+                        <Box
+                          component="div"
+                          display="flex"
+                          flexDirection="row"
+                          columnGap="15px"
+                          bgcolor="background.paper"
+                        >
+                          {userSecondFields.map((column) => (
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="standard"
+                            />
+                          ))}
+                        </Box>
+                      </div>
+                      <Autocomplete
+                        id="company"
+                        options={companies}
+                        getOptionLabel={(option: CompanyType) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Company"
+                            fullWidth
+                            value={values?.company}
+                          />
+                        )}
+                      />
+                      <Autocomplete
+                        id="role"
+                        options={roles}
+                        getOptionLabel={(option: RoleType) => option.role_name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Role"
+                            fullWidth
+                            value={values?.role}
+                          />
+                        )}
+                      />
                     </Container>
-                    <Autocomplete
-                      id="company"
-                      options={companies}
-                      getOptionLabel={(option: CompanyType) => option.name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          onSelect={handleChange}
-                          margin="normal"
-                          label="Company"
-                          fullWidth
-                          value={values?.company}
-                        />
-                      )}
-                    />
-                    <Autocomplete
-                      id="role"
-                      options={roles}
-                      getOptionLabel={(option: RoleType) => option.role_name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          onSelect={handleChange}
-                          margin="normal"
-                          label="Role"
-                          fullWidth
-                          value={values?.role}
-                        />
-                      )}
-                    />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>

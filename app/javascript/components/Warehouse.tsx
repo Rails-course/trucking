@@ -12,12 +12,17 @@ import { WarehouseData } from '../common/interfaces_types';
 function Warehouse() {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
+  const [formErrors, setFormErrors] = React.useState([]);
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
     httpClient.warehouses.create(warehouse)
-      .then((response) => setWarehouses((prev) => [...prev, response.data]));
+      .then((response) => setWarehouses((prev) => [...prev, response.data]))
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   React.useEffect(() => {
@@ -43,6 +48,7 @@ function Warehouse() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        formErrors={formErrors}
       />
     </div>
   );

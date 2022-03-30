@@ -23,8 +23,6 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
 
   const suspendCompany = (id) => httpClient.companies.suspend(id).then(() => updateData());
 
-  if (!companies) return (<p>No data yet ...</p>);
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -36,19 +34,25 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
             </TableRow>
           </TableHead>
           <TableBody>
-            {companies.map((company) => (
-              <StyledTableRow key={company.name}>
-                <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
-                <StyledTableCell align="right" style={{ width: '30%' }}>
-                  <Button variant="outlined" color="warning" onClick={() => suspendCompany(company.id)} style={{ marginRight: '10px' }}>
-                    {company.status ? 'unsuspend' : 'suspend'}
-                  </Button>
-                  <Button variant="outlined" color="error" onClick={() => deleteCompany(company.id)}>
-                    Delete
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {!companies
+              ? (
+                <TableRow>
+                  <StyledTableCell>No data yet ...</StyledTableCell>
+                </TableRow>
+              )
+              : companies.map((company) => (
+                <StyledTableRow key={company.name}>
+                  <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
+                  <StyledTableCell align="right" style={{ width: '30%' }}>
+                    <Button variant="outlined" color="warning" onClick={() => suspendCompany(company.id)} style={{ marginRight: '10px' }}>
+                      {company.status ? 'unsuspend' : 'suspend'}
+                    </Button>
+                    <Button variant="outlined" color="error" onClick={() => deleteCompany(company.id)}>
+                      Delete
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

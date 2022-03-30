@@ -16,8 +16,6 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
     httpClient.writeOffActs.getAll().then((response) => setWriteOffActs(response.data));
   }, []);
 
-  if (!writeOffActs) return (<p>No data yet...</p>);
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -30,15 +28,21 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
             </TableRow>
           </TableHead>
           <TableBody>
-            {writeOffActs.map((writeOffAct) => (
-              <StyledTableRow key={writeOffAct.id}>
-                <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>
-                <StyledTableCell align="center">{writeOffAct.lost_quantity}</StyledTableCell>
-                <StyledTableCell align="center">{writeOffAct.consignment.bundle_seria}</StyledTableCell>
-                <StyledTableCell align="center">{writeOffAct.consignment.bundle_number}</StyledTableCell>
-                <StyledTableCell align="center">{writeOffAct.description}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {!writeOffActs
+              ? (
+                <TableRow>
+                  <StyledTableCell>No data yet ...</StyledTableCell>
+                </TableRow>
+              )
+              : writeOffActs.map((writeOffAct) => (
+                <StyledTableRow key={writeOffAct.id}>
+                  <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>
+                  <StyledTableCell align="center">{writeOffAct.lost_quantity}</StyledTableCell>
+                  <StyledTableCell align="center">{writeOffAct.consignment.bundle_seria}</StyledTableCell>
+                  <StyledTableCell align="center">{writeOffAct.consignment.bundle_number}</StyledTableCell>
+                  <StyledTableCell align="center">{writeOffAct.description}</StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

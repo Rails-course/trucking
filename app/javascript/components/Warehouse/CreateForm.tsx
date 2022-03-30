@@ -14,7 +14,9 @@ import httpClient from '../../api/httpClient';
 import { CreateFormProps, Warehouseman } from '../../common/interfaces_types';
 
 const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
-  const { isActiveModal, handleClose, handleSubmit } = props;
+  const {
+    isActiveModal, handleClose, handleSubmit, formErrors,
+  } = props;
   const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
 
   React.useEffect(() => {
@@ -43,6 +45,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                 }) => (
                   <Form>
                     <Container maxWidth="sm">
+                      {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                       {warehouseFields.map((column) => (
                         <FormikField
                           key={column.id}

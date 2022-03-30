@@ -16,7 +16,8 @@ import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfac
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd, handleFieldChange,
+      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
+      handleFieldChange, formErrors,
     } = props;
 
     const [drivers, setDrivers] = React.useState(null);
@@ -48,6 +49,7 @@ const CreateConsignmentForm:
                   }) => (
                     <Form>
                       <Container>
+                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                         {consignmentFields.map((column) => (
                           <FormikField
                             key={column.id}
