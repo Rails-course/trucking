@@ -98,6 +98,9 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
                         update_data={updateData}
                       />
                     </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {checkpoint.pass_date}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
