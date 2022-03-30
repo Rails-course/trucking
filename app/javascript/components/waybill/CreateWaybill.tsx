@@ -16,13 +16,16 @@ import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../.
 import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
-  const { id, status, waybillStatus } = props;
+  const {
+    id, status, waybillStatus, formWaybillErrors,
+  } = props;
 
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
   const [data, setData] = React.useState(null);
   const [owners, setOwners] = React.useState([]);
+  const [formErrors, setFormErrors] = React.useState([]);
 
   React.useEffect(() => {
     httpClients.waybill.get_data_waybill(id).then((response) => setData(response.data));
@@ -31,12 +34,16 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, cityNames, id);
+    httpClients.waybill.create(values, cityNames, id)
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
 
-  const handleClose = () => setWayBillActive(false);
+  const handleClose = () => {
+    setWayBillActive(false);
+    setFormErrors(null);
+  };
 
   return (
     <div>
@@ -67,6 +74,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                 }) => (
                   <Form>
                     <Container maxWidth="xs">
+                      {formWaybillErrors ? <p className="error-msg">{formWaybillErrors}</p> : null}
                       <div style={{
                         width: '100%', display: 'flex', justifyContent: 'space-around', textAlign: 'center',
                       }}
@@ -191,6 +199,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
               routeHandleClose={closeCreateRoutes}
               setRoutes={setRoutes}
               routes={routes}
+              formErrors={formErrors}
             />
           </Grid>
         </DialogContent>

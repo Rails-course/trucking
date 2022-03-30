@@ -49,7 +49,7 @@ export interface CreateConsignmentFormProps {
     handleSubmit: any;
     newGoods: any;
     handleFieldAdd: any;
-    handleFieldChange: any;
+    handleFieldChange: any, formErrors: any
 }
 
 export interface WarehouseData {
@@ -74,12 +74,13 @@ export interface CreateWaybillsFormProps {
     id: number;
     status: string;
     waybillStatus: string;
+    formWaybillErrors: any;
 }
 
 export interface CreateRoutesFormProps {
     isActiveModal: boolean;
     routeHandleClose: () => void;
-    setRoutes: any, routes: any
+    setRoutes: any, routes: any, formErrors: any
 }
 
 export interface WarehouseTableProps {
@@ -90,7 +91,7 @@ export interface WarehouseTableProps {
 export interface CreateFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    handleSubmit: any;
+    handleSubmit: any, formErrors: any
 }
 
 export interface Warehouseman {
@@ -137,6 +138,7 @@ export interface UserCreateFormProps {
     title: string;
     handleSubmit: any;
     btnTitle: string;
+    formErrors: any;
 }
 
 export interface WaybillGoodsProps {
@@ -167,13 +169,13 @@ export interface ConsignmentTableProps {
     setConsignment: any,
     setModalGoodsActive: any,
     setGoods: any,
-    setConsID: any,
+    setConsID: any, formErrors: any
 }
 
 export interface CreateCompanyFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    setCompany: any,
+    setCompany: any, formErrors: any, setFormErrors: any
 }
 
 export interface CompanyTableProps {

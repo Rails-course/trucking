@@ -12,7 +12,7 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID,
+    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID, formErrors,
   } = props;
 
   React.useEffect(() => {
@@ -25,8 +25,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
   };
 
-  if (!consignments) return (<p>No data yet ...</p>);
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -37,35 +35,42 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
             </TableRow>
           </TableHead>
           <TableBody>
-            {consignments.map((consignment) => {
-              const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
-              const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
-              let waybillStatus = null;
-              if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
-              return (
-                <StyledTableRow key={consignment.consignment_number}>
-                  <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
-                  <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
-                  <StyledTableCell align="center">{consignment.status}</StyledTableCell>
-                  <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
-                  <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Button variant="outlined" onClick={() => handleGetGoods(consignment.id)}>
-                      Goods
-                    </Button>
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <CreateWaybill
-                      id={consignment.id}
-                      status={consignment.status}
-                      waybillStatus={waybillStatus}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
-                  <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
+            {!consignments
+              ? (
+                <TableRow>
+                  <StyledTableCell>No data yet ...</StyledTableCell>
+                </TableRow>
+              )
+              : consignments.map((consignment) => {
+                const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+                const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
+                let waybillStatus = null;
+                if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
+                return (
+                  <StyledTableRow key={consignment.consignment_number}>
+                    <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
+                    <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.status}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button variant="outlined" onClick={() => handleGetGoods(consignment.id)}>
+                        Goods
+                      </Button>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <CreateWaybill
+                        id={consignment.id}
+                        status={consignment.status}
+                        waybillStatus={waybillStatus}
+                        formWaybillErrors={formErrors}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

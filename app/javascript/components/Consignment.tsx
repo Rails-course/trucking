@@ -13,6 +13,7 @@ function Consignment() {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
   const [goods, setGoods] = React.useState([]);
+  const [formErrors, setFormErrors] = React.useState([]);
   const [consId, setConsID] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -30,13 +31,15 @@ function Consignment() {
   const handleClose = () => {
     setModalActive(false);
     setModalGoodsActive(false);
+    setFormErrors(null);
   };
 
   const handleSubmit = (values: UnionConsGoodType) => {
     httpClient.consignments.create({ values }).then((response) => {
       setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-    });
-    httpClient.goods.create({ ...values, newGoods });
+    }).catch((error) => setFormErrors(error.response.data));
+    httpClient.goods.create({ ...values, newGoods })
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   return (
@@ -57,6 +60,7 @@ function Consignment() {
             setModalGoodsActive={setModalGoodsActive}
             setConsID={setConsID}
             setGoods={setGoods}
+            formErrors={formErrors}
           />
         </Grid>
       </Box>
@@ -67,6 +71,7 @@ function Consignment() {
         newGoods={newGoods}
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
+        formErrors={formErrors}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}

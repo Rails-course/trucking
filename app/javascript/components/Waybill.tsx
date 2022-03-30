@@ -14,10 +14,14 @@ const Waybill = () => {
   const [waybills, setWaybill] = React.useState(null);
 
   React.useEffect(() => {
-    httpClients.waybill.gets_waybills().then((response) => setWaybill(response.data));
+    const onResize = () => {
+      httpClients.waybill.gets_waybills().then((response) => setWaybill(response.data));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  if (!waybills) return (<p>No data yet ...</p>);
+  // if (!waybills) return (<p>No data yet ...</p>);
 
   return (
     <div className="wrapper">
@@ -35,15 +39,21 @@ const Waybill = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {waybills.map((waybill) => (
-                <StyledTableRow key={waybill.id}>
-                  <StyledTableCell>{waybill.status}</StyledTableCell>
-                  <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
-                  <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
-                  <StyledTableCell align="right"><Checkpoints id={waybill.id} /></StyledTableCell>
-                  <StyledTableCell align="right"><WaybillGoods wayId={waybill.id} /></StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {!waybills
+                ? (
+                  <TableRow>
+                    <StyledTableCell>No data yet ...</StyledTableCell>
+                  </TableRow>
+                )
+                : waybills.map((waybill) => (
+                  <StyledTableRow key={waybill.id}>
+                    <StyledTableCell>{waybill.status}</StyledTableCell>
+                    <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
+                    <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
+                    <StyledTableCell align="right"><Checkpoints id={waybill.id} /></StyledTableCell>
+                    <StyledTableCell align="right"><WaybillGoods wayId={waybill.id} /></StyledTableCell>
+                  </StyledTableRow>
+                )) }
             </TableBody>
           </Table>
         </TableContainer>

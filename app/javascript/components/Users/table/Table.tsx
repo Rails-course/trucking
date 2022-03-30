@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import {
   Table, TableBody, TableContainer, Paper, Box,
-  Checkbox, FormControlLabel, Switch, TablePagination, Button,
+  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow,
 } from '@mui/material';
 
 import EnhancedTableToolbar from './TableToolbar';
@@ -89,7 +89,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     axios.get('/users.json').then((response) => setUser(response.data));
   }, []);
 
-  if (!users) return (<p>No data yet...</p>);
+  if (!users) { return (<p>Loading...</p>); }
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -122,13 +122,13 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <StyledTableRow
+                    <TableRow
                       hover
                       onClick={(event) => handleClick(event, String(name), +user.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={user.id}
+                      key={name}
                       selected={isItemSelected}
                     >
                       <StyledTableCell padding="checkbox">
@@ -155,15 +155,17 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                       </StyledTableCell>
                       <StyledTableCell align="left">{user.login}</StyledTableCell>
                       <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
-                    </StyledTableRow>
+                    </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{ height: (dense ? 33 : 53) * emptyRows }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
+              <StyledTableRow
+                style={{
+                  height: (dense ? 33 : 53) * emptyRows,
+                }}
+              >
+                <StyledTableCell colSpan={6} />
+              </StyledTableRow>
               )}
             </TableBody>
           </Table>

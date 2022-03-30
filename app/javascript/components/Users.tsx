@@ -13,12 +13,14 @@ const Users = () => {
   const [users, setUser] = React.useState<UserData[]>(null);
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
+  const [formErrors, setFormErrors] = React.useState([]);
 
   const isModalActive = isActiveModal || !!editUserModal;
 
   const handleClose = () => {
     setModalActive(false);
     setEditUserModal(null);
+    setFormErrors(null);
   };
 
   const handleSubmit = async (user: userFormValues) => {
@@ -27,17 +29,19 @@ const Users = () => {
   };
 
   const handleEditSubmit = async (data) => {
-    await httpClient.users.update(data.id, data).then(() => {
-      const newUsers = [...users];
-      const userIndex = newUsers.findIndex((it) => it.id === data.id);
-      if (userIndex !== -1) {
-        newUsers[userIndex] = {
-          ...newUsers[userIndex],
-          ...data,
-        };
-        setUser(newUsers);
-      }
-    });
+    await httpClient.users.update(data.id, data)
+      .then(() => {
+        const newUsers = [...users];
+        const userIndex = newUsers.findIndex((it) => it.id === data.id);
+        if (userIndex !== -1) {
+          newUsers[userIndex] = {
+            ...newUsers[userIndex],
+            ...data,
+          };
+          setUser(newUsers);
+        }
+      })
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   return (
@@ -68,6 +72,7 @@ const Users = () => {
         handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
         btnTitle={editUserModal ? 'Update' : 'Create'}
+        formErrors={formErrors}
       />
     </div>
   );

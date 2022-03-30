@@ -1,14 +1,13 @@
 import * as React from 'react';
 
 import {
-  Box, Checkbox, TableHead, TableSortLabel,
+  Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
 import { UserData } from '../../../mixins/initialValues/userList';
 import { headCells } from '../../../constants/usersList';
 import { EnhancedHeadTableProps } from '../../../common/interfaces_types';
-import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 function EnhancedTableHead(props: EnhancedHeadTableProps) {
   const {
@@ -21,8 +20,8 @@ function EnhancedTableHead(props: EnhancedHeadTableProps) {
 
   return (
     <TableHead>
-      <StyledTableRow>
-        <StyledTableCell padding="checkbox">
+      <TableRow>
+        <TableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -32,9 +31,9 @@ function EnhancedTableHead(props: EnhancedHeadTableProps) {
               'aria-label': 'select all desserts',
             }}
           />
-        </StyledTableCell>
+        </TableCell>
         {headCells.map((headCell) => (
-          <StyledTableCell
+          <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -44,7 +43,6 @@ function EnhancedTableHead(props: EnhancedHeadTableProps) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
-              style={{ color: 'white' }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -53,9 +51,9 @@ function EnhancedTableHead(props: EnhancedHeadTableProps) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </StyledTableCell>
+          </TableCell>
         ))}
-      </StyledTableRow>
+      </TableRow>
     </TableHead>
   );
 }

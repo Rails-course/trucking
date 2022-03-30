@@ -13,15 +13,15 @@ const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('con
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
-  const { isActiveModal, handleClose, setCompany } = props;
+  const {
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors,
+  } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .catch((error) => error);
+      .catch((error) => setFormErrors(error.response.data));
     setTimeout(() => {
-      axios.get('/companies.json').then((response) => {
-        setCompany(response.data);
-      });
+      axios.get('/companies.json').then((response) => setCompany(response.data));
     }, 100);
   };
 
@@ -43,6 +43,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
               >
                 <Form>
                   <Container maxWidth="sm">
+                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                     <FormikField
                       name="name"
                       label="Enter title"
