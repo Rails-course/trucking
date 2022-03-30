@@ -60,6 +60,7 @@ class Ability
       can :read, WriteOffAct
       can :read, Truck
       can :read, User
+      can :read, Good
     end
   end
 end
