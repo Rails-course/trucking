@@ -223,10 +223,10 @@ CS_2_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 202, good_name: '
                           { bundle_seria: 'BS', bundle_number: 202, good_name: 'cola',
                             unit_of_measurement: 'liter', quantity: 22 }])
 # Waybills
-Goods.where(bundle_seria: 'BS', bundle_number: 101).each do |item|
-  item.update(status: 'checked')
+Good.where(bundle_seria: 'BS', bundle_number: 101).each do |item|
+  item.update!(status: 'checked')
 end
-CS_1.update(status: 'checked')
+CS_1.update!(status: 'checked', manager_id: 5)
 startpoint_waybill = Address.create(town: 'StartCity', street: 'Startovaya', building: 13)
 endpoint_waybill = Address.create(town: 'EndCity', street: 'Endovaya', building: 44)
 
