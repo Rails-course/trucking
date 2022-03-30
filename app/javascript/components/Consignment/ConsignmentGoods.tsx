@@ -30,12 +30,12 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
   const handleSubmit = async () => {
     await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
       const objIndex = consignments.findIndex((element) => element.id === consId);
-      console.log(`${objIndex}before`);
-      console.log(consignments);
-      consignments[objIndex] = response.data.consignment;
-      setConsignment(consignments);
-      console.log('after');
-      console.log(consignments);
+      // console.log(`${objIndex}before`);
+      // console.log(consignments);
+      // consignments[objIndex] = response.data.consignment;
+      // setConsignment(consignments);
+      // console.log('after');
+      // console.log(consignments);
     });
     setCheckedGooods([]);
   };

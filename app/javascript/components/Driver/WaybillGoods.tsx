@@ -21,7 +21,7 @@ const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => 
     // BUGFIX: if statement probably unnecessary
     if (wayId) {
       setModalActive(true);
-      httpClient.goods.getWaybillGoods(wayId?.wayId).then((response) => setGoods(response.data));
+      httpClient.goods.getWaybillGoods(wayId).then((response) => setGoods(response.data));
     }
   };
 
@@ -36,7 +36,7 @@ const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => 
     setCheckedGooods(newCheckedGoods);
   };
 
-  const handleSubmit = () => httpClient.goods.setWaybillGoodsStatus(wayId?.wayId, checkedGoods);
+  const handleSubmit = () => httpClient.goods.setWaybillGoodsStatus(wayId, checkedGoods);
 
   return (
     <div>
