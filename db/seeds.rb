@@ -222,6 +222,22 @@ CS_1_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 101, good_name: '
 CS_2_goods = Good.create([{ bundle_seria: 'BS', bundle_number: 202, good_name: 'milk', unit_of_measurement: 'liter', quantity: 11 },
                           { bundle_seria: 'BS', bundle_number: 202, good_name: 'cola',
                             unit_of_measurement: 'liter', quantity: 22 }])
+# Waybills
+Goods.where(bundle_seria: 'BS', bundle_number: 101).each do |item|
+  item.update(status: 'checked')
+end
+CS_1.update(status: 'checked')
+startpoint_waybill = Address.create(town: 'StartCity', street: 'Startovaya', building: 13)
+endpoint_waybill = Address.create(town: 'EndCity', street: 'Endovaya', building: 44)
+
+Waybill_CS_1 = Waybill.create(
+  start_date: Date.parse('30/03/2022'),
+  end_date: Date.parse('31/03/2022'),
+  consignment_id: CS_1.id,
+  startpoint: startpoint_waybill.id,
+  endpoint: endpoint_waybill.id,
+  goods_owner_id: goods_owner_tradep.id
+)
 # Write-off Acts
 write_off_act_CS_1 = WriteOffAct.create(good_name: 'potato', lost_quantity: 5,
-                                        consignment_id: CS_1.id, description: 'Lost during shipment')
+                                        consignment: CS_1, description: 'Lost during shipment')
