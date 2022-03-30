@@ -5,28 +5,26 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
   ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox,
 } from '@mui/material';
-import httpClient from '../../api/httpClient';
 
-interface WaybillGoodsProps {
-  wayId: number;
-}
+import httpClient from '../../api/httpClient';
+import { WaybillGoodsProps } from '../../common/interfaces_types';
 
 const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => {
-  const wayId = props;
+  const { wayId } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [goods, setGoods] = React.useState([]);
   const [checkedGoods, setCheckedGooods] = React.useState([]);
+
+  const handleClose = () => setModalActive(false);
 
   const handleGetGoods = () => {
     // BUGFIX: if statement probably unnecessary
     if (wayId) {
       setModalActive(true);
-      httpClient.goods.getWaybillGoods(wayId.wayId).then((response) => setGoods(response.data));
+      httpClient.goods.getWaybillGoods(wayId?.wayId).then((response) => setGoods(response.data));
     }
   };
-  const handleClose = () => {
-    setModalActive(false);
-  };
+
   const handleToggle = (value: number) => () => {
     const currentIndex = checkedGoods.indexOf(value);
     const newCheckedGoods = [...checkedGoods];
@@ -38,9 +36,7 @@ const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => 
     setCheckedGooods(newCheckedGoods);
   };
 
-  const handleSubmit = () => {
-    httpClient.goods.setWaybillGoodsStatus(wayId.wayId, checkedGoods);
-  };
+  const handleSubmit = () => httpClient.goods.setWaybillGoodsStatus(wayId?.wayId, checkedGoods);
 
   return (
     <div>
@@ -64,9 +60,7 @@ const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => 
                     {goods.map((value) => {
                       const labelId = `checkbox-list-label-${value}`;
                       return (
-                        <ListItem
-                          key={value.id}
-                        >
+                        <ListItem key={value.id}>
                           <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
                             <ListItemIcon>
                               <Checkbox

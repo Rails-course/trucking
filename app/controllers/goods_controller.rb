@@ -31,12 +31,13 @@ class GoodsController < ApplicationController
     begin
       Good.transaction do
         @goods.each { |item| item.update(status: 'checked') }
-        @consignment.update(status: 'checked')
+        @consignment.update(status: 'checked', manager: current_user)
       end
+      response_data = { consignment: @consignment, goods: @goods }
     rescue ActiveRecord::RecordInvalid => e
-      @goods = { error: { status: 422, message: e } }
+      response_data = { error: { status: 422, message: e } }
     end
-    render json: @goods.to_json
+    render json: response_data
   end
 
   def set_goods_delivered_status

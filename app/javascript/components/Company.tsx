@@ -1,27 +1,29 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
+
 import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 
-function Company() {
+const Company = () => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
+  const [formErrors, setFormErrors] = React.useState([]);
 
   const handleClose = () => {
     setModalActive(false);
+    setFormErrors(null);
   };
 
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create Company
           </Button>
         </Grid>
@@ -33,9 +35,11 @@ function Company() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         setCompany={setCompany}
+        formErrors={formErrors}
+        setFormErrors={setFormErrors}
       />
     </div>
   );
-}
+};
 
 export default Company;

@@ -1,40 +1,43 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
 
-import CommentIcon from '@mui/icons-material/Comment';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
   ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
 } from '@mui/material';
-import httpClient from '../../api/httpClient';
+import CommentIcon from '@mui/icons-material/Comment';
 
-interface ConsignmentGoodsProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  consId: number;
-  goods: any;
-}
+import httpClient from '../../api/httpClient';
+import { ConsignmentGoodsProps, Item } from '../../common/interfaces_types';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, consId, goods,
+    isActiveModal, handleClose, consId, goods, consignments, setConsignment,
   } = props;
 
-  const [checkedGoods, setCheckedGooods] = React.useState([]);
+  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
 
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checkedGoods.indexOf(value);
-    const newCheckedGoods = [...checkedGoods];
-    if (currentIndex === -1) {
-      newCheckedGoods.push(value);
+  const handleToggle = (value: Item) => () => {
+    if (checkedGoods.indexOf(value) === -1) {
+      setCheckedGooods([...checkedGoods, value]);
     } else {
-      newCheckedGoods.splice(currentIndex, 1);
+      setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
-    setCheckedGooods(newCheckedGoods);
   };
 
-  const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
+  // TODO: after Submit cheking goods update Consignment table with new consignment value
+  // Should render new consignemnt status and create waybill button should unlock
+  const handleSubmit = async () => {
+    await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
+      const objIndex = consignments.findIndex((element) => element.id === consId);
+      console.log(`${objIndex}before`);
+      console.log(consignments);
+      consignments[objIndex] = response.data.consignment;
+      setConsignment(consignments);
+      console.log('after');
+      console.log(consignments);
+    });
+    setCheckedGooods([]);
   };
 
   return (

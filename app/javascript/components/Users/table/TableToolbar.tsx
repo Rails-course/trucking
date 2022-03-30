@@ -5,13 +5,7 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../../api/httpClient';
-
-interface EnhancedTableToolbarProps {
-    numSelected: number;
-    users: any;
-    setUser: any;
-    userIds: number[];
-}
+import { EnhancedTableToolbarProps } from '../../../common/interfaces_types';
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const {
@@ -35,6 +29,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             theme.palette.action.activatedOpacity,
           ),
         }),
+        backgroundColor: '#000',
+        color: '#fff',
       }}
     >
       {numSelected > 0 ? (
@@ -60,7 +56,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <Button variant="outlined" color="error" onClick={deleteUserByIds}>Delete</Button>
+          <Button variant="contained" color="error" size="large" onClick={deleteUserByIds}>Delete</Button>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">

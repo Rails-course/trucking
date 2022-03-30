@@ -2,30 +2,24 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete,
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions,
+  DialogContent, DialogTitle, Grid, TextField, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
 import httpClient from '../../api/httpClient';
 import writeOffActInitialValues from '../../initialValues/writeOffActInitialValues';
 import { writeOffActFields } from '../../constants/writeOffActFields';
-
-interface CreateWriteOffActFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  handleSubmit: any;
-}
+import { CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit,
+      isActiveModal, handleClose, handleSubmit, formErrors,
     } = props;
 
     const [consignments, setConsignments] = React.useState([]);
+
     React.useEffect(() => {
       httpClient.consignments.getAll().then((response) => setConsignments(response.data));
     }, []);
@@ -50,22 +44,8 @@ const CreateWriteOffActForm:
                     dirty, isValid, handleChange, values,
                   }) => (
                     <Form>
-                      <Autocomplete
-                        id="consignment"
-                        options={consignments}
-                        getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Consignment"
-                            fullWidth
-                            value={values?.consignment}
-                          />
-                        )}
-                      />
                       <Container maxWidth="sm">
+                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                         {writeOffActFields.map((column) => (
                           <FormikField
                             key={column.id}
@@ -74,21 +54,38 @@ const CreateWriteOffActForm:
                             required={column.required}
                             type={column.type}
                             variant="standard"
+                            style={{ marginBottom: '10px' }}
                           />
                         ))}
+                        <Autocomplete
+                          id="consignment"
+                          options={consignments}
+                          getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              onSelect={handleChange}
+                              margin="normal"
+                              label="Consignment"
+                              fullWidth
+                              value={values?.consignment}
+                            />
+                          )}
+                        />
+                        <TextField
+                          id="description"
+                          label="Description"
+                          multiline
+                          fullWidth
+                          maxRows={4}
+                          value={values.description}
+                          onChange={handleChange}
+                        />
                       </Container>
-                      <TextField
-                        id="description"
-                        label="Description"
-                        multiline
-                        fullWidth
-                        maxRows={4}
-                        value={values.description}
-                        onChange={handleChange}
-                      />
+
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                        <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                       </DialogActions>
                     </Form>
                   )}

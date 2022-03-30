@@ -1,36 +1,27 @@
 import * as React from 'react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
-import axios from 'axios';
 import FormikField from '../../UI/FormikField';
-
-interface CreateCompanyFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  setCompany: any,
-}
+import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors,
   } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .catch((error) => error);
+      .catch((error) => setFormErrors(error.response.data));
     setTimeout(() => {
-      axios.get('/companies.json').then((response) => {
-        setCompany(response.data);
-      });
+      axios.get('/companies.json').then((response) => setCompany(response.data));
     }, 100);
   };
 
@@ -52,6 +43,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
               >
                 <Form>
                   <Container maxWidth="sm">
+                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                     <FormikField
                       name="name"
                       label="Enter title"

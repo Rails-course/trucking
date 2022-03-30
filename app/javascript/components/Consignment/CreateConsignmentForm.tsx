@@ -16,7 +16,8 @@ import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfac
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd, handleFieldChange,
+      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
+      handleFieldChange, formErrors,
     } = props;
 
     const [drivers, setDrivers] = React.useState(null);
@@ -32,7 +33,7 @@ const CreateConsignmentForm:
         <Dialog
           open={isActiveModal}
           onClose={handleClose}
-          sx={{ '& .MuiDialog-paper': { width: '50%', maxHeight: 663 } }}
+          sx={{ '& .MuiDialog-paper': { width: '30%', maxHeight: 663 } }}
           maxWidth="md"
         >
           <DialogTitle>Consignment Form</DialogTitle>
@@ -48,6 +49,7 @@ const CreateConsignmentForm:
                   }) => (
                     <Form>
                       <Container>
+                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                         {consignmentFields.map((column) => (
                           <FormikField
                             key={column.id}
@@ -58,26 +60,30 @@ const CreateConsignmentForm:
                             variant="standard"
                           />
                         ))}
-                        <div style={{
-                          width: '100%', display: 'flex', textAlign: 'center', columnGap: '15px',
-                        }}
-                        >
+                        <div style={{ width: '100%', display: 'flex' }}>
                           <Box
                             component="div"
                             display="flex"
                             flexDirection="row"
                             alignItems="center"
                             bgcolor="background.paper"
-                            columnGap="15px"
+                            flexWrap="wrap-reverse"
                           >
                             {newGoods.map((singleField, index) => (
                               <div
                                 key={index}
                                 style={{
-                                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', marginTop: '15px', rowGap: '15px',
                                 }}
                               >
                                 <div>
+                                  {newGoods.length - 1 === index && newGoods.length < 3
+                                          && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
+                                </div>
+                                <div style={{
+                                  display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between',
+                                }}
+                                >
                                   <FormikField
                                     id={uuidv4()}
                                     name="good_name"
@@ -86,6 +92,7 @@ const CreateConsignmentForm:
                                     variant="standard"
                                     value={singleField.good_name}
                                     onChange={(e) => handleFieldChange(e, index)}
+                                    style={{ width: '80%', marginRight: '-20px' }}
                                     required
                                   />
                                   <FormikField
@@ -96,6 +103,7 @@ const CreateConsignmentForm:
                                     variant="standard"
                                     value={singleField.unit_of_measurement}
                                     onChange={(e) => handleFieldChange(e, index)}
+                                    style={{ width: '100%', marginRight: '-18px', marginLeft: '13px' }}
                                     required
                                   />
                                   <FormikField
@@ -106,12 +114,9 @@ const CreateConsignmentForm:
                                     variant="standard"
                                     value={singleField.quantity}
                                     onChange={(e) => handleFieldChange(e, index)}
+                                    style={{ width: '67%', marginRight: '-44px', marginLeft: '50px' }}
                                     required
                                   />
-                                </div>
-                                <div>
-                                  {newGoods.length - 1 === index && newGoods.length < 3
-                                          && <Button variant="outlined" onClick={handleFieldAdd} fullWidth size="small" style={{ marginLeft: '20px' }}>Add product</Button>}
                                 </div>
 
                               </div>

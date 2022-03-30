@@ -10,27 +10,38 @@ import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 const WriteOffActs = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
+  const [formErrors, setFormErrors] = React.useState([]);
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   React.useEffect(() => {
-    httpClient.writeOffActs.getAll().then((response) => {
-      setWriteOffActs(response.data);
-    });
+    const onResize = () => {
+      httpClient.writeOffActs.getAll().then((response) => setWriteOffActs(response.data));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   const handleSubmit = async (writeOffAct) => {
-    await httpClient.writeOffActs.create(writeOffAct).then((response) => setWriteOffActs((prev) => [...prev, response.data]));
+    await httpClient.writeOffActs.create(writeOffAct)
+      .then((response) => {
+        setWriteOffActs((prev) => [...prev, response.data]);
+        setModalActive(false);
+      })
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create Write-off Act
           </Button>
         </Grid>
@@ -45,6 +56,7 @@ const WriteOffActs = () => {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        formErrors={formErrors}
       />
     </div>
   );

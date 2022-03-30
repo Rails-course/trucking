@@ -2,44 +2,24 @@ import * as React from 'react';
 import { Form, Formik, useFormikContext } from 'formik';
 
 import {
-  Autocomplete,
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions, Button,
+  DialogContent, DialogTitle, Grid, TextField, Box,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../../UI/FormikField';
-import { userFields } from '../../../constants/userFields';
+import { userFields, userFirstFields, userSecondFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
+import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/interfaces_types';
 
-interface CreateFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  editUserModal: any;
-  title: string;
-  handleSubmit: any;
-  btnTitle: string;
-}
+const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
+  const {
+    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle, formErrors,
+  } = props;
 
-interface company {
-  id: number;
-  name: string;
-}
-
-interface role {
-  id: number;
-  role_name: string;
-}
-
-const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   const [companies, setCompanies] = React.useState(null);
   const [roles, setRoles] = React.useState(null);
-  const {
-    isActiveModal, handleClose, handleSubmit, editUserModal,
-    title, btnTitle,
-  } = props;
 
   const AutoUpdateForm = ({ id }) => {
     const { setFieldValue } = useFormikContext();
@@ -57,15 +37,8 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
   };
 
   React.useEffect(() => {
-    httpClient.companies.get_data().then((response) => {
-      setCompanies(response.data);
-    });
-  }, []);
-
-  React.useEffect(() => {
-    httpClient.roles.getAllRoles().then((response) => {
-      setRoles(response.data);
-    });
+    httpClient.companies.get_data().then((response) => setCompanies(response.data));
+    httpClient.roles.getAllRoles().then((response) => setRoles(response.data));
   }, []);
 
   return (
@@ -73,7 +46,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 735 } }}
         maxWidth="xs"
       >
         <DialogTitle>{title}</DialogTitle>
@@ -90,6 +63,7 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                 }) => (
                   <Form>
                     <Container maxWidth="sm">
+                      {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                       {userFields.map((column) => (
                         <FormikField
                           key={column.id}
@@ -100,37 +74,77 @@ const CreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
                           variant="standard"
                         />
                       ))}
+                      <div style={{ width: '100%', display: 'flex' }}>
+                        <Box
+                          component="div"
+                          display="flex"
+                          flexDirection="row"
+                          columnGap="15px"
+                          bgcolor="background.paper"
+                        >
+                          {userFirstFields.map((column) => (
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="standard"
+                            />
+                          ))}
+                        </Box>
+                      </div>
+                      <div style={{ width: '100%', display: 'flex' }}>
+                        <Box
+                          component="div"
+                          display="flex"
+                          flexDirection="row"
+                          columnGap="15px"
+                          bgcolor="background.paper"
+                        >
+                          {userSecondFields.map((column) => (
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="standard"
+                            />
+                          ))}
+                        </Box>
+                      </div>
+                      <Autocomplete
+                        id="company"
+                        options={companies}
+                        getOptionLabel={(option: CompanyType) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Company"
+                            fullWidth
+                            value={values?.company}
+                          />
+                        )}
+                      />
+                      <Autocomplete
+                        id="role"
+                        options={roles}
+                        getOptionLabel={(option: RoleType) => option.role_name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Role"
+                            fullWidth
+                            value={values?.role}
+                          />
+                        )}
+                      />
                     </Container>
-                    <Autocomplete
-                      id="company"
-                      options={companies}
-                      getOptionLabel={(option: company) => option.name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          onSelect={handleChange}
-                          margin="normal"
-                          label="Company"
-                          fullWidth
-                          value={values?.company}
-                        />
-                      )}
-                    />
-                    <Autocomplete
-                      id="role"
-                      options={roles}
-                      getOptionLabel={(option: role) => option.role_name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          onSelect={handleChange}
-                          margin="normal"
-                          label="Role"
-                          fullWidth
-                          value={values?.role}
-                        />
-                      )}
-                    />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>

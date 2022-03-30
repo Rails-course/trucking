@@ -1,45 +1,42 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
-import WarehouseTable from './Warehouse/WarehouseTable';
+import { Box, Grid, Button } from '@mui/material';
+
 import httpClient from '../api/httpClient';
+import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateForm';
 import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
-
-interface warehouse {
-  id: number;
-  warehouse_name: string;
-  trusted: boolean;
-}
+import { WarehouseData } from '../common/interfaces_types';
 
 function Warehouse() {
   const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<warehouse[]>([]);
+  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
+  const [formErrors, setFormErrors] = React.useState([]);
 
-  const handleClose = () => setModalActive(false);
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
-    httpClient.warehouses.create(warehouse).then((response) => {
-      setWarehouses((prev) => [...prev, response.data]);
-    });
+    httpClient.warehouses.create(warehouse)
+      .then((response) => setWarehouses((prev) => [...prev, response.data]))
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
-      setWarehouses(response.data);
-    });
+    httpClient.warehouses.get_all().then((response) => setWarehouses(response.data));
   }, []);
 
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create Warehouse
           </Button>
         </Grid>
@@ -51,6 +48,7 @@ function Warehouse() {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
+        formErrors={formErrors}
       />
     </div>
   );

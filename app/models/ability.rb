@@ -38,7 +38,7 @@ class Ability
     end
 
     # Driver rules
-    if user.role.role_name == 'Driver'
+    if user.role.role_name == 'driver'
       # can %i[read update], Route
       can %i[read update], Good
       can %i[read update], Waybill
@@ -51,6 +51,15 @@ class Ability
       can :read, Consignment
       can :read, Waybill
       can :read, WriteOffAct
+    end
+
+    # Warehouseman rules
+    if user.role.role_name == 'warehouseman'
+      can :read, Consignment
+      can :read, Waybill
+      can :read, WriteOffAct
+      can :read, Truck
+      can :read, User
     end
   end
 end

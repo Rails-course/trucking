@@ -39,4 +39,13 @@ Rails.application.routes.draw do
     patch '/passCheckpoint', to: 'routes#pass_checkpoint'
   end
   get '/routes/:id', to: 'waybills#routes'
+  namespace :api do
+    namespace :v1 do
+      resources :consignments, only: %i[index show] do
+        resources :consignment_goods, only: :index
+      end
+      resources :drivers, only: [:index]
+      resources :trucks, only: [:index]
+    end
+  end
 end
