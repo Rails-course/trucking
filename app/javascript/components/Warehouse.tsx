@@ -21,7 +21,10 @@ function Warehouse() {
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
     httpClient.warehouses.create(warehouse)
-      .then((response) => setWarehouses((prev) => [...prev, response.data]))
+      .then((response) => {
+        setWarehouses((prev) => [...prev, response.data])
+        setModalActive(false);
+      })
       .catch((error) => setFormErrors(error.response.data));
   };
 

@@ -19,7 +19,7 @@ class GoodsController < ApplicationController
         @goods = Good.create!(goods_params)
       end
     rescue ActiveRecord::RecordInvalid => e
-      @goods = { error: { status: 422, message: e } }
+      return render json: e, status: :unprocessable_entity
     end
 
     render json: @goods
