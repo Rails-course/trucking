@@ -14,18 +14,17 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
   const { id } = props;
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [isActiveRoutes, setActiveRoutes] = React.useState(false);
-
+  const [formErrors, setFormErrors] = React.useState([]);
   React.useEffect(() => {
     httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data));
   }, []);
 
   const updateData = () => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data));
+    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data)).catch((error) => setFormErrors(error.response.data));
   };
 
   const submit = () => {
-    httpClients.waybill.finish({ ids: id });
-    setActiveRoutes(false);
+    httpClients.waybill.finish({ ids: id }).then((response)=> setActiveRoutes(false)).catch((error) =>setFormErrors(error.response.data));
   };
 
   if (!checkpoints) return (<p>No data yet...</p>);
@@ -43,12 +42,14 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
       >
         <DialogTitle>Add checkpoint</DialogTitle>
         <DialogContent>
+          {formErrors ? <p className="error-msg">{formErrors}</p> : null}
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="right">city</StyledTableCell>
                   <StyledTableCell align="right">passed</StyledTableCell>
+                  <StyledTableCell align="right">action</StyledTableCell>
                   <StyledTableCell align="right">date</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -72,7 +73,7 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
               </TableBody>
             </Table>
           </TableContainer>
-          <Button type="submit" onClick={() => submit}>Transportation completed</Button>
+          <Button type="submit" onClick={() => submit()}>Transportation completed</Button>
           <Button onClick={() => setActiveRoutes(false)}>Close</Button>
         </DialogContent>
       </Dialog>

@@ -49,7 +49,7 @@ const CreateConsignmentForm:
                   }) => (
                     <Form>
                       <Container>
-                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+                          {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                         {consignmentFields.map((column) => (
                           <FormikField
                             key={column.id}
