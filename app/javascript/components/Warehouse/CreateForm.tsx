@@ -74,7 +74,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                     </DialogActions>
                   </Form>
                 )}

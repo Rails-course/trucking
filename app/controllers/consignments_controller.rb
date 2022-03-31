@@ -20,8 +20,8 @@ class ConsignmentsController < ApplicationController
   end
 
   def create
+    authorize! :create, Consignment
     @consignment = Consignment.new(create_consignment_params)
-    authorize! :create, @consignment
     if @consignment.save
       render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
                                                                           second_name middle_name] } })

@@ -78,7 +78,7 @@ const CreateConsignmentForm:
                               >
                                 <div>
                                   {newGoods.length - 1 === index && newGoods.length < 3
-                                          && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
+                                    && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
                                 </div>
                                 <div style={{
                                   display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between',
@@ -157,7 +157,7 @@ const CreateConsignmentForm:
 
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                        <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                       </DialogActions>
                     </Form>
                   )}

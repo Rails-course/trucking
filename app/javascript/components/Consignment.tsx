@@ -7,6 +7,7 @@ import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
 import { UnionConsGoodType } from '../common/interfaces_types';
+import axios from 'axios';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
@@ -35,11 +36,20 @@ function Consignment() {
   };
 
   const handleSubmit = (values: UnionConsGoodType) => {
-    httpClient.consignments.create({ values }).then((response) => {
-      setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-    }).catch((error) => setFormErrors(error.response.data));
-    httpClient.goods.create({ ...values, newGoods })
-      .catch((error) => setFormErrors(error.response.data));
+    const createConsignment = httpClient.consignments.create({ values })
+    const createGoods = httpClient.goods.create({ ...values, newGoods })
+
+    axios.all([createConsignment, createGoods])
+      .then(
+        axios.spread((...responses) => {
+          setConsignment((prevConsignment) => [...prevConsignment, responses[0].data])
+          setModalActive(false);
+        })
+      )
+      .catch(errors => {
+        console.log(errors.response.data)
+        setFormErrors(errors.response.data);
+      })
   };
 
   return (
