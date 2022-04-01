@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import {
-  Table, TableBody, TableRow, TableContainer, TableHead, Paper, Box, Grid,
-} from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';

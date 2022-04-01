@@ -12,18 +12,18 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID, formErrors,
+    consignments, setModalGoodsActive, setGoods, setConsID, formErrors, setConsignment,
   } = props;
-
-  React.useEffect(() => {
-    httpClient.consignments.getAll().then((response) => setConsignment(response.data));
-  }, []);
 
   const handleGetGoods = (id) => {
     setModalGoodsActive(true);
     setConsID(id);
     httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
   };
+
+  React.useEffect(() => {
+    httpClient.consignments.getAll().then((response) => setConsignment(response.data));
+  }, []);
 
   return (
     <div>
@@ -48,6 +48,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
                 return (
                   <StyledTableRow key={consignment.consignment_number}>
+                    { console.log('consignment dispatcher', consignments.dispatcher)}
                     <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
                     <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.status}</StyledTableCell>
