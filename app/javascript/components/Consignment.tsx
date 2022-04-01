@@ -56,10 +56,8 @@ function Consignment() {
   const handleGoodsSubmit = async () => {
     await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
       const objIndex = consignments.findIndex((element) => element.id === consId);
-      console.log(consId, 'consId', objIndex, 'before', consignments, 'consignments');
-      consignments[objIndex] = response.data.consignment;
+      consignments[objIndex] = response.data;
       setConsignment(consignments);
-      console.log('after', consignments, 'consignments');
     });
     setCheckedGooods([]);
   };

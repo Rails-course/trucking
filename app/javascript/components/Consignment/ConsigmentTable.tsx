@@ -48,7 +48,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
                 return (
                   <StyledTableRow key={consignment.consignment_number}>
-                    { console.log('consignment dispatcher', consignments.dispatcher)}
                     <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
                     <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.status}</StyledTableCell>
