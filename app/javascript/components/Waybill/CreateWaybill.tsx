@@ -34,8 +34,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, cityNames, id)
-      .catch((error) => setFormErrors(error.response.data));
+    httpClients.waybill.create(values, cityNames, id).then(()=>setWayBillActive(false))
+      .catch((error) => {setFormErrors(error.response.data);console.log(errors.response.data)});
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
@@ -188,7 +188,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                     <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
                       <Button onClick={() => setCreateRoutes(true)}>create new checkpoints</Button>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} >Create</Button>
                     </DialogActions>
                   </Form>
                 )}

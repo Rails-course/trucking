@@ -1,5 +1,7 @@
+// @ts-ignore
 import * as React from 'react';
 
+// @ts-ignore
 import { TableContainer, Paper, Table, TableHead, TableRow, TableBody } from '@mui/material';
 import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';

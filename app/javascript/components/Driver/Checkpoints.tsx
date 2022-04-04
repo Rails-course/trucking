@@ -1,4 +1,6 @@
+// @ts-ignore
 import * as React from 'react';
+
 
 import {
   Dialog, DialogContent, DialogTitle, Paper, Button,
@@ -20,7 +22,7 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
   }, []);
 
   const updateData = () => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data)).catch((error) => setFormErrors(error.response.data));
+    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data))
   };
 
   const submit = () => {

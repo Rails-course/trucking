@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_174954) do
+ActiveRecord::Schema.define(version: 2022_04_04_184710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,8 +133,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_174954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "consignment_id"
-    t.integer "endpoint"
-    t.integer "startpoint"
+    t.integer "endpoint_id"
+    t.integer "startpoint_id"
     t.integer "goods_owner_id"
     t.string "status", default: "transportation started"
   end
@@ -147,4 +147,5 @@ ActiveRecord::Schema.define(version: 2022_03_24_174954) do
     t.bigint "consignment_id"
     t.text "description"
   end
+
 end

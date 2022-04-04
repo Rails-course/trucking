@@ -1,5 +1,7 @@
+// @ts-ignore
 import * as React from 'react';
 
+// @ts-ignore
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Box, Grid,
 } from '@mui/material';
