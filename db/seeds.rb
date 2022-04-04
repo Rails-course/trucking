@@ -248,16 +248,12 @@ Shopping_center = Warehouse.create(
   instance_variable_set("@endpoint_J#{i}",
                         Address.create!(town: "EndCity_J#{i}", street: 'EndovayaJ',
                                         building: (i + 1)))
-  # NOTE: update logic below after refactoring waybill
-  startpointJ_id = instance_variable_get("@startpoint_J#{i}").id
-  endpointJ_id = instance_variable_get("@endpoint_J#{i}").id
-
   instance_variable_set("@Waybill_CSJ_#{i}", Waybill.create(
                                                start_date: Date.parse("#{i + 1}/04/2022"),
                                                end_date: Date.parse("#{i + 3}/04/2022"),
                                                consignment: instance_variable_get("@CSJ_#{i}"),
-                                               startpoint: startpointJ_id,
-                                               endpoint: endpointJ_id,
+                                               startpoint: instance_variable_get("@startpoint_J#{i}"),
+                                               endpoint: instance_variable_get("@endpoint_J#{i}"),
                                                goods_owner_id: goods_owner_tradep.id
                                              ))
   instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
@@ -280,15 +276,12 @@ Shopping_center = Warehouse.create(
   instance_variable_set("@endpoint_G#{i}",
                         Address.create!(town: "EndCity_G#{i}", street: 'EndovayaG',
                                         building: (i + 1)))
-  # NOTE: update logic below after refactoring waybill
-  startpointG_id = instance_variable_get("@startpoint_G#{i}").id
-  endpointG_id = instance_variable_get("@endpoint_G#{i}").id
   instance_variable_set("@Waybill_CSG_#{i}", Waybill.create(
                                                start_date: Date.parse("#{i + 10}/04/2022"),
                                                end_date: Date.parse("#{i + 12}/04/2022"),
                                                consignment: instance_variable_get("@CSG_#{i}"),
-                                               startpoint: startpointG_id,
-                                               endpoint: endpointG_id,
+                                               startpoint: instance_variable_get("@startpoint_G#{i}"),
+                                               endpoint: instance_variable_get("@endpoint_G#{i}"),
                                                goods_owner_id: goods_owner_ibm.id
                                              ))
   instance_variable_set("@checkpoints_waybill_CSG_#{i}", Route.create([
