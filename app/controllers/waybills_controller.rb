@@ -27,12 +27,12 @@ class WaybillsController < ApplicationController
       start_point.save
       end_point.save
       waybill = Waybill.new(start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
-                            startpoint_id: start_point.id, endpoint_id: end_point.id,
-                            consignment_id: params.permit(:ttn_id)[:ttn_id],
-                            goods_owner_id: data[:owner].id)
+                            startpoint: start_point, endpoint: end_point,
+                            consignment: Consignment.find(params.permit(:ttn_id)[:ttn_id]),
+                            goods_owner: data[:owner])
       waybill.save
       params.permit(routes: [])[:routes].each do |city_name|
-        Route.new(city: city_name, waybill_id: waybill.id).save
+        Route.new(city: city_name, waybill: waybill).save
       rescue ActiveRecord::RecordInvalid => e
         render json: { error: { status: 422, message: e } }
       end
