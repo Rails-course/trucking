@@ -33,11 +33,15 @@ class GoodsController < ApplicationController
         @goods.each { |item| item.update(status: 'checked') }
         @consignment.update(status: 'checked', manager: current_user)
       end
-      response_data = { consignment: @consignment, goods: @goods }
     rescue ActiveRecord::RecordInvalid => e
-      response_data = { error: { status: 422, message: e } }
+      return render json: e, status: :unprocessable_entity
     end
-    render json: response_data
+    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
+                                                                       second_name
+                                                                       middle_name] },
+                                                manager: { only: %i[first_name
+                                                                    second_name
+                                                                    middle_name] }])
   end
 
   def set_goods_delivered_status

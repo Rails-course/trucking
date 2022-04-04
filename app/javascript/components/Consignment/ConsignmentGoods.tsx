@@ -7,15 +7,12 @@ import {
 } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import httpClient from '../../api/httpClient';
 import { ConsignmentGoodsProps, Item } from '../../common/interfaces_types';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, consId, goods, consignments, setConsignment,
+    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setCheckedGooods,
   } = props;
-
-  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
 
   const handleToggle = (value: Item) => () => {
     if (checkedGoods.indexOf(value) === -1) {
@@ -23,21 +20,6 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     } else {
       setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
-  };
-
-  // TODO: after Submit cheking goods update Consignment table with new consignment value
-  // Should render new consignemnt status and create waybill button should unlock
-  const handleSubmit = async () => {
-    await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
-      const objIndex = consignments.findIndex((element) => element.id === consId);
-      // console.log(`${objIndex}before`);
-      // console.log(consignments);
-      // consignments[objIndex] = response.data.consignment;
-      // setConsignment(consignments);
-      // console.log('after');
-      // console.log(consignments);
-    });
-    setCheckedGooods([]);
   };
 
   return (
@@ -54,7 +36,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
             <Grid item xs={8}>
               <Formik
                 initialValues={{ checked: [] }}
-                onSubmit={handleSubmit}
+                onSubmit={handleGoodsSubmit}
               >
                 <Form>
                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

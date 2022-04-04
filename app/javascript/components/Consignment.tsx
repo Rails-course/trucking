@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 
 import { Box, Grid, Button } from '@mui/material';
 
@@ -6,8 +7,7 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
-import { UnionConsGoodType } from '../common/interfaces_types';
-import axios from 'axios';
+import { Item, UnionConsGoodType } from '../common/interfaces_types';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
@@ -15,6 +15,7 @@ function Consignment() {
   const [consignments, setConsignment] = React.useState(null);
   const [goods, setGoods] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -36,20 +37,29 @@ function Consignment() {
   };
 
   const handleSubmit = (values: UnionConsGoodType) => {
-    const createConsignment = httpClient.consignments.create({ values })
-    const createGoods = httpClient.goods.create({ ...values, newGoods })
+    const createConsignment = httpClient.consignments.create({ values });
+    const createGoods = httpClient.goods.create({ ...values, newGoods });
 
     axios.all([createConsignment, createGoods])
       .then(
         axios.spread((...responses) => {
-          setConsignment((prevConsignment) => [...prevConsignment, responses[0].data])
+          setConsignment((prevConsignment) => [...prevConsignment, responses[0].data]);
           setModalActive(false);
-        })
+        }),
       )
-      .catch(errors => {
-        console.log(errors.response.data)
+      .catch((errors) => {
         setFormErrors(errors.response.data);
-      })
+      });
+  };
+
+  // Should render new consignment status and create waybill button should unlock
+  const handleGoodsSubmit = async () => {
+    await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
+      const objIndex = consignments.findIndex((element) => element.id === consId);
+      consignments[objIndex] = response.data;
+      setConsignment(consignments);
+    });
+    setCheckedGooods([]);
   };
 
   return (
@@ -86,10 +96,10 @@ function Consignment() {
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
         handleClose={handleClose}
-        consId={consId}
         goods={goods}
-        consignments={consignments}
-        setConsignment={setConsignment}
+        checkedGoods={checkedGoods}
+        setCheckedGooods={setCheckedGooods}
+        handleGoodsSubmit={handleGoodsSubmit}
       />
     </div>
   );

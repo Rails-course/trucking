@@ -2,5 +2,5 @@
 
 class Route < ApplicationRecord
   validates :city, presence: true
-  has_one :waybill
+  belongs_to :waybill
 end

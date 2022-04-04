@@ -158,10 +158,9 @@ export interface CheckpointsFormProps {
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    consId: number;
     goods: Item[];
-    consignments: any;
-    setConsignment: any;
+    checkedGoods: any;
+    setCheckedGooods: any, handleGoodsSubmit: any;
 }
 
 export interface ConsignmentTableProps {

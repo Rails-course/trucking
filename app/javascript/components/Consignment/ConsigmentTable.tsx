@@ -12,18 +12,18 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setGoods, setConsID, formErrors,
+    consignments, setModalGoodsActive, setGoods, setConsID, formErrors, setConsignment,
   } = props;
-
-  React.useEffect(() => {
-    httpClient.consignments.getAll().then((response) => setConsignment(response.data));
-  }, []);
 
   const handleGetGoods = (id) => {
     setModalGoodsActive(true);
     setConsID(id);
     httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
   };
+
+  React.useEffect(() => {
+    httpClient.consignments.getAll().then((response) => setConsignment(response.data));
+  }, []);
 
   return (
     <div>
