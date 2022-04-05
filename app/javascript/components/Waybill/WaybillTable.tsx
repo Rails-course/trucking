@@ -16,9 +16,18 @@ interface WaybillTableProps {
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const { waybills, setWaybill } = props;
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => setWaybill(response.data));
+    httpClient.waybill.gets_waybills()
+      .then((response) => {
+        if (componentMounted.current) {
+          setWaybill(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (

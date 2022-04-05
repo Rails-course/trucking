@@ -6,19 +6,10 @@ import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Box, Grid,
 } from '@mui/material';
 
-import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 
 const Waybill = () => {
   const [waybills, setWaybill] = React.useState([]);
-
-  React.useEffect(() => {
-    const onResize = () => {
-      httpClient.waybill.gets_waybills().then((response) => setWaybill(response.data));
-    };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
   return (
     <div className="wrapper">

@@ -7,26 +7,36 @@ import {
   Table, TableBody, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 
-import httpClients from '../../api/httpClient';
+import httpClient from '../../api/httpClient';
 import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
 
-const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps) => {
+const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const { id } = props;
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [isActiveRoutes, setActiveRoutes] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
+  const componentMounted = React.useRef(true);
+
   React.useEffect(() => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data));
+    httpClient.route.get_routes(id)
+      .then((response) => {
+        if (componentMounted.current) {
+          setCheckpoints(response.data)
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   const updateData = () => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data))
+    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data))
   };
 
   const submit = () => {
-    httpClients.waybill.finish({ ids: id }).then((response)=> setActiveRoutes(false)).catch((error) =>setFormErrors(error.response.data));
+    httpClient.waybill.finish({ ids: id }).then((response) => setActiveRoutes(false)).catch((error) => setFormErrors(error.response.data));
   };
 
   if (!checkpoints) return (<p>No data yet...</p>);

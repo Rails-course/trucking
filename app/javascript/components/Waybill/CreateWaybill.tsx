@@ -9,11 +9,12 @@ import {
 import FormikField from '../../UI/FormikField';
 import CreateRoutes from './CreateRoutes';
 import RouteTable from './RouteTable';
-import httpClients from '../../api/httpClient';
+import httpClient from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
 import { CreateWaybillsFormProps } from '../../common/interfaces_types';
+import axios from 'axios';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
@@ -26,15 +27,29 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const [data, setData] = React.useState(null);
   const [owners, setOwners] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
+  const componentMounted = React.useRef(true);
+
 
   React.useEffect(() => {
-    httpClients.waybill.get_data_waybill(id).then((response) => setData(response.data));
-    httpClients.goods_owner.get_names().then((response) => setOwners(response.data));
+    const getWaybillData = httpClient.waybill.get_data_waybill(id)
+    const getGoodsOwnerNames = httpClient.goods_owner.get_names()
+    axios.all([getWaybillData, getGoodsOwnerNames])
+      .then(
+        axios.spread((...responses) => {
+          if (componentMounted.current) {
+            setData(responses[0].data);
+            setOwners(responses[1].data);
+          }
+        })
+      )
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, cityNames, id).then(() => setWayBillActive(false))
+    httpClient.waybill.create(values, cityNames, id).then(() => setWayBillActive(false))
       .catch((error) => { setFormErrors(error.response.data); console.log(error.response.data); });
   };
 

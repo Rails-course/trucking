@@ -13,6 +13,7 @@ import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const { warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen } = props;
+  const componentMounted = React.useRef(true);
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
@@ -41,7 +42,15 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
 
   React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => setWarehouses(response.data));
+    httpClient.warehouses.get_all()
+      .then((response) => {
+        if (componentMounted.current) {
+          setWarehouses(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   if (!warehouses) return (<p>No data found...</p>);

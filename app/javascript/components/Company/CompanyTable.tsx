@@ -11,9 +11,18 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const { companies, setCompany, alertSetOpen, setAlertType, setAlertText
   } = props;
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.companies.get_data().then((response) => setCompany(response.data));
+    httpClient.companies.get_data()
+      .then((response) => {
+        if (componentMounted.current) {
+          setCompany(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   const updateData = () => {

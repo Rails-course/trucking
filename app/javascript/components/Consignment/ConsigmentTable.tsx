@@ -14,6 +14,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, formErrors, setConsignment,
   } = props;
+  const componentMounted = React.useRef(true);
 
   const handleGetGoods = (id) => {
     setModalGoodsActive(true);
@@ -22,7 +23,15 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   React.useEffect(() => {
-    httpClient.consignments.getAll().then((response) => setConsignment(response.data));
+    httpClient.consignments.getAll()
+      .then((response) => {
+        if (componentMounted.current) {
+          setConsignment(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (

@@ -18,6 +18,7 @@ const WarehouseCreateForm: React.FC<CreateWarehouseFormProps> = (props: CreateWa
     isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertType, setAlertText, alertSetOpen
   } = props;
   const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
+  const componentMounted = React.useRef(true);
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
     httpClient.warehouses.create(warehouse)
@@ -44,7 +45,15 @@ const WarehouseCreateForm: React.FC<CreateWarehouseFormProps> = (props: CreateWa
 
 
   React.useEffect(() => {
-    httpClient.users.get_warehousemans().then((response) => setWarehousemans(response.data));
+    httpClient.users.get_warehousemans()
+      .then((response) => {
+        if (componentMounted.current) {
+          setWarehousemans(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (

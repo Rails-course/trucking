@@ -25,10 +25,19 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.users.getAll().then();
-  }, [setUser]);
+    httpClient.users.getAll()
+      .then((response) => {
+        if (componentMounted.current) {
+          setUser(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,13 +168,13 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   );
                 })}
               {emptyRows > 0 && (
-              <StyledTableRow
-                style={{
-                  height: (dense ? 33 : 53) * emptyRows,
-                }}
-              >
-                <StyledTableCell colSpan={6} />
-              </StyledTableRow>
+                <StyledTableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <StyledTableCell colSpan={6} />
+                </StyledTableRow>
               )}
             </TableBody>
           </Table>

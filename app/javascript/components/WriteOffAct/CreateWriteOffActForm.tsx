@@ -19,9 +19,18 @@ const CreateWriteOffActForm:
     } = props;
 
     const [consignments, setConsignments] = React.useState([]);
+    const componentMounted = React.useRef(true);
 
     React.useEffect(() => {
-      httpClient.consignments.getAll().then((response) => setConsignments(response.data));
+      httpClient.consignments.getAll()
+        .then((response) => {
+          if (componentMounted.current) {
+            setConsignments(response.data);
+          }
+        })
+      return () => {
+        componentMounted.current = false;
+      }
     }, []);
 
     return (

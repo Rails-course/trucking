@@ -12,6 +12,7 @@ import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
 import httpClient from '../../api/httpClient';
 import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfaces_types';
+import axios from 'axios';
 
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
@@ -22,10 +23,23 @@ const CreateConsignmentForm:
 
     const [drivers, setDrivers] = React.useState(null);
     const [trucks, setTrucks] = React.useState(null);
+    const componentMounted = React.useRef(true);
 
     React.useEffect(() => {
-      httpClient.trucks.get_trucks().then((response) => setTrucks(response.data));
-      httpClient.users.get_drivers().then((response) => setDrivers(response.data));
+      const getTrucks = httpClient.trucks.get_trucks()
+      const getDrivers = httpClient.users.get_drivers()
+      axios.all([getTrucks, getDrivers])
+        .then(
+          axios.spread((...responses) => {
+            if (componentMounted.current) {
+              setTrucks(responses[0].data);
+              setDrivers(responses[1].data);
+            }
+          })
+        )
+      return () => {
+        componentMounted.current = false;
+      }
     }, []);
 
     return (
