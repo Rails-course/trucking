@@ -12,21 +12,37 @@ import { WarehouseData, WarehouseTableProps } from '../../common/interfaces_type
 import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
-  const { warehouses, setWarehouses } = props;
+  const { warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen } = props;
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
     await httpClient.warehouses.trust(warehouse.id).then((response) => {
       setWarehouses([...warehouses, response.data]);
+      setAlertType("info");
+      setAlertText("Warehouse successfully set trusted/untrusted")
+      alertSetOpen(true);
+      setTimeout(() => {
+        alertSetOpen(false);
+      }, 5000)
     });
   };
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: WarehouseData) => data.id !== id));
+    setAlertType("warning");
+    setAlertText("Warehouse successfully deleted")
+    alertSetOpen(true);
+    setTimeout(() => {
+      alertSetOpen(false);
+    }, 5000)
   };
 
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
+
+  React.useEffect(() => {
+    httpClient.warehouses.get_all().then((response) => setWarehouses(response.data));
+  }, []);
 
   if (!warehouses) return (<p>No data found...</p>);
 

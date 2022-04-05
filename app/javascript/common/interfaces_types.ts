@@ -86,12 +86,20 @@ export interface CreateRoutesFormProps {
 export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
-export interface CreateFormProps {
+export interface CreateWarehouseFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    handleSubmit: any, formErrors: any
+    setWarehouses: any,
+    formErrors: any,
+    setFormErrors: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface Warehouseman {
@@ -187,7 +195,7 @@ export interface CompanyTableProps {
 
 export interface SiteAlertProps {
     alertType: any;
-    alertText: string;
-    alertOpen: any,
+    alertText: any;
+    alertOpen: boolean,
     alertSetOpen: any;
 }

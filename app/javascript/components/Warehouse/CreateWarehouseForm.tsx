@@ -8,16 +8,40 @@ import {
 
 import FormikField from '../../UI/FormikField';
 import { warehouseFields } from '../../constants/warehouseFields';
-import warehouseInitialValues from '../../initialValues/warehouseInitialValues';
+import warehouseInitialValues, { warehouseFormValues } from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
 import httpClient from '../../api/httpClient';
-import { CreateFormProps, Warehouseman } from '../../common/interfaces_types';
+import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_types';
 
-const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
+const WarehouseCreateForm: React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, formErrors,
+    isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertType, setAlertText, alertSetOpen
   } = props;
   const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
+
+  const handleSubmit = (warehouse: warehouseFormValues) => {
+    httpClient.warehouses.create(warehouse)
+      .then((response) => {
+        setWarehouses((prev) => [...prev, response.data])
+        handleClose();
+        setAlertType("success");
+        setAlertText("Successfully created a warehouse!")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data);
+        setAlertType("error");
+        setAlertText("Something went wrong with creating a warehouse")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      });
+  };
+
 
   React.useEffect(() => {
     httpClient.users.get_warehousemans().then((response) => setWarehousemans(response.data));
