@@ -174,10 +174,20 @@ export interface ConsignmentTableProps {
 export interface CreateCompanyFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    setCompany: any, formErrors: any, setFormErrors: any
+    setCompany: any, formErrors: any, setFormErrors: any, alertSetOpen: any, setAlertType: any, setAlertText: any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
+}
+
+export interface SiteAlertProps {
+    alertType: any;
+    alertText: string;
+    alertOpen: any,
+    alertSetOpen: any;
 }

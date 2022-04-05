@@ -9,7 +9,8 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
-  const { companies, setCompany } = props;
+  const { companies, setCompany, alertSetOpen, setAlertType, setAlertText
+  } = props;
 
   React.useEffect(() => {
     httpClient.companies.get_data().then((response) => setCompany(response.data));
@@ -19,9 +20,25 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     httpClient.companies.get_data().then((response) => setCompany(response.data));
   };
 
-  const deleteCompany = (id) => httpClient.companies.delete(id).then(() => updateData());
+  const deleteCompany = (id) => {
+    httpClient.companies.delete(id).then(() => updateData());
+    setAlertType("warning");
+    setAlertText("Company successfully deleted")
+    alertSetOpen(true);
+    setTimeout(() => {
+      alertSetOpen(false);
+    }, 5000)
+  }
 
-  const suspendCompany = (id) => httpClient.companies.suspend(id).then(() => updateData());
+  const suspendCompany = (id) => {
+    httpClient.companies.suspend(id).then(() => updateData());
+    setAlertType("info");
+    setAlertText("Company successfully suspended or resumed")
+    alertSetOpen(true);
+    setTimeout(() => {
+      alertSetOpen(false);
+    }, 5000)
+  }
 
   return (
     <div>
@@ -45,7 +62,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                   <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
                   <StyledTableCell align="right" style={{ width: '30%' }}>
                     <Button variant="outlined" color="warning" onClick={() => suspendCompany(company.id)} style={{ marginRight: '10px' }}>
-                      {company.status ? 'unsuspend' : 'suspend'}
+                      {company.status ? 'resume' : 'suspend'}
                     </Button>
                     <Button variant="outlined" color="error" onClick={() => deleteCompany(company.id)}>
                       Delete
