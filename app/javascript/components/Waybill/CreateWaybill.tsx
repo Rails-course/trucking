@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
@@ -18,56 +17,23 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
-    id, status, waybillStatus, formWaybillErrors,
+    id, formWaybillErrors, isActiveWayBill, handleClose, data, owners,
   } = props;
 
-  const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
-  const [data, setData] = React.useState(null);
-  const [owners, setOwners] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const componentMounted = React.useRef(true);
-
-  React.useEffect(() => {
-    const getWaybillData = httpClient.waybill.get_data_waybill(id);
-    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
-    axios.all([getWaybillData, getGoodsOwnerNames])
-      .then(
-        axios.spread((...responses) => {
-          if (componentMounted.current) {
-            setData(responses[0].data);
-            setOwners(responses[1].data);
-          }
-        }),
-      );
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
-    httpClient.waybill.create(values, cityNames, id).then(() => setWayBillActive(false))
+    httpClient.waybill.create(values, cityNames, id)
       .catch((error) => { setFormErrors(error.response.data); });
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
 
-  const handleClose = () => {
-    setWayBillActive(false);
-    setFormErrors(null);
-  };
-
   return (
     <div>
-      <Button
-        variant="outlined"
-        disabled={!((status === 'checked' && !waybillStatus))}
-        onClick={() => { setWayBillActive(true); }}
-      >
-        Create waybill
-      </Button>
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}

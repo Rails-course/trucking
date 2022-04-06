@@ -8,15 +8,19 @@ import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
 import { Item, UnionConsGoodType } from '../common/interfaces_types';
+import CreateWaybill from './Waybill/CreateWaybill';
 
 function Consignment() {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
+  const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [consignments, setConsignment] = React.useState(null);
   const [goods, setGoods] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
   const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
+  const [data, setData] = React.useState(null);
+  const [owners, setOwners] = React.useState([]);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
@@ -33,6 +37,7 @@ function Consignment() {
   const handleClose = () => {
     setModalActive(false);
     setModalGoodsActive(false);
+    setWayBillActive(false);
     setFormErrors(null);
   };
 
@@ -79,7 +84,10 @@ function Consignment() {
             setModalGoodsActive={setModalGoodsActive}
             setConsID={setConsID}
             setGoods={setGoods}
+            setWayBillActive={setWayBillActive}
             formErrors={formErrors}
+            setData={setData}
+            setOwners={setOwners}
           />
         </Grid>
       </Box>
@@ -99,6 +107,14 @@ function Consignment() {
         checkedGoods={checkedGoods}
         setCheckedGooods={setCheckedGooods}
         handleGoodsSubmit={handleGoodsSubmit}
+      />
+      <CreateWaybill
+        id={consId}
+        isActiveWayBill={isActiveWayBill}
+        data={data}
+        handleClose={handleClose}
+        owners={owners}
+        formWaybillErrors={formErrors}
       />
     </div>
   );

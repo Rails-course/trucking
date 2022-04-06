@@ -5,14 +5,14 @@ import {
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../Waybill/CreateWaybill';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setModalGoodsActive, setGoods, setConsID, formErrors, setConsignment,
+    consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
+    setConsignment, setOwners, setData,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -20,18 +20,16 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setModalGoodsActive(true);
     setConsID(id);
     httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
+    httpClient.waybill.get_data_waybill(id).then((res) => setData(res.data));
+    httpClient.goods_owner.get_names().then((res) => setOwners(res.data));
   };
 
   React.useEffect(() => {
     httpClient.consignments.getAll()
-      .then((response) => {
-        if (componentMounted.current) {
-          setConsignment(response.data);
-        }
-      })
+      .then((response) => { if (componentMounted.current) setConsignment(response.data); });
     return () => {
       componentMounted.current = false;
-    }
+    };
   }, []);
 
   return (
@@ -68,12 +66,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                       </Button>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <CreateWaybill
-                        id={consignment.id}
-                        status={consignment.status}
-                        waybillStatus={waybillStatus}
-                        formWaybillErrors={formErrors}
-                      />
+                      <Button
+                        variant="outlined"
+                        disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                        onClick={() => setWayBillActive(true)}
+                      >
+                        Create Waybill
+                      </Button>
                     </StyledTableCell>
                     <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>

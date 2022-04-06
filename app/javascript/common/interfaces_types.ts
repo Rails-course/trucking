@@ -72,9 +72,10 @@ export interface CreateWriteOffActFormProps {
 
 export interface CreateWaybillsFormProps {
     id: number;
-    status: string;
-    waybillStatus: string;
+    handleClose: () => void;
     formWaybillErrors: any;
+    isActiveWayBill: boolean;
+    data: any, owners: any;
 }
 
 export interface CreateRoutesFormProps {
@@ -174,11 +175,10 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
-    consignments: any,
-    setConsignment: any,
-    setModalGoodsActive: any,
-    setGoods: any,
-    setConsID: any, formErrors: any
+    consignments: any, setData: any;
+    setConsignment: any, setOwners: any;
+    setModalGoodsActive: any, setWayBillActive: any;
+    setGoods: any, setConsID: any, formErrors: any;
 }
 
 export interface CreateCompanyFormProps {
