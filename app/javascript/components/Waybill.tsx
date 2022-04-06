@@ -1,23 +1,19 @@
-// @ts-ignore
 import * as React from 'react';
 
-// @ts-ignore
-import {
-  Table, TableBody, TableRow, TableContainer, TableHead, Paper, Box, Grid,
-} from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
+import Checkpoints from './Driver/Checkpoints';
 
 const Waybill = () => {
   const [waybills, setWaybill] = React.useState([]);
+  const [isWaybillModal, setWaybillModalActive] = React.useState(false);
+  const [waybillID, setWaybillID] = React.useState(null);
+  const [checkpoints, setCheckpoints] = React.useState(null);
 
   React.useEffect(() => {
-    const onResize = () => {
-      httpClient.waybill.gets_waybills().then((response) => setWaybill(response.data));
-    };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    httpClient.waybill.gets_waybills().then((response) => setWaybill(response.data));
   }, []);
 
   return (
@@ -29,10 +25,18 @@ const Waybill = () => {
         <Grid item xs={12}>
           <WaybillTable
             waybills={waybills}
-            setWaybill={setWaybill}
+            setWaybillID={setWaybillID}
+            setWaybillModalActive={setWaybillModalActive}
+            setCheckpoints={setCheckpoints}
           />
         </Grid>
       </Box>
+      <Checkpoints
+        id={waybillID}
+        isWaybillModal={isWaybillModal}
+        setWaybillModalActive={setWaybillModalActive}
+        checkpoints={checkpoints}
+      />
     </div>
   );
 };

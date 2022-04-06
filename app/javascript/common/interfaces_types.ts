@@ -28,6 +28,7 @@ export type Item = {
     unit_of_measurement: string;
     bundle_seria: string;
     bundle_number: string;
+    trusted: boolean;
 }
 
 export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
@@ -148,18 +149,20 @@ export interface WaybillGoodsProps {
 export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
-    updateData: () => void,
 }
 
 export interface CheckpointsFormProps {
     id: number,
+    isWaybillModal: boolean;
+    setWaybillModalActive: any;
+    checkpoints: any;
 }
 
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
     goods: Item[];
-    checkedGoods: any;
+    checkedGoods: any, deliveredGoods: any, setDeliveredGooods: any;
     setCheckedGooods: any, handleGoodsSubmit: any;
 }
 
@@ -180,4 +183,15 @@ export interface CreateCompanyFormProps {
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
+}
+
+export interface GoodData {
+    id: number;
+    good_name: string;
+    trusted: boolean;
+}
+
+export interface WaybillTableProps {
+    waybills: any, setCheckpoints: any;
+    setWaybillModalActive: any, setWaybillID: any;
 }

@@ -1,6 +1,4 @@
-// @ts-ignore
 import * as React from 'react';
-// @ts-ignore
 import { Form, Formik } from 'formik';
 
 import {
@@ -13,16 +11,16 @@ import { CheckpointWindowFormProps } from '../../common/interfaces_types';
 
 const CheckpointWindow:
     React.FC <CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
-      const { id, status, updateData } = props;
+      const { id, status } = props;
       const [isActiveModal, setActiveModal] = React.useState(false);
 
       const handleClose = () => setActiveModal(false);
 
       const statusChange = () => {
         if (status) {
-          httpClient.route.rollback({ ids: id }).then(()=>{
-              updateData();
-              handleClose();})
+          httpClient.route.rollback({ ids: id }).then(() => {
+            handleClose();
+          });
         } else {
           setActiveModal(true);
         }
@@ -30,7 +28,7 @@ const CheckpointWindow:
 
       const handleSubmit = (values) => {
         Object.assign(values, { ids: id });
-        httpClient.route.passCh(values).then(()=>updateData())
+        httpClient.route.passCh(values);
       };
 
       return (

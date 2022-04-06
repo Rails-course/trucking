@@ -34,8 +34,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
-    httpClients.waybill.create(values, cityNames, id).then(()=>setWayBillActive(false))
-      .catch((error) => {setFormErrors(error.response.data);console.log(errors.response.data)});
+    httpClients.waybill.create(values, cityNames, id).then(() => setWayBillActive(false))
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
@@ -162,33 +162,33 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
                       <RouteTable routes={routes} />
-                    </Container>
 
-                    <div style={{
-                      display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
-                    }}
-                    >
-                      {waybillBottomFields.map((column) => (
-                        <div key={column.id}>
-                          <InputLabel shrink htmlFor="bootstrap-input">
-                            {column.label}
-                          </InputLabel>
-                          <FormikField
-                            key={column.id}
-                            name={column.model}
-                            label={column.placeholder}
-                            required={column.required}
-                            type={column.type}
-                            variant="outlined"
-                          />
-                        </div>
-                      ))}
-                    </div>
+                      <div style={{
+                        display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
+                      }}
+                      >
+                        {waybillBottomFields.map((column) => (
+                          <div key={column.id}>
+                            <InputLabel shrink htmlFor="bootstrap-input">
+                              {column.label}
+                            </InputLabel>
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="outlined"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </Container>
 
                     <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
                       <Button onClick={() => setCreateRoutes(true)}>create new checkpoints</Button>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} >Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                     </DialogActions>
                   </Form>
                 )}

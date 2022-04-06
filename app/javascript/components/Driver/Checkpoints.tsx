@@ -1,85 +1,72 @@
-// @ts-ignore
 import * as React from 'react';
-
 
 import {
   Dialog, DialogContent, DialogTitle, Paper, Button,
   Table, TableBody, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 
-import httpClients from '../../api/httpClient';
 import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
+import httpClient from '../../api/httpClient';
 
 const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps) => {
-  const { id } = props;
-  const [checkpoints, setCheckpoints] = React.useState(null);
-  const [isActiveRoutes, setActiveRoutes] = React.useState(false);
-  const [formErrors, setFormErrors] = React.useState([]);
-  React.useEffect(() => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data));
-  }, []);
+  const {
+    id, isWaybillModal, checkpoints, setWaybillModalActive,
+  } = props;
 
-  const updateData = () => {
-    httpClients.route.get_routes(id).then((response) => setCheckpoints(response.data))
-  };
+  const [formErrors, setFormErrors] = React.useState([]);
 
   const submit = () => {
-    httpClients.waybill.finish({ ids: id }).then((response)=> setActiveRoutes(false)).catch((error) =>setFormErrors(error.response.data));
+    httpClient.waybill.finish({ ids: id }).catch((error) => setFormErrors(error.response.data));
   };
 
-  if (!checkpoints) return (<p>No data yet...</p>);
+  const handleClose = () => setWaybillModalActive(false);
 
   return (
-    <>
-      <Button onClick={() => { setActiveRoutes(true); }}>
-        Open waybill
-      </Button>
-      <Dialog
-        open={isActiveRoutes}
-        onClose={() => setActiveRoutes(false)}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
-        maxWidth="md"
-      >
-        <DialogTitle>Add checkpoint</DialogTitle>
-        <DialogContent>
-          {formErrors ? <p className="error-msg">{formErrors}</p> : null}
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="right">city</StyledTableCell>
-                  <StyledTableCell align="right">passed</StyledTableCell>
-                  <StyledTableCell align="right">action</StyledTableCell>
-                  <StyledTableCell align="right">date</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {checkpoints.map((checkpoint) => (
+    <Dialog
+      open={isWaybillModal}
+      onClose={handleClose}
+      sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+      maxWidth="md"
+    >
+      <DialogTitle>Add checkpoint</DialogTitle>
+      <DialogContent>
+        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell align="right">city</StyledTableCell>
+                <StyledTableCell align="right">passed</StyledTableCell>
+                <StyledTableCell align="right">action</StyledTableCell>
+                <StyledTableCell align="right">date</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!checkpoints
+                ? (
+                  <TableRow>
+                    <StyledTableCell>No data yet ...</StyledTableCell>
+                  </TableRow>
+                )
+                : checkpoints.map((checkpoint) => (
                   <StyledTableRow key={checkpoint.id}>
                     <StyledTableCell align="right">{checkpoint.city}</StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.is_passed ? 'passed' : 'not passed'}</StyledTableCell>
                     <StyledTableCell align="right">
-                      <CheckpointWindow
-                        id={checkpoint.id}
-                        status={checkpoint.is_passed}
-                        updateData={updateData}
-                      />
+                      <CheckpointWindow id={checkpoint.id} status={checkpoint.is_passed} />
                     </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {checkpoint.pass_date}
-                    </StyledTableCell>
+                    <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
                   </StyledTableRow>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Button type="submit" onClick={() => submit()}>Transportation completed</Button>
-          <Button onClick={() => setActiveRoutes(false)}>Close</Button>
-        </DialogContent>
-      </Dialog>
-    </>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button type="submit" onClick={submit}>Transportation completed</Button>
+        <Button onClick={handleClose}>Close</Button>
+      </DialogContent>
+    </Dialog>
   );
 };
 
