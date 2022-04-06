@@ -91,7 +91,7 @@ const CreateConsignmentForm:
                                 }}
                               >
                                 <div>
-                                  {newGoods.length - 1 === index && newGoods.length < 3
+                                  {newGoods.length - 1 === index && newGoods.length < 5
                                     && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
                                 </div>
                                 <div style={{
