@@ -28,7 +28,6 @@ export type Item = {
     unit_of_measurement: string;
     bundle_seria: string;
     bundle_number: string;
-    trusted: boolean;
 }
 
 export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
@@ -87,12 +86,20 @@ export interface CreateRoutesFormProps {
 export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
-export interface CreateFormProps {
+export interface CreateWarehouseFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    handleSubmit: any, formErrors: any
+    setWarehouses: any,
+    formErrors: any,
+    setFormErrors: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface Warehouseman {
@@ -162,7 +169,7 @@ export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
     goods: Item[];
-    checkedGoods: any, deliveredGoods: any, setDeliveredGooods: any;
+    checkedGoods: any;
     setCheckedGooods: any, handleGoodsSubmit: any;
 }
 
@@ -177,21 +184,27 @@ export interface ConsignmentTableProps {
 export interface CreateCompanyFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
-    setCompany: any, formErrors: any, setFormErrors: any
+    setCompany: any, formErrors: any;
+    setFormErrors: any, alertSetOpen: any;
+    setAlertType: any, setAlertText: any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
-}
-
-export interface GoodData {
-    id: number;
-    good_name: string;
-    trusted: boolean;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface WaybillTableProps {
     waybills: any, setCheckpoints: any;
     setWaybillModalActive: any, setWaybillID: any;
+}
+
+export interface SiteAlertProps {
+    alertType: any;
+    alertText: any;
+    alertOpen: boolean,
+    alertSetOpen: any;
 }

@@ -52,7 +52,6 @@ function Consignment() {
       });
   };
 
-  // Should render new consignment status and create waybill button should unlock
   const handleGoodsSubmit = async () => {
     await httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods).then((response) => {
       const objIndex = consignments.findIndex((element) => element.id === consId);

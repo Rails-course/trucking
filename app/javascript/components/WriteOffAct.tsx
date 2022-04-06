@@ -17,14 +17,6 @@ const WriteOffActs = () => {
     setFormErrors(null);
   };
 
-  React.useEffect(() => {
-    const onResize = () => {
-      httpClient.writeOffActs.getAll().then((response) => setWriteOffActs(response.data));
-    };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
   const handleSubmit = async (writeOffAct) => {
     await httpClient.writeOffActs.create(writeOffAct)
       .then((response) => {

@@ -18,11 +18,8 @@ const WaybillGoods: React.FC<WaybillGoodsProps> = (props: WaybillGoodsProps) => 
   const handleClose = () => setModalActive(false);
 
   const handleGetGoods = () => {
-    // BUGFIX: if statement probably unnecessary
-    if (wayId) {
-      setModalActive(true);
-      httpClient.goods.getWaybillGoods(wayId).then((response) => setGoods(response.data));
-    }
+    setModalActive(true);
+    httpClient.goods.getWaybillGoods(wayId).then((response) => setGoods(response.data));
   };
 
   const handleToggle = (value: number) => () => {

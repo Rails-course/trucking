@@ -12,6 +12,7 @@ import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
 import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/interfaces_types';
+import axios from 'axios';
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
@@ -20,6 +21,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
 
   const [companies, setCompanies] = React.useState(null);
   const [roles, setRoles] = React.useState(null);
+  const componentMounted = React.useRef(true);
 
   const AutoUpdateForm = ({ id }) => {
     const { setFieldValue } = useFormikContext();
@@ -37,8 +39,20 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   };
 
   React.useEffect(() => {
-    httpClient.companies.get_data().then((response) => setCompanies(response.data));
-    httpClient.roles.getAllRoles().then((response) => setRoles(response.data));
+    const getCompanies = httpClient.companies.get_data()
+    const getRoles = httpClient.roles.getAllRoles()
+    axios.all([getCompanies, getRoles])
+      .then(
+        axios.spread((...responses) => {
+          if (componentMounted.current) {
+            setCompanies(responses[0].data);
+            setRoles(responses[1].data);
+          }
+        })
+      )
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (

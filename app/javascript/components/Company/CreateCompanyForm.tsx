@@ -9,18 +9,31 @@ import {
 import FormikField from '../../UI/FormikField';
 import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
-
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen, setAlertType, setAlertText
   } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .then((response) => { handleClose() })
+      .then((response) => {
+        handleClose();
+        setAlertType("success");
+        setAlertText("Successfully created a company!")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      })
       .catch((error) => {
         setFormErrors(error.response.data);
-      })
+        setAlertType("error");
+        setAlertText("Something went wrong with creating a company")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      });
     setTimeout(() => {
       axios.get('/companies.json').then((response) => setCompany(response.data));
     }, 300);

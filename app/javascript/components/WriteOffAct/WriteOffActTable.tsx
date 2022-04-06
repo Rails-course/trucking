@@ -11,9 +11,18 @@ import { writeOffActTableCell } from '../../constants/writeOffActFields';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
   const { writeOffActs, setWriteOffActs } = props;
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.writeOffActs.getAll().then((response) => setWriteOffActs(response.data));
+    httpClient.writeOffActs.getAll()
+      .then((response) => {
+        if (componentMounted.current) {
+          setWriteOffActs(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (

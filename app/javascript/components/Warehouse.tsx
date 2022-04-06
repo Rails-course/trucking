@@ -5,53 +5,67 @@ import { Box, Grid, Button } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WarehouseTable from './Warehouse/WarehouseTable';
-import WarehouseCreateForm from './Warehouse/CreateForm';
-import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
+import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData } from '../common/interfaces_types';
+import SiteAlerts from './Alert';
 
-function Warehouse() {
+const Warehouse = () => {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [alertOpen, alertSetOpen] = React.useState(false);
+  const [alertType, setAlertType] = React.useState()
+  const [alertText, setAlertText] = React.useState()
 
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
   };
 
-  const handleSubmit = (warehouse: warehouseFormValues) => {
-    httpClient.warehouses.create(warehouse)
-      .then((response) => {
-        setWarehouses((prev) => [...prev, response.data])
-        setModalActive(false);
-      })
-      .catch((error) => setFormErrors(error.response.data));
-  };
-
-  React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => setWarehouses(response.data));
-  }, []);
-
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-            Create Warehouse
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <WarehouseTable warehouses={warehouses} setWarehouses={setWarehouses} />
+        <Grid
+          container
+          rowSpacing={3}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        >
+          <Grid item xs={9} style={{ textAlign: 'right' }}>
+            <SiteAlerts
+              alertType={alertType}
+              alertText={alertText}
+              alertOpen={alertOpen}
+              alertSetOpen={alertSetOpen}
+            />
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              Create Warehouse
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <WarehouseTable
+              warehouses={warehouses}
+              setWarehouses={setWarehouses}
+              alertSetOpen={alertSetOpen}
+              setAlertType={setAlertType}
+              setAlertText={setAlertText}
+            />
+          </Grid>
         </Grid>
       </Box>
       <WarehouseCreateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        handleSubmit={handleSubmit}
+        setWarehouses={setWarehouses}
         formErrors={formErrors}
+        setFormErrors={setFormErrors}
+        alertSetOpen={alertSetOpen}
+        setAlertType={setAlertType}
+        setAlertText={setAlertText}
       />
     </div>
   );
