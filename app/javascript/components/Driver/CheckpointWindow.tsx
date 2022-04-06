@@ -17,13 +17,8 @@ const CheckpointWindow:
       const handleClose = () => setActiveModal(false);
 
       const statusChange = () => {
-        if (status) {
-          httpClient.route.rollback({ ids: id }).then(() => {
-            handleClose();
-          });
-        } else {
-          setActiveModal(true);
-        }
+        if (status) httpClient.route.rollback({ ids: id }).then(() => handleClose());
+        else setActiveModal(true);
       };
 
       const handleSubmit = (values) => {
@@ -58,7 +53,6 @@ const CheckpointWindow:
                   <Button type="submit" onClick={handleClose}>save</Button>
                 </Form>
               </Formik>
-
             </DialogContent>
           </Dialog>
         </>

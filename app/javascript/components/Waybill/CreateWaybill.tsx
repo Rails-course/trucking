@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
@@ -14,7 +15,6 @@ import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
 import { CreateWaybillsFormProps } from '../../common/interfaces_types';
-import axios from 'axios';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
@@ -29,10 +29,9 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const [formErrors, setFormErrors] = React.useState([]);
   const componentMounted = React.useRef(true);
 
-
   React.useEffect(() => {
-    const getWaybillData = httpClient.waybill.get_data_waybill(id)
-    const getGoodsOwnerNames = httpClient.goods_owner.get_names()
+    const getWaybillData = httpClient.waybill.get_data_waybill(id);
+    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
     axios.all([getWaybillData, getGoodsOwnerNames])
       .then(
         axios.spread((...responses) => {
@@ -40,17 +39,17 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
             setData(responses[0].data);
             setOwners(responses[1].data);
           }
-        })
-      )
+        }),
+      );
     return () => {
       componentMounted.current = false;
-    }
+    };
   }, []);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
     httpClient.waybill.create(values, cityNames, id).then(() => setWayBillActive(false))
-      .catch((error) => { setFormErrors(error.response.data); console.log(error.response.data); });
+      .catch((error) => { setFormErrors(error.response.data); });
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
@@ -177,28 +176,28 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
                       <RouteTable routes={routes} />
-                    </Container>
 
-                    <div style={{
-                      display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
-                    }}
-                    >
-                      {waybillBottomFields.map((column) => (
-                        <div key={column.id}>
-                          <InputLabel shrink htmlFor="bootstrap-input">
-                            {column.label}
-                          </InputLabel>
-                          <FormikField
-                            key={column.id}
-                            name={column.model}
-                            label={column.placeholder}
-                            required={column.required}
-                            type={column.type}
-                            variant="outlined"
-                          />
-                        </div>
-                      ))}
-                    </div>
+                      <div style={{
+                        display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
+                      }}
+                      >
+                        {waybillBottomFields.map((column) => (
+                          <div key={column.id}>
+                            <InputLabel shrink htmlFor="bootstrap-input">
+                              {column.label}
+                            </InputLabel>
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="outlined"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </Container>
 
                     <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
                       <Button onClick={() => setCreateRoutes(true)}>create new checkpoints</Button>
