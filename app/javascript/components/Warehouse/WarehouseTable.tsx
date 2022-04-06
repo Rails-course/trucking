@@ -12,7 +12,7 @@ import { WarehouseData, WarehouseTableProps } from '../../common/interfaces_type
 import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
-  const { warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen } = props;
+  const { warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole } = props;
   const componentMounted = React.useRef(true);
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {
@@ -80,6 +80,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                 <IconButton
                   edge="end"
                   aria-label="delete"
+                  disabled={!(currentUserRole === 'admin')}
                   onClick={() => handleDeleteWarehouse(value?.id)}
                 >
                   <DeleteIcon color="error" />
@@ -88,7 +89,12 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
               disablePadding
               sx={{ width: '95%' }}
             >
-              <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+              <ListItemButton
+                role={undefined}
+                onClick={handleToggle(value)}
+                dense
+                disabled={!(currentUserRole === 'admin')}
+              >
                 <ListItemIcon>
                   <Checkbox
                     edge="start"

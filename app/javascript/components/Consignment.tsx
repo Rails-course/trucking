@@ -10,7 +10,7 @@ import httpClient from '../api/httpClient';
 import { Item, UnionConsGoodType } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 
-function Consignment() {
+const Consignment = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -72,11 +72,14 @@ function Consignment() {
         flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
       }}
       >
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-            Create Consignment
-          </Button>
-        </Grid>
+        {currentUserRole === 'dispatcher' ?
+          <Grid item xs={12} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
+              Create Consignment
+            </Button>
+          </Grid>
+          : null
+        }
         <Grid item xs={12}>
           <ConsignmentTable
             consignments={consignments}
@@ -88,6 +91,7 @@ function Consignment() {
             formErrors={formErrors}
             setData={setData}
             setOwners={setOwners}
+            currentUserRole={currentUserRole}
           />
         </Grid>
       </Box>
@@ -107,10 +111,12 @@ function Consignment() {
         checkedGoods={checkedGoods}
         setCheckedGooods={setCheckedGooods}
         handleGoodsSubmit={handleGoodsSubmit}
+        currentUserRole={currentUserRole}
       />
       <CreateWaybill
         id={consId}
         isActiveWayBill={isActiveWayBill}
+        setWayBillActive={setWayBillActive}
         data={data}
         handleClose={handleClose}
         owners={owners}

@@ -9,7 +9,7 @@ import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 
-const Warehouse = () => {
+const Warehouse = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
   const [formErrors, setFormErrors] = React.useState([]);
@@ -41,11 +41,14 @@ const Warehouse = () => {
               alertSetOpen={alertSetOpen}
             />
           </Grid>
-          <Grid item xs={3} style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
-              Create Warehouse
-            </Button>
-          </Grid>
+          {currentUserRole === 'admin' ?
+            <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+                Create Warehouse
+              </Button>
+            </Grid>
+            : null
+          }
           <Grid item xs={12}>
             <WarehouseTable
               warehouses={warehouses}
@@ -53,6 +56,7 @@ const Warehouse = () => {
               alertSetOpen={alertSetOpen}
               setAlertType={setAlertType}
               setAlertText={setAlertText}
+              currentUserRole={currentUserRole}
             />
           </Grid>
         </Grid>

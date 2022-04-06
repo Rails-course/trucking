@@ -8,7 +8,7 @@ import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 
-const Users = () => {
+const Users = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [users, setUser] = React.useState<UserData[]>(null);
   const [userIds, setUserId] = React.useState([]);

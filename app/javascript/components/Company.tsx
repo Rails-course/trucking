@@ -8,7 +8,7 @@ import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
 
-const Company = () => {
+const Company = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
@@ -40,11 +40,14 @@ const Company = () => {
               alertSetOpen={alertSetOpen}
             />
           </Grid>
-          <Grid item xs={3} style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
-              Create Company
-            </Button>
-          </Grid>
+          {currentUserRole === 'system administrator' ?
+            <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+                Create Company
+              </Button>
+            </Grid>
+            : null
+          }
           <Grid item xs={12}>
             <CompanyTable
               companies={companies}

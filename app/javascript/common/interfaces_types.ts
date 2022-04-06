@@ -75,6 +75,7 @@ export interface CreateWaybillsFormProps {
     handleClose: () => void;
     formWaybillErrors: any;
     isActiveWayBill: boolean;
+    setWayBillActive: any;
     data: any, owners: any;
 }
 
@@ -90,6 +91,7 @@ export interface WarehouseTableProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    currentUserRole: any;
 }
 
 export interface CreateWarehouseFormProps {
@@ -157,6 +159,7 @@ export interface WaybillGoodsProps {
 export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
+    currentUserRole: any;
 }
 
 export interface CheckpointsFormProps {
@@ -164,6 +167,7 @@ export interface CheckpointsFormProps {
     isWaybillModal: boolean;
     setWaybillModalActive: any;
     checkpoints: any;
+    currentUserRole: any;
 }
 
 export interface ConsignmentGoodsProps {
@@ -172,6 +176,7 @@ export interface ConsignmentGoodsProps {
     goods: Item[];
     checkedGoods: any;
     setCheckedGooods: any, handleGoodsSubmit: any;
+    currentUserRole: any
 }
 
 export interface ConsignmentTableProps {
@@ -179,6 +184,7 @@ export interface ConsignmentTableProps {
     setConsignment: any, setOwners: any;
     setModalGoodsActive: any, setWayBillActive: any;
     setGoods: any, setConsID: any, formErrors: any;
+    currentUserRole: any
 }
 
 export interface CreateCompanyFormProps {

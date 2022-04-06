@@ -10,53 +10,58 @@ import FormikField from '../../UI/FormikField';
 import { CheckpointWindowFormProps } from '../../common/interfaces_types';
 
 const CheckpointWindow:
-    React.FC <CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
-      const { id, status } = props;
-      const [isActiveModal, setActiveModal] = React.useState(false);
+  React.FC<CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
+    const { id, status, currentUserRole } = props;
+    const [isActiveModal, setActiveModal] = React.useState(false);
 
-      const handleClose = () => setActiveModal(false);
+    const handleClose = () => setActiveModal(false);
 
-      const statusChange = () => {
-        if (status) httpClient.route.rollback({ ids: id }).then(() => handleClose());
-        else setActiveModal(true);
-      };
-
-      const handleSubmit = (values) => {
-        Object.assign(values, { ids: id });
-        httpClient.route.passCh(values);
-      };
-
-      return (
-        <>
-          <Button onClick={() => statusChange()}>{status ? 'rollback' : 'pass'}</Button>
-          <Dialog
-            open={isActiveModal}
-            onClose={handleClose}
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
-            maxWidth="xs"
-          >
-            <DialogTitle>checkpoint</DialogTitle>
-            <DialogContent>
-              <Formik
-                initialValues={{ pass_date: '' }}
-                onSubmit={handleSubmit}
-              >
-                <Form>
-                  <Typography>Pass date</Typography>
-                  <FormikField
-                    name="pass_date"
-                    required
-                    label=""
-                    type="date"
-                    variant="standard"
-                  />
-                  <Button type="submit" onClick={handleClose}>save</Button>
-                </Form>
-              </Formik>
-            </DialogContent>
-          </Dialog>
-        </>
-      );
+    const statusChange = () => {
+      if (status) httpClient.route.rollback({ ids: id }).then(() => handleClose());
+      else setActiveModal(true);
     };
+
+    const handleSubmit = (values) => {
+      Object.assign(values, { ids: id });
+      httpClient.route.passCh(values);
+    };
+
+    return (
+      <>
+        <Button
+          onClick={() => statusChange()}
+          disabled={!(currentUserRole === 'driver')}
+        >
+          {status ? 'rollback' : 'pass'}
+        </Button>
+        <Dialog
+          open={isActiveModal}
+          onClose={handleClose}
+          sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+          maxWidth="xs"
+        >
+          <DialogTitle>checkpoint</DialogTitle>
+          <DialogContent>
+            <Formik
+              initialValues={{ pass_date: '' }}
+              onSubmit={handleSubmit}
+            >
+              <Form>
+                <Typography>Pass date</Typography>
+                <FormikField
+                  name="pass_date"
+                  required
+                  label=""
+                  type="date"
+                  variant="standard"
+                />
+                <Button type="submit" onClick={handleClose}>save</Button>
+              </Form>
+            </Formik>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  };
 
 export default CheckpointWindow;

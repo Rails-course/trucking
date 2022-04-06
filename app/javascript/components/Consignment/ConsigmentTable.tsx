@@ -8,11 +8,12 @@ import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
+import axios from 'axios';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setConsignment, setOwners, setData,
+    setConsignment, setOwners, setData, currentUserRole
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -20,8 +21,19 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setModalGoodsActive(true);
     setConsID(id);
     httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
-    httpClient.waybill.get_data_waybill(id).then((res) => setData(res.data));
-    httpClient.goods_owner.get_names().then((res) => setOwners(res.data));
+  };
+
+  const openWaybillCreateModal = (id) => {
+    const getWaybillData = httpClient.waybill.get_data_waybill(id);
+    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
+    setConsID(id);
+    axios.all([getWaybillData, getGoodsOwnerNames])
+      .then(axios.spread((...responses) => {
+        setData(responses[0].data)
+        setOwners(responses[1].data)
+        setWayBillActive(true);
+      })
+      )
   };
 
   React.useEffect(() => {
@@ -39,6 +51,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
           <TableHead>
             <TableRow>
               {consignmentTable.map((cell) => <StyledTableCell align="center" key={cell.id}>{cell.title}</StyledTableCell>)}
+              {currentUserRole === 'manager' ?
+                <StyledTableCell align="center">Waybill</StyledTableCell>
+                : null
+              }
             </TableRow>
           </TableHead>
           <TableBody>
@@ -54,7 +70,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 let waybillStatus = null;
                 if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
                 return (
-                  <StyledTableRow key={consignment.consignment_number}>
+                  <StyledTableRow key={consignment.id}>
                     <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
                     <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.status}</StyledTableCell>
@@ -65,17 +81,20 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                         Goods
                       </Button>
                     </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Button
-                        variant="outlined"
-                        disabled={!(consignment.status === 'checked' && !waybillStatus)}
-                        onClick={() => setWayBillActive(true)}
-                      >
-                        Create Waybill
-                      </Button>
-                    </StyledTableCell>
                     <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                    {currentUserRole === 'manager' ?
+                      <StyledTableCell align="center">
+                        <Button
+                          variant="outlined"
+                          disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                          onClick={() => openWaybillCreateModal(consignment.id)}
+                        >
+                          Create Waybill
+                        </Button>
+                      </StyledTableCell>
+                      : null
+                    }
                   </StyledTableRow>
                 );
               })}

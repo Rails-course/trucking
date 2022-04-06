@@ -7,7 +7,7 @@ import httpClient from '../api/httpClient';
 import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 
-const WriteOffActs = () => {
+const WriteOffActs = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
@@ -32,11 +32,14 @@ const WriteOffActs = () => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-            Create Write-off Act
-          </Button>
-        </Grid>
+        {['driver', 'manager'].includes(currentUserRole) ?
+          <Grid item xs={12} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
+              Create Write-off Act
+            </Button>
+          </Grid>
+          : null
+        }
         <Grid item xs={12}>
           <WriteOffActTable
             writeOffActs={writeOffActs}

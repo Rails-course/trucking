@@ -11,7 +11,7 @@ import { ConsignmentGoodsProps, Item } from '../../common/interfaces_types';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setCheckedGooods,
+    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setCheckedGooods, currentUserRole
   } = props;
 
   const handleToggle = (value: Item) => () => {
@@ -52,7 +52,12 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                           )}
                           disablePadding
                         >
-                          <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+                          <ListItemButton
+                            role={undefined}
+                            onClick={handleToggle(value)}
+                            dense
+                            disabled={!(currentUserRole === 'manager')}
+                          >
                             <ListItemIcon>
                               <Checkbox
                                 edge="start"
@@ -69,7 +74,13 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                     })}
                   </List>
                   <DialogActions>
-                    <Button type="submit" onClick={handleClose}>Submit</Button>
+                    <Button
+                      type="submit"
+                      onClick={handleClose}
+                      disabled={!(currentUserRole === 'manager')}
+                    >
+                      Submit
+                    </Button>
                   </DialogActions>
                 </Form>
               </Formik>

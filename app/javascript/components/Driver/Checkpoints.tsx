@@ -10,9 +10,9 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
-const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps) => {
+const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
-    id, isWaybillModal, checkpoints, setWaybillModalActive,
+    id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole
   } = props;
 
   const [formErrors, setFormErrors] = React.useState([]);
@@ -55,7 +55,11 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
                     <StyledTableCell align="right">{checkpoint.city}</StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.is_passed ? 'passed' : 'not passed'}</StyledTableCell>
                     <StyledTableCell align="right">
-                      <CheckpointWindow id={checkpoint.id} status={checkpoint.is_passed} />
+                      <CheckpointWindow
+                        id={checkpoint.id}
+                        status={checkpoint.is_passed}
+                        currentUserRole={currentUserRole}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
                   </StyledTableRow>
@@ -63,7 +67,13 @@ const Checkpoints:React.FC <CheckpointsFormProps> = (props: CheckpointsFormProps
             </TableBody>
           </Table>
         </TableContainer>
-        <Button type="submit" onClick={submit}>Transportation completed</Button>
+        <Button
+          type="submit"
+          onClick={submit}
+          disabled={!(currentUserRole === 'driver')}
+        >
+          Transportation completed
+        </Button>
         <Button onClick={handleClose}>Close</Button>
       </DialogContent>
     </Dialog>

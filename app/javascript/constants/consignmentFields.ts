@@ -62,10 +62,6 @@ export const consignmentTable = [
   },
   {
     id: uuidv4(),
-    title: 'Waybill',
-  },
-  {
-    id: uuidv4(),
     title: 'Dispatcher',
   },
   {

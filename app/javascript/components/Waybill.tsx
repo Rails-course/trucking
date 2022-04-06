@@ -6,7 +6,7 @@ import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 
-const Waybill = () => {
+const Waybill = ({ currentUserRole }) => {
   const [waybills, setWaybill] = React.useState([]);
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
@@ -42,6 +42,7 @@ const Waybill = () => {
         isWaybillModal={isWaybillModal}
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
+        currentUserRole={currentUserRole}
       />
     </div>
   );
