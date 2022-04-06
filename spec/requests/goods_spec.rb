@@ -10,11 +10,11 @@ RSpec.describe 'Goods', type: :request do
   describe 'positive POST/PUT/DELETE methods' do
     it 'POST goods' do
       post '/goods',
-           params: { newGoods: [
-             { bundle_seria: 'BS', bundle_numbe: 11, good_name: 'Potato',
+           params: { bundle_seria: 'BS', bundle_number: 11, newGoods: [
+             { good_name: 'Potato',
                unit_of_measurement: 'kilos',
                quantity: 10 },
-             { bundle_seria: 'BS', bundle_numbe: 11, good_name: 'Carrots',
+             { good_name: 'Carrots',
                unit_of_measurement: 'kilos',
                quantity: 5 }
            ] }
