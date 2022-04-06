@@ -11,9 +11,15 @@ const Waybill = () => {
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => setWaybill(response.data));
+    httpClient.waybill.gets_waybills().then((response) => {
+      if (componentMounted.current) setWaybill(response.data);
+    });
+    return () => {
+      componentMounted.current = false;
+    };
   }, []);
 
   return (
