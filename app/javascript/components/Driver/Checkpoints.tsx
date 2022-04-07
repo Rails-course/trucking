@@ -12,13 +12,31 @@ import httpClient from '../../api/httpClient';
 
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
-    id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole
+    id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
+    setAlertText, alertSetOpen, setAlertType
   } = props;
 
   const [formErrors, setFormErrors] = React.useState([]);
 
-  const submit = () => {
-    httpClient.waybill.finish({ ids: id }).catch((error) => setFormErrors(error.response.data));
+  const handleSubmit = () => {
+    httpClient.waybill.finish({ ids: id })
+      .then((response) => {
+        setAlertType("success");
+        setAlertText("Successfully finished cargo transportation!")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data)
+        setAlertType("error");
+        setAlertText("Couldn't complete the trip!")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      });
   };
 
   const handleClose = () => setWaybillModalActive(false);
@@ -59,6 +77,9 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         id={checkpoint.id}
                         status={checkpoint.is_passed}
                         currentUserRole={currentUserRole}
+                        alertSetOpen={alertSetOpen}
+                        setAlertType={setAlertType}
+                        setAlertText={setAlertText}
                       />
                     </StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
@@ -68,8 +89,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           </Table>
         </TableContainer>
         <Button
-          type="submit"
-          onClick={submit}
+          onClick={handleSubmit}
           disabled={!(currentUserRole === 'driver')}
         >
           Transportation completed

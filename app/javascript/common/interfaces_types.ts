@@ -78,6 +78,9 @@ export interface CreateWaybillsFormProps {
     isActiveWayBill: boolean;
     setWayBillActive: any;
     data: any, owners: any;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface CreateRoutesFormProps {
@@ -161,6 +164,7 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
+    alertSetOpen: any, setAlertType: any, setAlertText: any;
 }
 
 export interface CheckpointsFormProps {
@@ -169,6 +173,7 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
+    alertSetOpen: any, setAlertType: any, setAlertText: any;
 }
 
 export interface ConsignmentGoodsProps {

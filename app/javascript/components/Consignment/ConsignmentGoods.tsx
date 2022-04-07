@@ -18,6 +18,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods,
     setCheckedGooods,
   } = props;
+
   const [titleStatus, setTitleStatus] = React.useState(null);
 
   const handleToggle = (value: Item) => () => {
@@ -26,17 +27,17 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     } else {
       setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
-    switch (value.status) {
-      case 'checked':
-        setTitleStatus('Checked');
-        return setTitleStatus('Delivered');
-      case 'delivered':
-        setTitleStatus('Delivered');
-        return setTitleStatus('Accepted');
-      default:
-        setTitleStatus('Accepted');
-        return setTitleStatus('Checked');
-    }
+    // switch (value.status) {
+    //   case 'checked':
+    //     setTitleStatus('Checked');
+    //     return setTitleStatus('Delivered');
+    //   case 'delivered':
+    //     setTitleStatus('Delivered');
+    //     return setTitleStatus('Accepted');
+    //   default:
+    //     setTitleStatus('Accepted');
+    //     return setTitleStatus('Checked');
+    // }
   };
 
   return (

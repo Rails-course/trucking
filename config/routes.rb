@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :trucks
   get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
   resources :waybills
-  patch '/waybill/endTrucking', to: 'waybill#end_trucking'
+  patch '/waybills/endTrucking', to: 'waybill#end_trucking'
   resources :roles, only: :index
   resources :warehouses
   patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
