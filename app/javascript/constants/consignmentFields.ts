@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { AlignType } from './waybillFields';
 
 export const consignmentFields = [
   {
@@ -67,5 +68,32 @@ export const consignmentTable = [
   {
     id: uuidv4(),
     title: 'Inspector',
+  },
+];
+
+export const consignmentGoods = [
+  {
+    id: uuidv4(),
+    title: 'Name',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Quantity',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Unit of measurement',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'Status',
+    align: 'center' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: '',
   },
 ];

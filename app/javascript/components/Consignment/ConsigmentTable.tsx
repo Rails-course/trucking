@@ -4,16 +4,16 @@ import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
 } from '@mui/material';
 
+import axios from 'axios';
 import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
-import axios from 'axios';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setConsignment, setOwners, setData, currentUserRole
+    setConsignment, setOwners, setData, currentUserRole,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -29,11 +29,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setConsID(id);
     axios.all([getWaybillData, getGoodsOwnerNames])
       .then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        setOwners(responses[1].data)
+        setData(responses[0].data);
+        setOwners(responses[1].data);
         setWayBillActive(true);
-      })
-      )
+      }));
   };
 
   React.useEffect(() => {
@@ -51,10 +50,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
           <TableHead>
             <TableRow>
               {consignmentTable.map((cell) => <StyledTableCell align="center" key={cell.id}>{cell.title}</StyledTableCell>)}
-              {currentUserRole === 'manager' ?
-                <StyledTableCell align="center">Waybill</StyledTableCell>
-                : null
-              }
+              {currentUserRole === 'manager'
+                ? <StyledTableCell align="center">Waybill</StyledTableCell>
+                : null}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -83,18 +81,19 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     </StyledTableCell>
                     <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
-                    {currentUserRole === 'manager' ?
-                      <StyledTableCell align="center">
-                        <Button
-                          variant="outlined"
-                          disabled={!(consignment.status === 'checked' && !waybillStatus)}
-                          onClick={() => openWaybillCreateModal(consignment.id)}
-                        >
-                          Create Waybill
-                        </Button>
-                      </StyledTableCell>
-                      : null
-                    }
+                    {currentUserRole === 'manager'
+                      ? (
+                        <StyledTableCell align="center">
+                          <Button
+                            variant="outlined"
+                            disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                            onClick={() => openWaybillCreateModal(consignment.id)}
+                          >
+                            Create Waybill
+                          </Button>
+                        </StyledTableCell>
+                      )
+                      : null}
                   </StyledTableRow>
                 );
               })}

@@ -63,6 +63,11 @@ const Consignment = ({ currentUserRole }) => {
       consignments[objIndex] = response.data;
       setConsignment(consignments);
     });
+    // await httpClient.goods.setWaybillGoodsStatus(consId, checkedGoods).then((response) => {
+    //   const objIndex = consignments.findIndex((element) => element.id === consId);
+    //   consignments[objIndex] = response.data;
+    //   setConsignment(consignments);
+    // });
     setCheckedGooods([]);
   };
 
@@ -72,14 +77,15 @@ const Consignment = ({ currentUserRole }) => {
         flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column',
       }}
       >
-        {currentUserRole === 'dispatcher' ?
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-              Create Consignment
-            </Button>
-          </Grid>
-          : null
-        }
+        {currentUserRole === 'dispatcher'
+          ? (
+            <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
+                Create Consignment
+              </Button>
+            </Grid>
+          )
+          : null}
         <Grid item xs={12}>
           <ConsignmentTable
             consignments={consignments}
@@ -124,6 +130,6 @@ const Consignment = ({ currentUserRole }) => {
       />
     </div>
   );
-}
+};
 
 export default Consignment;

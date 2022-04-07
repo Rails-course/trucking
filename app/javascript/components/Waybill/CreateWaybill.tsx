@@ -27,9 +27,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
     httpClient.waybill.create(values, cityNames, id)
-      .then((response) => {
-        setWayBillActive(false);
-      })
+      .then(() => setWayBillActive(false))
       .catch((error) => { setFormErrors(error.response.data); });
   };
 

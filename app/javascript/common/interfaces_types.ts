@@ -25,6 +25,7 @@ export type Item = {
     id: number;
     good_name: string;
     quantity: number;
+    status: string;
     unit_of_measurement: string;
     bundle_seria: string;
     bundle_number: string;
@@ -174,7 +175,7 @@ export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
     goods: Item[];
-    checkedGoods: any;
+    checkedGoods: any,
     setCheckedGooods: any, handleGoodsSubmit: any;
     currentUserRole: any
 }
