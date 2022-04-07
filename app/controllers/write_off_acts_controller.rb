@@ -15,21 +15,13 @@ class WriteOffActsController < ApplicationController
 
   def create
     authorize! :create, WriteOffAct
-    begin
-      ActiveRecord::Base.transaction do
-        @write_off_act = WriteOffAct.create!(create_write_off_act_params)
-        @consignment = get_consigment_from_params
-        @lost_item = Good.where(good_name: @write_off_act.good_name,
-                                bundle_seria: @consignment.bundle_seria,
-                                bundle_number: @consignment.bundle_number)
-        @lost_item.update(status: 'lost')
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
+    @write_off_act = WriteOffAct.new(create_write_off_act_params)
+    if @write_off_act.save
+      render json: @write_off_act.to_json(include: { consignment: { only: %i[bundle_seria
+                                                                             bundle_number] } })
+    else
+      render json: @write_off_act.errors.full_messages, status: :unprocessable_entity
     end
-
-    render json: @write_off_act.to_json(include: { consignment: { only: %i[bundle_seria
-                                                                           bundle_number] } })
   end
 
   private

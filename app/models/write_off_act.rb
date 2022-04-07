@@ -6,8 +6,16 @@ class WriteOffAct < ApplicationRecord
   validates :lost_quantity, presence: true, numericality: { greater_than: 0 }
   validates :description, allow_blank: true, length: { in: 2..255 }
   validate :good_name_and_quantity
+  before_create :update_lost_goods_status
 
   private
+
+  def update_lost_goods_status
+    lost_item = Good.where(good_name: good_name,
+                           bundle_seria: consignment.bundle_seria,
+                           bundle_number: consignment.bundle_number)
+    lost_item.update(status: 'lost')
+  end
 
   def good_name_and_quantity
     consignment_goods_names = Good.select(:good_name)
