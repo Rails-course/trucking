@@ -51,6 +51,14 @@ export const consignmentTable = [
   },
   {
     id: uuidv4(),
+    title: 'Dispatcher',
+  },
+  {
+    id: uuidv4(),
+    title: 'Inspector',
+  },
+  {
+    id: uuidv4(),
     title: 'Bundle series',
   },
   {
@@ -60,14 +68,6 @@ export const consignmentTable = [
   {
     id: uuidv4(),
     title: 'Bundle goods',
-  },
-  {
-    id: uuidv4(),
-    title: 'Dispatcher',
-  },
-  {
-    id: uuidv4(),
-    title: 'Inspector',
   },
 ];
 
