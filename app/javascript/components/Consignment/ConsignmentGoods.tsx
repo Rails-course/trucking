@@ -16,7 +16,7 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
     isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
-    setCheckedGooods, titleStatus,
+    setCheckedGooods, titleStatus, currentUserRole
   } = props;
 
   const handleToggle = (value: Item) => () => {
@@ -81,6 +81,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                   <ListItemButton
                                     role={undefined}
                                     onClick={handleToggle(value)}
+                                    disabled={!(currentUserRole === 'manager')}
                                     dense
                                   >
                                     <Checkbox
@@ -106,7 +107,13 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                     </Table>
                   </TableContainer>
                   <DialogActions>
-                    <Button type="submit" onClick={handleClose}>Submit</Button>
+                    <Button
+                      type="submit"
+                      onClick={handleClose}
+                      disabled={!(currentUserRole === 'manager')}
+                    >
+                      Submit
+                    </Button>
                   </DialogActions>
                 </Form>
               </Formik>
