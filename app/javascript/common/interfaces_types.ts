@@ -50,7 +50,8 @@ export interface CreateConsignmentFormProps {
     handleSubmit: any;
     newGoods: any;
     handleFieldAdd: any;
-    handleFieldChange: any, formErrors: any
+    handleFieldChange: any,
+    formErrors: any;
 }
 
 export interface WarehouseData {
@@ -92,9 +93,7 @@ export interface CreateRoutesFormProps {
 export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+
     currentUserRole: any;
 }
 
@@ -104,9 +103,6 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
 }
 
 export interface Warehouseman {
@@ -164,7 +160,9 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
-    alertSetOpen: any, setAlertType: any, setAlertText: any;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface CheckpointsFormProps {
@@ -173,50 +171,49 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
-    alertSetOpen: any, setAlertType: any, setAlertText: any;
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
     goods: Item[];
-    checkedGoods: any,
+    checkedGoods: any, setTitleStatus: any;
     setCheckedGooods: any, handleGoodsSubmit: any;
-    currentUserRole: any
+    currentUserRole: any;
+    titleStatus: string;
 }
 
 export interface ConsignmentTableProps {
+    setOwners: any;
+    setModalGoodsActive: any;
+    setWayBillActive: any;
+    setGoods: any;
+    setConsID: any;
+    formErrors: any;
     consignments: any, setData: any;
-    setConsignment: any, setOwners: any;
-    setModalGoodsActive: any, setWayBillActive: any;
-    setGoods: any, setConsID: any, formErrors: any;
-    currentUserRole: any
+    setConsignment: any,
+    currentUserRole: any, setConsWaybillId: any;
 }
 
 export interface CreateCompanyFormProps {
     isActiveModal: boolean;
     handleClose: () => void;
     setCompany: any, formErrors: any;
-    setFormErrors: any, alertSetOpen: any;
-    setAlertType: any, setAlertText: any,
+    setFormErrors: any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
 }
 
 export interface WaybillTableProps {
-    waybills: any, setCheckpoints: any;
-    setWaybillModalActive: any, setWaybillID: any;
-}
-
-export interface SiteAlertProps {
-    alertType: any;
-    alertText: any;
-    alertOpen: boolean,
-    alertSetOpen: any;
+    waybills: any;
+    setCheckpoints: any;
+    setWaybillModalActive: any;
+    setWaybillID: any;
+    setWaybill: any;
 }

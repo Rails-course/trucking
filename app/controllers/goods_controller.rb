@@ -55,7 +55,12 @@ class GoodsController < ApplicationController
     rescue ActiveRecord::RecordInvalid => e
       @goods = { error: { status: 422, message: e } }
     end
-    render json: @goods.to_json
+    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
+                                                                       second_name
+                                                                       middle_name] },
+                                                manager: { only: %i[first_name
+                                                                    second_name
+                                                                    middle_name] }])
   end
 
   private

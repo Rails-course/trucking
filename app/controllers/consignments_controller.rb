@@ -12,7 +12,7 @@ class ConsignmentsController < ApplicationController
           include: [
             dispatcher: { only: %i[first_name second_name middle_name] },
             manager: { only: %i[first_name second_name middle_name] },
-            waybill: { only: :status }
+            waybill: { only: %i[id status] }
           ]
         )
       end

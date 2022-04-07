@@ -13,14 +13,18 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setConsignment, setOwners, setData, currentUserRole,
+    setConsignment, setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
   const componentMounted = React.useRef(true);
+  let waybillID = null;
 
-  const handleGetGoods = (id) => {
+  const handleGetGoods = (consignment) => {
     setModalGoodsActive(true);
-    setConsID(id);
-    httpClient.goods.getConsignmentGoods(id).then((response) => setGoods(response.data));
+    setConsID(consignment.id);
+    httpClient.goods.getConsignmentGoods(consignment?.id)
+      .then((response) => setGoods(response.data));
+    if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
+    setConsWaybillId(waybillID);
   };
 
   const openWaybillCreateModal = (id) => {
@@ -75,23 +79,23 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <Button variant="outlined" onClick={() => handleGetGoods(consignment.id)}>
+                      <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
                         Goods
-                      </Button>
+                        </Button>
                     </StyledTableCell>
                     <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
                     {currentUserRole === 'manager'
                       ? (
                         <StyledTableCell align="center">
-                          <Button
-                            variant="outlined"
-                            disabled={!(consignment.status === 'checked' && !waybillStatus)}
-                            onClick={() => openWaybillCreateModal(consignment.id)}
-                          >
-                            Create Waybill
-                          </Button>
-                        </StyledTableCell>
+                            <Button
+                              variant="outlined"
+                              disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                              onClick={() => openWaybillCreateModal(consignment.id)}
+                            >
+                              Create Waybill
+                            </Button>
+                          </StyledTableCell>
                       )
                       : null}
                   </StyledTableRow>

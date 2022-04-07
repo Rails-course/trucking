@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button, ListItemButton, ListItemText, Checkbox,
-  IconButton, Paper, Table, TableHead, TableRow, TableBody, TableContainer,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button, ListItemButton, ListItemText,
+  IconButton, Paper, Table, TableHead, TableRow, TableBody, TableContainer, Checkbox,
 } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 
@@ -15,11 +15,9 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods,
-    setCheckedGooods,
+    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
+    setCheckedGooods, titleStatus,
   } = props;
-
-  const [titleStatus, setTitleStatus] = React.useState(null);
 
   const handleToggle = (value: Item) => () => {
     if (checkedGoods.indexOf(value) === -1) {
@@ -27,17 +25,16 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
     } else {
       setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
-    // switch (value.status) {
-    //   case 'checked':
-    //     setTitleStatus('Checked');
-    //     return setTitleStatus('Delivered');
-    //   case 'delivered':
-    //     setTitleStatus('Delivered');
-    //     return setTitleStatus('Accepted');
-    //   default:
-    //     setTitleStatus('Accepted');
-    //     return setTitleStatus('Checked');
-    // }
+    switch (value.status) {
+      case 'accepted':
+        return setTitleStatus('Checked');
+      case 'checked':
+        setTitleStatus('Checked');
+        return setTitleStatus('Delivered');
+      default:
+        setTitleStatus('');
+        return setTitleStatus('');
+    }
   };
 
   return (
@@ -63,7 +60,9 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                         <StyledTableRow>
                           <StyledTableCell>{titleStatus}</StyledTableCell>
                           {consignmentGoods.map((good) => (
-                            <StyledTableCell key={good.id} align={good.align}>{good.title}</StyledTableCell>
+                            <StyledTableCell key={good.id} align={good.align}>
+                              {good.title}
+                            </StyledTableCell>
                           ))}
                         </StyledTableRow>
                       </TableHead>
@@ -106,35 +105,6 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}> */}
-                  {/*  {goods.map((value) => { */}
-                  {/*    const labelId = `checkbox-list-label-${value}`; */}
-                  {/*    return ( */}
-                  {/*      <ListItem */}
-                  {/*        key={value.id} */}
-                  {/*        secondaryAction={( */}
-                  {/*          <IconButton edge="end" aria-label="comments"> */}
-                  {/*            <CommentIcon /> */}
-                  {/*          </IconButton> */}
-                  {/*        )} */}
-                  {/*        disablePadding */}
-                  {/*      > */}
-                  {/*        <ListItemButton role={undefined} onClick={handleToggle(value)} dense> */}
-                  {/*          <ListItemIcon> */}
-                  {/*            <Checkbox */}
-                  {/*              edge="start" */}
-                  {/*              checked={checkedGoods.indexOf(value) !== -1} */}
-                  {/*              tabIndex={-1} */}
-                  {/*              disableRipple */}
-                  {/*              inputProps={{ 'aria-labelledby': labelId }} */}
-                  {/*            /> */}
-                  {/*          </ListItemIcon> */}
-                  {/*          <ListItemText id={labelId} primary={`${value?.good_name} ${value?.quantity} ${value?.unit_of_measurement}`} /> */}
-                  {/*        </ListItemButton> */}
-                  {/*      </ListItem> */}
-                  {/*    ); */}
-                  {/*  })} */}
-                  {/* </List> */}
                   <DialogActions>
                     <Button type="submit" onClick={handleClose}>Submit</Button>
                   </DialogActions>
