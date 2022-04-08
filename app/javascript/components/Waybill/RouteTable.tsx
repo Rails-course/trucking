@@ -5,12 +5,9 @@ interface RoutesTableFormProps {
 }
 
 const RouteTable: React.FC<RoutesTableFormProps> = (props: RoutesTableFormProps) => {
-  const {
-    routes,
-  } = props;
+  const { routes } = props;
   return (
     <>
-
       {routes.map((route) => (
         <p className="paragr">
           {' '}

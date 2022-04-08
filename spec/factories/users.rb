@@ -14,6 +14,10 @@ FactoryBot.define do
     association(:address)
     role
 
+    trait :sysAdmin do
+      association :role, factory: :sysAdmin_role
+    end
+
     trait :driver do
       association :role, factory: :driver_role
     end
@@ -34,5 +38,6 @@ FactoryBot.define do
     factory :user_dispatcher, traits: [:dispatcher]
     factory :user_manager, traits: [:manager]
     factory :user_warehouseman, traits: [:warehouseman]
+    factory :user_sysAdmin, traits: [:sysAdmin]
   end
 end

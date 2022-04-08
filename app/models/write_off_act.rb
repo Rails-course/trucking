@@ -6,16 +6,30 @@ class WriteOffAct < ApplicationRecord
   validates :lost_quantity, presence: true, numericality: { greater_than: 0 }
   validates :description, allow_blank: true, length: { in: 2..255 }
   validate :good_name_and_quantity
+  before_create :update_lost_goods_status
 
   private
 
+  def update_lost_goods_status
+    lost_item = Good.where(good_name: good_name,
+                           bundle_seria: consignment.bundle_seria,
+                           bundle_number: consignment.bundle_number)
+    lost_item.update(status: 'lost')
+  end
+
   def good_name_and_quantity
-    consignment_goods_names = Good.select(:good_name).where(bundle_seria: consignment.bundle_seria,
-                                                            bundle_number: consignment.bundle_number).collect(&:good_name)
+    consignment_goods_names = Good.select(:good_name)
+                                  .where(bundle_seria: consignment.bundle_seria,
+                                         bundle_number: consignment.bundle_number)
+                                  .collect(&:good_name)
+
     if consignment_goods_names.include?(good_name)
       item = Good.where(bundle_seria: consignment.bundle_seria,
-                        bundle_number: consignment.bundle_number, good_name: good_name).first
-      errors.add(:quantity, 'of items is invalid') if lost_quantity > item.quantity
+                        bundle_number: consignment.bundle_number,
+                        good_name: good_name)
+                 .first
+
+      errors.add(:quantity, 'of lost items is invalid') if lost_quantity > item.quantity
     else
       errors.add(:good_name, 'is not in bundle for this consignment')
     end

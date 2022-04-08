@@ -1,113 +1,107 @@
 import * as React from 'react';
 
-import { styled } from '@mui/material/styles';
 import {
-  Table, TableBody, TableCell, TableRow, TableContainer,
-  TableHead, Paper, tableCellClasses, Tooltip,
+  Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
 } from '@mui/material';
 
+import axios from 'axios';
 import httpClient from '../../api/httpClient';
-import CreateWaybill from '../CreateWaybill';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 17,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-interface ConsignmentTableProps {
-  consignments: any,
-  setConsignment: any,
-  setModalGoodsActive: any,
-  setConsID: any,
-  setGoods: any,
-  consId: any,
-}
+import { consignmentTable } from '../../constants/consignmentFields';
+import { StyledTableCell, StyledTableRow } from '../../utils/style';
+import { ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
-    consignments, setConsignment, setModalGoodsActive, setConsID, setGoods, consId,
+    consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
+    setConsignment, setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
+  const componentMounted = React.useRef(true);
+  let waybillID = null;
 
-  React.useEffect(() => {
-    httpClient.consignments.getAll().then((response) => {
-      setConsignment(response.data);
-    });
-  }, []);
-
-  const handleGetGoods = () => {
-    // BUGFIX: first click return consId = null
-    if (consId) {
-      setModalGoodsActive(true);
-      httpClient.goods.getConsignmentGoods(consId).then((response) => setGoods(response.data));
-    }
+  const handleGetGoods = (consignment) => {
+    setModalGoodsActive(true);
+    setConsID(consignment.id);
+    httpClient.goods.getConsignmentGoods(consignment?.id)
+      .then((response) => setGoods(response.data));
+    if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
+    setConsWaybillId(waybillID);
   };
 
-  if (!consignments) return (<p>Loading...</p>);
+  const openWaybillCreateModal = (id) => {
+    const getWaybillData = httpClient.waybill.get_data_waybill(id);
+    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
+    setConsID(id);
+    axios.all([getWaybillData, getGoodsOwnerNames])
+      .then(axios.spread((...responses) => {
+        setData(responses[0].data);
+        setOwners(responses[1].data);
+        setWayBillActive(true);
+      }));
+  };
+
+  React.useEffect(() => {
+    httpClient.consignments.getAll()
+      .then((response) => { if (componentMounted.current) setConsignment(response.data); });
+    return () => {
+      componentMounted.current = false;
+    };
+  }, []);
+
   return (
     <div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Consignment number</StyledTableCell>
-              <StyledTableCell align="right">Consignment seria</StyledTableCell>
-              <StyledTableCell align="right">Bundle number</StyledTableCell>
-              <StyledTableCell align="right">Bundle seria</StyledTableCell>
-              <StyledTableCell align="right">Dispatcher</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
-              <StyledTableCell align="right">Waybill</StyledTableCell>
+              {consignmentTable.map((cell) => <StyledTableCell align="center" key={cell.id}>{cell.title}</StyledTableCell>)}
+              {currentUserRole === 'manager'
+                ? <StyledTableCell align="center">Waybill</StyledTableCell>
+                : null}
             </TableRow>
           </TableHead>
-          <Tooltip describeChild title="Click for open goods conformity form">
-            <TableBody onClick={handleGetGoods}>
-              {consignments.map((consignment) => {
+          <TableBody>
+            {!consignments
+              ? (
+                <TableRow>
+                  <StyledTableCell>No data yet ...</StyledTableCell>
+                </TableRow>
+              )
+              : consignments.map((consignment) => {
                 const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+                const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
+                let waybillStatus = null;
+                if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
                 return (
-                  <StyledTableRow
-                    key={consignment.consignment_number}
-                    onClick={() => setConsID(consignment.id)}
-                  >
-                    <StyledTableCell component="th" scope="company">
-                      {consignment.consignment_number}
+                  <StyledTableRow key={consignment.id}>
+                    <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
+                    <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
+                    <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
+                    <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
+                        Goods
+                      </Button>
                     </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.consignment_seria}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.bundle_seria}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.bundle_number}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {dispatcherFIO}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {consignment.status}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <CreateWaybill id={consignment.id} />
-                    </StyledTableCell>
+                    {currentUserRole === 'manager'
+                      ? (
+                        <StyledTableCell align="center">
+                          <Button
+                            variant="outlined"
+                            disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                            onClick={() => openWaybillCreateModal(consignment.id)}
+                          >
+                            Create Waybill
+                          </Button>
+                        </StyledTableCell>
+                      )
+                      : null}
                   </StyledTableRow>
                 );
               })}
-            </TableBody>
-          </Tooltip>
+          </TableBody>
         </Table>
       </TableContainer>
     </div>

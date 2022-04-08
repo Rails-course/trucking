@@ -2,40 +2,58 @@ import * as React from 'react';
 import { Form, Formik } from 'formik';
 
 import {
-  Autocomplete,
-  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Autocomplete, Container, Dialog, DialogActions,
+  DialogContent, DialogTitle, Grid, TextField, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import FormikField from '../../UI/FormikField';
 import { warehouseFields } from '../../constants/warehouseFields';
-import warehouseInitialValues from '../../initialValues/warehouseInitialValues';
+import warehouseInitialValues, { warehouseFormValues } from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
 import httpClient from '../../api/httpClient';
+import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_types';
 
-interface CreateFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  handleSubmit: any;
-}
+const WarehouseCreateForm: React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
+  const {
+    isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertType, setAlertText, alertSetOpen
+  } = props;
+  const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
+  const componentMounted = React.useRef(true);
 
-interface warehouseman {
-  id: number;
-  first_name: string;
-  second_name: string;
-  middle_name: string;
-  email: string;
-  birthday: any;
-  login: string;
-  passport: string;
-}
+  const handleSubmit = (warehouse: warehouseFormValues) => {
+    httpClient.warehouses.create(warehouse)
+      .then((response) => {
+        setWarehouses((prev) => [...prev, response.data])
+        handleClose();
+        setAlertType("success");
+        setAlertText("Successfully created a warehouse!")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data);
+        setAlertType("error");
+        setAlertText("Something went wrong with creating a warehouse")
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000)
+      });
+  };
 
-const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) => {
-  const { isActiveModal, handleClose, handleSubmit } = props;
-  const [warehousemans, setWarehousemans] = React.useState<warehouseman[]>([]);
 
   React.useEffect(() => {
-    httpClient.users.get_warehousemans().then((response) => setWarehousemans(response.data));
+    httpClient.users.get_warehousemans()
+      .then((response) => {
+        if (componentMounted.current) {
+          setWarehousemans(response.data);
+        }
+      })
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   return (
@@ -60,6 +78,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                 }) => (
                   <Form>
                     <Container maxWidth="sm">
+                      {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                       {warehouseFields.map((column) => (
                         <FormikField
                           key={column.id}
@@ -74,7 +93,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                     <Autocomplete
                       id="warehouseman"
                       options={warehousemans}
-                      getOptionLabel={(option: warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                      getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -88,7 +107,7 @@ const WarehouseCreateForm: React.FC<CreateFormProps> = (props: CreateFormProps) 
                     />
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>Create</Button>
+                      <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
                     </DialogActions>
                   </Form>
                 )}

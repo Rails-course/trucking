@@ -2,6 +2,7 @@
 
 class WriteOffActsController < ApplicationController
   def index
+    authorize! :read, WriteOffAct
     @write_off_acts = WriteOffAct.all
     respond_to do |format|
       format.html
@@ -13,6 +14,7 @@ class WriteOffActsController < ApplicationController
   end
 
   def create
+    authorize! :create, WriteOffAct
     @write_off_act = WriteOffAct.new(create_write_off_act_params)
     if @write_off_act.save
       render json: @write_off_act.to_json(include: { consignment: { only: %i[bundle_seria

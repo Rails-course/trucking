@@ -1,5 +1,5 @@
 export interface userFormValues {
-  id: string | number;
+  id: number;
   first_name: string;
   middle_name: string;
   second_name: string;

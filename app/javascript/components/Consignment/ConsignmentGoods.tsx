@@ -1,40 +1,40 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
 
-import CommentIcon from '@mui/icons-material/Comment';
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, Button,
-  ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox, IconButton,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button, ListItemButton, ListItemText,
+  IconButton, Paper, Table, TableHead, TableRow, TableBody, TableContainer, Checkbox,
 } from '@mui/material';
-import httpClient from '../../api/httpClient';
+import CommentIcon from '@mui/icons-material/Comment';
 
-interface ConsignmentGoodsProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  consId: number;
-  goods: [];
-}
+import {
+  ConsignmentGoodsProps, Item,
+} from '../../common/interfaces_types';
+import { StyledTableCell, StyledTableRow } from '../../utils/style';
+import { consignmentGoods } from '../../constants/consignmentFields';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, consId, goods,
+    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
+    setCheckedGooods, titleStatus, currentUserRole
   } = props;
 
-  const [checkedGoods, setCheckedGooods] = React.useState([]);
-
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checkedGoods.indexOf(value);
-    const newCheckedGoods = [...checkedGoods];
-    if (currentIndex === -1) {
-      newCheckedGoods.push(value);
+  const handleToggle = (value: Item) => () => {
+    if (checkedGoods.indexOf(value) === -1) {
+      setCheckedGooods([...checkedGoods, value]);
     } else {
-      newCheckedGoods.splice(currentIndex, 1);
+      setCheckedGooods(checkedGoods.filter((item) => item !== value));
     }
-    setCheckedGooods(newCheckedGoods);
-  };
-
-  const handleSubmit = () => {
-    httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods);
+    switch (value.status) {
+      case 'accepted':
+        return setTitleStatus('Checked');
+      case 'checked':
+        setTitleStatus('Checked');
+        return setTitleStatus('Delivered');
+      default:
+        setTitleStatus('');
+        return setTitleStatus('');
+    }
   };
 
   return (
@@ -42,49 +42,78 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        sx={{ '& .MuiDialog-paper': { maxWidth: '650px', maxHeight: 535 } }}
         maxWidth="xs"
       >
         <DialogTitle>Goods Conformity</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Formik
                 initialValues={{ checked: [] }}
-                onSubmit={handleSubmit}
+                onSubmit={handleGoodsSubmit}
               >
                 <Form>
-                  <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {goods.map((value) => {
-                      const labelId = `checkbox-list-label-${value}`;
-                      return (
-                        <ListItem
-                          key={value.id}
-                          secondaryAction={(
-                            <IconButton edge="end" aria-label="comments">
-                              <CommentIcon />
-                            </IconButton>
-                          )}
-                          disablePadding
-                        >
-                          <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-                            <ListItemIcon>
-                              <Checkbox
-                                edge="start"
-                                checked={checkedGoods.indexOf(value) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{ 'aria-labelledby': labelId }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText id={labelId} primary={`${value?.good_name} ${value?.quantity} ${value?.unit_of_measurement}`} />
-                          </ListItemButton>
-                        </ListItem>
-                      );
-                    })}
-                  </List>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="customized table">
+                      <TableHead>
+                        <StyledTableRow>
+                          <StyledTableCell>{titleStatus}</StyledTableCell>
+                          {consignmentGoods.map((good) => (
+                            <StyledTableCell key={good.id} align={good.align}>
+                              {good.title}
+                            </StyledTableCell>
+                          ))}
+                        </StyledTableRow>
+                      </TableHead>
+                      <TableBody>
+                        {!goods
+                          ? (
+                            <TableRow>
+                              <StyledTableCell>No data yet ...</StyledTableCell>
+                            </TableRow>
+                          )
+                          : goods.map((value) => {
+                            const labelId = `checkbox-list-label-${value}`;
+                            return (
+                              <StyledTableRow key={value.id}>
+                                <StyledTableCell>
+                                  <ListItemButton
+                                    role={undefined}
+                                    onClick={handleToggle(value)}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole)}
+                                    dense
+                                  >
+                                    <Checkbox
+                                      checked={checkedGoods.indexOf(value) !== -1}
+                                      tabIndex={-1}
+                                      disableRipple
+                                      inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                  </ListItemButton>
+                                </StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.good_name}`} /></StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.quantity}`} /></StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.unit_of_measurement}`} /></StyledTableCell>
+                                <StyledTableCell align="center">{value?.status}</StyledTableCell>
+                                <StyledTableCell align="right" style={{ width: '30%' }}>
+                                  <IconButton edge="end" aria-label="comments"><CommentIcon /></IconButton>
+                                </StyledTableCell>
+
+                              </StyledTableRow>
+                            );
+                          })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                   <DialogActions>
-                    <Button type="submit" onClick={handleClose}>Submit</Button>
+                    <Button
+                      type="submit"
+                      onClick={handleClose}
+                      disabled={!['driver', 'manager'].includes(currentUserRole)}
+                    >
+                      Submit
+                    </Button>
                   </DialogActions>
                 </Form>
               </Formik>

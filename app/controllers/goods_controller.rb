@@ -4,6 +4,7 @@ class GoodsController < ApplicationController
   before_action :set_consignment_goods, only: %i[get_consignment_goods set_goods_cheked_status]
   before_action :set_waybill_goods, only: %i[waybill_goods set_goods_delivered_status]
   def get_consignment_goods
+    authorize! :read, Good
     render json: @goods.to_json
   end
 
@@ -12,27 +13,54 @@ class GoodsController < ApplicationController
   end
 
   def create
+    authorize! :create, Good
     begin
       Good.transaction do
         @goods = Good.create!(goods_params)
       end
     rescue ActiveRecord::RecordInvalid => e
-      @goods = { error: { status: 422, message: e } }
+      return render json: e, status: :unprocessable_entity
     end
 
     render json: @goods
   end
 
   def set_goods_cheked_status
-    @goods.each { |item| item.update(status: 'checked') }
-    @consignment.update(status: 'checked')
-    render json: @goods.to_json
+    authorize! :update, Good
+    authorize! :update, Consignment
+    begin
+      Good.transaction do
+        @goods.each { |item| item.update(status: 'checked') }
+        @consignment.update(status: 'checked', manager: current_user)
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      return render json: e, status: :unprocessable_entity
+    end
+    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
+                                                                       second_name
+                                                                       middle_name] },
+                                                manager: { only: %i[first_name
+                                                                    second_name
+                                                                    middle_name] }])
   end
 
   def set_goods_delivered_status
-    @goods.each { |item| item.update(status: 'delivered') }
-    @consignment.update(status: 'delivered')
-    render json: @goods.to_json
+    authorize! :update, Good
+    authorize! :update, Consignment
+    begin
+      Good.transaction do
+        @goods.each { |item| item.update(status: 'delivered') }
+        @consignment.update(status: 'delivered')
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      @goods = { error: { status: 422, message: e } }
+    end
+    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
+                                                                       second_name
+                                                                       middle_name] },
+                                                manager: { only: %i[first_name
+                                                                    second_name
+                                                                    middle_name] }])
   end
 
   private

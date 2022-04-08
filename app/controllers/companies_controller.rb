@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 class CompaniesController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @companies = Company.all
+    @companies = if current_user.company
+                   Company.accessible_by(current_ability)
+                 else
+                   Company.all
+                 end
   end
 
   def suspend
@@ -12,12 +18,12 @@ class CompaniesController < ApplicationController
   def new_company; end
 
   def create_company
-    company = Company.new(company_params)
-    if company.save
-      redirect_to root_path
+    authorize! :create, Company
+    @company = Company.new(company_params)
+    if @company.save
+      render json: @company.to_json
     else
-      flash[:alert] = 'Something went wrong during creating new company'
-      redirect_to ''
+      render json: @company.errors.full_messages, status: :unprocessable_entity
     end
   end
 

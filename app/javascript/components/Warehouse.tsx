@@ -1,56 +1,75 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
-import WarehouseTable from './Warehouse/WarehouseTable';
+import { Box, Grid, Button } from '@mui/material';
+
 import httpClient from '../api/httpClient';
-import WarehouseCreateForm from './Warehouse/CreateForm';
-import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
+import WarehouseTable from './Warehouse/WarehouseTable';
+import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
+import { WarehouseData } from '../common/interfaces_types';
+import SiteAlerts from './Alert';
 
-interface warehouse {
-  id: number;
-  warehouse_name: string;
-  trusted: boolean;
-}
-
-function Warehouse() {
+const Warehouse = ({ currentUserRole }) => {
   const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<warehouse[]>([]);
+  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
+  const [formErrors, setFormErrors] = React.useState([]);
+  const [alertOpen, alertSetOpen] = React.useState(false);
+  const [alertType, setAlertType] = React.useState()
+  const [alertText, setAlertText] = React.useState()
 
-  const handleClose = () => setModalActive(false);
-
-  const handleSubmit = (warehouse: warehouseFormValues) => {
-    httpClient.warehouses.create(warehouse).then((response) => {
-      setWarehouses((prev) => [...prev, response.data]);
-    });
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
   };
-
-  React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
-      setWarehouses(response.data);
-    });
-  }, []);
 
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
-        <Grid item xs={12}>
-          <Button variant="outlined" onClick={() => setModalActive(true)} color="inherit">
-            Create Warehouse
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <WarehouseTable warehouses={warehouses} setWarehouses={setWarehouses} />
+        <Grid
+          container
+          rowSpacing={3}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        >
+          <Grid item xs={9} style={{ textAlign: 'right' }}>
+            <SiteAlerts
+              alertType={alertType}
+              alertText={alertText}
+              alertOpen={alertOpen}
+              alertSetOpen={alertSetOpen}
+            />
+          </Grid>
+          {currentUserRole === 'admin' ?
+            <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+                Create Warehouse
+              </Button>
+            </Grid>
+            : null
+          }
+          <Grid item xs={12}>
+            <WarehouseTable
+              warehouses={warehouses}
+              setWarehouses={setWarehouses}
+              alertSetOpen={alertSetOpen}
+              setAlertType={setAlertType}
+              setAlertText={setAlertText}
+              currentUserRole={currentUserRole}
+            />
+          </Grid>
         </Grid>
       </Box>
       <WarehouseCreateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        handleSubmit={handleSubmit}
+        setWarehouses={setWarehouses}
+        formErrors={formErrors}
+        setFormErrors={setFormErrors}
+        alertSetOpen={alertSetOpen}
+        setAlertType={setAlertType}
+        setAlertText={setAlertText}
       />
     </div>
   );

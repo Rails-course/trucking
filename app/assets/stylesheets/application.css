@@ -66,7 +66,7 @@ body {
     cursor: pointer;
 }
 .share-links {
-    color: #2a6e9bd7;
+    color: #fff;
     text-decoration: none;
     padding: 0 10px;
 }
@@ -74,6 +74,10 @@ body {
     color: #fff;
 }
 .share-links:hover {
+    color: #2ecc71;
+}
+.share-links.active {
+    font-weight: bold;
     color: #2ecc71;
 }
 .btn, .cancel-btn, .log-out-btn {
@@ -150,4 +154,11 @@ body {
 }
 .paragr{
     text-align: center;
+}
+
+#nav-bar-info {
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 15px;
 }
