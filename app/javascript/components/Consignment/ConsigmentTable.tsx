@@ -76,10 +76,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
                     <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
                     <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
-                    <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
-                    <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
                     <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
                     <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
+                    <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
                     <StyledTableCell align="center">
                       <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
                         Goods

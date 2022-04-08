@@ -46,9 +46,6 @@ class WaybillsController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @waybill.update(status: 'Delivered to the recipient')
-        @waybill.consignment.update(status: 'delivered')
-        @goods = get_waybill_consignment_goods(@waybill)
-        @goods.each { |item| item.update(status: 'delivered') }
       end
     rescue ActiveRecord::RecordInvalid => e
       @waybill = { error: { status: 422, message: e } }

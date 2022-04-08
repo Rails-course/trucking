@@ -81,7 +81,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                   <ListItemButton
                                     role={undefined}
                                     onClick={handleToggle(value)}
-                                    disabled={!(currentUserRole === 'manager')}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole)}
                                     dense
                                   >
                                     <Checkbox
@@ -110,7 +110,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                     <Button
                       type="submit"
                       onClick={handleClose}
-                      disabled={!(currentUserRole === 'manager')}
+                      disabled={!['driver', 'manager'].includes(currentUserRole)}
                     >
                       Submit
                     </Button>
