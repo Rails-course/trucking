@@ -7,7 +7,6 @@ import {
 
 import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import WaybillGoods from '../Driver/WaybillGoods';
 import httpClient from '../../api/httpClient';
 import { WaybillTableProps } from '../../common/interfaces_types';
 
@@ -50,7 +49,6 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                       open waybill
                     </Button>
                   </StyledTableCell>
-                  <StyledTableCell align="right"><WaybillGoods wayId={waybill.id} /></StyledTableCell>
                 </StyledTableRow>
               ))}
           </TableBody>

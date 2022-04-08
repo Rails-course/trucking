@@ -96,9 +96,4 @@ export const waybillTableCell = [
     title: 'Action',
     align: 'right' as AlignType,
   },
-  {
-    id: uuidv4(),
-    title: 'Goods',
-    align: 'right' as AlignType,
-  },
 ];
