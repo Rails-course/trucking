@@ -7,11 +7,15 @@ class RoutesController < ApplicationController
   end
 
   def pass_checkpoint
-    Route.find(routes_params[:ids]).update(is_passed: true, pass_date: routes_params[:pass_date])
+    route = Route.find(routes_params[:ids])
+    route.update(is_passed: true, pass_date: routes_params[:pass_date])
+    render route
   end
 
   def rollback
-    Route.find(routes_params[:ids]).update(is_passed: false, pass_date: nil)
+    route = Route.find(routes_params[:ids])
+    route.update(is_passed: false, pass_date: nil)
+    render route
   end
 
   private

@@ -26,9 +26,12 @@ const Waybill = ({ currentUserRole }) => {
       componentMounted.current = false;
     };
   }, []);
-  const update_checkpoint_status = (id) => {
-    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
-
+  const update_checkpoint_status = (id,checkpoint) => {
+    const new_checkpoints=checkpoints
+    const target_checkpoint=new_checkpoints.find((checkpoint)=>checkpoint.id == id)
+    target_checkpoint.is_passed=checkpoint.is_passed
+    target_checkpoint.pass_date=checkpoint.pass_date
+    setCheckpoints(new_checkpoints)
   };
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
