@@ -16,7 +16,7 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
     isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
-    setCheckedGooods, titleStatus, currentUserRole
+    setCheckedGooods, titleStatus, currentUserRole,
   } = props;
 
   const handleToggle = (value: Item) => () => {

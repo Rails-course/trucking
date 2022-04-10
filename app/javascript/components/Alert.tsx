@@ -9,29 +9,27 @@ const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
   } = props;
 
   return (
-    <>
-      <Collapse in={alertOpen}>
-        <Alert
-          severity={alertType}
-          action={(
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                alertSetOpen(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
+    <Collapse in={alertOpen}>
+      <Alert
+        severity={alertType}
+        action={(
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={() => {
+              alertSetOpen(false);
+            }}
+          >
+            <CloseIcon fontSize="inherit" />
+          </IconButton>
           )}
-          sx={{ mb: 0 }}
-        >
-          {alertText}
-        </Alert>
-      </Collapse>
-    </>
-  )
-}
+        sx={{ mb: 0 }}
+      >
+        {alertText}
+      </Alert>
+    </Collapse>
+  );
+};
 
 export default SiteAlerts;

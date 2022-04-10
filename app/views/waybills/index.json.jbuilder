@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.array! @waybills do |waybill|
+json.array! @data do |waybill|
   json.id waybill[:id]
   json.startpoint waybill[:startpoint]
   json.endpoint waybill[:endpoint]

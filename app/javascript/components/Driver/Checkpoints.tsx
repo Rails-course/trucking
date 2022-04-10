@@ -13,7 +13,7 @@ import httpClient from '../../api/httpClient';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType,handleSubmit_waybill,formErrorsCheckpoints,update_checkpoint_status
+    setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints, update_checkpoint_status,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -68,7 +68,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           </Table>
         </TableContainer>
         <Button
-          onClick={()=>handleSubmit_waybill(id)}
+          onClick={() => handleSubmit_waybill(id)}
           disabled={!(currentUserRole === 'driver')}
         >
           Transportation completed
