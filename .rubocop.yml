@@ -7,17 +7,17 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'vendor/**/*'
-    - 'spec/fixtures/**/*'
-    - 'tmp/**/*'
-    - '.git/**/*'
-    - 'bin/*'
-    - 'test/**/*'
-    - 'spec/**/*'
-    - 'db/schema.rb'
-    - 'db/**/*'
-    - 'config/**/*'
-    - 'config.ru'
+    - "vendor/**/*"
+    - "tmp/**/*"
+    - ".git/**/*"
+    - "bin/*"
+    - "test/**/*"
+    - "spec/**/*"
+    - "db/schema.rb"
+    - "db/**/*"
+    - "config/**/*"
+    - "config.ru"
+    - "spec"
   TargetRubyVersion: 2.5
   SuggestExtensions: false
 
@@ -36,7 +36,6 @@ Style/AccessorGrouping:
 
 Style/Documentation:
   Enabled: false
-
 Style/FormatStringToken:
   # Because we parse a lot of source codes from strings. Percent arrays
   # look like unannotated format string tokens to this cop.
@@ -62,7 +61,7 @@ Layout/TrailingWhitespace:
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
-    - 'spec/**/*.rb'
+    - "spec/**/*.rb"
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle:
@@ -75,23 +74,23 @@ Layout/HashAlignment:
 Layout/LineLength:
   Max: 100
   IgnoredPatterns:
-    - !ruby/regexp /\A +(it|describe|context|shared_examples|include_examples|it_behaves_like) ["']/
+    - /\A +(it|describe|context|shared_examples|include_examples|it_behaves_like) ["']/
 
 Lint/InterpolationCheck:
   Exclude:
-    - 'spec/**/*.rb'
+    - "spec/**/*.rb"
 
 Lint/UselessAccessModifier:
   MethodCreatingMethods:
-    - 'def_matcher'
-    - 'def_node_matcher'
+    - "def_matcher"
+    - "def_node_matcher"
 
 Metrics/BlockLength:
   Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'spec/**/*.rb'
-    - '**/*.gemspec'
+    - "Rakefile"
+    - "**/*.rake"
+    - "spec/**/*.rb"
+    - "**/*.gemspec"
 
 Metrics/ClassLength:
   Exclude:
@@ -99,7 +98,7 @@ Metrics/ClassLength:
 
 Metrics/ModuleLength:
   Exclude:
-    - 'spec/**/*.rb'
+    - "spec/**/*.rb"
 
 Naming/InclusiveLanguage:
   FlaggedTerms:
@@ -111,15 +110,15 @@ Naming/InclusiveLanguage:
 
 InternalAffairs/ExampleDescription:
   Include:
-    - 'spec/rubocop/cop/**/*.rb'
+    - "spec/rubocop/cop/**/*.rb"
 
 InternalAffairs/UndefinedConfig:
   Include:
-    - 'lib/rubocop/cop/**/*.rb'
+    - "lib/rubocop/cop/**/*.rb"
   Exclude:
-    - 'lib/rubocop/cop/correctors/**/*.rb'
-    - 'lib/rubocop/cop/mixin/**/*.rb'
+    - "lib/rubocop/cop/correctors/**/*.rb"
+    - "lib/rubocop/cop/mixin/**/*.rb"
 
 InternalAffairs/StyleDetectedApiUse:
   Exclude:
-    - 'lib/rubocop/cop/mixin/percent_array.rb'
+    - "lib/rubocop/cop/mixin/percent_array.rb"
