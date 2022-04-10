@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     patch '/rollback', to: 'routes#rollback'
     patch '/passCheckpoint', to: 'routes#pass_checkpoint'
   end
-  get '/routes/:id', to: 'waybills#routes'
+  get '/routes/:id', to: 'routes#routes'
   namespace :api do
     namespace :v1 do
       resources :consignments, only: %i[index show] do
