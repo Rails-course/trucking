@@ -28,15 +28,13 @@ const Waybill = ({ currentUserRole }) => {
   }, []);
   const update_checkpoint_status = (id) => {
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
-    // let  new_checkpoints=checkpoints
-    // new_checkpoints.find(checkpoint => checkpoint.id == id).is_passed=value
-    // setCheckpoints(new_checkpoints)
+
   };
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
-      .then(() => {
+      .then((response) => {
         const new_waybylls = waybills;
-        new_waybylls.find((waybill) => waybill.id == id).status = 'Delivered to the recipient';
+        new_waybylls.find((waybill) => waybill.id == id).status = response.data.status;
         setWaybill(new_waybylls);
         setAlertType('success');
         setAlertText('Successfully finished cargo transportation!');
