@@ -13,31 +13,8 @@ import httpClient from '../../api/httpClient';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType
+    setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints, update_checkpoint_status,
   } = props;
-
-  const [formErrors, setFormErrors] = React.useState([]);
-
-  const handleSubmit = () => {
-    httpClient.waybill.finish({ ids: id })
-      .then((response) => {
-        setAlertType("success");
-        setAlertText("Successfully finished cargo transportation!")
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000)
-      })
-      .catch((error) => {
-        setFormErrors(error.response.data)
-        setAlertType("error");
-        setAlertText("Couldn't complete the trip!")
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000)
-      });
-  };
 
   const handleClose = () => setWaybillModalActive(false);
 
@@ -50,7 +27,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
     >
       <DialogTitle>Add checkpoint</DialogTitle>
       <DialogContent>
-        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+        {formErrorsCheckpoints ? <p className="error-msg">{formErrorsCheckpoints}</p> : null}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -80,6 +57,8 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         alertSetOpen={alertSetOpen}
                         setAlertType={setAlertType}
                         setAlertText={setAlertText}
+                        wayID={id}
+                        update_checkpoint_status={update_checkpoint_status}
                       />
                     </StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
@@ -89,7 +68,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           </Table>
         </TableContainer>
         <Button
-          onClick={handleSubmit}
+          onClick={() => handleSubmit_waybill(id)}
           disabled={!(currentUserRole === 'driver')}
         >
           Transportation completed
