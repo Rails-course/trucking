@@ -105,6 +105,9 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface Warehouseman {
@@ -165,8 +168,8 @@ export interface CheckpointWindowFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    wayID:number,
-    update_checkpoint_status:(id:number)=>void
+    wayID: number,
+    update_checkpoint_status: (id: number) => void
 }
 
 export interface CheckpointsFormProps {
@@ -178,9 +181,9 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmit_waybill:(id:number)=>void,
-    formErrorsCheckpoints:any,
-    update_checkpoint_status:(id:number)=>void
+    handleSubmit_waybill: (id: number) => void,
+    formErrorsCheckpoints: any,
+    update_checkpoint_status: (id: number) => void
 }
 
 export interface ConsignmentGoodsProps {
