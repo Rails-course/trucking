@@ -7,11 +7,12 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
-import { Item, UnionConsGoodType } from '../common/interfaces_types';
+import { Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
+import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 
-const Consignment = ({ currentUserRole }) => {
+const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -20,7 +21,7 @@ const Consignment = ({ currentUserRole }) => {
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
 
-  const [consignments, setConsignment] = React.useState(null);
+  const [consignments, setConsignment] = React.useState(JSON.parse(consignmentsJSON));
   const [goods, setGoods] = React.useState([]);
   const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
@@ -48,8 +49,8 @@ const Consignment = ({ currentUserRole }) => {
     setFormErrors(null);
   };
 
-  const handleSubmit = (values: UnionConsGoodType) => {
-    httpClient.consignments.create({ values, newGoods })
+  const handleSubmit = (consignment: consignmentFormValues) => {
+    httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
         setConsignment((prevConsignment) => [...prevConsignment, response.data]);
         setModalActive(false);
@@ -75,7 +76,8 @@ const Consignment = ({ currentUserRole }) => {
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
+        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id)
+        return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -103,10 +105,8 @@ const Consignment = ({ currentUserRole }) => {
               alertSetOpen(false);
             }, 5000);
           });
-      default:
-        setCheckedGooods([]);
-        return setCheckedGooods([]);
     }
+    setCheckedGooods([]);
   };
 
   return (
@@ -140,7 +140,6 @@ const Consignment = ({ currentUserRole }) => {
           <Grid item xs={12}>
             <ConsignmentTable
               consignments={consignments}
-              setConsignment={setConsignment}
               setModalGoodsActive={setModalGoodsActive}
               setConsID={setConsID}
               setGoods={setGoods}

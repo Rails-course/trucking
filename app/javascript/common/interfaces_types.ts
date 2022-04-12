@@ -31,8 +31,6 @@ export type Item = {
     bundle_number: string;
 }
 
-export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
-
 export type CompanyType = {
     id: number;
     name: string;
@@ -204,7 +202,6 @@ export interface ConsignmentTableProps {
     setConsID: any;
     formErrors: any;
     consignments: any, setData: any;
-    setConsignment: any,
     currentUserRole: any, setConsWaybillId: any;
 }
 

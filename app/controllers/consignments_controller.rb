@@ -8,13 +8,8 @@ class ConsignmentsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: @consignments.to_json(
-          include: [
-            dispatcher: { only: %i[first_name second_name middle_name] },
-            manager: { only: %i[first_name second_name middle_name] },
-            waybill: { only: %i[id status] }
-          ]
-        )
+        render json: @consignments.to_json(include: %i[dispatcher driver truck manager waybill
+                                                       goods])
       end
     end
   end
@@ -24,15 +19,14 @@ class ConsignmentsController < ApplicationController
     authorize! :create, Good
     begin
       ActiveRecord::Base.transaction do
-        @consignment = Consignment.create(create_consignment_params)
-        @goods = Good.create!(create_goods_params)
+        @consignment = Consignment.create!(create_consignment_params)
+        @goods = Good.create!(create_goods_params(@consignment))
       end
     rescue ActiveRecord::RecordInvalid => e
       return render json: e, status: :unprocessable_entity
     end
 
-    render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
-                                                                        second_name middle_name] } })
+    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
   def waybill_data
@@ -52,30 +46,29 @@ class ConsignmentsController < ApplicationController
   end
 
   def permit_consignment_params
-    params.permit(values: %i[bundle_seria
-                             bundle_number
-                             consignment_number
-                             consignment_seria
-                             driver
-                             truck ttn_id],
+    params.permit(consignment: %i[bundle_seria
+                                  bundle_number
+                                  consignment_number
+                                  consignment_seria
+                                  driver
+                                  truck ttn_id],
                   newGoods: %i[good_name
                                quantity
                                unit_of_measurement])
   end
 
   def create_consignment_params
-    consignment_params = permit_consignment_params[:values]
+    consignment_params = permit_consignment_params[:consignment]
     find_driver(consignment_params)
     consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
     consignment_params[:dispatcher] = current_user
     consignment_params
   end
 
-  def create_goods_params
+  def create_goods_params(consignment)
     goods_params = permit_consignment_params[:newGoods]
     goods_params.each do |item|
-      item[:bundle_seria] = permit_consignment_params[:values][:bundle_seria]
-      item[:bundle_number] = permit_consignment_params[:values][:bundle_number]
+      item[:consignment] = consignment
     end
     goods_params
   end

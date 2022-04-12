@@ -1,3 +1,4 @@
+// NOTE: this file is probably unnecessary due to refactor of creating consignment goods
 export interface goodsFormValues {
   good_name: string;
   unit_of_measurement: string;

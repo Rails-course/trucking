@@ -19,10 +19,14 @@ Rails.application.routes.draw do
   end
   resources :goods
   resources :consignments
+  # resources :consignments, only: %i[index create waybill_data] do
+  #   resources :goods, only: %i[index create update]
+  # end
+  # TODO: change implementation of scope below with a way above
   scope '/consignments' do
-    get '/:id/goods', to: 'goods#get_consignment_goods'
+    get '/:consignment_id/goods', to: 'goods#get_consignment_goods'
     get '/:id/waybill_goods', to: 'goods#waybill_goods'
-    patch '/:id/goods', to: 'goods#set_goods_cheked_status'
+    patch '/:consignment_id/goods', to: 'goods#set_goods_cheked_status'
     patch '/:id/waybill_goods', to: 'goods#set_goods_delivered_status'
   end
   resources :write_off_acts, only: %i[index create]
