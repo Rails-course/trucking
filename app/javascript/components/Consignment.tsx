@@ -49,22 +49,17 @@ const Consignment = ({ currentUserRole }) => {
   };
 
   const handleSubmit = (values: UnionConsGoodType) => {
-    const createConsignment = httpClient.consignments.create({ values });
-    const createGoods = httpClient.goods.create({ ...values, newGoods });
-
-    axios.all([createConsignment, createGoods])
-      .then(
-        axios.spread((...responses) => {
-          setConsignment((prevConsignment) => [...prevConsignment, responses[0].data]);
-          setModalActive(false);
-          setAlertType('success');
-          setAlertText('Successfully created consignment with goods!');
-          alertSetOpen(true);
-          setTimeout(() => {
-            alertSetOpen(false);
-          }, 5000);
-        }),
-      )
+    httpClient.consignments.create({ values, newGoods })
+      .then((response) => {
+        setConsignment((prevConsignment) => [...prevConsignment, response.data]);
+        setModalActive(false);
+        setAlertType('success');
+        setAlertText('Successfully created consignment with goods!');
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000);
+      })
       .catch((errors) => {
         setFormErrors(errors.response.data);
         setAlertType('error');
