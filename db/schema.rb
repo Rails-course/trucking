@@ -112,9 +112,12 @@ ActiveRecord::Schema.define(version: 2022_04_04_184710) do
     t.bigint "company_id"
     t.bigint "address_id"
     t.text "passport"
+    t.index ["address_id"], name: "index_users_on_address_id"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   create_table "warehouses", force: :cascade do |t|
@@ -124,19 +127,20 @@ ActiveRecord::Schema.define(version: 2022_04_04_184710) do
     t.bigint "address_id"
     t.boolean "trusted", default: false, null: false
     t.bigint "warehouseman_id"
+    t.index ["address_id"], name: "index_warehouses_on_address_id"
     t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 
   create_table "waybills", force: :cascade do |t|
     t.date "start_date", null: false
     t.date "end_date", null: false
+    t.string "status", default: "transportation started"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "consignment_id"
     t.integer "endpoint_id"
     t.integer "startpoint_id"
     t.integer "goods_owner_id"
-    t.string "status", default: "transportation started"
   end
 
   create_table "write_off_acts", force: :cascade do |t|
