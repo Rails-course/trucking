@@ -14,13 +14,15 @@ class WaybillsController < ApplicationController
 
   def create
     data = create_waybill_params
+    startpoint = Address.new(data[:startpoint])
+    endpoint = Address.new(data[:endpoint])
     begin
       ActiveRecord::Base.transaction do
-        data[:startpoint].save
-        data[:endpoint].save
+        startpoint.save
+        endpoint.save
         waybill = Waybill.new(start_date: waybill_params[:start_date],
                               end_date: waybill_params[:end_date],
-                              startpoint: data[:startpoint], endpoint: data[:endpoint],
+                              startpoint: startpoint, endpoint: endpoint,
                               consignment: data[:ttn], goods_owner: data[:owner])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
@@ -56,8 +58,9 @@ class WaybillsController < ApplicationController
 
   def create_waybill_params
     data = waybill_params
-    { startpoint: Address.new(town: data[:town], street: data[:street], building: data[:building]),
-      endpoint: Address.new(town: data[:end_town], street: data[:end_street], building: data[:end_building]),
+    { startpoint: { town: data[:town], street: data[:street], building: data[:building] },
+      endpoint: { town: data[:end_town], street: data[:end_street],
+                  building: data[:end_building] },
       owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
       ttn: Consignment.find(params.permit(:ttn_id)[:ttn_id]) }
   end

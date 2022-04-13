@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
@@ -55,9 +55,6 @@ const Waybill = ({ currentUserRole }) => {
           alertSetOpen(false);
         }, 5000);
       });
-  };
-  const handleSearch = (value) => {
-
   };
   return (
     <div className="wrapper">

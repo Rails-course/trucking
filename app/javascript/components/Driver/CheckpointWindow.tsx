@@ -30,7 +30,7 @@ const CheckpointWindow:
       Object.assign(values, { ids: id });
       httpClient.route.passCh(values)
         .then((response) => {
-          update_checkpoint_status(wayID,response);
+          update_checkpoint_status(wayID,response.data);
           setAlertType('success');
           setAlertText('Successfully passed checkpoint!');
           alertSetOpen(true);
