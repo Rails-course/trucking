@@ -27,7 +27,7 @@ function httpClient() {
       suspend: (id) => axios.patch(`/companies/suspend/${id}`),
     },
     waybill: {
-      create: (waybill, routes, ttn_id) => axios.post('/waybills', { waybill, routes, ttn_id }),
+      create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
       get_data_waybill: (id) => axios.get(`/consignment/waybill_data/${id}`),
       gets_waybills: () => axios.get('/waybills.json'),
       finish: (ids) => axios.patch('/waybills/endTrucking', ids),
