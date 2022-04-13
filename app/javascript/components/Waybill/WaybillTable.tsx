@@ -9,20 +9,24 @@ import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import httpClient from '../../api/httpClient';
 import { WaybillTableProps } from '../../common/interfaces_types';
+import Search from '../Searh';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
     waybills, setWaybillModalActive, setWaybillID, setCheckpoints,
   } = props;
 
+  const [searData, setSearData] = React.useState();
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
   };
-
+  const data = searData || waybills;
   return (
     <div>
+      <Search setData={setSearData} Data={waybills} searchField="status" />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -39,7 +43,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                   <StyledTableCell>No data yet ...</StyledTableCell>
                 </TableRow>
               )
-              : waybills.map((waybill) => (
+              : data.map((waybill) => (
                 <StyledTableRow key={waybill.id}>
                   <StyledTableCell>{waybill.status}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>

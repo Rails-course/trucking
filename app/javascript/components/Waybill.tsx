@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
@@ -26,12 +26,12 @@ const Waybill = ({ currentUserRole }) => {
       componentMounted.current = false;
     };
   }, []);
-  const update_checkpoint_status = (id,checkpoint) => {
-    const new_checkpoints=checkpoints
-    const target_checkpoint=new_checkpoints.find((checkpoint)=>checkpoint.id == id)
-    target_checkpoint.is_passed=checkpoint.is_passed
-    target_checkpoint.pass_date=checkpoint.pass_date
-    setCheckpoints(new_checkpoints)
+  const update_checkpoint_status = (id, checkpoint) => {
+    const new_checkpoints = checkpoints;
+    const target_checkpoint = new_checkpoints.find((checkpoint) => checkpoint.id == id);
+    target_checkpoint.is_passed = checkpoint.is_passed;
+    target_checkpoint.pass_date = checkpoint.pass_date;
+    setCheckpoints(new_checkpoints);
   };
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
@@ -55,6 +55,9 @@ const Waybill = ({ currentUserRole }) => {
           alertSetOpen(false);
         }, 5000);
       });
+  };
+  const handleSearch = (value) => {
+
   };
   return (
     <div className="wrapper">

@@ -3,7 +3,6 @@
 class WaybillsController < ApplicationController
   def index
     @data = []
-    # current_user.driver_consignments.each{|ttn| waybills.append(ttn.find_waybill)}
     Waybill.all.each do |waybill|
       @data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
@@ -15,15 +14,13 @@ class WaybillsController < ApplicationController
 
   def create
     data = create_waybill_params
-    startpoint = Address.new(data[:startpoint])
-    endpoint = Address.new(data[:endpoint])
     begin
       ActiveRecord::Base.transaction do
-        startpoint.save
-        endpoint.save
+        data[:startpoint].save
+        data[:endpoint].save
         waybill = Waybill.new(start_date: waybill_params[:start_date],
                               end_date: waybill_params[:end_date],
-                              startpoint: startpoint, endpoint: endpoint,
+                              startpoint: data[:startpoint], endpoint: data[:endpoint],
                               consignment: data[:ttn], goods_owner: data[:owner])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
@@ -59,9 +56,8 @@ class WaybillsController < ApplicationController
 
   def create_waybill_params
     data = waybill_params
-    { startpoint: { town: data[:town], street: data[:street], building: data[:building] },
-      endpoint: { town: data[:end_town], street: data[:end_street],
-                  building: data[:end_building] },
+    { startpoint: Address.new(town: data[:town], street: data[:street], building: data[:building]),
+      endpoint: Address.new(town: data[:end_town], street: data[:end_street], building: data[:end_building]),
       owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
       ttn: Consignment.find(params.permit(:ttn_id)[:ttn_id]) }
   end
