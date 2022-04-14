@@ -23,7 +23,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
             label="searching field"
             required={false}
             type="text"
-            
+            variant="standard"
           />
          </Grid>
          <Grid item xs={4}>
