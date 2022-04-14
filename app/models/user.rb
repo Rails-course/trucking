@@ -29,4 +29,16 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{second_name} #{middle_name}"
   end
+
+  def active_for_authentication?
+    if company
+      super && !company.is_suspended
+    else
+      super
+    end
+  end
+
+  def inactive_message
+    company.is_suspended ? :user_company_suspended : super
+  end
 end
