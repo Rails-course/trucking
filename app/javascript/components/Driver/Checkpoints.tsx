@@ -34,8 +34,8 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
               <TableRow>
                 <StyledTableCell align="right">city</StyledTableCell>
                 <StyledTableCell align="right">passed</StyledTableCell>
-                <StyledTableCell align="right">action</StyledTableCell>
                 <StyledTableCell align="right">date</StyledTableCell>
+                <StyledTableCell align="right">action</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -49,6 +49,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                   <StyledTableRow key={checkpoint.id}>
                     <StyledTableCell align="right">{checkpoint.city}</StyledTableCell>
                     <StyledTableCell align="right">{checkpoint.is_passed ? 'passed' : 'not passed'}</StyledTableCell>
+                    <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
                     <StyledTableCell align="right">
                       <CheckpointWindow
                         id={checkpoint.id}
@@ -61,7 +62,6 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         update_checkpoint_status={update_checkpoint_status}
                       />
                     </StyledTableCell>
-                    <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
                   </StyledTableRow>
                 ))}
             </TableBody>

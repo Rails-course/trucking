@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
-import { Button, Stack } from '@mui/material';
+import {Button, Grid, Stack} from '@mui/material';
 import { SearchProps } from '../common/interfaces_types';
 
 import FormikField from '../UI/FormikField';
@@ -16,16 +16,20 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
       onSubmit={handleSubmit}
     >
       <Form>
-        <Stack direction="row">
+       <Grid  container spacing={2}>
+         <Grid item xs={8}>
           <FormikField
             name="text"
             label="searching field"
             required={false}
             type="text"
-            variant="filled"
+            
           />
-          <Button type="submit" variant="contained">Search</Button>
-        </Stack>
+         </Grid>
+         <Grid item xs={4}>
+          <Button type="submit" variant="outlined">Search</Button>
+       </Grid>
+       </Grid>
       </Form>
     </Formik>
   );

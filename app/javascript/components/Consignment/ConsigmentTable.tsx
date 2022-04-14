@@ -9,7 +9,7 @@ import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
-import Search from '../Searh';
+import Search from '../Search';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -17,7 +17,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setConsignment, setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
   const componentMounted = React.useRef(true);
-  const [searData, setSearData] = React.useState();
+  const [searchData, setSearchData] = React.useState();
   let waybillID = null;
 
   const handleGetGoods = (consignment) => {
@@ -48,10 +48,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       componentMounted.current = false;
     };
   }, []);
-  const data = searData || consignments;
+  const consignmentsData = searchData || consignments;
   return (
     <div>
-      <Search setData={setSearData} Data={consignments} searchField="consignment_seria" />
+      <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -69,7 +69,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                   <StyledTableCell>No data yet ...</StyledTableCell>
                 </TableRow>
               )
-              : data.map((consignment) => {
+              : consignmentsData.map((consignment) => {
                 const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
                 const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
                 let waybillStatus = null;

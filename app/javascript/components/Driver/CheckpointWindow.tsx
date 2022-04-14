@@ -21,7 +21,7 @@ const CheckpointWindow:
     const statusChange = () => {
       if (status) {
         httpClient.route.rollback({ ids: id }).then((response) => {
-          update_checkpoint_status(wayID,response.data);
+          update_checkpoint_status(id,response.data);
           handleClose();
         });
       } else setActiveModal(true);
@@ -30,7 +30,7 @@ const CheckpointWindow:
       Object.assign(values, { ids: id });
       httpClient.route.passCh(values)
         .then((response) => {
-          update_checkpoint_status(wayID,response.data);
+          update_checkpoint_status(id,response.data);
           setAlertType('success');
           setAlertText('Successfully passed checkpoint!');
           alertSetOpen(true);
