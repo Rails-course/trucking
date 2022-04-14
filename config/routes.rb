@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   resources :companies
   scope '/companies' do
     post '/create', to: 'companies#create_company'
-    patch '/suspend/:id', to: 'companies#suspend'
+    patch '/:id/suspend', to: 'companies#suspend'
+    patch '/:id/resume', to: 'companies#resume'
   end
   resources :goods
   resources :consignments

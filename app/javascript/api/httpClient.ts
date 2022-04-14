@@ -24,7 +24,8 @@ function httpClient() {
     companies: {
       get_data: () => axios.get('/companies.json'),
       delete: (id) => axios.delete(`/companies/${id}`),
-      suspend: (id) => axios.patch(`/companies/suspend/${id}`),
+      suspend: (id) => axios.patch(`/companies/${id}/suspend`),
+      resume: (id) => axios.patch(`/companies/${id}/resume`),
     },
     waybill: {
       create: (waybill, routes, ttn_id) => axios.post('/waybills', { waybill, routes, ttn_id }),
