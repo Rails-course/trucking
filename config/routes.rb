@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
   resources :write_off_acts, only: %i[index create]
   resources :trucks
-  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
+  get '/consignment/waybill_data/:consignment_id', to: 'consignments#waybill_data'
   resources :waybills
   patch '/waybills/endTrucking', to: 'waybill#end_trucking'
   resources :roles, only: :index
