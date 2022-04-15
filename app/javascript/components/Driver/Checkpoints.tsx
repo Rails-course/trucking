@@ -8,12 +8,11 @@ import {
 import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
-import httpClient from '../../api/httpClient';
-
+import {checkpointsFields} from '../../constants/checkpoints'
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints, update_checkpoint_status,
+    setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints, setCheckpoints
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -32,10 +31,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="right">city</StyledTableCell>
-                <StyledTableCell align="right">passed</StyledTableCell>
-                <StyledTableCell align="right">date</StyledTableCell>
-                <StyledTableCell align="right">action</StyledTableCell>
+                {checkpointsFields.map((cell)=>  <StyledTableCell align="right">cell.title</StyledTableCell>)}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -59,7 +55,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         setAlertType={setAlertType}
                         setAlertText={setAlertText}
                         wayID={id}
-                        update_checkpoint_status={update_checkpoint_status}
+                        setCheckpoints={setCheckpoints}
                       />
                     </StyledTableCell>
                   </StyledTableRow>

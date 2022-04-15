@@ -6,13 +6,7 @@ import { SearchProps } from '../common/interfaces_types';
 import FormikField from '../UI/FormikField';
 import { blue } from '@mui/material/colors';
 
-const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    color: theme.palette.getContrastText(blue[500]),
-    backgroundColor: blue[500],
-    '&:hover': {
-        backgroundColor: blue[700],
-    },
-}));
+
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data, searchField } = props;
@@ -38,7 +32,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
           />
          </Grid>
          <Grid item xs={1}>
-          <ColorButton  type="submit" variant="contained">Search</ColorButton>
+          <Button  type="submit" variant="contained">Search</Button>
        </Grid>
        </Grid>
       </Form>

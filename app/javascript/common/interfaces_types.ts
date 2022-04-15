@@ -166,7 +166,7 @@ export interface CheckpointWindowFormProps {
     setAlertType: any,
     setAlertText: any,
     wayID:number,
-    update_checkpoint_status:(id:number, checkpoint:any)=>void
+    setCheckpoints:any,
 }
 
 export interface CheckpointsFormProps {
@@ -180,7 +180,7 @@ export interface CheckpointsFormProps {
     setAlertText: any,
     handleSubmit_waybill:(id:number)=>void,
     formErrorsCheckpoints:any,
-    update_checkpoint_status:(id:number, checkpoint:any)=>void
+    setCheckpoints:any,
 }
 
 export interface ConsignmentGoodsProps {

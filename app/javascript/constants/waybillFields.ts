@@ -76,6 +76,7 @@ export const waybillBottomFields = [
 export declare type AlignType = 'left' | 'center' | 'right';
 
 export const waybillTableCell = [
+
   {
     id: uuidv4(),
     title: 'Status',
