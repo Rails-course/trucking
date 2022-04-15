@@ -53,11 +53,10 @@ ActiveRecord::Schema.define(version: 2022_04_14_124608) do
     t.integer "quantity", null: false
     t.string "unit_of_measurement", null: false
     t.string "status", default: "accepted", null: false
-    t.string "bundle_seria", null: false
-    t.integer "bundle_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["good_name", "bundle_seria", "bundle_number"], name: "index_goods_on_good_name_and_bundle_seria_and_bundle_number", unique: true
+    t.bigint "consignment_id"
+    t.index ["consignment_id"], name: "index_goods_on_consignment_id"
   end
 
   create_table "goods_owners", force: :cascade do |t|

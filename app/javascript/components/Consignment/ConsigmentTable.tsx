@@ -13,16 +13,15 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setConsignment, setOwners, currentUserRole, setConsWaybillId, setData,
+    setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
-  const componentMounted = React.useRef(true);
+
   let waybillID = null;
 
   const handleGetGoods = (consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
-    httpClient.goods.getConsignmentGoods(consignment?.id)
-      .then((response) => setGoods(response.data));
+    setGoods(consignment.goods)
     if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
     setConsWaybillId(waybillID);
   };
@@ -38,14 +37,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
         setWayBillActive(true);
       }));
   };
-
-  React.useEffect(() => {
-    httpClient.consignments.getAll()
-      .then((response) => { if (componentMounted.current) setConsignment(response.data); });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   return (
     <div>

@@ -9,7 +9,7 @@ export const getUserUrl = '/users';
 // TRUCKS
 export const getTrucksUrl = '/trucks.json';
 // CONSIGNMENTS
-export const createConsignmentUrl = '/consignments';
+export const ConsignmentUrl = '/consignments';
 export const getAllConsignmentUrl = '/consignments.json';
 // GOODS
 export const createGoodsUrl = '/goods';

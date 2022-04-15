@@ -216,10 +216,10 @@ Shopping_center = Warehouse.create(
   instance_variable_set("@CSJ_#{i}", Consignment.create(bundle_seria: "BSJ_#{i}", bundle_number: "10#{i}".to_i, consignment_seria: "CSJ_#{i}",
                                                         consignment_number: "10#{i}".to_i, driver_id: 6, truck_id: 2, dispatcher_id: 4))
   instance_variable_set("@CSJ_#{i}_goods", Good.create([
-                                                         { bundle_seria: "BSJ_#{i}", bundle_number: "10#{i}".to_i,
+                                                         { consignment: instance_variable_get("@CSJ_#{i}"),
                                                            good_name: 'product_1', unit_of_measurement: 'item',
                                                            quantity: (i + 1) },
-                                                         { bundle_seria: "BSJ_#{i}", bundle_number: "10#{i}".to_i,
+                                                         { consignment: instance_variable_get("@CSJ_#{i}"),
                                                            good_name: 'product_2', unit_of_measurement: 'item',
                                                            quantity: (i + 5) }
                                                        ]))
@@ -227,10 +227,10 @@ Shopping_center = Warehouse.create(
   instance_variable_set("@CSG_#{i}", Consignment.create(bundle_seria: "BSG_#{i}", bundle_number: "20#{i}".to_i, consignment_seria: "CSG_#{i}",
                                                         consignment_number: "20#{i}".to_i, driver_id: 11, truck_id: 4, dispatcher_id: 9))
   instance_variable_set("@CSG_#{i}_goods", Good.create([
-                                                         { bundle_seria: "BSG_#{i}", bundle_number: "20#{i}".to_i,
+                                                         { consignment: instance_variable_get("@CSG_#{i}"),
                                                            good_name: 'product_1', unit_of_measurement: 'item',
                                                            quantity: (i + 1) },
-                                                         { bundle_seria: "BSG_#{i}", bundle_number: "20#{i}".to_i,
+                                                         { consignment: instance_variable_get("@CSG_#{i}"),
                                                            good_name: 'product_2', unit_of_measurement: 'item',
                                                            quantity: (i + 5) }
                                                        ]))
@@ -238,7 +238,7 @@ Shopping_center = Warehouse.create(
   next unless i <= 5
 
   # jetlogistics waybills
-  Good.where(bundle_seria: "BSJ_#{i}", bundle_number: "10#{i}").each do |item|
+  Good.where(consignment: instance_variable_get("@CSJ_#{i}")).each do |item|
     item.update!(status: 'checked')
   end
   instance_variable_get("@CSJ_#{i}").update!(status: 'checked', manager_id: 5)
@@ -266,7 +266,7 @@ Shopping_center = Warehouse.create(
                                                                       ]))
 
   # gruzimvse waybills
-  Good.where(bundle_seria: "BSG_#{i}", bundle_number: "20#{i}").each do |item|
+  Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
     item.update!(status: 'checked')
   end
   instance_variable_get("@CSG_#{i}").update(status: 'checked', manager_id: 10)

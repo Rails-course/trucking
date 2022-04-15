@@ -19,7 +19,6 @@ class Ability
     # Dispatcher rules
     if user.role.role_name == 'dispatcher'
       can %i[read create], Consignment
-      # can :read, :all
       can %i[create read], Good
       can %i[read], Truck
       can %i[read], User
@@ -28,7 +27,6 @@ class Ability
 
     # Manager rules
     if user.role.role_name == 'manager'
-      # can :manage, :all
       can %i[read update], Consignment
       can %i[read update], Good
       can %i[read create], Waybill
@@ -39,7 +37,6 @@ class Ability
 
     # Driver rules
     if user.role.role_name == 'driver'
-      # can %i[read update], Route
       can %i[read update], Good
       can %i[read update], Waybill
       can %i[read update], Consignment
