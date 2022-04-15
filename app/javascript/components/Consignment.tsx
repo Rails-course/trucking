@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import { Box, Grid, Button } from '@mui/material';
 
@@ -7,12 +6,13 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
-import { Item } from '../common/interfaces_types';
+import { ConsignmentProps, Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 
-const Consignment = ({ currentUserRole, consignmentsJSON }) => {
+const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
+  const { currentUserRole, consignmentsJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -73,10 +73,10 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   };
 
   const handleGoodsSubmit = () => {
+    const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id)
         return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
@@ -105,8 +105,8 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
               alertSetOpen(false);
             }, 5000);
           });
+      default: return setCheckedGooods([]);
     }
-    setCheckedGooods([]);
   };
 
   return (

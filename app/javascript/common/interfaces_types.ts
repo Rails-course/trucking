@@ -234,3 +234,12 @@ export interface SiteAlertProps {
     alertOpen: boolean,
     alertSetOpen: any;
 }
+
+export interface ConsignmentProps {
+    currentUserRole: string;
+    consignmentsJSON: string;
+}
+
+export interface WriteOffActsProps {
+    currentUserRole: string;
+}
