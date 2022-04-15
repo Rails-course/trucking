@@ -31,8 +31,13 @@ class WaybillsController < ApplicationController
         end
       end
     rescue ActiveRecord::RecordInvalid => e
-      render json: { error: { status: 422, message: e } }
+      return render json: e, status: :unprocessable_entity
     end
+    # NOTE: after creating waybill we need to disable create waybill button
+    # in order to do this we need to send back updated ttn with created waybill
+    # We need to refactor this in future, because sending consignment in response for
+    # create Waybill is bad practice
+    render json: data[:ttn].to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
   def update

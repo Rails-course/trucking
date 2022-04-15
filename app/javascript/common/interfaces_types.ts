@@ -76,6 +76,8 @@ export interface CreateWaybillsFormProps {
     formWaybillErrors: any;
     isActiveWayBill: boolean;
     setWayBillActive: any;
+    consignments: any;
+    setConsignment: any;
     data: any, owners: any;
     alertSetOpen: any,
     setAlertType: any,

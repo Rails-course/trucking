@@ -183,6 +183,8 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
         formWaybillErrors={formErrors}
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}
+        consignments={consignments}
+        setConsignment={setConsignment}
         setAlertText={setAlertText}
       />
     </div>
