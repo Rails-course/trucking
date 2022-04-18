@@ -93,7 +93,16 @@ export const waybillBottomFields = [
 export declare type AlignType = 'left' | 'center' | 'right';
 
 export const waybillTableCell = [
-
+  {
+    id: uuidv4(),
+    title: 'number',
+    align: 'right' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'seria',
+    align: 'right' as AlignType,
+  },
   {
     id: uuidv4(),
     title: 'Status',
@@ -108,16 +117,6 @@ export const waybillTableCell = [
     id: uuidv4(),
     title: 'End point',
     align: 'center' as AlignType,
-  },
-  {
-    id: uuidv4(),
-    title: 'number',
-    align: 'right' as AlignType,
-  },
-  {
-    id: uuidv4(),
-    title: 'seria',
-    align: 'right' as AlignType,
   },
   {
     id: uuidv4(),

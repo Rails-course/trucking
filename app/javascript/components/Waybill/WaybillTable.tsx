@@ -25,7 +25,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const waybillsData = searchData || waybills;
   return (
     <div>
-      <Search setData={setSearchData} Data={waybills} searchField="status" />
+      <Search setData={setSearchData} Data={waybills} searchField="seria" />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -45,11 +45,11 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
               )
               : waybillsData.map((waybill) => (
                 <StyledTableRow key={waybill.id}>
-                  <StyledTableCell>{waybill.status}</StyledTableCell>
-                  <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
-                  <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.number}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.seria}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.status}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
                   <StyledTableCell align="right">
                     <Button variant="text" onClick={() => handleGetCheckpoint(waybill.id)}>
                       open waybill
