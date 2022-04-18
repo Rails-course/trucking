@@ -106,7 +106,7 @@ export const waybillTableCell = [
   },
   {
     id: uuidv4(),
-    title: 'End poifnt',
+    title: 'End point',
     align: 'center' as AlignType,
   },
   {
