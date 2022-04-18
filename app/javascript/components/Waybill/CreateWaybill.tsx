@@ -55,7 +55,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 550 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 650 } }}
         maxWidth="xs"
       >
         <DialogTitle>Create Waybill</DialogTitle>
@@ -159,7 +159,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           />
                         )}
                       />
-                      <RouteTable routes={routes} />
 
                       <div style={{
                         display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
@@ -181,11 +180,14 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           </div>
                         ))}
                       </div>
+
+                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null }
+
                     </Container>
 
-                    <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
+                    <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
                       <Button onClick={() => setCreateRoutes(true)} color="success">create new checkpoints</Button>
-                      <Button onClick={handleClose} color="warning">Cancel</Button>
+                      <Button onClick={handleClose} color="error">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success">Create</Button>
                     </DialogActions>
                   </Form>

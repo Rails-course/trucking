@@ -68,7 +68,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={handleClose} color="warning">Cancel</Button>
+                    <Button onClick={handleClose} color="error">Cancel</Button>
                     <Button type="submit" color="success">Create</Button>
                   </DialogActions>
                 </Form>

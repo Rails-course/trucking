@@ -74,7 +74,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
         >
           Transportation completed
         </Button>
-        <Button onClick={handleClose} color="warning">Close</Button>
+        <Button onClick={handleClose} color="error">Close</Button>
       </DialogContent>
     </Dialog>
   );

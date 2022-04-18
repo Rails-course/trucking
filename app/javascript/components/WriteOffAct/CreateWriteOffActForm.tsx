@@ -93,7 +93,7 @@ const CreateWriteOffActForm:
                       </Container>
 
                       <DialogActions>
-                        <Button onClick={handleClose} color="warning">Cancel</Button>
+                        <Button onClick={handleClose} color="error">Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} color="success">Create</Button>
                       </DialogActions>
                     </Form>
