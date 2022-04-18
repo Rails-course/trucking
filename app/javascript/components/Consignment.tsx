@@ -21,7 +21,12 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
 
-  const [consignments, setConsignment] = React.useState(JSON.parse(consignmentsJSON));
+  const consignments_order = ["registered", "checked", "delivered"]
+  const [consignments, setConsignment] = React.useState(
+    JSON.parse(consignmentsJSON)
+      .sort((a, b) => consignments_order.indexOf(a.status) - consignments_order.indexOf(b.status))
+  );
+
   const [goods, setGoods] = React.useState([]);
   const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
