@@ -30,13 +30,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   React.useEffect(() => {
     httpClient.users.getAll()
       .then((response) => {
-        if (componentMounted.current) {
-          setUser(response.data);
-        }
-      })
+        if (componentMounted.current) setUser(response.data);
+      });
     return () => {
       componentMounted.current = false;
-    }
+    };
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
@@ -193,6 +191,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
         <FormControlLabel
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
+          sx={{ color: 'white', fontWeight: 'bolder' }}
         />
       </div>
     </Box>

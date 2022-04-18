@@ -43,8 +43,8 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={routeHandleClose}>Cancel</Button>
-                    <Button type="submit" onClick={routeHandleClose}>Create</Button>
+                    <Button onClick={routeHandleClose} color="warning">Cancel</Button>
+                    <Button type="submit" onClick={routeHandleClose} color="success">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>

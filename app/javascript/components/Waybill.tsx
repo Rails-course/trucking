@@ -28,13 +28,12 @@ const Waybill = ({ currentUserRole }) => {
   }, []);
   const update_checkpoint_status = (id) => {
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
-
   };
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
         const new_waybylls = waybills;
-        new_waybylls.find((waybill) => waybill.id == id).status = response.data.status;
+        new_waybylls.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(new_waybylls);
         setAlertType('success');
         setAlertText('Successfully finished cargo transportation!');
@@ -64,14 +63,6 @@ const Waybill = ({ currentUserRole }) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
-          </Grid>
           <Grid item xs={12}>
             <WaybillTable
               waybills={waybills}
@@ -95,6 +86,12 @@ const Waybill = ({ currentUserRole }) => {
         handleSubmit_waybill={handleSubmit_waybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         update_checkpoint_status={update_checkpoint_status}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );

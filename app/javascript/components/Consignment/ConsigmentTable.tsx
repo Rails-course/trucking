@@ -136,6 +136,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
         <FormControlLabel
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
+          sx={{ color: 'white', fontWeight: 'bolder' }}
         />
       </div>
     </Box>

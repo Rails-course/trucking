@@ -8,12 +8,12 @@ import {
 import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
-import httpClient from '../../api/httpClient';
 
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
-    id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints, update_checkpoint_status,
+    id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole, setAlertText,
+    alertSetOpen, setAlertType, handleSubmit_waybill, formErrorsCheckpoints,
+    update_checkpoint_status,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -70,10 +70,11 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
         <Button
           onClick={() => handleSubmit_waybill(id)}
           disabled={!(currentUserRole === 'driver')}
+          color="success"
         >
           Transportation completed
         </Button>
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={handleClose} color="warning">Close</Button>
       </DialogContent>
     </Dialog>
   );

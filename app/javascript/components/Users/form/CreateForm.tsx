@@ -6,13 +6,13 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Box,
 } from '@mui/material';
 
+import axios from 'axios';
 import FormikField from '../../../UI/FormikField';
 import { userFields, userFirstFields, userSecondFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
 import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/interfaces_types';
-import axios from 'axios';
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
@@ -39,8 +39,8 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   };
 
   React.useEffect(() => {
-    const getCompanies = httpClient.companies.get_data()
-    const getRoles = httpClient.roles.getAllRoles()
+    const getCompanies = httpClient.companies.get_data();
+    const getRoles = httpClient.roles.getAllRoles();
     axios.all([getCompanies, getRoles])
       .then(
         axios.spread((...responses) => {
@@ -48,11 +48,11 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
             setCompanies(responses[0].data);
             setRoles(responses[1].data);
           }
-        })
-      )
+        }),
+      );
     return () => {
       componentMounted.current = false;
-    }
+    };
   }, []);
 
   return (
@@ -160,8 +160,8 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                       />
                     </Container>
                     <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose}>{btnTitle}</Button>
+                      <Button onClick={handleClose} color="warning">Cancel</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose} color="success">{btnTitle}</Button>
                     </DialogActions>
                     <AutoUpdateForm id={editUserModal} />
                   </Form>

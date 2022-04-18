@@ -218,6 +218,9 @@ export interface CreateCompanyFormProps {
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface WaybillTableProps {

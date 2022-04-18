@@ -27,10 +27,10 @@ const CreateWriteOffActForm:
           if (componentMounted.current) {
             setConsignments(response.data);
           }
-        })
+        });
       return () => {
         componentMounted.current = false;
-      }
+      };
     }, []);
 
     return (
@@ -93,8 +93,8 @@ const CreateWriteOffActForm:
                       </Container>
 
                       <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
+                        <Button onClick={handleClose} color="warning">Cancel</Button>
+                        <Button type="submit" disabled={!dirty || !isValid} color="success">Create</Button>
                       </DialogActions>
                     </Form>
                   )}

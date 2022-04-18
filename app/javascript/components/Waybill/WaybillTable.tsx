@@ -99,6 +99,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
         <FormControlLabel
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
+          sx={{ color: 'white', fontWeight: 'bolder' }}
         />
       </div>
     </Box>

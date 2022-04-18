@@ -105,8 +105,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               alertSetOpen(false);
             }, 5000);
           });
-      default: return setCheckedGooods([]);
     }
+    setCheckedGooods([]);
   };
 
   return (
@@ -120,14 +120,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={currentUserRole === 'dispatcher' ? 9 : 12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
-          </Grid>
+          <Grid item xs={9} style={{ textAlign: 'right' }} />
           {currentUserRole === 'dispatcher'
             ? (
               <Grid item xs={3} style={{ textAlign: 'right' }}>
@@ -184,6 +177,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}
         setAlertText={setAlertText}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );
