@@ -24,15 +24,21 @@ class WaybillsController < ApplicationController
         waybill = Waybill.new(start_date: waybill_params[:start_date],
                               end_date: waybill_params[:end_date],
                               startpoint: startpoint, endpoint: endpoint,
-                              consignment: data[:ttn], goods_owner: data[:owner])
+                              consignment: data[:consignment], goods_owner: data[:owner])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
           Route.new(city: city_name, waybill: waybill).save
         end
       end
     rescue ActiveRecord::RecordInvalid => e
-      render json: { error: { status: 422, message: e } }
+      return render json: e, status: :unprocessable_entity
     end
+    # NOTE: after creating waybill we need to disable create waybill button
+    # in order to do this we need to send back updated ttn with created waybill
+    # We need to refactor this in future, because sending consignment in response for
+    # create Waybill is bad practice
+    render json: data[:consignment].to_json(include: %i[dispatcher driver truck manager waybill
+                                                        goods])
   end
 
   def update
@@ -63,6 +69,6 @@ class WaybillsController < ApplicationController
       endpoint: { town: data[:end_town], street: data[:end_street],
                   building: data[:end_building] },
       owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
-      ttn: Consignment.find(params.permit(:ttn_id)[:ttn_id]) }
+      consignment: Consignment.find(params.permit(:consignment_id)[:consignment_id]) }
   end
 end

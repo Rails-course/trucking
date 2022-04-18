@@ -1,10 +1,10 @@
 import * as React from 'react';
+import axios from 'axios';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
 } from '@mui/material';
 
-import axios from 'axios';
 import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
@@ -14,17 +14,17 @@ import Search from '../Search';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setConsignment, setOwners, currentUserRole, setConsWaybillId, setData,
+    setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
   const componentMounted = React.useRef(true);
   const [searchData, setSearchData] = React.useState();
+
   let waybillID = null;
 
   const handleGetGoods = (consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
-    httpClient.goods.getConsignmentGoods(consignment?.id)
-      .then((response) => setGoods(response.data));
+    setGoods(consignment.goods)
     if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
     setConsWaybillId(waybillID);
   };
@@ -48,7 +48,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       componentMounted.current = false;
     };
   }, []);
+  
   const consignmentsData = searchData || consignments;
+
   return (
     <div>
       <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 import {
-  createConsignmentUrl, getDriversUrl, getTrucksUrl,
+  ConsignmentUrl, getDriversUrl, getTrucksUrl,
   createUserUrl, deleteUserUrl, getAllUserUrl,
   getUserUrl, updateUserUrl, getAllConsignmentUrl,
-  createGoodsUrl, ConsignmentGoodsUrl,
+  ConsignmentGoodsUrl,
   WarehouseUrl, getAllWarehouseUrl,
   getAllRolesUrl, writeOffActUrl,
   getWarehousemansUrl,
@@ -24,10 +24,11 @@ function httpClient() {
     companies: {
       get_data: () => axios.get('/companies.json'),
       delete: (id) => axios.delete(`/companies/${id}`),
-      suspend: (id) => axios.patch(`/companies/suspend/${id}`),
+      suspend: (id) => axios.patch(`/companies/${id}/suspend`),
+      resume: (id) => axios.patch(`/companies/${id}/resume`),
     },
     waybill: {
-      create: (waybill, routes, ttn_id) => axios.post('/waybills', { waybill, routes, ttn_id }),
+      create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
       get_data_waybill: (id) => axios.get(`/consignment/waybill_data/${id}`),
       gets_waybills: () => axios.get('/waybills.json'),
       finish: (ids) => axios.patch('/waybills/endTrucking', ids),
@@ -42,13 +43,12 @@ function httpClient() {
     },
     consignments: {
       getAll: () => axios.get(`${getAllConsignmentUrl}`),
-      create: (consignment) => axios.post(`${createConsignmentUrl}`, consignment),
+      create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
+      getGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/goods`),
     },
     goods: {
-      getConsignmentGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/goods`),
       getWaybillGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/waybill_goods`),
-      create: (goods) => axios.post(`${createGoodsUrl}`, goods),
-      setConsignmentGoodsChecked: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, goods),
+      setConsignmentGoodsChecked: (id, checkedGoodsIds) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, checkedGoodsIds),
       setWaybillGoodsStatus: (id, goods) => axios.patch(`${ConsignmentGoodsUrl}/${id}//waybill_goods`, goods),
     },
     goods_owner: {

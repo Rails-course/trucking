@@ -31,8 +31,6 @@ export type Item = {
     bundle_number: string;
 }
 
-export type UnionConsGoodType = { consignment: consignmentFormValues } | { goods: goodsFormValues }
-
 export type CompanyType = {
     id: number;
     name: string;
@@ -78,6 +76,8 @@ export interface CreateWaybillsFormProps {
     formWaybillErrors: any;
     isActiveWayBill: boolean;
     setWayBillActive: any;
+    consignments: any;
+    setConsignment: any;
     data: any, owners: any;
     alertSetOpen: any,
     setAlertType: any,
@@ -105,6 +105,9 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface Warehouseman {
@@ -201,7 +204,6 @@ export interface ConsignmentTableProps {
     setConsID: any;
     formErrors: any;
     consignments: any, setData: any;
-    setConsignment: any,
     currentUserRole: any, setConsWaybillId: any;
 }
 
@@ -218,6 +220,9 @@ export interface CreateCompanyFormProps {
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
+    alertSetOpen: any,
+    setAlertType: any,
+    setAlertText: any,
 }
 
 export interface WaybillTableProps {
