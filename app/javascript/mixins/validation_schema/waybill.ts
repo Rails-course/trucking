@@ -35,6 +35,13 @@ const waybillValidation = Yup.object().shape({
     .matches(REGX_ONLY_LETTER_SPACES, 'Good owner name should be alphabets only')
     .min(2, 'Must be of length 2 to 255')
     .required('Required'),
+  seria: Yup.string()
+    .min(2, 'Must be of length 2 to 255')
+    .required('Required'),
+  number: Yup.string()
+      .matches(REGX_ONLY_NUMBER, 'number must be numbers only')
+      .min(2, 'Must be of length 2 to 255')
+      .required('Required'),
 });
 
 export default waybillValidation;

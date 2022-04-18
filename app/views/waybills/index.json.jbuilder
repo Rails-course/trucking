@@ -5,4 +5,6 @@ json.array! @data do |waybill|
   json.startpoint waybill[:startpoint]
   json.endpoint waybill[:endpoint]
   json.status waybill[:status]
+  json.seria waybill[:seria]
+  json.number waybill[:number]
 end

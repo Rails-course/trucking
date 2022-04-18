@@ -44,6 +44,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                   <StyledTableCell>{waybill.status}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.number}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.seria}</StyledTableCell>
                   <StyledTableCell align="right">
                     <Button variant="text" onClick={() => handleGetCheckpoint(waybill.id)}>
                       open waybill

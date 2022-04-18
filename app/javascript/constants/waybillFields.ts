@@ -3,6 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 export const waybillLeftFields = [
   {
     id: uuidv4(),
+    title: 'number',
+    model: 'number',
+    required: true,
+    placeholder: 'number',
+    type: 'text',
+  },
+  {
+    id: uuidv4(),
     title: 'town',
     model: 'town',
     required: true,
@@ -25,9 +33,18 @@ export const waybillLeftFields = [
     placeholder: 'start building',
     type: 'number',
   },
+
 ];
 
 export const waybillRightFields = [
+  {
+    id: uuidv4(),
+    title: 'seria',
+    model: 'seria',
+    required: true,
+    placeholder: 'seria',
+    type: 'text',
+  },
   {
     id: uuidv4(),
     title: 'end_town',
@@ -88,12 +105,22 @@ export const waybillTableCell = [
   },
   {
     id: uuidv4(),
-    title: 'End point',
+    title: 'End poifnt',
     align: 'center' as AlignType,
   },
   {
     id: uuidv4(),
-    title: 'Action',
+    title: 'number',
+    align: 'right' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'seria',
+    align: 'right' as AlignType,
+  },
+  {
+    id: uuidv4(),
+    title: 'action',
     align: 'right' as AlignType,
   },
 ];
