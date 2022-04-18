@@ -27,7 +27,7 @@ class WaybillsController < ApplicationController
                               end_date: waybill_params[:end_date],
                               startpoint: startpoint, endpoint: endpoint,
                               consignment: data[:consignment], goods_owner: data[:owner],
-                              number: waybill_params[:number], seria: waybill_params[:seria])
+                               number: waybill_params[:number], seria: waybill_params[:seria])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
           Route.new(city: city_name, waybill: waybill).save
