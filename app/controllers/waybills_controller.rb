@@ -7,8 +7,7 @@ class WaybillsController < ApplicationController
       @data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
-                     status: waybill.status
-                   })
+                     status: waybill.status })
     end
     @data
   end
@@ -24,7 +23,8 @@ class WaybillsController < ApplicationController
         waybill = Waybill.new(start_date: waybill_params[:start_date],
                               end_date: waybill_params[:end_date],
                               startpoint: startpoint, endpoint: endpoint,
-                              consignment: data[:consignment], goods_owner: data[:owner])
+                              consignment: data[:consignment], goods_owner: data[:owner],
+                              warehouse: data[:warehouse])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
           Route.new(city: city_name, waybill: waybill).save
@@ -60,7 +60,7 @@ class WaybillsController < ApplicationController
 
   def waybill_params
     params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
-                                    :end_town, :end_street, :end_building, :goods_owner)
+                                    :end_town, :end_street, :end_building, :goods_owner, :warehouse)
   end
 
   def create_waybill_params
@@ -69,6 +69,7 @@ class WaybillsController < ApplicationController
       endpoint: { town: data[:end_town], street: data[:end_street],
                   building: data[:end_building] },
       owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
-      consignment: Consignment.find(params.permit(:consignment_id)[:consignment_id]) }
+      consignment: Consignment.find(params.permit(:consignment_id)[:consignment_id]),
+      warehouse: Warehouse.find_by(warehouse_name: data[:warehouse]) }
   end
 end

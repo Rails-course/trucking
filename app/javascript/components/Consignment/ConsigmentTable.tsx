@@ -41,14 +41,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       }));
   };
 
-  React.useEffect(() => {
-    httpClient.consignments.getAll()
-      .then((response) => { if (componentMounted.current) setConsignment(response.data); });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
-  
+
   const consignmentsData = searchData || consignments;
 
   return (

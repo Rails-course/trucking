@@ -15,8 +15,9 @@ const Waybill = ({ currentUserRole }) => {
   const [alertOpen, alertSetOpen] = React.useState(false);
   const [alertType, setAlertType] = React.useState('');
   const [alertText, setAlertText] = React.useState('');
-  const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
@@ -26,6 +27,7 @@ const Waybill = ({ currentUserRole }) => {
       componentMounted.current = false;
     };
   }, []);
+
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
@@ -49,6 +51,7 @@ const Waybill = ({ currentUserRole }) => {
         }, 5000);
       });
   };
+
   return (
     <div className="wrapper">
       <Box sx={{
