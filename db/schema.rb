@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_14_124608) do
+ActiveRecord::Schema.define(version: 2022_04_18_151057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,8 @@ ActiveRecord::Schema.define(version: 2022_04_14_124608) do
     t.integer "endpoint_id"
     t.integer "startpoint_id"
     t.integer "goods_owner_id"
+    t.bigint "warehouse_id"
+    t.index ["warehouse_id"], name: "index_waybills_on_warehouse_id"
   end
 
   create_table "write_off_acts", force: :cascade do |t|
