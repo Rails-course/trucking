@@ -26,16 +26,12 @@ const Waybill = ({ currentUserRole }) => {
       componentMounted.current = false;
     };
   }, []);
-  const update_checkpoint_status = (id) => {
-    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
-
-  };
   const handleSubmit_waybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
-        const new_waybylls = waybills;
-        new_waybylls.find((waybill) => waybill.id == id).status = response.data.status;
-        setWaybill(new_waybylls);
+        const newWaybills = waybills;
+        newWaybills.find((waybill) => waybill.id == id).status = response.data.status;
+        setWaybill(newWaybills);
         setAlertType('success');
         setAlertText('Successfully finished cargo transportation!');
         alertSetOpen(true);
@@ -94,7 +90,7 @@ const Waybill = ({ currentUserRole }) => {
         setAlertText={setAlertText}
         handleSubmit_waybill={handleSubmit_waybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
-        update_checkpoint_status={update_checkpoint_status}
+        setCheckpoints={setCheckpoints}
       />
     </div>
   );
