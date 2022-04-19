@@ -2,7 +2,15 @@ module Api
   module V1
     class ApiController < ActionController::Base
       before_action :check_basic_auth
+      before_action :deprecate_api
       skip_before_action :verify_authenticity_token
+
+      def deprecate_api
+        response.set_header('Deprecated', 'true')
+        response.set_header('Sunset', '2022-04-24')
+        response.set_header('New API link', '<https://trucking-logistics.herokuapp.com/api/v2/waybills>')
+        head :see_other
+      end
 
       private
 
