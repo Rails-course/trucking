@@ -8,8 +8,6 @@ class Waybill < ApplicationRecord
   belongs_to :startpoint, class_name: 'Address'
   validates :startpoint_id, presence: true
   validates :endpoint_id, presence: true
-  validates :waybill_seria , uniqueness: true
-  validates :waybill_number , uniqueness: true
   def start_point
     Address.find(startpoint)
   end
