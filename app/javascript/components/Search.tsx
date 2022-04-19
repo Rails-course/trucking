@@ -11,8 +11,23 @@ import { blue } from '@mui/material/colors';
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data, searchField } = props;
   const handleSubmit = (values) => {
-    setData(Data.filter((key) => key[searchField].includes(values.text)));
+      let data=[]
+      Data.map((object)=>{
+              getRequest(values.text).map((keyRequest)=>{
+                  if (Object.values(object).toString().includes(values.text)){
+                      data.push(object)
+                  }}
+              )
+      })
+       if (data.length==0 || getRequest(values.text)=='' ) {
+           setData(null)
+       }else{
+           setData(data)
+       }
   };
+  const getRequest = (request) => {
+    return request.split(',')
+  }
   return (
     <Formik
       initialValues={{ text: '' }}
