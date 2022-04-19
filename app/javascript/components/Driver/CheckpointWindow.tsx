@@ -16,16 +16,16 @@ const CheckpointWindow:
     } = props;
     const [isActiveModal, setActiveModal] = React.useState(false);
 
-    const updateCheckpoints=()=>{
-        httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
-    }
+    const updateCheckpoints = () => {
+      httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
+    };
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
-        httpClient.route.rollback({ ids: id }).then((response) => {
-            updateCheckpoints()
+        httpClient.route.rollback({ ids: id }).then(() => {
+          updateCheckpoints();
         });
       } else setActiveModal(true);
     };
@@ -33,7 +33,7 @@ const CheckpointWindow:
       Object.assign(values, { ids: id });
       httpClient.route.passCh(values)
         .then(() => {
-            updateCheckpoints()
+          updateCheckpoints();
           setAlertType('success');
           setAlertText('Successfully passed checkpoint!');
           alertSetOpen(true);

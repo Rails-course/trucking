@@ -40,8 +40,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const waybillsData = searchData || waybills;
   return (
     <Box sx={{ width: '100%' }}>
+      <Search setData={setSearchData} Data={waybills} searchField="status" />
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <Search setData={setSearchData} Data={waybills} searchField="status" />
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 700 }}

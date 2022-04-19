@@ -17,7 +17,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .then((response) => {
+      .then(() => {
         handleClose();
         setAlertType('success');
         setAlertText('Successfully created a company!');

@@ -26,7 +26,7 @@ const Waybill = ({ currentUserRole }) => {
       componentMounted.current = false;
     };
   }, []);
-  const handleSubmit_waybill = (id) => {
+  const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
         const newWaybills = waybills;
@@ -60,7 +60,7 @@ const Waybill = ({ currentUserRole }) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={12} style={{ textAlign: 'right' }}/>
+          <Grid item xs={12} style={{ textAlign: 'right' }} />
           <Grid item xs={12}>
             <WaybillTable
               waybills={waybills}
@@ -81,7 +81,7 @@ const Waybill = ({ currentUserRole }) => {
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}
         setAlertText={setAlertText}
-        handleSubmit_waybill={handleSubmit_waybill}
+        handleSubmit_waybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />

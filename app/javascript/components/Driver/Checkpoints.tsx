@@ -9,12 +9,13 @@ import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
 
-import {checkpointsFields} from '../../constants/checkpoints'
+import { checkpointsFields } from '../../constants/checkpoints';
+
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
     setAlertText, alertSetOpen, setAlertType, handleSubmit_waybill,
-    formErrorsCheckpoints, setCheckpoints
+    formErrorsCheckpoints, setCheckpoints,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -33,7 +34,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                {checkpointsFields.map((cell)=>  <StyledTableCell align="right">{cell.title}</StyledTableCell>)}
+                {checkpointsFields.map((cell) => <StyledTableCell align="right">{cell.title}</StyledTableCell>)}
               </TableRow>
             </TableHead>
             <TableBody>

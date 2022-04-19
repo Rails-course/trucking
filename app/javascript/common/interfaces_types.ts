@@ -80,6 +80,7 @@ export interface CreateWaybillsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    setConsignment: any, consignments: any;
 }
 
 export interface CreateRoutesFormProps {
