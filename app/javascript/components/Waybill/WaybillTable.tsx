@@ -45,8 +45,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
               )
               : waybillsData.map((waybill) => (
                 <StyledTableRow key={waybill.id}>
-                  <StyledTableCell align="center">{waybill.number}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.seria}</StyledTableCell>
+                  <StyledTableCell align="center">{waybill.number}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.status}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
                   <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>

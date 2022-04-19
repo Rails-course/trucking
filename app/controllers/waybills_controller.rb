@@ -8,8 +8,8 @@ class WaybillsController < ApplicationController
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
                      status: waybill.status,
-                     seria: waybill.seria,
-                     number: waybill.number
+                     seria: waybill.waybill_seria,
+                     number: waybill.waybill_number
                    })
     end
     @data
@@ -27,7 +27,7 @@ class WaybillsController < ApplicationController
                               end_date: waybill_params[:end_date],
                               startpoint: startpoint, endpoint: endpoint,
                               consignment: data[:consignment], goods_owner: data[:owner],
-                              number: waybill_params[:number], seria: waybill_params[:seria])
+                              waybill_number: waybill_params[:number], waybill_seria: waybill_params[:seria])
         waybill.save
         params.permit(routes: [])[:routes].each do |city_name|
           Route.new(city: city_name, waybill: waybill).save

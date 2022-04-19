@@ -11,11 +11,10 @@ import { blue } from '@mui/material/colors';
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data } = props;
     const handleSubmit = (values) => {
-        console.log(Object.values((Data[0])))
+        //replace(/\s+/g, ' ').trim() - remove duplicated spaces
         let data=(Data.filter((key) => Object.values(key).toString().includes((values.text).replace(/\s+/g, ' ').trim().replace(' ',','))));
-        if (values.text!='' || data.length>0){
-            setData(data)
-        }else {setData(null)}
+        if (values.text!='' || data.length>0) {setData(data)}
+        else {setData(null)}
     };
   return (
     <Formik

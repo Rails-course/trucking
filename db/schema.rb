@@ -136,8 +136,8 @@ ActiveRecord::Schema.define(version: 2022_04_17_164352) do
     t.integer "startpoint_id"
     t.integer "goods_owner_id"
     t.string "status", default: "transportation started"
-    t.string "seria"
-    t.integer "number"
+    t.string "waybill_seria", null: false
+    t.integer "waybill_number", null: false
   end
 
   create_table "write_off_acts", force: :cascade do |t|

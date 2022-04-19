@@ -95,12 +95,12 @@ export declare type AlignType = 'left' | 'center' | 'right';
 export const waybillTableCell = [
   {
     id: uuidv4(),
-    title: 'number',
+    title: 'seria',
     align: 'right' as AlignType,
   },
   {
     id: uuidv4(),
-    title: 'seria',
+    title: 'number',
     align: 'right' as AlignType,
   },
   {
