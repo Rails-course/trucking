@@ -25,7 +25,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const waybillsData = searchData || waybills;
   return (
     <div>
-      <Search setData={setSearchData} Data={waybills} searchField={["consignment_seria","consignment_number"]} />
+      <Search setData={setSearchData} Data={waybills} />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">

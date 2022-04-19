@@ -242,5 +242,4 @@ export interface SiteAlertProps {
 export interface SearchProps {
     setData:any;
     Data:any;
-    searchField:any;
 }

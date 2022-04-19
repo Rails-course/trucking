@@ -53,7 +53,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   return (
     <div>
-      <Search setData={setSearchData} Data={consignments} searchField={["consignment_seria","consignment_number"]} />
+      <Search setData={setSearchData} Data={consignments} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
