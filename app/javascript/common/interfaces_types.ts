@@ -166,8 +166,8 @@ export interface CheckpointWindowFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    wayID: number,
-    update_checkpoint_status: (id: number) => void
+    wayID:number,
+    setCheckpoints:any,
 }
 
 export interface CheckpointsFormProps {
@@ -179,9 +179,9 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmit_waybill: (id: number) => void,
-    formErrorsCheckpoints: any,
-    update_checkpoint_status: (id: number) => void
+    handleSubmit_waybill:(id:number)=>void,
+    formErrorsCheckpoints:any,
+    setCheckpoints:any,
 }
 
 export interface ConsignmentGoodsProps {
@@ -236,6 +236,12 @@ export interface SiteAlertProps {
     alertText: any;
     alertOpen: boolean,
     alertSetOpen: any;
+}
+
+export interface SearchProps {
+    setData:any;
+    Data:any;
+    searchField:any;
 }
 
 export interface ConsignmentProps {

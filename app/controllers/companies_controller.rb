@@ -12,6 +12,17 @@ class CompaniesController < ApplicationController
   end
 
   def suspend
+    company = Company.find(params.require(:id))
+    company.change_status
+    # company_users = User.where(company: company)
+    # TODO: ideally we need to log out all company logged in users
+    # but devise doesnt provide such feature
+    # company_users.each do |user|
+    #   sign_out user
+    # end
+  end
+
+  def resume
     Company.find(params.require(:id)).change_status
   end
 

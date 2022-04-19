@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   resources :companies
   scope '/companies' do
     post '/create', to: 'companies#create_company'
-    patch '/suspend/:id', to: 'companies#suspend'
+    patch '/:id/suspend', to: 'companies#suspend'
+    patch '/:id/resume', to: 'companies#resume'
   end
   resources :goods
   resources :consignments
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   end
   resources :write_off_acts, only: %i[index create]
   resources :trucks
-  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
+  get '/consignment/waybill_data/:consignment_id', to: 'consignments#waybill_data'
   resources :waybills
   patch '/waybills/endTrucking', to: 'waybill#end_trucking'
   resources :roles, only: :index

@@ -9,6 +9,7 @@ import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import httpClient from '../../api/httpClient';
 import { WaybillTableProps } from '../../common/interfaces_types';
+import Search from '../Search';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
@@ -30,15 +31,17 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setDense(event.target.checked);
   };
 
+  const [searchData, setSearchData] = React.useState();
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
   };
-
+  const waybillsData = searchData || waybills;
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
+        <Search setData={setSearchData} Data={waybills} searchField="status" />
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 700 }}
@@ -59,7 +62,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                     <StyledTableCell>No data yet ...</StyledTableCell>
                   </TableRow>
                 )
-                : waybills
+                : waybillsData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((waybill) => (
                     <StyledTableRow key={waybill.id}>

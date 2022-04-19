@@ -25,6 +25,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     }
   }, []);
 
+  // NOTE: updating companies this way isn't good
+  // We dont need to fetch all companies when we performing action to a single one
   const updateData = () => {
     httpClient.companies.get_data().then((response) => setCompany(response.data));
   };
@@ -42,7 +44,17 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   const suspendCompany = (id) => {
     httpClient.companies.suspend(id).then(() => updateData());
     setAlertType("info");
-    setAlertText("Company successfully suspended or resumed")
+    setAlertText("Company successfully suspended")
+    alertSetOpen(true);
+    setTimeout(() => {
+      alertSetOpen(false);
+    }, 5000)
+  }
+
+  const resumeCompany = (id) => {
+    httpClient.companies.resume(id).then(() => updateData());
+    setAlertType("info");
+    setAlertText("Company successfully resumed")
     alertSetOpen(true);
     setTimeout(() => {
       alertSetOpen(false);
@@ -70,8 +82,14 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                 <StyledTableRow key={company.name}>
                   <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
                   <StyledTableCell align="right" style={{ width: '30%' }}>
-                    <Button variant="outlined" color="warning" onClick={() => suspendCompany(company.id)} style={{ marginRight: '10px' }}>
-                      {company.status ? 'resume' : 'suspend'}
+                    <Button
+                      variant="outlined"
+                      color="warning"
+                      onClick={() =>
+                        company.is_suspended ? resumeCompany(company.id) : suspendCompany(company.id)
+                      }
+                      style={{ marginRight: '10px' }}>
+                      {company.is_suspended ? 'resume' : 'suspend'}
                     </Button>
                     <Button variant="outlined" color="error" onClick={() => deleteCompany(company.id)}>
                       Delete

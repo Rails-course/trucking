@@ -1,5 +1,5 @@
 export interface waybillFormValues {
-  ttn_id: number,
+  consignment_id: number,
   end_town: string,
   end_street: string,
   end_building: number,
@@ -12,7 +12,7 @@ export interface waybillFormValues {
 }
 
 export const waybillInitialValues: waybillFormValues = {
-  ttn_id: undefined,
+  consignment_id: undefined,
   end_town: '',
   end_street: '',
   end_building: undefined,

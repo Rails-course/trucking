@@ -1,21 +1,24 @@
 import * as React from 'react';
+import axios from 'axios';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
   TablePagination, FormControlLabel, Switch, Box,
 } from '@mui/material';
 
-import axios from 'axios';
 import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
+import Search from '../Search';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
     setOwners, currentUserRole, setConsWaybillId, setData,
   } = props;
+  const componentMounted = React.useRef(true);
+  const [searchData, setSearchData] = React.useState();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -53,11 +56,14 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setDense(event.target.checked);
   };
 
+  const consignmentsData = searchData || consignments;
+
   if (!consignments) { return (<p>No data yet ...</p>); }
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
+        <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 700 }}
@@ -73,7 +79,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {consignments
+              {!consignmentsData
+                  ? (
+                      <TableRow>
+                        <StyledTableCell>No data yet ...</StyledTableCell>
+                      </TableRow>
+                  )
+                  : consignmentsData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((consignment) => {
                   const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;

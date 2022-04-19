@@ -12,17 +12,20 @@ import { CheckpointWindowFormProps } from '../../common/interfaces_types';
 const CheckpointWindow:
   React.FC<CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
     const {
-      wayID, id, status, currentUserRole, update_checkpoint_status, setAlertText, alertSetOpen, setAlertType,
+      wayID, id, status, currentUserRole, setCheckpoints, setAlertText, alertSetOpen, setAlertType,
     } = props;
     const [isActiveModal, setActiveModal] = React.useState(false);
+
+    const updateCheckpoints=()=>{
+        httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
+    }
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
-        httpClient.route.rollback({ ids: id }).then(() => {
-          update_checkpoint_status(wayID);
-          handleClose();
+        httpClient.route.rollback({ ids: id }).then((response) => {
+            updateCheckpoints()
         });
       } else setActiveModal(true);
     };
@@ -30,7 +33,7 @@ const CheckpointWindow:
       Object.assign(values, { ids: id });
       httpClient.route.passCh(values)
         .then(() => {
-          update_checkpoint_status(wayID);
+            updateCheckpoints()
           setAlertType('success');
           setAlertText('Successfully passed checkpoint!');
           alertSetOpen(true);

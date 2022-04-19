@@ -30,9 +30,9 @@ class ConsignmentsController < ApplicationController
   end
 
   def waybill_data
-    ttn = Consignment.find(params.permit(:ttn_id)[:ttn_id])
-    render json: { driver_fio: User.find(ttn.driver_id).full_name,
-                   truck_number: ttn.truck.truck_number }
+    consignment = Consignment.find(params.permit(:consignment_id)[:consignment_id])
+    render json: { driver_fio: User.find(consignment.driver_id).full_name,
+                   truck_number: consignment.truck.truck_number }
   end
 
   private
