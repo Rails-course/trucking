@@ -52,5 +52,8 @@ Rails.application.routes.draw do
       resources :drivers, only: [:index]
       resources :trucks, only: [:index]
     end
+    namespace :v2 do
+      resources :waybills, only: %i[index show]
+    end
   end
 end
