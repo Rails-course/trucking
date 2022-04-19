@@ -70,10 +70,11 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           onClick={() => handleSubmit_waybill(id)}
           disabled={!(currentUserRole === 'driver')}
           color="success"
+          variant="outlined"
         >
           Transportation completed
         </Button>
-        <Button onClick={handleClose} color="error">Close</Button>
+        <Button onClick={handleClose} color="error" variant="outlined">Close</Button>
       </DialogContent>
     </Dialog>
   );

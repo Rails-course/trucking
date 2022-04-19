@@ -160,8 +160,8 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                       />
                     </Container>
                     <DialogActions>
-                      <Button onClick={handleClose} color="warning">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose} color="success">{btnTitle}</Button>
+                      <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose} color="success" variant="outlined">{btnTitle}</Button>
                     </DialogActions>
                     <AutoUpdateForm id={editUserModal} />
                   </Form>

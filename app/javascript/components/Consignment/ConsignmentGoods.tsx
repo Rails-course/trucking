@@ -112,6 +112,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                       onClick={handleClose}
                       color="success"
                       disabled={!['driver', 'manager'].includes(currentUserRole)}
+                      variant="outlined"
                     >
                       Submit
                     </Button>

@@ -72,7 +72,7 @@ const CheckpointWindow:
                   type="date"
                   variant="standard"
                 />
-                <Button type="submit" onClick={handleClose}>save</Button>
+                <Button type="submit" onClick={handleClose} variant="outlined" color="success">save</Button>
               </Form>
             </Formik>
           </DialogContent>

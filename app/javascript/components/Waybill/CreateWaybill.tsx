@@ -189,9 +189,9 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                     </Container>
 
                     <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
-                      <Button onClick={() => setCreateRoutes(true)} color="success">create new checkpoints</Button>
-                      <Button onClick={handleClose} color="error">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} color="success">Create</Button>
+                      <Button onClick={() => setCreateRoutes(true)} color="success" variant="outlined">create new checkpoints</Button>
+                      <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                     </DialogActions>
                   </Form>
                 )}

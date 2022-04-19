@@ -68,8 +68,8 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={handleClose} color="error">Cancel</Button>
-                    <Button type="submit" color="success">Create</Button>
+                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>
