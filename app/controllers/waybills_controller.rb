@@ -8,9 +8,8 @@ class WaybillsController < ApplicationController
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
                      status: waybill.status,
-                     seria: waybill.waybill_seria,
-                     number: waybill.waybill_number
-                   })
+                     waybill_seria: waybill.waybill_seria,
+                     waybill_number: waybill.waybill_number })
     end
     @data
   end
@@ -64,7 +63,7 @@ class WaybillsController < ApplicationController
   def waybill_params
     params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
                                     :end_town, :end_street, :end_building, :goods_owner,
-                                    :number, :seria)
+                                    :waybill_number, :waybill_seria)
   end
 
   def create_waybill_params

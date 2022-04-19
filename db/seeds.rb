@@ -254,7 +254,8 @@ Shopping_center = Warehouse.create(
                                                consignment: instance_variable_get("@CSJ_#{i}"),
                                                startpoint: instance_variable_get("@startpoint_J#{i}"),
                                                endpoint: instance_variable_get("@endpoint_J#{i}"),
-                                               goods_owner_id: goods_owner_tradep.id,waybill_seria: "CSJ_#{i}",
+                                               goods_owner_id: goods_owner_tradep.id,
+                                               waybill_seria: "WSJ_#{i}",
                                                waybill_number: "10#{i}".to_i
                                              ))
   instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
@@ -283,8 +284,9 @@ Shopping_center = Warehouse.create(
                                                consignment: instance_variable_get("@CSG_#{i}"),
                                                startpoint: instance_variable_get("@startpoint_G#{i}"),
                                                endpoint: instance_variable_get("@endpoint_G#{i}"),
-                                               goods_owner_id: goods_owner_ibm.id,waybill_seria: "CSJ_#{i}",
-                                               waybill_number: "10#{i}".to_i
+                                               goods_owner_id: goods_owner_ibm.id,
+                                               waybill_seria: "WSG_#{i}",
+                                               waybill_number: "20#{i}".to_i
                                              ))
   instance_variable_set("@checkpoints_waybill_CSG_#{i}", Route.create([
                                                                         {
