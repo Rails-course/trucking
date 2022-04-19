@@ -10,15 +10,13 @@ import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
-import Search from '../Search';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setOwners, currentUserRole, setConsWaybillId, setData,
+    setOwners, currentUserRole, setConsWaybillId, setData, searchData,
   } = props;
 
-  const [searchData, setSearchData] = React.useState();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
@@ -59,7 +57,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table
@@ -76,7 +73,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {!consignmentsData
+              {!consignments
                 ? (
                   <TableRow>
                     <StyledTableCell>No data yet ...</StyledTableCell>

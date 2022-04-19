@@ -10,6 +10,7 @@ import { ConsignmentProps, Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
+import Search from './Search';
 
 const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const { currentUserRole, consignmentsJSON } = props;
@@ -20,6 +21,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
+  const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState(
@@ -125,7 +127,9 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
+          </Grid>
           {currentUserRole === 'dispatcher'
             ? (
               <Grid item xs={3} style={{ textAlign: 'right' }}>
@@ -134,7 +138,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
                 </Button>
               </Grid>
             )
-            : null}
+            : null }
+
           <Grid item xs={12}>
             <ConsignmentTable
               consignments={consignments}
@@ -147,6 +152,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               setOwners={setOwners}
               currentUserRole={currentUserRole}
               setConsWaybillId={setConsWaybillId}
+              searchData={searchData}
             />
           </Grid>
         </Grid>

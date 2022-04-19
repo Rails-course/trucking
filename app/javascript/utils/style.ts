@@ -1,5 +1,5 @@
 import {
-  styled, TableCell, tableCellClasses, TableRow,
+  alpha, styled, TableCell, tableCellClasses, TableRow,
 } from '@mui/material';
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -13,4 +13,15 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': { backgroundColor: theme.palette.action.hover },
   '&:last-child td, &:last-child th': { border: 0 },
+}));
+
+export const SearchPanel = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.8),
+  },
+  marginLeft: 0,
 }));

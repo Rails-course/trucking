@@ -9,11 +9,10 @@ import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import httpClient from '../../api/httpClient';
 import { WaybillTableProps } from '../../common/interfaces_types';
-import Search from '../Search';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, setCheckpoints,
+    waybills, setWaybillModalActive, setWaybillID, setCheckpoints, searchData,
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -31,7 +30,6 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setDense(event.target.checked);
   };
 
-  const [searchData, setSearchData] = React.useState();
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
@@ -40,7 +38,6 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const waybillsData = searchData || waybills;
   return (
     <Box sx={{ width: '100%' }}>
-      <Search setData={setSearchData} Data={waybills} searchField="status" />
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table

@@ -6,6 +6,7 @@ import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
+import Search from './Search';
 
 const Waybill = ({ currentUserRole }) => {
   const [waybills, setWaybill] = React.useState([]);
@@ -17,6 +18,7 @@ const Waybill = ({ currentUserRole }) => {
   const [alertText, setAlertText] = React.useState('');
   const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+  const [searchData, setSearchData] = React.useState();
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
@@ -60,6 +62,9 @@ const Waybill = ({ currentUserRole }) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+          <Grid item md={3} style={{ textAlign: 'left', marginBottom: '-10px' }}>
+            <Search setData={setSearchData} Data={waybills} searchField="status" />
+          </Grid>
           <Grid item xs={12} style={{ textAlign: 'right' }} />
           <Grid item xs={12}>
             <WaybillTable
@@ -68,6 +73,7 @@ const Waybill = ({ currentUserRole }) => {
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
               setWaybill={setWaybill}
+              searchData={searchData}
             />
           </Grid>
         </Grid>

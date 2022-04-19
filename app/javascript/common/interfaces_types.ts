@@ -204,6 +204,7 @@ export interface ConsignmentTableProps {
     formErrors: any;
     consignments: any, setData: any;
     currentUserRole: any, setConsWaybillId: any;
+    searchData: any;
 }
 
 export interface CreateCompanyFormProps {
@@ -225,7 +226,7 @@ export interface CompanyTableProps {
 }
 
 export interface WaybillTableProps {
-    waybills: any;
+    waybills: any, searchData: any;
     setCheckpoints: any;
     setWaybillModalActive: any;
     setWaybillID: any;
