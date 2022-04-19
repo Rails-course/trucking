@@ -9,7 +9,6 @@ module Api
         response.set_header('Deprecated', 'true')
         response.set_header('Sunset', '2022-04-24')
         response.set_header('New API link', '<https://trucking-logistics.herokuapp.com/api/v2/waybills>')
-        head :see_other
       end
 
       private
