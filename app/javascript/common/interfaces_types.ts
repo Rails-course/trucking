@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import { goodsFormValues } from '../initialValues/goodsInitialValues';
 import { Order, UserData } from '../mixins/initialValues/userList';
 
 // TYPES
@@ -180,7 +178,7 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmit_waybill:(id:number)=>void,
+    handleSubmitWaybill:(id:number)=>void,
     formErrorsCheckpoints:any,
     setCheckpoints:any,
 }
@@ -233,6 +231,10 @@ export interface WaybillTableProps {
     setWaybill: any;
 }
 
+export interface WaybillProps {
+    currentUserRole: string;
+}
+
 export interface SiteAlertProps {
     alertType: any;
     alertText: any;
@@ -252,5 +254,13 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
+    currentUserRole: string;
+}
+
+export interface WarehouseProps {
+    currentUserRole: string;
+}
+
+export interface CompanyProps {
     currentUserRole: string;
 }

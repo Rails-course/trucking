@@ -27,7 +27,7 @@ class PagesController < ApplicationController
 
   def update_user
     if @user.update(user_params)
-      flash[:success] = 'User succesfully updated'
+      flash[:success] = 'User successfully updated'
     else
       flash[:alert] = 'Something went wrong with updating user'
       render 'pages/users_index'
@@ -37,7 +37,7 @@ class PagesController < ApplicationController
   def create_user
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'User succesfully created'
+      flash[:success] = 'User successfully created'
     else
       flash[:alert] = 'Something went wrong with creating new user'
       render 'pages/users_index'

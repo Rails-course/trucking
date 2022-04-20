@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import {
-  Box, Grid, Button,
-} from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
+
 import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
+import { CompanyProps } from '../common/interfaces_types';
 
-const Company = ({ currentUserRole }) => {
+const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
+  const { currentUserRole } = props;
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);

@@ -7,8 +7,10 @@ import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
 import Search from './Search';
+import { WaybillProps } from '../common/interfaces_types';
 
-const Waybill = ({ currentUserRole }) => {
+const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
+  const { currentUserRole } = props;
   const [waybills, setWaybill] = React.useState([]);
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
@@ -61,11 +63,11 @@ const Waybill = ({ currentUserRole }) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item md={3} style={{ textAlign: 'left', marginBottom: '-10px' }}>
+          <Grid item md={3} style={{ textAlign: 'left' }}>
             <Search setData={setSearchData} Data={waybills} searchField="status" />
           </Grid>
-          <Grid item xs={12} style={{ textAlign: 'right' }} />
           <Grid item xs={12}>
             <WaybillTable
               waybills={waybills}
@@ -87,7 +89,7 @@ const Waybill = ({ currentUserRole }) => {
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}
         setAlertText={setAlertText}
-        handleSubmit_waybill={handleSubmitWaybill}
+        handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />

@@ -7,7 +7,6 @@ class Waybill < ApplicationRecord
   belongs_to :endpoint, class_name: 'Address'
   belongs_to :startpoint, class_name: 'Address'
 
-
   def start_point
     Address.find(startpoint)
   end

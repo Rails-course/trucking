@@ -7,8 +7,7 @@ class WaybillsController < ApplicationController
       @data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
-                     status: waybill.status
-                   })
+                     status: waybill.status })
     end
     @data
   end

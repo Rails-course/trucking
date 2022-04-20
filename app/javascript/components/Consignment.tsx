@@ -128,12 +128,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="flex-end"
         >
-          <Grid item md={2} style={{ textAlign: 'left' }} >
+          <Grid item md={2} style={{ textAlign: 'left' }}>
             <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (
-              <Grid item xs={1.75} style={{ textAlign: 'right' }} >
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
                 <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Consignment
                 </Button>

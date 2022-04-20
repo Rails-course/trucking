@@ -5,10 +5,11 @@ import { Box, Grid, Button } from '@mui/material';
 
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { WarehouseData } from '../common/interfaces_types';
+import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 
-const Warehouse = ({ currentUserRole }) => {
+const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
+  const { currentUserRole } = props;
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
   const [formErrors, setFormErrors] = React.useState([]);
