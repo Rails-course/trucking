@@ -21,7 +21,7 @@ const Waybill = ({ currentUserRole }) => {
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
       if (componentMounted.current) {
-        const waybillsOrder = ['Transportation started', 'delivered to the recipient'];
+        const waybillsOrder = ['transportation started', 'delivered to the recipient'];
         setWaybill(response.data
           .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status))
         );
