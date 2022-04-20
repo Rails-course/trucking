@@ -32,7 +32,7 @@ class WaybillsController < ApplicationController
     # in order to do this we need to send back updated ttn with created waybill
     # We need to refactor this in future, because sending consignment in response for
     # create Waybill is bad practice
-    render json: @waybill.consignment.to_json(include: %i[dispatcher driver truck manager waybill
+    render json: @waybill.consignment.to_json(include: %i[dispatcher driver truck manager waybil
                                                           goods])
   end
 
@@ -55,8 +55,8 @@ class WaybillsController < ApplicationController
 
   def waybill_params
     parameters = params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
-                                                 :end_town, :end_street, :end_building, :goods_owner,
-                                                 :waybill_number, :waybill_seria)
+                                                 :end_town, :end_street, :end_building,
+                                                 :goods_owner, :waybill_number, :waybill_seria)
     parameters[:consignment] = params.permit(:consignment_id)[:consignment_id]
     parameters[:routes] = params.permit(routes: [])[:routes]
     parameters
@@ -72,8 +72,7 @@ class WaybillsController < ApplicationController
 
   def create_waybill_params(startpoint, endpoint)
     data = waybill_params
-    { start_date: waybill_params[:start_date],
-      end_date: waybill_params[:end_date],
+    { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
       startpoint: startpoint, endpoint: endpoint,
       waybill_number: waybill_params[:waybill_number], waybill_seria: waybill_params[:waybill_seria],
       goods_owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
