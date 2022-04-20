@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class WaybillsController < ApplicationController
+  before_action :company_waybills, only: :index
+
   def index
     @data = []
-    Waybill.all.each do |waybill|
+    @waybills.each do |waybill|
       @data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
@@ -52,6 +54,15 @@ class WaybillsController < ApplicationController
   end
 
   private
+
+  def company_waybills
+    return @waybills = Waybill.all if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    company_consignments = Consignment.where(dispatcher: company_dispatchers)
+    @waybills = Waybill.where(consignment: company_consignments)
+  end
 
   def get_waybill_consignment_goods(waybill)
     @consignment = waybill.consignment
