@@ -221,7 +221,7 @@ Shopping_center = Warehouse.create(
                                                            quantity: (i + 1) },
                                                          { consignment: instance_variable_get("@CSJ_#{i}"),
                                                            good_name: 'product_2', unit_of_measurement: 'item',
-                                                           quantity: (i + 5),status:'delivered' }
+                                                           quantity: (i + 5),status:'checked' }
                                                        ]))
   # gruzimvse consignments and goods
   instance_variable_set("@CSG_#{i}", Consignment.create(bundle_seria: "BSG_#{i}", bundle_number: "20#{i}".to_i, consignment_seria: "CSG_#{i}",
@@ -232,7 +232,7 @@ Shopping_center = Warehouse.create(
                                                            quantity: (i + 1) },
                                                          { consignment: instance_variable_get("@CSG_#{i}"),
                                                            good_name: 'product_2', unit_of_measurement: 'item',
-                                                           quantity: (i + 5) ,status:'delivered'}
+                                                           quantity: (i + 5) ,status:'checked'}
                                                        ]))
   # Waybills
   next unless i <= 5
@@ -266,25 +266,6 @@ Shopping_center = Warehouse.create(
                                                                           city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
                                                                         }
                                                                       ]))
-  instance_variable_set("@Waybill_CSJ_#{i+1}", Waybill.create(
-    start_date: Date.parse("#{i + 1}/04/2022"),
-    end_date: Date.parse("#{i + 3}/04/2022"),
-    consignment: instance_variable_get("@CSJ_#{i}"),
-    startpoint: instance_variable_get("@startpoint_J#{i}"),
-    endpoint: instance_variable_get("@endpoint_J#{i}"),
-    goods_owner_id: goods_owner_tradep.id,
-    waybill_seria: "WSJ_#{i+1}",
-    waybill_number: "10#{i+1}".to_i,
-    status:"Delivered to the recipient"
-  ))
-  instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
-                                                                        {
-                                                                          city: "checkpoint_1_#{i+1}", waybill: instance_variable_get("@Waybill_CSJ_#{i+1}")
-                                                                        },
-                                                                        {
-                                                                          city: "checkpoint_2_#{i+1}", waybill: instance_variable_get("@Waybill_CSJ_#{i+1}")
-                                                                        }
-                                                                      ]))
   # gruzimvse waybills
   Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
     item.update!(status: 'checked')
@@ -315,25 +296,11 @@ Shopping_center = Warehouse.create(
                                                                           city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
                                                                         }
                                                                       ]))
-  instance_variable_set("@Waybill_CSJ_#{i+1}", Waybill.create(
-    start_date: Date.parse("#{i + 1}/04/2022"),
-    end_date: Date.parse("#{i + 3}/04/2022"),
-    consignment: instance_variable_get("@CSJ_#{i}"),
-    startpoint: instance_variable_get("@startpoint_J#{i}"),
-    endpoint: instance_variable_get("@endpoint_J#{i}"),
-    goods_owner_id: goods_owner_tradep.id,
-    waybill_seria: "WSJ_#{i+1}",
-    waybill_number: "10#{i+1}".to_i,
-    status:"Delivered to the recipient"
-  ))
-  instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
-                                                                        {
-                                                                          city: "checkpoint_1_#{i+1}", waybill: instance_variable_get("@Waybill_CSJ_#{i+1}")
-                                                                        },
-                                                                        {
-                                                                          city: "checkpoint_2_#{i+1}", waybill: instance_variable_get("@Waybill_CSJ_#{i+1}")
-                                                                        }
-                                                                      ]))
+  next   unless i <= 3
+  Waybill.where(consignment: instance_variable_get("@CSG_#{i}")).each { |waybill| waybill.update!(status:"Delivered to the recipient") }
+  Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
+    item.update!(status: 'delivered')
+    end
   next unless i <= 2
 
   # Write-off Acts

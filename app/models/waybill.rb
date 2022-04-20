@@ -11,11 +11,4 @@ class Waybill < ApplicationRecord
   validates :waybill_number, presence: true, numericality: { greater_than: 0 }
   validates :waybill_seria, presence: true, length: { in: 2..10 },
             uniqueness: { scope: :waybill_number }
-  def start_point
-    Address.find(startpoint)
-  end
-
-  def end_point
-    Address.find(endpoint)
-  end
 end
