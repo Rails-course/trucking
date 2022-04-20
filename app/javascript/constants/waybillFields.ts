@@ -33,7 +33,6 @@ export const waybillLeftFields = [
     placeholder: 'start building',
     type: 'number',
   },
-
 ];
 
 export const waybillRightFields = [

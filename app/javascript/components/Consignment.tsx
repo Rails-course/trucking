@@ -21,10 +21,10 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
 
-  const consignments_order = ["registered", "checked", "delivered"]
+  const consignmentsOrder = ["registered", "checked", "delivered"]
   const [consignments, setConsignment] = React.useState(
     JSON.parse(consignmentsJSON)
-      .sort((a, b) => consignments_order.indexOf(a.status) - consignments_order.indexOf(b.status))
+      .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status))
   );
 
   const [goods, setGoods] = React.useState([]);

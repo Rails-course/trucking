@@ -17,12 +17,15 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   } = props;
 
   const [searchData, setSearchData] = React.useState();
+
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
   };
+
   const waybillsData = searchData || waybills;
+
   return (
     <div>
       <Search setData={setSearchData} Data={waybills} />
