@@ -16,20 +16,13 @@ class WaybillsController < ApplicationController
 
   def create
     data = create_waybill_params
-    startpoint = Address.new(data[:startpoint])
-    endpoint = Address.new(data[:endpoint])
     begin
       ActiveRecord::Base.transaction do
-        startpoint.save
-        endpoint.save
-        waybill = Waybill.new(start_date: waybill_params[:start_date],
-                              end_date: waybill_params[:end_date],
-                              startpoint: startpoint, endpoint: endpoint,
-                              consignment: data[:consignment], goods_owner: data[:owner],
-                              waybill_number: waybill_params[:number], waybill_seria: waybill_params[:seria])
-        waybill.save
-        params.permit(routes: [])[:routes].each do |city_name|
-          Route.new(city: city_name, waybill: waybill).save
+        startpoint = Address.create!(data[:startpoint])
+        endpoint = Address.create!(data[:endpoint])
+        waybill = Waybill.create!(create_waybill(startpoint,endpoint))
+        routes.each do |city_name|
+          Route.create!(city: city_name, waybill: waybill)
         end
       end
     rescue ActiveRecord::RecordInvalid => e
@@ -73,5 +66,16 @@ class WaybillsController < ApplicationController
                   building: data[:end_building] },
       owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
       consignment: Consignment.find(params.permit(:consignment_id)[:consignment_id]) }
+  end
+  def create_waybill(startpoint,endpoint)
+    data=create_waybill_params
+    { start_date: waybill_params[:start_date],
+      end_date: waybill_params[:end_date],
+      startpoint: startpoint, endpoint: endpoint,
+      consignment: data[:consignment], goods_owner: data[:owner],
+      waybill_number: waybill_params[:waybill_number], waybill_seria: waybill_params[:waybill_seria] }
+  end
+  def routes
+    params.permit(routes: [])[:routes]
   end
 end
