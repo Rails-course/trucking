@@ -24,7 +24,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const handleGetGoods = (consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
-    setGoods(consignment.goods)
+    setGoods(consignment.goods);
     if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
     setConsWaybillId(waybillID);
   };

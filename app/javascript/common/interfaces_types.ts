@@ -181,7 +181,7 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmit_waybill:(id:number)=>void,
+    handleSubmitWaybill:(id:number)=>void,
     formErrorsCheckpoints:any,
     setCheckpoints:any,
 }

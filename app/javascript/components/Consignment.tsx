@@ -21,10 +21,10 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
 
-  const consignmentsOrder = ["registered", "checked", "delivered"]
+  const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState(
     JSON.parse(consignmentsJSON)
-      .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status))
+      .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
   const [goods, setGoods] = React.useState([]);
@@ -81,7 +81,7 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id)
+        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
         return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);

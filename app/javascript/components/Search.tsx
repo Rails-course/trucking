@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
-import { Button, ButtonProps, Grid, Stack, styled } from '@mui/material';
+import {
+  Button, Grid,
+} from '@mui/material';
 import { SearchProps } from '../common/interfaces_types';
 
 import FormikField from '../UI/FormikField';
-
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data } = props;
 
   const handleSubmit = (values) => {
-    //replace(/\s+/g, ' ').trim() - remove duplicated spaces
-    let data = (Data.filter((key) => Object.values(key).toString().includes((values.text).replace(/\s+/g, ' ').trim().replace(' ', ','))));
-    (values.text != '' || data.length > 0) ? setData(data) : setData(null);
+    // replace(/\s+/g, ' ').trim() - remove duplicated spaces
+    const data = (Data.filter((key) => Object.values(key).toString().includes((values.text).replace(/\s+/g, ' ').trim().replace(' ', ','))));
+    (values.text !== '' || data.length > 0) ? setData(data) : setData(null);
   };
 
   return (
@@ -29,7 +30,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
               required={false}
               type="text"
               color="success"
-              variant='standard'
+              variant="standard"
               margin="dense"
             />
           </Grid>

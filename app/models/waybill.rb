@@ -7,5 +7,5 @@ class Waybill < ApplicationRecord
   belongs_to :endpoint, class_name: 'Address'
   belongs_to :startpoint, class_name: 'Address'
   validates :waybill_number, uniqueness: true, numericality: { greater_than: 0 }
-  validates :waybill_seria, uniqueness: { scope: :consignment_number }
+  validates :waybill_seria, uniqueness: { scope: :waybill_number }
 end

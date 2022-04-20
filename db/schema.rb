@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2022_04_17_164352) do
     t.string "status", default: "transportation started"
     t.string "waybill_seria", null: false
     t.integer "waybill_number", null: false
+    t.index ["waybill_seria", "waybill_number"], name: "index_waybills_on_waybill_seria_and_waybill_number", unique: true
   end
 
   create_table "write_off_acts", force: :cascade do |t|

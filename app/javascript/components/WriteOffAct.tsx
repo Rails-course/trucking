@@ -13,8 +13,8 @@ const WriteOffActs = ({ currentUserRole }) => {
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertType, setAlertType] = React.useState<string>()
-  const [alertText, setAlertText] = React.useState<string>()
+  const [alertType, setAlertType] = React.useState<string>();
+  const [alertText, setAlertText] = React.useState<string>();
 
   const handleClose = () => {
     setModalActive(false);
@@ -26,21 +26,21 @@ const WriteOffActs = ({ currentUserRole }) => {
       .then((response) => {
         setWriteOffActs((prev) => [...prev, response.data]);
         setModalActive(false);
-        setAlertType("success");
-        setAlertText("Successfully created write-off act!")
+        setAlertType('success');
+        setAlertText('Successfully created write-off act!');
         alertSetOpen(true);
         setTimeout(() => {
           alertSetOpen(false);
-        }, 5000)
+        }, 5000);
       })
       .catch((error) => {
-        setFormErrors(error.response.data)
-        setAlertType("error");
-        setAlertText("Something went wrong with creating write-off act")
+        setFormErrors(error.response.data);
+        setAlertType('error');
+        setAlertText('Something went wrong with creating write-off act');
         alertSetOpen(true);
         setTimeout(() => {
           alertSetOpen(false);
-        }, 5000)
+        }, 5000);
       });
   };
 
@@ -63,14 +63,15 @@ const WriteOffActs = ({ currentUserRole }) => {
               alertSetOpen={alertSetOpen}
             />
           </Grid>
-          {['driver', 'manager'].includes(currentUserRole) ?
-            <Grid item xs={3} style={{ textAlign: 'right' }}>
-              <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-                Create Write-off Act
-              </Button>
-            </Grid>
-            : null
-          }
+          {['driver', 'manager'].includes(currentUserRole)
+            ? (
+              <Grid item xs={3} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
+                  Create Write-off Act
+                </Button>
+              </Grid>
+            )
+            : null}
           <Grid item xs={12}>
             <WriteOffActTable
               writeOffActs={writeOffActs}
