@@ -96,17 +96,17 @@ export const waybillTableCell = [
   {
     id: uuidv4(),
     title: 'Waybill seria',
-    align: 'right' as AlignType,
+    align: 'center' as AlignType,
   },
   {
     id: uuidv4(),
     title: 'Waybill number',
-    align: 'right' as AlignType,
+    align: 'center' as AlignType,
   },
   {
     id: uuidv4(),
     title: 'Status',
-    align: 'left' as AlignType,
+    align: 'center' as AlignType,
   },
   {
     id: uuidv4(),
