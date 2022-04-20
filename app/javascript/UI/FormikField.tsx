@@ -21,7 +21,7 @@ const FormikField: React.FC<FormikFieldProps> = ({
       as={TextField}
       label={label}
       name={name}
-      // fullWidth
+      fullWidth
       type={type}
       helperText={<ErrorMessage name={name} className="error-msg" />}
       variant={variant}
