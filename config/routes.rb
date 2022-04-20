@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       resources :trucks, only: [:index]
     end
     namespace :v2 do
-      resources :waybills, only: %i[index show]
+      resources :consignments, only: %i[index show]
     end
   end
 end
