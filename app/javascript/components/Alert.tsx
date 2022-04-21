@@ -1,34 +1,37 @@
 import * as React from 'react';
-import { Collapse, Alert, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+
+import { Alert, AlertProps, Snackbar } from '@mui/material';
+
 import { SiteAlertProps } from '../common/interfaces_types';
+
+const SnackbarAlert = React.forwardRef<HTMLDivElement, AlertProps>(
+  (props, ref) => <Alert elevation={6} ref={ref} {...props} />,
+);
 
 const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
   const {
-    alertType, alertText, alertOpen, alertSetOpen,
+    alertType, alertText, alertSetOpen, alertOpen,
   } = props;
 
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    alertSetOpen(false);
+  };
+
   return (
-    <Collapse in={alertOpen}>
-      <Alert
-        severity={alertType}
-        action={(
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            size="small"
-            onClick={() => {
-              alertSetOpen(false);
-            }}
-          >
-            <CloseIcon fontSize="inherit" />
-          </IconButton>
-          )}
-        sx={{ mb: 0 }}
-      >
-        {alertText}
-      </Alert>
-    </Collapse>
+    <Snackbar
+      open={alertOpen}
+      autoHideDuration={6000}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      onClose={handleClose}
+    >
+      <SnackbarAlert severity={alertType} onClose={handleClose}>{alertText}</SnackbarAlert>
+    </Snackbar>
   );
 };
 

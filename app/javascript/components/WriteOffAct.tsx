@@ -1,14 +1,15 @@
 import * as React from 'react';
 
-import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
 
 import httpClient from '../api/httpClient';
 import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
+import { WriteOffActsProps } from '../common/interfaces_types';
 
-const WriteOffActs = ({ currentUserRole }) => {
+const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
+  const { currentUserRole } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
@@ -55,14 +56,7 @@ const WriteOffActs = ({ currentUserRole }) => {
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
-          </Grid>
+          <Grid item xs={9} style={{ textAlign: 'right' }} />
           {['driver', 'manager'].includes(currentUserRole)
             ? (
               <Grid item xs={3} style={{ textAlign: 'right' }}>
@@ -85,6 +79,12 @@ const WriteOffActs = ({ currentUserRole }) => {
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );

@@ -9,9 +9,9 @@ module Api
         drivers_api_columns = User.attribute_names.reject do |column|
           excluded_columns.include? column
         end
-        render json: User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')), include: [
-          company: { only: :name }
-        ]
+        render json: User.select(drivers_api_columns)
+                         .where(role: Role.find_by(role_name: 'driver')),
+               include: [company: { only: :name }]
       end
     end
   end

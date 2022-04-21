@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import { Box, Grid, Button } from '@mui/material';
 
@@ -7,12 +6,14 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import httpClient from '../api/httpClient';
-import { Item } from '../common/interfaces_types';
+import { ConsignmentProps, Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
+import Search from './Search';
 
-const Consignment = ({ currentUserRole, consignmentsJSON }) => {
+const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
+  const { currentUserRole, consignmentsJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -20,6 +21,7 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
+  const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState(
@@ -78,6 +80,7 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
   };
 
   const handleGoodsSubmit = () => {
+    const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
@@ -124,24 +127,21 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={currentUserRole === 'dispatcher' ? 9 : 12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Consignment
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <ConsignmentTable
               consignments={consignments}
@@ -154,6 +154,7 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
               setOwners={setOwners}
               currentUserRole={currentUserRole}
               setConsWaybillId={setConsWaybillId}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -191,6 +192,12 @@ const Consignment = ({ currentUserRole, consignmentsJSON }) => {
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertText={setAlertText}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );

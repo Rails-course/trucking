@@ -13,7 +13,8 @@ import { checkpointsFields } from '../../constants/checkpoints';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType, handleSubmitWaybill, formErrorsCheckpoints, setCheckpoints,
+    setAlertText, alertSetOpen, setAlertType, handleSubmitWaybill,
+    formErrorsCheckpoints, setCheckpoints,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -32,7 +33,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                {checkpointsFields.map((cell) => <StyledTableCell align="right" key={cell.id}>{cell.title}</StyledTableCell>)}
+                {checkpointsFields.map((cell) => <StyledTableCell key={cell.id} align="right">{cell.title}</StyledTableCell>)}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -64,13 +65,20 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
             </TableBody>
           </Table>
         </TableContainer>
-        <Button
-          onClick={() => handleSubmitWaybill(id)}
-          disabled={!(currentUserRole === 'driver')}
+        <div style={{
+          display: 'flex', justifyContent: 'end', columnGap: '20px', marginTop: '20px',
+        }}
         >
-          Transportation completed
-        </Button>
-        <Button onClick={handleClose}>Close</Button>
+          <Button
+            onClick={() => handleSubmitWaybill(id)}
+            disabled={!(currentUserRole === 'driver')}
+            color="success"
+            variant="outlined"
+          >
+            Transportation completed
+          </Button>
+          <Button onClick={handleClose} color="error" variant="outlined">Close</Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

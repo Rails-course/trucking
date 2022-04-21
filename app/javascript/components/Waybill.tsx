@@ -6,8 +6,11 @@ import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
+import Search from './Search';
+import { WaybillProps } from '../common/interfaces_types';
 
-const Waybill = ({ currentUserRole }) => {
+const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
+  const { currentUserRole } = props;
   const [waybills, setWaybill] = React.useState([]);
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
@@ -17,6 +20,7 @@ const Waybill = ({ currentUserRole }) => {
   const [alertText, setAlertText] = React.useState<string>();
   const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+  const [searchData, setSearchData] = React.useState();
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
@@ -63,14 +67,10 @@ const Waybill = ({ currentUserRole }) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={waybills} searchField="status" />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
@@ -79,6 +79,7 @@ const Waybill = ({ currentUserRole }) => {
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
               setWaybill={setWaybill}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -95,6 +96,12 @@ const Waybill = ({ currentUserRole }) => {
         handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );
