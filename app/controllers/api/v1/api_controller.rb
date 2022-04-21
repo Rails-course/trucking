@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class ApiController < ApplicationController
+    class ApiController < ActionController::Base
       before_action :check_basic_auth
       skip_before_action :verify_authenticity_token
 

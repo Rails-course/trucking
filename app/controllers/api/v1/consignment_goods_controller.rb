@@ -17,8 +17,7 @@ module Api
 
       def set_consignment_goods
         @consignment = Consignment.find(params[:consignment_id])
-        @goods = Good.where(bundle_seria: @consignment.bundle_seria,
-                            bundle_number: @consignment.bundle_number)
+        @goods = @consignment.goods
       end
     end
   end
