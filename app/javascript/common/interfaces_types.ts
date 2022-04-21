@@ -84,7 +84,7 @@ export interface CreateWaybillsFormProps {
 export interface CreateRoutesFormProps {
     isActiveModal: boolean;
     routeHandleClose: () => void;
-    setRoutes: any, routes: any, formErrors: any
+    setRoutes: any, routes: any,
 }
 
 export interface WarehouseTableProps {
@@ -245,7 +245,6 @@ export interface SiteAlertProps {
 export interface SearchProps {
     setData:any;
     Data:any;
-    searchField:any;
 }
 
 export interface ConsignmentProps {

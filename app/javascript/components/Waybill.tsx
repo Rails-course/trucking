@@ -16,15 +16,19 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState('');
-  const [alertText, setAlertText] = React.useState('');
+  const [alertType, setAlertType] = React.useState<string>();
+  const [alertText, setAlertText] = React.useState<string>();
   const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
-      if (componentMounted.current) setWaybill(response.data);
+      if (componentMounted.current) {
+        const waybillsOrder = ['transportation started', 'delivered to the recipient'];
+        setWaybill(response.data
+          .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
+      }
     });
     return () => {
       componentMounted.current = false;

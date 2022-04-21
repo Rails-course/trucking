@@ -9,13 +9,13 @@ module Api
       private
 
       def check_basic_auth
-        unless request.authorization.present?
+        if request.authorization.blank?
           head :unauthorized
           return
         end
         authenticate_with_http_basic do |email, password|
           user = User.find_by(email: email.downcase)
-          if user && user.valid_password?(password)
+          if user&.valid_password?(password)
             @current_user = user
           else
             head :unauthorized

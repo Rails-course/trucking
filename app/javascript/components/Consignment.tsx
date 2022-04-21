@@ -84,6 +84,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
+        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
         return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);

@@ -18,14 +18,17 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
-
+  const [searchData, setSearchData] = React.useState();
+  
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - waybills.length) : 0;
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+  
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
@@ -35,7 +38,9 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setWaybillID(id);
     httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
   };
+
   const waybillsData = searchData || waybills;
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

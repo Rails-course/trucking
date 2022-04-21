@@ -24,7 +24,7 @@ const CheckpointWindow:
 
     const statusChange = () => {
       if (status) {
-        httpClient.route.rollback({ ids: id }).then(() => {
+        httpClient.route.rollback({ ids: id }).then((response) => {
           updateCheckpoints();
         });
       } else setActiveModal(true);

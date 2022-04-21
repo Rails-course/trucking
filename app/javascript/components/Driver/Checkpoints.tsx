@@ -8,7 +8,6 @@ import {
 import CheckpointWindow from './CheckpointWindow';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CheckpointsFormProps } from '../../common/interfaces_types';
-
 import { checkpointsFields } from '../../constants/checkpoints';
 
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {

@@ -15,6 +15,6 @@ export const checkpointsFields = [
   },
   {
     id: uuidv4(),
-    title: 'actione',
+    title: 'action',
   },
 ];
