@@ -54,6 +54,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
+    // TODO: refactor reseting goods state on close and after submit
+    // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
+    setTimeout(() => {
+      setCheckedGoods([]);
+    }, 1000)
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
@@ -81,7 +86,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
 
   const handleGoodsSubmit = () => {
     const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
-    setCheckedGoods([]);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
