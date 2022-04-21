@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
-import {
-  Button, Grid,
-} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import { SearchProps } from '../common/interfaces_types';
 
 import FormikField from '../UI/FormikField';
