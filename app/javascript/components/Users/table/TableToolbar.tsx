@@ -29,7 +29,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             theme.palette.action.activatedOpacity,
           ),
         }),
-        backgroundColor: '#000',
+        backgroundColor: '#57606f',
         color: '#fff',
       }}
     >

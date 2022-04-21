@@ -16,16 +16,16 @@ const CheckpointWindow:
     } = props;
     const [isActiveModal, setActiveModal] = React.useState(false);
 
-    const updateCheckpoints=()=>{
-        httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
-    }
+    const updateCheckpoints = () => {
+      httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
+    };
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
         httpClient.route.rollback({ ids: id }).then((response) => {
-            updateCheckpoints()
+          updateCheckpoints();
         });
       } else setActiveModal(true);
     };
@@ -33,7 +33,7 @@ const CheckpointWindow:
       Object.assign(values, { ids: id });
       httpClient.route.passCh(values)
         .then(() => {
-            updateCheckpoints()
+          updateCheckpoints();
           setAlertType('success');
           setAlertText('Successfully passed checkpoint!');
           alertSetOpen(true);
@@ -72,7 +72,7 @@ const CheckpointWindow:
                   type="date"
                   variant="standard"
                 />
-                <Button type="submit" onClick={handleClose}>save</Button>
+                <Button type="submit" onClick={handleClose} variant="outlined" color="success">save</Button>
               </Form>
             </Formik>
           </DialogContent>

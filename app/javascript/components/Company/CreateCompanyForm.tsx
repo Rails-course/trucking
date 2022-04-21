@@ -11,28 +11,29 @@ import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen, setAlertType, setAlertText
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen,
+    setAlertType, setAlertText,
   } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .then((response) => {
+      .then(() => {
         handleClose();
-        setAlertType("success");
-        setAlertText("Successfully created a company!")
+        setAlertType('success');
+        setAlertText('Successfully created a company!');
         alertSetOpen(true);
         setTimeout(() => {
           alertSetOpen(false);
-        }, 5000)
+        }, 5000);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType("error");
-        setAlertText("Something went wrong with creating a company")
+        setAlertType('error');
+        setAlertText('Something went wrong with creating a company');
         alertSetOpen(true);
         setTimeout(() => {
           alertSetOpen(false);
-        }, 5000)
+        }, 5000);
       });
     setTimeout(() => {
       axios.get('/companies.json').then((response) => setCompany(response.data));
@@ -67,8 +68,8 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Create</Button>
+                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>

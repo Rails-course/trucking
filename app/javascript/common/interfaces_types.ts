@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
-import { goodsFormValues } from '../initialValues/goodsInitialValues';
 import { Order, UserData } from '../mixins/initialValues/userList';
 
 // TYPES
@@ -76,18 +74,17 @@ export interface CreateWaybillsFormProps {
     formWaybillErrors: any;
     isActiveWayBill: boolean;
     setWayBillActive: any;
-    consignments: any;
-    setConsignment: any;
     data: any, owners: any;
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    setConsignment: any, consignments: any;
 }
 
 export interface CreateRoutesFormProps {
     isActiveModal: boolean;
     routeHandleClose: () => void;
-    setRoutes: any, routes: any, formErrors: any
+    setRoutes: any, routes: any,
 }
 
 export interface WarehouseTableProps {
@@ -181,7 +178,7 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmit_waybill:(id:number)=>void,
+    handleSubmitWaybill:(id:number)=>void,
     formErrorsCheckpoints:any,
     setCheckpoints:any,
 }
@@ -205,6 +202,7 @@ export interface ConsignmentTableProps {
     formErrors: any;
     consignments: any, setData: any;
     currentUserRole: any, setConsWaybillId: any;
+    searchData: any;
 }
 
 export interface CreateCompanyFormProps {
@@ -226,11 +224,15 @@ export interface CompanyTableProps {
 }
 
 export interface WaybillTableProps {
-    waybills: any;
+    waybills: any, searchData: any;
     setCheckpoints: any;
     setWaybillModalActive: any;
     setWaybillID: any;
     setWaybill: any;
+}
+
+export interface WaybillProps {
+    currentUserRole: string;
 }
 
 export interface SiteAlertProps {
@@ -239,8 +241,25 @@ export interface SiteAlertProps {
     alertOpen: boolean,
     alertSetOpen: any;
 }
+
 export interface SearchProps {
     setData:any;
     Data:any;
-    searchField:any;
+}
+
+export interface ConsignmentProps {
+    currentUserRole: string;
+    consignmentsJSON: string;
+}
+
+export interface WriteOffActsProps {
+    currentUserRole: string;
+}
+
+export interface WarehouseProps {
+    currentUserRole: string;
+}
+
+export interface CompanyProps {
+    currentUserRole: string;
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Form, Formik } from 'formik';
 
 import {
@@ -10,7 +11,7 @@ import { CreateRoutesFormProps } from '../../common/interfaces_types';
 
 const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
   const {
-    isActiveModal, routeHandleClose, setRoutes, routes, formErrors,
+    isActiveModal, routeHandleClose, setRoutes, routes,
   } = props;
 
   const handleSubmit = (values) => setRoutes([...routes, values]);
@@ -28,12 +29,11 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
               <Formik
-                initialValues={{ city_name: '' }}
+                initialValues={{ id: uuidv4(), city_name: '' }}
                 onSubmit={handleSubmit}
               >
                 <Form>
                   <Container maxWidth="sm">
-                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                     <FormikField
                       name="city_name"
                       label="Enter city name"
@@ -43,8 +43,8 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={routeHandleClose}>Cancel</Button>
-                    <Button type="submit" onClick={routeHandleClose}>Create</Button>
+                    <Button onClick={routeHandleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" onClick={routeHandleClose} color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>

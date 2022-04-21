@@ -10,12 +10,12 @@ const waybillValidation = Yup.object().shape({
 
   town: Yup.string()
     .matches(REGX_ONLY_LETTER_SPACES, 'Town must be alphabets only')
-    .min(2, 'Must be of length 2 to 255')
+    .min(3, 'Must be of length 3 to 255')
     .required('Required'),
 
   street: Yup.string()
     .matches(REGX_ONLY_LETTER_SPACES, 'Street must be alphabets only')
-    .min(2, 'Must be of length 2 to 255')
+    .min(3, 'Must be of length 3 to 255')
     .required('Required'),
   end_building: Yup.string()
     .matches(REGX_ONLY_NUMBER, 'building must be numbers only')
@@ -23,17 +23,24 @@ const waybillValidation = Yup.object().shape({
 
   end_town: Yup.string()
     .matches(REGX_ONLY_LETTER_SPACES, 'Town must be alphabets only')
-    .min(2, 'Must be of length 2 to 255')
+    .min(3, 'Must be of length 3 to 255')
     .required('Required'),
 
   end_street: Yup.string()
     .matches(REGX_ONLY_LETTER_SPACES, 'Street must be alphabets only')
-    .min(2, 'Must be of length 2 to 255')
+    .min(3, 'Must be of length 3 to 255')
     .required('Required'),
 
   goods_owner: Yup.string()
     .matches(REGX_ONLY_LETTER_SPACES, 'Good owner name should be alphabets only')
-    .min(2, 'Must be of length 2 to 255')
+    .min(3, 'Must be of length 3 to 255')
+    .required('Required'),
+  waybill_seria: Yup.string()
+    .min(3, 'Must be of length 3 to 255')
+    .required('Required'),
+  waybill_number: Yup.string()
+    .matches(REGX_ONLY_NUMBER, 'number must be numbers only')
+    .min(3, 'Must be of length 3 to 255')
     .required('Required'),
 });
 

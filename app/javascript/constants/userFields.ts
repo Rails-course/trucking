@@ -62,7 +62,7 @@ export const userFields = [
     onlyLogin: true,
     placeholder: 'Password',
     required: true,
-    type: 'text',
+    type: 'password',
   },
   {
     id: uuidv4(),
@@ -70,7 +70,7 @@ export const userFields = [
     model: 'password_confirmation',
     placeholder: 'Repeat Password',
     required: true,
-    type: 'text',
+    type: 'password',
   },
 ];
 

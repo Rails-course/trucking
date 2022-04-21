@@ -18,7 +18,7 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments
+    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
@@ -69,13 +69,14 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 550 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 650 } }}
         maxWidth="xs"
       >
         <DialogTitle>Create Waybill</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
+                {formErrors ? <p className="error-msg">{formErrors}</p> : null}
               <Formik
                 initialValues={waybillInitialValues}
                 onSubmit={handleSubmit}
@@ -161,7 +162,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={owners}
-                        getOptionLabel={(option) => option.goods_owner_name}
+                        getOptionLabel={(option:any) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -173,7 +174,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           />
                         )}
                       />
-                      <RouteTable routes={routes} />
 
                       <div style={{
                         display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
@@ -195,6 +195,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           </div>
                         ))}
                       </div>
+
                       <Autocomplete
                         id="warehouse"
                         options={warehouses}
@@ -210,12 +211,15 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           />
                         )}
                       />
+
+                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null }
+
                     </Container>
 
-                    <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
-                      <Button onClick={() => setCreateRoutes(true)}>create new checkpoints</Button>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
+                    <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
+                      <Button onClick={() => setCreateRoutes(true)} color="success" variant="outlined">create new checkpoints</Button>
+                      <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                     </DialogActions>
                   </Form>
                 )}
@@ -226,7 +230,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
               routeHandleClose={closeCreateRoutes}
               setRoutes={setRoutes}
               routes={routes}
-              formErrors={formErrors}
             />
           </Grid>
         </DialogContent>

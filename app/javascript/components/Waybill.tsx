@@ -6,33 +6,41 @@ import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
+import Search from './Search';
+import { WaybillProps } from '../common/interfaces_types';
 
-const Waybill = ({ currentUserRole }) => {
+const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
+  const { currentUserRole } = props;
   const [waybills, setWaybill] = React.useState([]);
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState('');
-  const [alertText, setAlertText] = React.useState('');
+  const [alertType, setAlertType] = React.useState<string>();
+  const [alertText, setAlertText] = React.useState<string>();
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+  const [searchData, setSearchData] = React.useState();
 
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
-      if (componentMounted.current) setWaybill(response.data);
+      if (componentMounted.current) {
+        const waybillsOrder = ['transportation started', 'delivered to the recipient'];
+        setWaybill(response.data
+          .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
+      }
     });
     return () => {
       componentMounted.current = false;
     };
   }, []);
 
-  const handleSubmit_waybill = (id) => {
+  const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
         const newWaybills = waybills;
-        newWaybills.find((waybill) => waybill.id == id).status = response.data.status;
+        newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
         setAlertType('success');
         setAlertText('Successfully finished cargo transportation!');
@@ -62,14 +70,10 @@ const Waybill = ({ currentUserRole }) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={waybills} searchField="status" />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
@@ -78,6 +82,7 @@ const Waybill = ({ currentUserRole }) => {
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
               setWaybill={setWaybill}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -91,9 +96,15 @@ const Waybill = ({ currentUserRole }) => {
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}
         setAlertText={setAlertText}
-        handleSubmit_waybill={handleSubmit_waybill}
+        handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
+      />
+      <SiteAlerts
+        alertType={alertType}
+        alertText={alertText}
+        alertOpen={alertOpen}
+        alertSetOpen={alertSetOpen}
       />
     </div>
   );

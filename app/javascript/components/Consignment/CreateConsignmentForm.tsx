@@ -170,8 +170,8 @@ const CreateConsignmentForm:
                         </Container>
 
                         <DialogActions>
-                          <Button onClick={handleClose}>Cancel</Button>
-                          <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
+                          <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                          <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                         </DialogActions>
                       </Form>
                     )}
