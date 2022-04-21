@@ -6,13 +6,7 @@ class Waybill < ApplicationRecord
   belongs_to :goods_owner
   belongs_to :endpoint, class_name: 'Address'
   belongs_to :startpoint, class_name: 'Address'
-
-
-  def start_point
-    Address.find(startpoint)
-  end
-
-  def end_point
-    Address.find(endpoint)
-  end
+  validates :waybill_number, presence: true, numericality: { greater_than: 0 }
+  validates :waybill_seria, presence: true, length: { in: 2..10 },
+                            uniqueness: { scope: :waybill_number }
 end

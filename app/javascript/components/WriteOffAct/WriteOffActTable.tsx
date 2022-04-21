@@ -19,10 +19,10 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
         if (componentMounted.current) {
           setWriteOffActs(response.data);
         }
-      })
+      });
     return () => {
       componentMounted.current = false;
-    }
+    };
   }, []);
 
   return (

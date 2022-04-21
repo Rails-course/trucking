@@ -24,7 +24,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const handleGetGoods = (consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
-    setGoods(consignment.goods)
+    setGoods(consignment.goods);
     if (consignment.hasOwnProperty('waybill')) waybillID = consignment.waybill.id;
     setConsWaybillId(waybillID);
   };
@@ -41,19 +41,11 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       }));
   };
 
-  React.useEffect(() => {
-    httpClient.consignments.getAll()
-      .then((response) => { if (componentMounted.current) setConsignment(response.data); });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
-  
   const consignmentsData = searchData || consignments;
 
   return (
     <div>
-      <Search setData={setSearchData} Data={consignments} searchField="consignment_seria" />
+      <Search setData={setSearchData} Data={consignments} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>

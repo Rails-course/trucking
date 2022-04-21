@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_14_124608) do
+ActiveRecord::Schema.define(version: 2022_04_17_164352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,12 +111,9 @@ ActiveRecord::Schema.define(version: 2022_04_14_124608) do
     t.bigint "company_id"
     t.bigint "address_id"
     t.text "passport"
-    t.index ["address_id"], name: "index_users_on_address_id"
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   create_table "warehouses", force: :cascade do |t|
@@ -126,20 +123,22 @@ ActiveRecord::Schema.define(version: 2022_04_14_124608) do
     t.bigint "address_id"
     t.boolean "trusted", default: false, null: false
     t.bigint "warehouseman_id"
-    t.index ["address_id"], name: "index_warehouses_on_address_id"
     t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
   end
 
   create_table "waybills", force: :cascade do |t|
     t.date "start_date", null: false
     t.date "end_date", null: false
-    t.string "status", default: "transportation started"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "consignment_id"
     t.integer "endpoint_id"
     t.integer "startpoint_id"
     t.integer "goods_owner_id"
+    t.string "status", default: "transportation started"
+    t.string "waybill_seria", null: false
+    t.integer "waybill_number", null: false
+    t.index ["waybill_seria", "waybill_number"], name: "index_waybills_on_waybill_seria_and_waybill_number", unique: true
   end
 
   create_table "write_off_acts", force: :cascade do |t|

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RoutesController < ApplicationController
-
   def routes
     render json: Waybill.find(params.permit(:id)[:id]).routes
   end
@@ -9,7 +8,7 @@ class RoutesController < ApplicationController
   def pass_checkpoint
     route = Route.find(routes_params[:ids])
     route.update(is_passed: true, pass_date: routes_params[:pass_date])
-    render json:route
+    render json: route
   end
 
   def rollback
