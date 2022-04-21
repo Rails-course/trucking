@@ -13,8 +13,8 @@ const Waybill = ({ currentUserRole }) => {
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState('');
-  const [alertText, setAlertText] = React.useState('');
+  const [alertType, setAlertType] = React.useState<string>();
+  const [alertText, setAlertText] = React.useState<string>();
   const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
 
