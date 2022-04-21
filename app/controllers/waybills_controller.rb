@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class WaybillsController < ApplicationController
+  before_action :company_waybills, only: :index
+
   def index
     @data = []
-    Waybill.all.each do |waybill|
+    @waybills.each do |waybill|
       @data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
@@ -48,6 +50,15 @@ class WaybillsController < ApplicationController
 
   private
 
+  def company_waybills
+    return @waybills = Waybill.all if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    company_consignments = Consignment.where(dispatcher: company_dispatchers)
+    @waybills = Waybill.where(consignment: company_consignments)
+  end
+
   def get_waybill_consignment_goods(waybill)
     @consignment = waybill.consignment
     Good.where(bundle_seria: @consignment.bundle_seria, bundle_number: @consignment.bundle_number)
@@ -56,7 +67,7 @@ class WaybillsController < ApplicationController
   def waybill_params
     parameters = params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
                                                  :end_town, :end_street, :end_building,
-                                                 :goods_owner, :waybill_number, :waybill_seria)
+                                                 :goods_owner, :waybill_number, :waybill_seria, :warehouse)
     parameters[:consignment] = params.permit(:consignment_id)[:consignment_id]
     parameters[:routes] = params.permit(routes: [])[:routes]
     parameters
@@ -76,6 +87,7 @@ class WaybillsController < ApplicationController
       startpoint: startpoint, endpoint: endpoint,
       waybill_number: waybill_params[:waybill_number], waybill_seria: waybill_params[:waybill_seria],
       goods_owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
-      consignment: Consignment.find(data[:consignment]) }
+      consignment: Consignment.find(data[:consignment]),
+      warehouse: Warehouse.find_by(warehouse_name: data[:warehouse]) }
   end
 end

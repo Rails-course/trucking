@@ -24,6 +24,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [warehouses, setWarehouses] = React.useState([]);
+  const componentMounted = React.useRef(true);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
@@ -52,6 +54,15 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
+
+  React.useEffect(() => {
+    httpClient.warehouses.get_all().then((response) => {
+      if (componentMounted.current) setWarehouses(response.data);
+    });
+    return () => {
+      componentMounted.current = false;
+    };
+  }, []);
 
   return (
     <div>
@@ -184,6 +195,22 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           </div>
                         ))}
                       </div>
+
+                      <Autocomplete
+                        id="warehouse"
+                        options={warehouses}
+                        getOptionLabel={(option) => option.warehouse_name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Warehouse"
+                            fullWidth
+                            value={values?.warehouse}
+                          />
+                        )}
+                      />
 
                       {routes.length !== 0 ? <RouteTable routes={routes} /> : null }
 

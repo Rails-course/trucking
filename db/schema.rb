@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_17_164352) do
-
+ActiveRecord::Schema.define(version: 2022_04_18_151057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,9 +134,11 @@ ActiveRecord::Schema.define(version: 2022_04_17_164352) do
     t.integer "endpoint_id"
     t.integer "startpoint_id"
     t.integer "goods_owner_id"
+    t.bigint "warehouse_id"
     t.string "status", default: "transportation started"
     t.string "waybill_seria", null: false
     t.integer "waybill_number", null: false
+    t.index ["warehouse_id"], name: "index_waybills_on_warehouse_id"
     t.index ["waybill_seria", "waybill_number"], name: "index_waybills_on_waybill_seria_and_waybill_number", unique: true
   end
 

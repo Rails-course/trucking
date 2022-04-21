@@ -18,9 +18,10 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [alertOpen, alertSetOpen] = React.useState(false);
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
-  const componentMounted = React.useRef(true);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
+
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
     httpClient.waybill.gets_waybills().then((response) => {
@@ -34,6 +35,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
       componentMounted.current = false;
     };
   }, []);
+
   const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish({ ids: id })
       .then((response) => {
@@ -57,6 +59,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         }, 5000);
       });
   };
+
   return (
     <div className="wrapper">
       <Box sx={{
