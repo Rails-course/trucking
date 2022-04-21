@@ -18,17 +18,16 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
-  const [searchData, setSearchData] = React.useState();
-  
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - waybills.length) : 0;
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
-  
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  
+
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
@@ -68,6 +67,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((waybill) => (
                     <StyledTableRow key={waybill.id}>
+                      <StyledTableCell>{waybill.waybill_seria}</StyledTableCell>
+                      <StyledTableCell>{waybill.waybill_number}</StyledTableCell>
                       <StyledTableCell>{waybill.status}</StyledTableCell>
                       <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
                       <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
@@ -79,13 +80,13 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                     </StyledTableRow>
                   ))}
               {emptyRows > 0 && (
-              <StyledTableRow
-                style={{
-                  height: (dense ? 33 : 53) * emptyRows,
-                }}
-              >
-                <StyledTableCell colSpan={6} />
-              </StyledTableRow>
+                <StyledTableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <StyledTableCell colSpan={6} />
+                </StyledTableRow>
               )}
             </TableBody>
           </Table>
