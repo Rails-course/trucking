@@ -16,14 +16,14 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
     isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
-    setCheckedGooods, titleStatus, currentUserRole,
+    setCheckedGoods, titleStatus, currentUserRole,
   } = props;
 
   const handleToggle = (value: Item) => () => {
     if (checkedGoods.indexOf(value) === -1) {
-      setCheckedGooods([...checkedGoods, value]);
+      setCheckedGoods([...checkedGoods, value]);
     } else {
-      setCheckedGooods(checkedGoods.filter((item) => item !== value));
+      setCheckedGoods(checkedGoods.filter((item) => item !== value));
     }
     switch (value.status) {
       case 'accepted':
