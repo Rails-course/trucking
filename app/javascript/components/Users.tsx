@@ -7,6 +7,7 @@ import UsersTable from './Users/table/Table';
 import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
+import Search from "./Search";
 
 const Users = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
@@ -14,6 +15,7 @@ const Users = () => {
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [searchData, setSearchData] = React.useState();
 
   const isModalActive = isActiveModal || !!editUserModal;
 
@@ -46,6 +48,16 @@ const Users = () => {
 
   return (
     <div className="wrapper">
+        <Grid
+            container
+            rowSpacing={3}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            justifyContent="flex-end"
+        >
+        <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={users} />
+        </Grid>
+        </Grid>
       <Box sx={{
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
@@ -62,6 +74,7 @@ const Users = () => {
             userIds={userIds}
             setUserId={setUserId}
             setEditUserModal={setEditUserModal}
+            searchData={searchData}
           />
         </Grid>
       </Box>

@@ -13,7 +13,9 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: @users.to_json(include: { role: { only: [:role_name] } })
+        data=[]
+        @users.each{|user| data.append(name:user.full_name,role:user.role,login:user.login)}
+        render json: data.to_json
       end
     end
   end

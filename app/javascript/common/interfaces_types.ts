@@ -124,6 +124,7 @@ export interface EnhancedTableProps {
     userIds: number[];
     setUserId: any;
     setEditUserModal: any;
+    searchData: any;
 }
 
 export interface EnhancedHeadTableProps {
@@ -221,6 +222,7 @@ export interface CompanyTableProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    searchData: any;
 }
 
 export interface WaybillTableProps {

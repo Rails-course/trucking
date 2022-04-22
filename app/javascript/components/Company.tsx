@@ -7,6 +7,7 @@ import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
 import { CompanyProps } from '../common/interfaces_types';
+import Search from "./Search";
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const { currentUserRole } = props;
@@ -16,6 +17,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [alertOpen, alertSetOpen] = React.useState(false);
   const [alertType, setAlertType] = React.useState();
   const [alertText, setAlertText] = React.useState();
+  const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
     setModalActive(false);
@@ -28,6 +30,15 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
+          <Grid container
+              rowSpacing={3}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              justifyContent="flex-end"
+          >
+              <Grid item md={3} style={{ textAlign: 'left' }}>
+                  <Search setData={setSearchData} Data={companies} />
+              </Grid>
+          </Grid>
         <Grid
           container
           rowSpacing={3}
@@ -50,6 +61,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
               alertSetOpen={alertSetOpen}
               setAlertType={setAlertType}
               setAlertText={setAlertText}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
