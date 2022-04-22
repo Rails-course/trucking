@@ -75,7 +75,7 @@ const Users = () => {
         isActiveModal={isModalActive}
         handleClose={handleClose}
         editUserModal={editUserModal}
-        handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
+        handleSubmit={isActiveModal ?   handleSubmit:handleEditSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
         btnTitle={editUserModal ? 'Update' : 'Create'}
         formErrors={formErrors}
