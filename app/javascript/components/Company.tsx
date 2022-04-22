@@ -34,14 +34,14 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-            <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Grid item md={2} style={{ textAlign: 'left' }}>
                 <Search setData={setSearchData} Data={companies} />
             </Grid>
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
           {currentUserRole === 'system administrator'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
                 <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
                   Create Company
                 </Button>
