@@ -16,7 +16,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
     (values.text !== '' || data.length > 0) ? setData(data) : setData(null);
   };
   const normalize = (str:string) => {
-    return str.replace(/\s+/g, ' ').trim().replace(/ /g, '').replace(/,/g,'')
+    return str.toLowerCase().replace(/\s+/g, ' ').trim().replace(/ /g, '').replace(/,/g,'')
   }
   return (
     <SearchPanel>

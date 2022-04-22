@@ -7,6 +7,7 @@ import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
+import Search from "./Search";
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const { currentUserRole } = props;
@@ -16,6 +17,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [alertOpen, alertSetOpen] = React.useState(false);
   const [alertType, setAlertType] = React.useState();
   const [alertText, setAlertText] = React.useState();
+  const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
     setModalActive(false);
@@ -28,6 +30,9 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+              <Search setData={setSearchData} Data={warehouses} />
+          </Grid>
         <Grid
           container
           rowSpacing={3}
@@ -51,6 +56,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
               setAlertType={setAlertType}
               setAlertText={setAlertText}
               currentUserRole={currentUserRole}
+              searchData={searchData}
             />
           </Grid>
         </Grid>

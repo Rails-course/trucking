@@ -13,7 +13,7 @@ import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole,
+    warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole,searchData
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -54,7 +54,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
       componentMounted.current = false;
     };
   }, []);
-
+  const warehousesData = searchData || warehouses;
   if (!warehouses) return (<p>No data found...</p>);
 
   return (
@@ -73,7 +73,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
             </Box>
           ))}
         </div>
-        {warehouses.map((value: WarehouseData) => {
+        {warehousesData.map((value: WarehouseData) => {
           const labelId = `checkbox-list-label-${value}`;
           return (
             <ListItem

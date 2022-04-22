@@ -59,6 +59,7 @@ export interface WarehouseData {
 export interface WriteOffActTableProps {
     writeOffActs: any,
     setWriteOffActs: any,
+    searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
@@ -94,6 +95,7 @@ export interface WarehouseTableProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    searchData: any;
 }
 
 export interface CreateWarehouseFormProps {

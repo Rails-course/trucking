@@ -30,7 +30,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   React.useEffect(() => {
     httpClient.users.getAll()
       .then((response) => {
-        console.log(response.data)
         if (componentMounted.current) setUser(response.data);
       });
     return () => {
