@@ -48,21 +48,14 @@ const Users = () => {
 
   return (
     <div className="wrapper">
-        <Grid
-            container
-            rowSpacing={3}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            justifyContent="flex-end"
-        >
-        <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={users} />
-        </Grid>
-        </Grid>
       <Box sx={{
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
         <Grid item xs={12} style={{ textAlign: 'right' }}>
+            <Grid item md={3} style={{ textAlign: 'left' }}>
+                <Search setData={setSearchData} Data={users} />
+            </Grid>
           <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
             Create User
           </Button>

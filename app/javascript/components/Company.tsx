@@ -30,20 +30,14 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
-          <Grid container
-              rowSpacing={3}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              justifyContent="flex-end"
-          >
-              <Grid item md={3} style={{ textAlign: 'left' }}>
-                  <Search setData={setSearchData} Data={companies} />
-              </Grid>
-          </Grid>
         <Grid
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+            <Grid item md={3} style={{ textAlign: 'left' }}>
+                <Search setData={setSearchData} Data={companies} />
+            </Grid>
           <Grid item xs={9} style={{ textAlign: 'right' }} />
           {currentUserRole === 'system administrator'
             ? (

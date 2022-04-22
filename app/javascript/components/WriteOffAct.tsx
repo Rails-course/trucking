@@ -49,9 +49,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
 
   return (
     <div className="wrapper">
-        <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={writeOffActs} />
-        </Grid>
+
       <Box sx={{
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
@@ -61,6 +59,9 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+            <Grid item md={3} style={{ textAlign: 'left' }}>
+                <Search setData={setSearchData} Data={writeOffActs} />
+            </Grid>
           <Grid item xs={9} style={{ textAlign: 'right' }} />
           {['driver', 'manager'].includes(currentUserRole)
             ? (

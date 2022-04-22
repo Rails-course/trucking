@@ -30,14 +30,14 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
       }}
       >
-          <Grid item md={3} style={{ textAlign: 'left' }}>
-              <Search setData={setSearchData} Data={warehouses} />
-          </Grid>
         <Grid
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+            <Grid item md={3} style={{ textAlign: 'left' }}>
+                <Search setData={setSearchData} Data={warehouses} />
+            </Grid>
           <Grid item xs={9} style={{ textAlign: 'right' }} />
           {currentUserRole === 'admin'
             ? (
