@@ -6,7 +6,6 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Box,
 } from '@mui/material';
 
-import axios from 'axios';
 import FormikField from '../../../UI/FormikField';
 import { userFields, userFirstFields, userSecondFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
@@ -16,44 +15,30 @@ import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/inte
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle, formErrors,
+    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
+    formErrors, companies, roles
   } = props;
-
-  const [companies, setCompanies] = React.useState(null);
-  const [roles, setRoles] = React.useState(null);
-  const componentMounted = React.useRef(true);
 
   const AutoUpdateForm = ({ id }) => {
     const { setFieldValue } = useFormikContext();
-
+    // NOTE: Can we use users array on front-end instead of send request to get data
+    // for specific user?
     React.useEffect(() => {
       if (id) {
         httpClient.users.get(id).then(({ data }) => {
           Object.keys(data).forEach((filedName) => {
             setFieldValue(filedName, data[filedName], false);
           });
+          setFieldValue("town", data.address.town, false)
+          setFieldValue("street", data.address.street, false)
+          setFieldValue("building", data.address.building, false)
+          setFieldValue("apartment", data.address.apartment, false)
+          // TODO: Autocomplete field set value
         });
       }
     }, [id]);
     return null;
   };
-
-  React.useEffect(() => {
-    const getCompanies = httpClient.companies.get_data();
-    const getRoles = httpClient.roles.getAllRoles();
-    axios.all([getCompanies, getRoles])
-      .then(
-        axios.spread((...responses) => {
-          if (componentMounted.current) {
-            setCompanies(responses[0].data);
-            setRoles(responses[1].data);
-          }
-        }),
-      );
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   return (
     <div>
@@ -129,6 +114,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                         </Box>
                       </div>
 
+                      {/* TODO: Hide company field if EditUserModal is active */}
                       <Autocomplete
                         id="company"
                         options={companies}
@@ -160,6 +146,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                           />
                         )}
                       />
+
                     </Container>
 
                     <DialogActions>

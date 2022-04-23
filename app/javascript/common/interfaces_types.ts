@@ -149,6 +149,8 @@ export interface UserCreateFormProps {
     handleClose: () => void;
     editUserModal: any;
     title: string;
+    companies: any;
+    roles: any;
     handleSubmit: any;
     btnTitle: string;
     formErrors: any;

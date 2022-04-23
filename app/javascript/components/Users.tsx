@@ -8,13 +8,14 @@ import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 
-const Users = () => {
+const Users = ({ companiesJSON, rolesJSON }) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [users, setUser] = React.useState<UserData[]>(null);
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
-
+  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
+  const [roles, setRoles] = React.useState(JSON.parse(rolesJSON));
   const isModalActive = isActiveModal || !!editUserModal;
 
   const handleClose = () => {
@@ -68,6 +69,8 @@ const Users = () => {
       <CreateForm
         isActiveModal={isModalActive}
         handleClose={handleClose}
+        companies={companies}
+        roles={roles}
         editUserModal={editUserModal}
         handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}

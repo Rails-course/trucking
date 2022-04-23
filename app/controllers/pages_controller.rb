@@ -5,6 +5,9 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
+    @roles = Role.where.not(role_name: 'system administrator')
+    @companies = Company.all
+
     @users = if current_user.company
                User.where(company: current_user.company)
              else

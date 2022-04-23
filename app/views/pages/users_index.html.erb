@@ -1,5 +1,5 @@
 <center>
   <div class="wrapper">
-    <%=react_component('Users',{}) %>
+    <%=react_component('Users',{companiesJSON: @companies.to_json(), rolesJSON: @roles.to_json()}) %>
   </div>
 </center>
