@@ -11,13 +11,14 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data } = props;
 
   const handleSubmit = (values) => {
-    console.log(Data[0])
     const data = (Data.filter((key) => normalize(Object.values(key).toString()).includes(normalize((values.text)))));
     (values.text !== '' || data.length > 0) ? setData(data) : setData(null);
   };
-  const normalize = (str:string) => {
-    return str.toLowerCase().replace(/\s+/g, ' ').trim().replace(/ /g, '').replace(/,/g,'')
+
+  const normalize = (str: string) => {
+    return str.toLowerCase().replace(/\s+/g, ' ').trim().replace(/ /g, '').replace(/,/g, '')
   }
+
   return (
     <SearchPanel>
       <Formik

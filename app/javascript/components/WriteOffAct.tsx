@@ -58,11 +58,11 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-            <Grid item md={3} style={{ textAlign: 'left' }}>
-                <Search setData={setSearchData} Data={writeOffActs} />
-            </Grid>
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={writeOffActs} />
+          </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
               <Grid item xs={3} style={{ textAlign: 'right' }}>

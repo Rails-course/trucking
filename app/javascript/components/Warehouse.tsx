@@ -34,20 +34,21 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-            <Grid item md={3} style={{ textAlign: 'left' }}>
-                <Search setData={setSearchData} Data={warehouses} />
-            </Grid>
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={warehouses} />
+          </Grid>
           {currentUserRole === 'admin'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Warehouse
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <WarehouseTable
               warehouses={warehouses}

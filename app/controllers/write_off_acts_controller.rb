@@ -4,13 +4,14 @@ class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
     @write_off_acts = WriteOffAct.all
-    data=[]
-    @write_off_acts.each { |act| data.append(id:act.id,consignments_id:act.consignment_id,
-        good_name:act.good_name,description:act.description,lost_quantity:act.lost_quantity,
-                                             consignment: {bundle_seria: act.consignment.bundle_seria,
-                                                           bundle_number: act.consignment.bundle_number },
-                                             consignments_name:act.consignment_name
-                                             ) }
+    data = []
+    @write_off_acts.each do |act|
+      data.append(id: act.id, consignments_id: act.consignment_id,
+                  good_name: act.good_name, description: act.description, lost_quantity: act.lost_quantity,
+                  consignment: { bundle_seria: act.consignment.bundle_seria,
+                                 bundle_number: act.consignment.bundle_number },
+                  consignments_name: act.bundle_name)
+    end
     respond_to do |format|
       format.html
       format.json do

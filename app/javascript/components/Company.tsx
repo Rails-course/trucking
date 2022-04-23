@@ -36,18 +36,19 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="flex-end"
         >
-            <Grid item md={2} style={{ textAlign: 'left' }}>
-                <Search setData={setSearchData} Data={companies} />
-            </Grid>
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={companies} />
+          </Grid>
           {currentUserRole === 'system administrator'
             ? (
               <Grid item xs={1.75} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Company
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <CompanyTable
               companies={companies}

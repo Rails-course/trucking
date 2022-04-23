@@ -52,35 +52,42 @@ const Users = () => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <Grid item md={3} style={{ textAlign: 'left' }}>
-                <Search setData={setSearchData} Data={users} />
-            </Grid>
-          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-            Create User
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <UsersTable
-            users={users}
-            setUser={setUser}
-            userIds={userIds}
-            setUserId={setUserId}
-            setEditUserModal={setEditUserModal}
-            searchData={searchData}
-          />
+        <Grid
+          container
+          rowSpacing={3}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
+        >
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={users} />
+          </Grid>
+          <Grid item xs={1.4} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+              Create User
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <UsersTable
+              users={users}
+              setUser={setUser}
+              userIds={userIds}
+              setUserId={setUserId}
+              setEditUserModal={setEditUserModal}
+              searchData={searchData}
+            />
+          </Grid>
         </Grid>
       </Box>
       <CreateForm
         isActiveModal={isModalActive}
         handleClose={handleClose}
         editUserModal={editUserModal}
-        handleSubmit={isActiveModal ?   handleSubmit:handleEditSubmit}
+        handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
         title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
         btnTitle={editUserModal ? 'Update' : 'Create'}
         formErrors={formErrors}
       />
-    </div>
+    </div >
   );
 };
 
