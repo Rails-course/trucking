@@ -1,7 +1,7 @@
 export type Order = 'asc' | 'desc';
 
-export interface Data {
-  id: string | number,
+export interface UserData {
+  id: number;
   first_name: string,
   middle_name: string,
   second_name: string,

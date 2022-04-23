@@ -18,11 +18,6 @@ RSpec.describe Truck, type: :model do
       subject.truck_number = ''
       expect(subject).to_not be_valid
     end
-
-    it 'truck number should not be valid (<0)' do
-      subject.truck_number = -422
-      expect(subject).to_not be_valid
-    end
   end
 
   context 'When credentials are correct' do

@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  let(:user) { create(:user) }
+  let(:user) { create(:user_sysAdmin) }
 
   before do
     sign_in user
   end
 
   describe 'GET methods' do
-    it 'get users/new' do
-      get '/users/new'
+    it 'get users' do
+      get '/users'
       expect(response).to have_http_status(:success)
     end
   end

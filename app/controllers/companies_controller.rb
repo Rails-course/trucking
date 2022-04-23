@@ -1,23 +1,40 @@
 # frozen_string_literal: true
 
 class CompaniesController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @companies = Company.all
+    @companies = if current_user.company
+                   Company.accessible_by(current_ability)
+                 else
+                   Company.all
+                 end
   end
 
   def suspend
+    company = Company.find(params.require(:id))
+    company.change_status
+    # company_users = User.where(company: company)
+    # TODO: ideally we need to log out all company logged in users
+    # but devise doesnt provide such feature
+    # company_users.each do |user|
+    #   sign_out user
+    # end
+  end
+
+  def resume
     Company.find(params.require(:id)).change_status
   end
 
   def new_company; end
 
   def create_company
-    company = Company.new(company_params)
-    if company.save
-      redirect_to root_path
+    authorize! :create, Company
+    @company = Company.new(company_params)
+    if @company.save
+      render json: @company.to_json
     else
-      flash[:alert] = 'Something went wrong during creating new company'
-      redirect_to ''
+      render json: @company.errors.full_messages, status: :unprocessable_entity
     end
   end
 

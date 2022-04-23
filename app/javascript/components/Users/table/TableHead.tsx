@@ -1,30 +1,20 @@
 import * as React from 'react';
 
 import {
-  Box,
-  Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
+  Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
-import { Data, Order } from '../../../mixins/initialValues/userList';
+import { UserData } from '../../../mixins/initialValues/userList';
 import { headCells } from '../../../constants/usersList';
+import { EnhancedHeadTableProps } from '../../../common/interfaces_types';
 
-interface EnhancedTableProps {
-    numSelected: number;
-    // eslint-disable-next-line no-unused-vars
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-    // eslint-disable-next-line no-unused-vars
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
+function EnhancedTableHead(props: EnhancedHeadTableProps) {
   const {
     onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,
   } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+
+  const createSortHandler = (property: keyof UserData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 

@@ -1,6 +1,7 @@
 # Roles
 roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
-                     { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' }])
+                     { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' },
+                     { role_name: 'warehouseman' }])
 # Truck types
 truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
@@ -20,9 +21,12 @@ sys_Admin = User.create(
   address: Address.new(town: 'Homel', street: 'Platonova', building: 43, apartment: 83)
 )
 # jetlogistic trucks
-jetlogistic_trucks = Truck.create([{ fuel_consumption: 33.33, truck_number: 667_455, truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') },
-                                   { fuel_consumption: 17.74, truck_number: 133_788,
-                                     truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') }])
+jetlogistic_trucks = Truck.create([
+                                    { fuel_consumption: 33.33, truck_number: 'MAN 32-66 BY',
+                                      truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') },
+                                    { fuel_consumption: 17.74, truck_number: 'МАЗ 13-33 BY',
+                                      truck_type: TruckType.find_by(truck_type_name: 'covered body'), company: Company.find_by(name: 'jetlogistic') }
+                                  ])
 # jetlogistic users
 jetlogistic_admin = User.create(
   email: 'jetlogisticadmin@example.com',
@@ -90,9 +94,12 @@ jetlogistic_driver = User.create(
   company: Company.find_by(name: 'jetlogistic')
 )
 # gruzimvse trucks
-gruzimvse_trucks = Truck.create([{ fuel_consumption: 25.03, truck_number: 739_174, truck_type: TruckType.find_by(truck_type_name: 'refrigerator'), company: Company.find_by(name: 'gruzimvse') },
-                                 { fuel_consumption: 13.50, truck_number: 734_517,
-                                   truck_type: TruckType.find_by(truck_type_name: 'cistern'), company: Company.find_by(name: 'gruzimvse') }])
+gruzimvse_trucks = Truck.create([
+                                  { fuel_consumption: 25.03, truck_number: 'MAN 07-81 BY',
+                                    truck_type: TruckType.find_by(truck_type_name: 'refrigerator'), company: Company.find_by(name: 'gruzimvse') },
+                                  { fuel_consumption: 13.50, truck_number: 'МАЗ 51-44 BY',
+                                    truck_type: TruckType.find_by(truck_type_name: 'cistern'), company: Company.find_by(name: 'gruzimvse') }
+                                ])
 # gruzimvse users
 gruzimvse_admin = User.create(
   email: 'gruzimvseadmin@example.com',
@@ -161,21 +168,170 @@ gruzimvse_driver = User.create(
 )
 
 # Goods owners
-jetlogistic_goods_owner = GoodsOwner.create(warehouse_name: 'IBM',
-                                            address: Address.new(
-                                              town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
-                                            ))
-gruzimvseower_goods_owner = GoodsOwner.create(warehouse_name: 'Trade power',
-                                              address: Address.new(
-                                                town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
-                                              ))
+goods_owner_ibm = GoodsOwner.create(goods_owner_name: 'IBM',
+                                    address: Address.new(
+                                      town: 'Homel', street: 'Proletarskaya', building: 77, apartment: 1
+                                    ))
+goods_owner_tradep = GoodsOwner.create(goods_owner_name: 'Trade power',
+                                       address: Address.new(
+                                         town: 'Homel', street: 'Proletarskaya', building: 71, apartment: 1
+                                       ))
 
-# Destination points
-Grocery_store = Destination.create(
-  destination_name: 'Grocery store', address: Address.new(town: 'Homel', street: 'Sovetskaya',
-                                                          building: 60, apartment: 1)
+# Warehouses and their owners
+grocery_store_owner = User.create(
+  email: 'grocerystoreowner@example.com',
+  password: 'grocerystoreowner123',
+  first_name: 'Jhon',
+  second_name: 'Jhonov',
+  middle_name: 'jhonovich',
+  birthday: Date.parse('12/03/1997'),
+  passport: '15206181, issued by the police department of the Centralniy district of Vilnus',
+  login: 'grocerystoreowner',
+  role: Role.find_by(role_name: 'warehouseman'),
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
 )
-Shopping_center = Destination.create(
-  destination_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
-                                                 apartment: 1)
+Grocery_store = Warehouse.create(
+  warehouse_name: 'Grocery store', warehouseman: grocery_store_owner, address: Address.new(town: 'Homel', street: 'Sovetskaya',
+                                                                                           building: 60, apartment: 1), trusted: false
 )
+shopping_center_owner = User.create(
+  email: 'shoppingcenterowner@example.com',
+  password: 'shoppingcenterowner123',
+  first_name: 'Mira',
+  second_name: 'Mirova',
+  middle_name: 'Mironovna',
+  birthday: Date.parse('31/12/1998'),
+  passport: '18397261, issued by the police department of the Centralniy district of Vilnus',
+  login: 'shoppingcenterowner',
+  role: Role.find_by(role_name: 'warehouseman'),
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
+)
+Shopping_center = Warehouse.create(
+  warehouse_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
+                                               apartment: 1), trusted: true, warehouseman: shopping_center_owner
+)
+# Consignments, Waybills and goods
+15.times do |i|
+  # jetlogistics consignments and goods
+  instance_variable_set("@CSJ_#{i}", Consignment.create(bundle_seria: "BSJ_#{i}", bundle_number: "10#{i}".to_i, consignment_seria: "CSJ_#{i}",
+                                                        consignment_number: "10#{i}".to_i, driver_id: 6, truck_id: 2, dispatcher_id: 4))
+  instance_variable_set("@CSJ_#{i}_goods", Good.create([
+                                                         { consignment: instance_variable_get("@CSJ_#{i}"),
+                                                           good_name: 'product_1', unit_of_measurement: 'item',
+                                                           quantity: (i + 1) },
+                                                         { consignment: instance_variable_get("@CSJ_#{i}"),
+                                                           good_name: 'product_2', unit_of_measurement: 'item',
+                                                           quantity: (i + 5) }
+                                                       ]))
+  # gruzimvse consignments and goods
+  instance_variable_set("@CSG_#{i}", Consignment.create(bundle_seria: "BSG_#{i}", bundle_number: "20#{i}".to_i, consignment_seria: "CSG_#{i}",
+                                                        consignment_number: "20#{i}".to_i, driver_id: 11, truck_id: 4, dispatcher_id: 9))
+  instance_variable_set("@CSG_#{i}_goods", Good.create([
+                                                         { consignment: instance_variable_get("@CSG_#{i}"),
+                                                           good_name: 'product_1', unit_of_measurement: 'item',
+                                                           quantity: (i + 1) },
+                                                         { consignment: instance_variable_get("@CSG_#{i}"),
+                                                           good_name: 'product_2', unit_of_measurement: 'item',
+                                                           quantity: (i + 5) }
+                                                       ]))
+  # Waybills
+  next unless i <= 5
+
+  # jetlogistics waybills
+  Good.where(consignment: instance_variable_get("@CSJ_#{i}")).each do |item|
+    item.update!(status: 'checked')
+  end
+  instance_variable_get("@CSJ_#{i}").update!(status: 'checked', manager_id: 5)
+  instance_variable_set("@startpoint_J#{i}",
+                        Address.create!(town: "StartCity_J#{i}", street: 'StartovayaJ',
+                                        building: (i + 1)))
+  instance_variable_set("@endpoint_J#{i}",
+                        Address.create!(town: "EndCity_J#{i}", street: 'EndovayaJ',
+                                        building: (i + 1)))
+  instance_variable_set("@Waybill_CSJ_#{i}", Waybill.create(
+                                               start_date: Date.parse("#{i + 1}/04/2022"),
+                                               end_date: Date.parse("#{i + 3}/04/2022"),
+                                               consignment: instance_variable_get("@CSJ_#{i}"),
+                                               startpoint: instance_variable_get("@startpoint_J#{i}"),
+                                               endpoint: instance_variable_get("@endpoint_J#{i}"),
+                                               goods_owner_id: goods_owner_tradep.id,
+                                               warehouse: Grocery_store,
+                                               waybill_seria: "WSJ_#{i}",
+                                               waybill_number: "10#{i}".to_i
+                                             ))
+  instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
+                                                                        {
+                                                                          city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
+                                                                        },
+                                                                        {
+                                                                          city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
+                                                                        }
+                                                                      ]))
+  # gruzimvse waybills
+  Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
+    item.update!(status: 'checked')
+  end
+  instance_variable_get("@CSG_#{i}").update(status: 'checked', manager_id: 10)
+  instance_variable_set("@startpoint_G#{i}",
+                        Address.create!(town: "StartCity_G#{i}", street: 'StartovayaG',
+                                        building: (i + 1)))
+  instance_variable_set("@endpoint_G#{i}",
+                        Address.create!(town: "EndCity_G#{i}", street: 'EndovayaG',
+                                        building: (i + 1)))
+  instance_variable_set("@Waybill_CSG_#{i}", Waybill.create(
+                                               start_date: Date.parse("#{i + 10}/04/2022"),
+                                               end_date: Date.parse("#{i + 12}/04/2022"),
+                                               consignment: instance_variable_get("@CSG_#{i}"),
+                                               startpoint: instance_variable_get("@startpoint_G#{i}"),
+                                               endpoint: instance_variable_get("@endpoint_G#{i}"),
+                                               goods_owner_id: goods_owner_ibm.id,
+                                               warehouse: Shopping_center,
+                                               waybill_seria: "WSG_#{i}",
+                                               waybill_number: "20#{i}".to_i
+                                             ))
+  instance_variable_set("@checkpoints_waybill_CSG_#{i}", Route.create([
+                                                                        {
+                                                                          city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
+                                                                        },
+                                                                        {
+                                                                          city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
+                                                                        }
+                                                                      ]))
+  next unless i <= 2
+
+  # Deliver jetlogistics waybills, consignments and goods
+  instance_variable_get("@checkpoints_waybill_CSJ_#{i}").each do |checkpoint|
+    checkpoint.update!(is_passed: 'true', pass_date: Date.today)
+  end
+  instance_variable_get("@CSJ_#{i}").update!(status: 'delivered')
+
+  Waybill.where(consignment: instance_variable_get("@CSJ_#{i}")).each do |waybill|
+    waybill.update!(status: 'delivered to the recipient')
+  end
+
+  Good.where(consignment: instance_variable_get("@CSJ_#{i}")).each do |item|
+    item.update!(status: 'delivered')
+  end
+
+  # Deliver gruzimvse waybills, consignments and goods
+  instance_variable_get("@checkpoints_waybill_CSG_#{i}").each do |checkpoint|
+    checkpoint.update!(is_passed: 'true', pass_date: Date.today)
+  end
+  instance_variable_get("@CSG_#{i}").update!(status: 'delivered')
+
+  Waybill.where(consignment: instance_variable_get("@CSG_#{i}")).each do |waybill|
+    waybill.update!(status: 'delivered to the recipient')
+  end
+
+  Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
+    item.update!(status: 'delivered')
+  end
+
+  # Write-off Acts jetlogistics
+  instance_variable_set("@WoA_CSJ_#{i}", WriteOffAct.create(good_name: 'product_1', lost_quantity: 1,
+                                                            consignment: instance_variable_get("@CSJ_#{i}"), description: 'Lost'))
+
+  # Write-off Acts gruzimvse
+  instance_variable_set("@WoA_CSG_#{i}", WriteOffAct.create(good_name: 'product_2', lost_quantity: 1,
+                                                            consignment: instance_variable_get("@CSG_#{i}"), description: 'Stolen'))
+end

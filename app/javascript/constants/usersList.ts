@@ -1,8 +1,8 @@
-import { Data } from '../mixins/initialValues/userList';
+import { UserData } from '../mixins/initialValues/userList';
 
 interface UsersList {
     disablePadding: boolean;
-    id: keyof Data;
+    id: keyof UserData;
     label: string;
     numeric: boolean;
 }

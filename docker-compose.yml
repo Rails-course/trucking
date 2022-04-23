@@ -12,8 +12,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
 
-  app:
-    container_name: app
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -27,7 +26,6 @@ services:
     ports:
       - "3000:3000"
     environment:
-      RAILS_ENV: development
       DATABASE_URL: postgres://postgres@database
 
 volumes:

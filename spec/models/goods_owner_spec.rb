@@ -5,22 +5,22 @@ RSpec.describe GoodsOwner, type: :model do
 
   context 'When credentials are not correct' do
     it 'warehouse name should not be valid (blank)' do
-      subject.warehouse_name = ''
+      subject.goods_owner_name = ''
       expect(subject).to_not be_valid
     end
 
     it 'warehouse name length should not be valid (<3)' do
-      subject.warehouse_name = 'fo'
+      subject.goods_owner_name = 'fo'
       expect(subject).to_not be_valid
     end
 
     it 'warehouse namelength should not be valid (>30)' do
-      subject.warehouse_name = 'foobar' * 6
+      subject.goods_owner_name = 'foobar' * 6
       expect(subject).to_not be_valid
     end
 
     it 'warehouse name should not be valid (not unique)' do
-      goods_owner = build(:goods_owner, warehouse_name: subject.warehouse_name)
+      goods_owner = build(:goods_owner, goods_owner_name: subject.goods_owner_name)
       expect(goods_owner).to_not be_valid
     end
   end

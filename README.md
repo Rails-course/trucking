@@ -14,7 +14,7 @@ Clone the app
 ```
 git clone https://github.com/Rails-course/trucking.git
 ```
-Set up .env file (based on .enx.examle) \
+Set up .env file (based on .env.examle) \
 Build docker container
 ```
 docker-compose build

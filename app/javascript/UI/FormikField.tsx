@@ -14,7 +14,7 @@ interface FormikFieldProps {
 const FormikField: React.FC<FormikFieldProps> = ({
   name, label, type, required, variant, ...other
 }) => (
-  <div className="FormikField">
+  <div>
     <Field
       required={required}
       autoComplete="off"

@@ -2,9 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Companies', type: :request do
   let(:company) { create(:company) }
-  before(:each) do
-    sign_in create(:user)
+  let(:user) { create(:user_sysAdmin) }
+
+  before do
+    sign_in user
   end
+
   describe 'DELETE /companies' do
     it 'valid delete request' do
       delete "/companies/#{company.id}"
@@ -16,8 +19,7 @@ RSpec.describe 'Companies', type: :request do
       expect(Company.all.count).to eq(company_count)
     end
     it 'invalid delete request' do
-      delete "/companies/#{company.id + 1}"
-      expect(response).to have_http_status(404)
+      expect { delete "/companies/#{company.id + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
   describe 'status /companies' do
@@ -30,8 +32,9 @@ RSpec.describe 'Companies', type: :request do
       expect(Company.find(company.id).is_suspended).to eq(true)
     end
     it 'invalid status request' do
-      patch "/companies/suspend/#{company.id + 1}"
-      expect(Company.find(company.id).is_suspended).to eq(false)
+      expect do
+        patch "/companies/suspend/#{company.id + 1}"
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
   describe 'CREATE /companies' do

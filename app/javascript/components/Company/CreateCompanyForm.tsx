@@ -1,37 +1,43 @@
 import * as React from 'react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
-  Container,
-  Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
-import axios from 'axios';
-import FormikField from '../UI/FormikField';
-
-interface CreateCompanyFormProps {
-  isActiveModal: boolean;
-  handleClose: () => void;
-  setCompany: any,
-}
-
-const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
+import FormikField from '../../UI/FormikField';
+import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen,
+    setAlertType, setAlertText,
   } = props;
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .catch((error) => error);
-    setTimeout(() => {
-      axios.get('/companies.json').then((response) => {
-        setCompany(response.data);
+      .then(() => {
+        handleClose();
+        setAlertType('success');
+        setAlertText('Successfully created a company!');
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000);
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data);
+        setAlertType('error');
+        setAlertText('Something went wrong with creating a company');
+        alertSetOpen(true);
+        setTimeout(() => {
+          alertSetOpen(false);
+        }, 5000);
       });
-    }, 100);
+    setTimeout(() => {
+      axios.get('/companies.json').then((response) => setCompany(response.data));
+    }, 300);
   };
 
   return (
@@ -52,6 +58,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
               >
                 <Form>
                   <Container maxWidth="sm">
+                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
                     <FormikField
                       name="name"
                       label="Enter title"
@@ -61,8 +68,8 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={handleClose}>Create</Button>
+                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>

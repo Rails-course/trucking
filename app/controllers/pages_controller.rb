@@ -5,8 +5,11 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    @users = User.all
-
+    @users = if current_user.company
+               User.where(company: current_user.company)
+             else
+               User.all
+             end
     respond_to do |format|
       format.html
       format.json do
@@ -24,7 +27,7 @@ class PagesController < ApplicationController
 
   def update_user
     if @user.update(user_params)
-      flash[:success] = 'User succesfully updated'
+      flash[:success] = 'User successfully updated'
     else
       flash[:alert] = 'Something went wrong with updating user'
       render 'pages/users_index'
@@ -34,10 +37,28 @@ class PagesController < ApplicationController
   def create_user
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'User succesfully created'
+      flash[:success] = 'User successfully created'
     else
       flash[:alert] = 'Something went wrong with creating new user'
       render 'pages/users_index'
+    end
+  end
+
+  def get_drivers
+    @users = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
+    respond_to do |format|
+      format.json do
+        render json: @users.to_json
+      end
+    end
+  end
+
+  def get_warehousemans
+    @users = User.where(role: Role.find_by(role_name: 'warehouseman'))
+    respond_to do |format|
+      format.json do
+        render json: @users.to_json
+      end
     end
   end
 
