@@ -219,8 +219,8 @@ export interface CompanyTableProps {
     companies: any,
     setCompany: any,
     alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertType: any, suspendCompany: any;
+    setAlertText: any, resumeCompany: any;
 }
 
 export interface WaybillTableProps {
@@ -262,4 +262,9 @@ export interface WarehouseProps {
 
 export interface CompanyProps {
     currentUserRole: string;
+    companiesJSON: string;
+}
+
+export interface UsersProps {
+    usersJSON: string;
 }

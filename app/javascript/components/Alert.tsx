@@ -23,7 +23,7 @@ const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
   return (
     <Snackbar
       open={alertOpen}
-      autoHideDuration={6000}
+      autoHideDuration={5000}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',

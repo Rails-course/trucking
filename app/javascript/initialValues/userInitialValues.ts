@@ -8,10 +8,7 @@ export interface userFormValues {
   password: string;
   password_confirmation: string;
   birthday: string;
-  apartment: string;
-  building: string;
-  street: string;
-  town: string;
+  address: { town: string, street: string, building: number, apartment: number, }
   role: { role_name: string },
   passport: string,
   company: string,
@@ -27,10 +24,9 @@ const userInitialValues: userFormValues = {
   email: '',
   password: '',
   password_confirmation: '',
-  apartment: '',
-  building: '',
-  street: '',
-  town: '',
+  address: {
+    town: '', street: '', building: null, apartment: null,
+  },
   role: { role_name: '' },
   passport: '',
   company: '',

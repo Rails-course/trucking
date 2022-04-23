@@ -17,27 +17,19 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
 
   const handleSubmit = async (values) => {
     await axios.post('/companies/create', values)
-      .then(() => {
+      .then((response) => {
         handleClose();
+        setCompany((prevCompany) => [...prevCompany, response.data]);
         setAlertType('success');
         setAlertText('Successfully created a company!');
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
         setAlertType('error');
         setAlertText('Something went wrong with creating a company');
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       });
-    setTimeout(() => {
-      axios.get('/companies.json').then((response) => setCompany(response.data));
-    }, 300);
   };
 
   return (

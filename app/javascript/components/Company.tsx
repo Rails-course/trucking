@@ -7,19 +7,42 @@ import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
 import { CompanyProps } from '../common/interfaces_types';
+import httpClient from '../api/httpClient';
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
-  const { currentUserRole } = props;
+  const { currentUserRole, companiesJSON } = props;
   const [isActiveModal, setModalActive] = useState(false);
-  const [companies, setCompany] = React.useState(null);
+  const [companies, setCompany] = React.useState(JSON.parse(companiesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState();
-  const [alertText, setAlertText] = React.useState();
+  const [alertType, setAlertType] = React.useState('');
+  const [alertText, setAlertText] = React.useState('');
 
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
+  };
+
+  const suspendCompany = (id) => {
+    httpClient.companies.suspend(id).then((response) => {
+      const companyIndex = companies.findIndex((element) => element.id === id);
+      companies[companyIndex] = response.data;
+      setCompany(companies);
+      setAlertType('info');
+      setAlertText('Company successfully suspended');
+      alertSetOpen(true);
+    });
+  };
+
+  const resumeCompany = (id) => {
+    httpClient.companies.resume(id).then((response) => {
+      const companyIndex = companies.findIndex((element) => element.id === id);
+      companies[companyIndex] = response.data;
+      setCompany(companies);
+      setAlertType('info');
+      setAlertText('Company successfully resumed');
+      alertSetOpen(true);
+    });
   };
 
   return (
@@ -50,6 +73,8 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
               alertSetOpen={alertSetOpen}
               setAlertType={setAlertType}
               setAlertText={setAlertText}
+              suspendCompany={suspendCompany}
+              resumeCompany={resumeCompany}
             />
           </Grid>
         </Grid>

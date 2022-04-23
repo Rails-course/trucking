@@ -58,7 +58,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
     setTimeout(() => {
       setCheckedGoods([]);
-    }, 1000)
+    }, 1000);
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
@@ -69,18 +69,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         setAlertType('success');
         setAlertText('Successfully created consignment with goods!');
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
         setAlertType('error');
         setAlertText('Something went wrong with creating consignment or goods');
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       });
   };
 
@@ -98,9 +92,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             setAlertType('info');
             setAlertText('Goods status changed!');
             alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
           });
       case 'Delivered':
         setTitleStatus('');
@@ -113,9 +104,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             setAlertType('info');
             setAlertText('Goods status changed!');
             alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
           });
     }
   };
