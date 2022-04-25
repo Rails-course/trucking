@@ -2,7 +2,9 @@ export type Order = 'asc' | 'desc';
 
 export interface UserData {
   id: number;
-  name :string
+  first_name :string,
+  second_name:string,
+  middle_name:string,
   login: string,
   role: {role_name: string},
 }
