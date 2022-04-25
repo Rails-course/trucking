@@ -249,6 +249,7 @@ export interface SiteAlertProps {
 export interface SearchProps {
     setData:any;
     Data:any;
+    keyField: string;
 }
 
 export interface ConsignmentProps {

@@ -59,7 +59,7 @@ const Users = () => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={users} />
+            <Search setData={setSearchData} Data={users} keyField='' />
           </Grid>
           <Grid item xs={1.4} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>

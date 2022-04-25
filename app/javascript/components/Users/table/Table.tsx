@@ -125,16 +125,17 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               {stableSort(UsersData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
-                  const isItemSelected = isSelected(String(user.name));
+                  const name = `${user.first_name} ${user.second_name} ${user.middle_name}`;
+                  const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, String(user.name), +user.id)}
+                      onClick={(event) => handleClick(event, String(name), +user.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={user.name}
+                      key={name}
                       selected={isItemSelected}
                     >
                       <StyledTableCell padding="checkbox">
@@ -156,7 +157,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                           variant="text"
                           onClick={() => setEditUserModal(user.id)}
                         >
-                          {user.name}
+                          {name}
                         </Button>
                       </StyledTableCell>
                       <StyledTableCell align="left">{user.login}</StyledTableCell>

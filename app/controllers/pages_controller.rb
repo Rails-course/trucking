@@ -5,17 +5,15 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    data=[]
     @users = if current_user.company
                User.where(company: current_user.company)
              else
                User.all
              end
-    @users.each{|user| data.append(name:user.full_name,role:user.role,login:user.login,id:user.id)}
     respond_to do |format|
       format.html
       format.json do
-        render json: data.to_json
+        render json: @users.to_json(include: { role: { only: [:role_name] } })
       end
     end
   end

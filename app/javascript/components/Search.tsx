@@ -8,10 +8,15 @@ import FormikField from '../UI/FormikField';
 import { SearchPanel } from '../utils/style';
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
-  const { setData, Data } = props;
+  const { setData, Data,keyField} = props;
 
   const handleSubmit = (values) => {
-    const data = (Data.filter((key) => normalize(Object.values(key).toString()).includes(normalize((values.text)))));
+
+    let data = (Data.filter((key) => normalize(Object.values(key).toString()).includes(normalize((values.text)))));
+    if (keyField!==''){
+     const  secondData=(Data.filter((key) =>normalize(Object.values(key[keyField]).toString()).includes(normalize((values.text)))))
+      data=data.concat(secondData)
+    }
     (values.text !== '' || data.length > 0) ? setData(data) : setData(null);
   };
 
@@ -28,7 +33,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
         <Form style={{ display: 'flex', alignItems: 'center', padding: '0 0 0 15px' }}>
           <FormikField
             name="text"
-            label="Search..."
+            label={'search'}
             required={false}
             type="text"
             color="success"
