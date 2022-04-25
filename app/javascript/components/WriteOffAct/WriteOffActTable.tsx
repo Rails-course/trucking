@@ -43,7 +43,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
     setDense(event.target.checked);
   };
 
-  const writeOffActssData = searchData || writeOffActs;
+  const writeOffActData = searchData || writeOffActs;
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -67,7 +67,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                     <StyledTableCell>No data yet ...</StyledTableCell>
                   </TableRow>
                 )
-                : writeOffActssData
+                : writeOffActData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((writeOffAct) => (
                     <StyledTableRow key={writeOffAct.id}>
