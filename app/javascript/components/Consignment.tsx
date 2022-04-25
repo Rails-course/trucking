@@ -30,7 +30,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   );
 
   const [goods, setGoods] = React.useState([]);
-  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
+  const [checkedGoods, setCheckedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
   const [data, setData] = React.useState(null);
   const [owners, setOwners] = React.useState([]);
@@ -54,6 +54,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
+    // TODO: refactor reseting goods state on close and after submit
+    // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
+    setTimeout(() => {
+      setCheckedGoods([]);
+    }, 1000)
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
@@ -84,7 +89,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
         return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
@@ -100,7 +104,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setWaybillGoodsStatus(consWaybillId, checkedGoods)
+        return httpClient.goods.setWaybillGoodsStatus(consWaybillId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -114,7 +118,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             }, 5000);
           });
     }
-    setCheckedGooods([]);
   };
 
   return (
@@ -173,7 +176,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleClose={handleClose}
         goods={goods}
         checkedGoods={checkedGoods}
-        setCheckedGooods={setCheckedGooods}
+        setCheckedGoods={setCheckedGoods}
         handleGoodsSubmit={handleGoodsSubmit}
         currentUserRole={currentUserRole}
         titleStatus={titleStatus}

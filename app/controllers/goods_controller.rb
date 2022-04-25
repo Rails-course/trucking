@@ -4,12 +4,6 @@ class GoodsController < ApplicationController
   before_action :set_consignment, only: %i[get_consignment_goods set_goods_cheked_status]
   before_action :set_waybill_goods, only: %i[waybill_goods set_goods_delivered_status]
 
-  # NOTE: DEPRECATED, remove method below after stability check in develop
-  def get_consignment_goods
-    authorize! :read, Good
-    render json: @consignment.goods.to_json
-  end
-
   def waybill_goods
     render json: @goods.to_json
   end
@@ -20,7 +14,7 @@ class GoodsController < ApplicationController
     @checked_goods = @consignment.goods.where(id: params[:checkedGoodsIds])
     begin
       Good.transaction do
-        @checked_goods.each { |checked_item| checked_item.update(status: 'checked') }
+        @checked_goods.each { |item| item.update(status: 'checked') }
         @consignment.update(status: 'checked', manager: current_user)
       end
     rescue ActiveRecord::RecordInvalid => e
@@ -32,9 +26,10 @@ class GoodsController < ApplicationController
   def set_goods_delivered_status
     authorize! :update, Good
     authorize! :update, Consignment
+    @delivered_goods = @consignment.goods.where(id: params[:checkedGoodsIds])
     begin
       Good.transaction do
-        @consignment.goods.each { |item| item.update(status: 'delivered') }
+        @delivered_goods.each { |item| item.update(status: 'delivered') }
         @consignment.update(status: 'delivered')
       end
     rescue ActiveRecord::RecordInvalid => e

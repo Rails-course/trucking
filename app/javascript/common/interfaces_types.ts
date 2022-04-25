@@ -168,8 +168,8 @@ export interface CheckpointWindowFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    wayID:number,
-    setCheckpoints:any,
+    wayID: number,
+    setCheckpoints: any,
 }
 
 export interface CheckpointsFormProps {
@@ -181,9 +181,9 @@ export interface CheckpointsFormProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
-    handleSubmitWaybill:(id:number)=>void,
-    formErrorsCheckpoints:any,
-    setCheckpoints:any,
+    handleSubmitWaybill: (id: number) => void,
+    formErrorsCheckpoints: any,
+    setCheckpoints: any,
 }
 
 export interface ConsignmentGoodsProps {
@@ -191,7 +191,7 @@ export interface ConsignmentGoodsProps {
     handleClose: () => void;
     goods: Item[];
     checkedGoods: any, setTitleStatus: any;
-    setCheckedGooods: any, handleGoodsSubmit: any;
+    setCheckedGoods: any, handleGoodsSubmit: any;
     currentUserRole: any;
     titleStatus: string;
 }
