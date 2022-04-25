@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, alertSetOpen, setAlertType, setAlertText,
+    companies, setCompany, alertSetOpen, setAlertType, setAlertText, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -59,7 +59,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
       alertSetOpen(false);
     }, 5000);
   };
-
+  const companiesData = searchData || companies;
   return (
     <div>
       <TableContainer component={Paper}>
@@ -77,7 +77,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                   <StyledTableCell>No data yet ...</StyledTableCell>
                 </TableRow>
               )
-              : companies.map((company) => (
+              : companiesData.map((company) => (
                 <StyledTableRow key={company.name}>
                   <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
                   <StyledTableCell align="right" style={{ width: '30%' }}>

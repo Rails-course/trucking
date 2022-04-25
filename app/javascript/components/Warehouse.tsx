@@ -7,6 +7,7 @@ import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
+import Search from './Search';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const { currentUserRole } = props;
@@ -16,6 +17,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [alertOpen, alertSetOpen] = React.useState(false);
   const [alertType, setAlertType] = React.useState();
   const [alertText, setAlertText] = React.useState();
+  const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
     setModalActive(false);
@@ -32,17 +34,21 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={warehouses} keyField="" />
+          </Grid>
           {currentUserRole === 'admin'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Warehouse
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <WarehouseTable
               warehouses={warehouses}
@@ -51,6 +57,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
               setAlertType={setAlertType}
               setAlertText={setAlertText}
               currentUserRole={currentUserRole}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
