@@ -8,9 +8,6 @@ class WriteOffAct < ApplicationRecord
   validate :good_name_and_quantity
   before_create :update_lost_goods_status
 
-  def bundle_name
-    "#{consignment.bundle_seria} #{consignment.bundle_number}"
-  end
 
   private
 

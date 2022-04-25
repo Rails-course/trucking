@@ -161,7 +161,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         </Button>
                       </StyledTableCell>
                       <StyledTableCell align="left">{user.login}</StyledTableCell>
-                      <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
+                      <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
                     </TableRow>
                   );
                 })}
