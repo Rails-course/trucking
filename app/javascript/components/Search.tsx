@@ -11,7 +11,8 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
   const { setData, Data, keyField } = props;
 
   const normalize = (str: string) => str.toLowerCase().replace(/\s+/g, ' ')
-    .trim().replace(/ /g, '').replace(/,/g, '');
+    .trim().replace(/ /g, '')
+    .replace(/,/g, '');
   const handleSubmit = (values) => {
     let data = (Data.filter((key) => normalize(Object.values(key).toString())
       .includes(normalize((values.text)))));
