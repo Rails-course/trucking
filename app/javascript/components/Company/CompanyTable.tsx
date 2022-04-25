@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, alertSetOpen, setAlertType, setAlertText,searchData
+    companies, setCompany, alertSetOpen, setAlertType, setAlertText, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 

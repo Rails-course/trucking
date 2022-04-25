@@ -130,7 +130,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={consignments} keyField={'dispatcher'} />
+            <Search setData={setSearchData} Data={consignments} keyField="dispatcher" />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (

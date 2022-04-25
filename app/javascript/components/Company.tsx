@@ -7,7 +7,7 @@ import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
 import { CompanyProps } from '../common/interfaces_types';
-import Search from "./Search";
+import Search from './Search';
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const { currentUserRole } = props;
@@ -37,7 +37,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={companies} keyField={''} />
+            <Search setData={setSearchData} Data={companies} keyField="" />
           </Grid>
           {currentUserRole === 'system administrator'
             ? (

@@ -76,7 +76,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
-                {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+              {formErrors ? <p className="error-msg">{formErrors}</p> : null}
               <Formik
                 initialValues={waybillInitialValues}
                 onSubmit={handleSubmit}

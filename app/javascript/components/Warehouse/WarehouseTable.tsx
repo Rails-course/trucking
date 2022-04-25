@@ -13,7 +13,7 @@ import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole,searchData
+    warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 

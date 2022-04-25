@@ -16,7 +16,7 @@ import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, userIds, setUserId, setEditUserModal,searchData,
+    users, setUser, userIds, setUserId, setEditUserModal, searchData,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');

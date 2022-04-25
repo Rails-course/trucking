@@ -7,7 +7,7 @@ import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
-import Search from "./Search";
+import Search from './Search';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const { currentUserRole } = props;

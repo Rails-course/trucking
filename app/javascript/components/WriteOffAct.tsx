@@ -7,7 +7,7 @@ import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
 import { WriteOffActsProps } from '../common/interfaces_types';
-import Search from "./Search";
+import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
   const { currentUserRole } = props;
@@ -61,7 +61,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={writeOffActs} keyField={'consignment'}  />
+            <Search setData={setSearchData} Data={writeOffActs} keyField="consignment" />
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (

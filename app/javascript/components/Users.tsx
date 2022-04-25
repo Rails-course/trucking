@@ -7,7 +7,7 @@ import UsersTable from './Users/table/Table';
 import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
-import Search from "./Search";
+import Search from './Search';
 
 const Users = () => {
   const [isActiveModal, setModalActive] = React.useState(false);
@@ -59,7 +59,7 @@ const Users = () => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={users} keyField='' />
+            <Search setData={setSearchData} Data={users} keyField="" />
           </Grid>
           <Grid item xs={1.4} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
@@ -87,7 +87,7 @@ const Users = () => {
         btnTitle={editUserModal ? 'Update' : 'Create'}
         formErrors={formErrors}
       />
-    </div >
+    </div>
   );
 };
 
