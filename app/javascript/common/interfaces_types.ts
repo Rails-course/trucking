@@ -119,6 +119,7 @@ export interface Warehouseman {
 }
 
 export interface EnhancedTableProps {
+    setUpdateModalActive: any;
     users: any;
     setUser: any;
     userIds: number[];
@@ -145,7 +146,8 @@ export interface EnhancedTableToolbarProps {
 }
 
 export interface UserCreateFormProps {
-    isActiveModal: boolean;
+    createModal: boolean;
+    updateModal: boolean;
     handleClose: () => void;
     editUserModal: any;
     title: string;

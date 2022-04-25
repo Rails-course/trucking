@@ -15,24 +15,23 @@ import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/inte
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
-    formErrors, companies, roles
+    createModal, updateModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
+    formErrors, companies, roles,
   } = props;
 
-  const AutoUpdateForm = ({ id }) => {
+  const LoadUserData = ({ id }) => {
     const { setFieldValue } = useFormikContext();
-    // NOTE: Can we use users array on front-end instead of send request to get data
-    // for specific user?
+
     React.useEffect(() => {
       if (id) {
         httpClient.users.get(id).then(({ data }) => {
           Object.keys(data).forEach((filedName) => {
             setFieldValue(filedName, data[filedName], false);
           });
-          setFieldValue("town", data.address.town, false)
-          setFieldValue("street", data.address.street, false)
-          setFieldValue("building", data.address.building, false)
-          setFieldValue("apartment", data.address.apartment, false)
+          setFieldValue('town', data.address.town, false);
+          setFieldValue('street', data.address.street, false);
+          setFieldValue('building', data.address.building, false);
+          setFieldValue('apartment', data.address.apartment, false);
           // TODO: Autocomplete field set value
         });
       }
@@ -43,7 +42,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   return (
     <div>
       <Dialog
-        open={isActiveModal}
+        open={createModal || updateModal}
         onClose={handleClose}
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 735 } }}
         maxWidth="xs"
@@ -114,22 +113,25 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                         </Box>
                       </div>
 
-                      {/* TODO: Hide company field if EditUserModal is active */}
-                      <Autocomplete
-                        id="company"
-                        options={companies}
-                        getOptionLabel={(option: CompanyType) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Company"
-                            fullWidth
-                            value={values?.company}
+                      {createModal
+                        ? (
+                          <Autocomplete
+                            id="company"
+                            options={companies}
+                            getOptionLabel={(option: CompanyType) => option.name}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                onSelect={handleChange}
+                                margin="normal"
+                                label="Company"
+                                fullWidth
+                                value={values?.company}
+                              />
+                            )}
                           />
-                        )}
-                      />
+                        )
+                        : null}
 
                       <Autocomplete
                         id="role"
@@ -151,10 +153,12 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
 
                     <DialogActions>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose} color="success" variant="outlined">{btnTitle}</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
                     </DialogActions>
 
-                    <AutoUpdateForm id={editUserModal} />
+                    {updateModal
+                      ? <LoadUserData id={editUserModal} />
+                      : null}
 
                   </Form>
                 )}

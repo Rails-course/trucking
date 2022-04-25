@@ -30,20 +30,19 @@ class PagesController < ApplicationController
 
   def update_user
     if @user.update(user_params)
-      flash[:success] = 'User successfully updated'
+      render json: @user.to_json(include: %i[role address])
     else
-      flash[:alert] = 'Something went wrong with updating user'
-      render 'pages/users_index'
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def create_user
+    authorize! :create, User
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'User successfully created'
+      render json: @user.to_json(include: %i[role address])
     else
-      flash[:alert] = 'Something went wrong with creating new user'
-      render 'pages/users_index'
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 

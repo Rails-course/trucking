@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import {
   Table, TableBody, TableContainer, Paper, Box,
@@ -16,7 +15,7 @@ import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, userIds, setUserId, setEditUserModal,
+    users, setUser, userIds, setUserId, setEditUserModal, setUpdateModalActive,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -38,10 +37,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const handleRequestSort = (
@@ -92,9 +93,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setPage(0);
   };
 
-  React.useEffect(() => {
-    axios.get('/users.json').then((response) => setUser(response.data));
-  }, []);
+  const openUpdateModal = (id) => {
+    setEditUserModal(id);
+    setUpdateModalActive(true);
+  };
 
   if (!users) { return (<p>Loading...</p>); }
 
@@ -131,17 +133,16 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, String(name), +user.id)}
-                      role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={name}
+                      key={user.id}
                       selected={isItemSelected}
                     >
                       <StyledTableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
+                          onClick={(event) => handleClick(event, String(name), +user.id)}
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}
@@ -155,7 +156,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                       >
                         <Button
                           variant="text"
-                          onClick={() => setEditUserModal(user.id)}
+                          onClick={() => { openUpdateModal(user.id); }}
                         >
                           {name}
                         </Button>
