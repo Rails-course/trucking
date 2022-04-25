@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class ApiController < ActionController::Base
@@ -7,13 +9,10 @@ module Api
       private
 
       def check_basic_auth
-        unless request.authorization.present?
-          head :unauthorized
-          return
-        end
+        head :unauthorized if request.authorization.blank?
         authenticate_with_http_basic do |email, password|
           user = User.find_by(email: email.downcase)
-          if user && user.valid_password?(password) && user.warehouse
+          if user&.valid_password?(password) && user&.warehouse
             @current_user = user
           else
             head :unauthorized

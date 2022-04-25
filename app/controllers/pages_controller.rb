@@ -46,7 +46,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def get_drivers
+  def drivers
     @users = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
     respond_to do |format|
       format.json do
@@ -55,7 +55,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def get_warehousemans
+  def warehousemans
     @users = User.where(role: Role.find_by(role_name: 'warehouseman'))
     respond_to do |format|
       format.json do

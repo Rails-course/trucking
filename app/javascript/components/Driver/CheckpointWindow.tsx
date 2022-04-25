@@ -17,7 +17,7 @@ const CheckpointWindow:
     const [isActiveModal, setActiveModal] = React.useState(false);
 
     const updateCheckpoints = () => {
-      httpClient.route.get_routes(wayID).then((response) => setCheckpoints(response.data));
+      httpClient.route.getRoutes(wayID).then((response) => setCheckpoints(response.data));
     };
 
     const handleClose = () => setActiveModal(false);

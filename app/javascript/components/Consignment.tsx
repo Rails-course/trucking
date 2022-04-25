@@ -58,7 +58,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
     setTimeout(() => {
       setCheckedGoods([]);
-    }, 1000)
+    }, 1000);
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {

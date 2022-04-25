@@ -32,11 +32,11 @@ class WriteOffActsController < ApplicationController
 
   def create_write_off_act_params
     write_off_act_params = permit_write_off_act_params
-    write_off_act_params[:consignment] = get_consigment_from_params
+    write_off_act_params[:consignment] = find_consigment_from_params
     write_off_act_params
   end
 
-  def get_consigment_from_params
+  def find_consigment_from_params
     consignment_credentials = permit_write_off_act_params[:consignment].split
     consignment_seria = consignment_credentials[0]
     consignment_number = consignment_credentials[1]

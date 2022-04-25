@@ -44,7 +44,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
 
   React.useEffect(() => {
-    httpClient.warehouses.get_all()
+    httpClient.warehouses.getWarehouses()
       .then((response) => {
         if (componentMounted.current) {
           setWarehouses(response.data);

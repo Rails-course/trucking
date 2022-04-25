@@ -24,7 +24,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => {
+    httpClient.waybill.getWaybills().then((response) => {
       if (componentMounted.current) {
         const waybillsOrder = ['transportation started', 'delivered to the recipient'];
         setWaybill(response.data

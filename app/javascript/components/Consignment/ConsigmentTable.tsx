@@ -33,8 +33,8 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   const openWaybillCreateModal = (id) => {
-    const getWaybillData = httpClient.waybill.get_data_waybill(id);
-    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
+    const getWaybillData = httpClient.waybill.getWaybillData(id);
+    const getGoodsOwnerNames = httpClient.goodsOwner.getGoodsOwners();
     setConsID(id);
     axios.all([getWaybillData, getGoodsOwnerNames])
       .then(axios.spread((...responses) => {

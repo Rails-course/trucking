@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class ConsignmentsController < ApiController
@@ -17,13 +19,14 @@ module Api
       def show
         authorize! :read, Consignment
         if current_user.warehouse.trusted
-          render json: @consignments.find(params[:id]).to_json(except: %i[created_at updated_at dispatcher_id
+          render json: @consignments.find(params[:id]).to_json(except: %i[created_at updated_at
+                                                                          dispatcher_id
                                                                           manager_id],
                                                                include: consignment_included_params)
         else
           render json: 'Access denied', status: :forbidden
         end
-      rescue ActiveRecord::RecordNotFound => e
+      rescue ActiveRecord::RecordNotFound
         render json: "Couldn't find Consignment with 'id'=#{params[:id]}", status: :not_found
       end
 

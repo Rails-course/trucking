@@ -3,7 +3,7 @@ export const getDriversUrl = '/users/drivers.json';
 export const getWarehousemansUrl = '/users/warehousemans.json';
 export const UsersUrl = '/users';
 // TRUCKS
-export const TrucksUrl = '/trucks.json';
+export const TrucksUrl = '/trucks';
 // CONSIGNMENTS
 export const ConsignmentUrl = '/consignments';
 export const getAllConsignmentUrl = '/consignments.json';

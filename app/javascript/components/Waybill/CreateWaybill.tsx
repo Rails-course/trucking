@@ -56,7 +56,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const closeCreateRoutes = () => setCreateRoutes(false);
 
   React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
+    httpClient.warehouses.getWarehouses().then((response) => {
       if (componentMounted.current) setWarehouses(response.data);
     });
     return () => {
@@ -76,7 +76,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
-                {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+              {formErrors ? <p className="error-msg">{formErrors}</p> : null}
               <Formik
                 initialValues={waybillInitialValues}
                 onSubmit={handleSubmit}
@@ -162,7 +162,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={owners}
-                        getOptionLabel={(option:any) => option.goods_owner_name}
+                        getOptionLabel={(option: any) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -212,7 +212,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
 
-                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null }
+                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null}
 
                     </Container>
 

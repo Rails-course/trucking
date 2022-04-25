@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   get '/users', to: 'pages#users_index'
   scope '/users' do
-    get '/drivers', to: 'pages#get_drivers'
-    get '/warehousemans', to: 'pages#get_warehousemans'
+    get '/drivers', to: 'pages#drivers'
+    get '/warehousemans', to: 'pages#warehousemans'
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
     patch '/:id/edit', to: 'pages#update_user'

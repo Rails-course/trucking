@@ -15,7 +15,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
-    httpClient.companies.get_data()
+    httpClient.companies.getCompanies()
       .then((response) => {
         if (componentMounted.current) setCompany(response.data);
       });
@@ -27,7 +27,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   // NOTE: updating companies this way isn't good
   // We dont need to fetch all companies when we performing action to a single one
   const updateData = () => {
-    httpClient.companies.get_data().then((response) => setCompany(response.data));
+    httpClient.companies.getCompanies().then((response) => setCompany(response.data));
   };
 
   const deleteCompany = (id) => {
