@@ -18,14 +18,12 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments,
+    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments, warehouses
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [warehouses, setWarehouses] = React.useState([]);
-  const componentMounted = React.useRef(true);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
@@ -54,15 +52,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
-
-  React.useEffect(() => {
-    httpClient.warehouses.getWarehouses().then((response) => {
-      if (componentMounted.current) setWarehouses(response.data);
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   return (
     <div>

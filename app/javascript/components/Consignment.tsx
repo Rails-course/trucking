@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
+import axios from 'axios';
+import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import httpClient from '../api/httpClient';
 import { ConsignmentProps, Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
@@ -34,11 +35,14 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [consId, setConsID] = React.useState(null);
   const [data, setData] = React.useState(null);
   const [owners, setOwners] = React.useState([]);
+  const [warehouses, setWarehouses] = React.useState([]);
   const [consWaybillId, setConsWaybillId] = React.useState(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
+  const [drivers, setDrivers] = React.useState(null);
+  const [trucks, setTrucks] = React.useState(null);
 
   const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
@@ -120,6 +124,21 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     }
   };
 
+  const openCreateConsignment = () => {
+    // NOTE: each time we open create consignment modal we send requests
+    // probably there is a better way to handle this logic
+    const getTrucks = httpClient.trucks.getTrucks();
+    const getDrivers = httpClient.users.getDrivers();
+    axios.all([getTrucks, getDrivers])
+      .then(
+        axios.spread((...responses) => {
+          setTrucks(responses[0].data);
+          setDrivers(responses[1].data);
+          setModalActive(true);
+        })
+      );
+  };
+
   return (
     <div className="wrapper">
       <Box sx={{
@@ -138,7 +157,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           {currentUserRole === 'dispatcher'
             ? (
               <Grid item xs={1.75} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={openCreateConsignment}>
                   Create Consignment
                 </Button>
               </Grid>
@@ -155,6 +174,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               formErrors={formErrors}
               setData={setData}
               setOwners={setOwners}
+              setWarehouses={setWarehouses}
               currentUserRole={currentUserRole}
               setConsWaybillId={setConsWaybillId}
               searchData={searchData}
@@ -170,6 +190,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
+        drivers={drivers}
+        trucks={trucks}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
@@ -189,6 +211,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         data={data}
         handleClose={handleClose}
         owners={owners}
+        warehouses={warehouses}
         formWaybillErrors={formErrors}
         alertSetOpen={alertSetOpen}
         setAlertType={setAlertType}

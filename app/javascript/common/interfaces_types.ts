@@ -48,6 +48,8 @@ export interface CreateConsignmentFormProps {
     handleFieldAdd: any;
     handleFieldChange: any,
     formErrors: any;
+    trucks: any;
+    drivers: any;
 }
 
 export interface WarehouseData {
@@ -79,6 +81,7 @@ export interface CreateWaybillsFormProps {
     setAlertType: any,
     setAlertText: any,
     setConsignment: any, consignments: any;
+    warehouses: any;
 }
 
 export interface CreateRoutesFormProps {
@@ -207,6 +210,7 @@ export interface ConsignmentTableProps {
     consignments: any, setData: any;
     currentUserRole: any, setConsWaybillId: any;
     searchData: any;
+    setWarehouses: any;
 }
 
 export interface CreateCompanyFormProps {

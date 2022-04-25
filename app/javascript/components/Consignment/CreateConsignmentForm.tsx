@@ -18,29 +18,8 @@ const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
       isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-      handleFieldChange, formErrors,
+      handleFieldChange, formErrors, trucks, drivers
     } = props;
-
-    const [drivers, setDrivers] = React.useState(null);
-    const [trucks, setTrucks] = React.useState(null);
-    const componentMounted = React.useRef(true);
-
-    React.useEffect(() => {
-      const getTrucks = httpClient.trucks.getTrucks();
-      const getDrivers = httpClient.users.getDrivers();
-      axios.all([getTrucks, getDrivers])
-        .then(
-          axios.spread((...responses) => {
-            if (componentMounted.current) {
-              setTrucks(responses[0].data);
-              setDrivers(responses[1].data);
-            }
-          }),
-        );
-      return () => {
-        componentMounted.current = false;
-      };
-    }, []);
 
     return (
       <div>
