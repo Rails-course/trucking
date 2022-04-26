@@ -8,15 +8,17 @@ import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
+import { UsersProps } from '../common/interfaces_types';
 
-const Users = ({ companiesJSON, rolesJSON }) => {
+const Users: React.FC<UsersProps> = (props: UsersProps) => {
+  const { rolesJSON, companiesJSON, usersJSON } = props;
   const [createModal, setCreateModalActive] = React.useState(false);
   const [updateModal, setUpdateModalActive] = React.useState(false);
-  const [users, setUser] = React.useState<UserData[]>(null);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
   const [roles, setRoles] = React.useState(JSON.parse(rolesJSON));
+  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
+  const [users, setUser] = React.useState(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {

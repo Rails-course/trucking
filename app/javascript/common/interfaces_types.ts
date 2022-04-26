@@ -254,8 +254,8 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData:any;
-    Data:any;
+    setData: any;
+    Data: any;
     keyField: string;
 }
 
@@ -274,4 +274,10 @@ export interface WarehouseProps {
 
 export interface CompanyProps {
     currentUserRole: string;
+}
+
+export interface UsersProps {
+    rolesJSON: string;
+    companiesJSON: string;
+    usersJSON: string;
 }

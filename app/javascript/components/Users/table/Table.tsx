@@ -5,12 +5,10 @@ import {
   Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow,
 } from '@mui/material';
 
-import axios from 'axios';
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
 import { UserData, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
-import httpClient from '../../../api/httpClient';
 import { EnhancedTableProps } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
@@ -25,18 +23,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const componentMounted = React.useRef(true);
-
-  React.useEffect(() => {
-    httpClient.users.getAll()
-      .then((response) => {
-        if (componentMounted.current) setUser(response.data);
-      });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
 
@@ -81,10 +67,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setEditUserModal(id);
     setUpdateModalActive(true);
   };
-
-  React.useEffect(() => {
-    axios.get('/users.json').then((response) => setUser(response.data));
-  }, []);
 
   const UsersData = searchData || users;
 
