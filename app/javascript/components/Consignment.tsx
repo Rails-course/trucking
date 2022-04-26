@@ -20,8 +20,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [searchData, setSearchData] = React.useState();
-  const [alert, setAlert] = React.useState({ text: '', type: '', open: false });
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState(
@@ -66,11 +66,19 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .then((response) => {
         setConsignment((prevConsignment) => [...prevConsignment, response.data]);
         setModalActive(false);
-        setAlert({ text: 'Successfully created consignment with goods!', type: 'success', open: true });
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created consignment with goods!',
+          open: true,
+        });
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
-        setAlert({ text: 'Something went wrong with creating consignment or goods', type: 'error', open: true });
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating consignment or goods',
+          open: true,
+        });
       });
   };
 
@@ -85,7 +93,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlert({ text: 'Goods status changed!', type: 'info', open: true });
+            setAlertData({
+              alertType: 'info',
+              alertText: 'Goods status changed!',
+              open: true,
+            });
           });
       case 'Delivered':
         setTitleStatus('');
@@ -95,7 +107,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlert({ text: 'Goods status changed!', type: 'info', open: true });
+            setAlertData({
+              alertType: 'info',
+              alertText: 'Goods status changed!',
+              open: true,
+            });
           });
     }
   };
@@ -113,7 +129,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={consignments} />
+            <Search setData={setSearchData} Data={consignments} keyField="dispatcher" />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (
@@ -172,12 +188,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleClose={handleClose}
         owners={owners}
         formWaybillErrors={formErrors}
-        setAlert={setAlert}
         consignments={consignments}
         setConsignment={setConsignment}
+        setAlertData={setAlertData}
         warehouses={warehouses}
       />
-      <SiteAlerts alert={alert} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

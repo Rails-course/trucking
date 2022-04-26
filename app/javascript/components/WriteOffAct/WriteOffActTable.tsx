@@ -10,7 +10,7 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { writeOffActTableCell } from '../../constants/writeOffActFields';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
-  const { writeOffActs } = props;
+  const { writeOffActs, searchData } = props;
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -19,13 +19,17 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - writeOffActs.length) : 0;
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
+
+  const writeOffActData = searchData || writeOffActs;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -47,10 +51,10 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
               {!writeOffActs
                 ? (
                   <TableRow>
-                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : writeOffActs
+                : writeOffActData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((writeOffAct) => (
                     <StyledTableRow key={writeOffAct.id}>

@@ -13,7 +13,7 @@ import { checkpointsFields } from '../../constants/checkpoints';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlert, handleSubmitWaybill, formErrorsCheckpoints, setCheckpoints,
+    setAlertData, handleSubmitWaybill, formErrorsCheckpoints, setCheckpoints,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -39,7 +39,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
               {!checkpoints
                 ? (
                   <TableRow>
-                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
                 : checkpoints.map((checkpoint) => (
@@ -52,7 +52,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         id={checkpoint.id}
                         status={checkpoint.is_passed}
                         currentUserRole={currentUserRole}
-                        setAlert={setAlert}
+                        setAlertData={setAlertData}
                         wayID={id}
                         setCheckpoints={setCheckpoints}
                       />

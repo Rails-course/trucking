@@ -14,24 +14,34 @@ import { StyledTableCell } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlert, currentUserRole,
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData,
   } = props;
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
     await httpClient.warehouses.trust(warehouse.id).then((response) => {
       setWarehouses([...warehouses, response.data]);
-      setAlert({ text: 'Warehouse successfully set trusted/untrusted', type: 'info', open: true });
+      setAlertData({
+        alertType: 'info',
+        alertText: 'Warehouse successfully set trusted/untrusted',
+        open: true,
+      });
     });
   };
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: WarehouseData) => data.id !== id));
-    setAlert({ text: 'Warehouse successfully deleted', type: 'warning', open: true });
+    setAlertData({
+      alertType: 'warning',
+      alertText: 'Warehouse successfully deleted',
+      open: true,
+    });
   };
 
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
+
+  const warehousesData = searchData || warehouses;
 
   return (
     <div>
@@ -55,7 +65,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
               <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
             </TableRow>
           )
-          : warehouses.map((value: WarehouseData) => {
+          : warehousesData.map((value: WarehouseData) => {
             const labelId = `checkbox-list-label-${value}`;
             return (
               <ListItem
@@ -69,7 +79,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                   >
                     <DeleteIcon color="error" />
                   </IconButton>
-              )}
+                )}
                 disablePadding
                 sx={{ width: '95%' }}
               >

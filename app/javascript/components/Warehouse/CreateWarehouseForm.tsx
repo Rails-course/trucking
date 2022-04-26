@@ -16,8 +16,7 @@ import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_
 const WarehouseCreateForm:
     React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
       const {
-        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlert,
-        warehousemansData,
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData, warehousemansData,
       } = props;
 
       const handleSubmit = (warehouse: warehouseFormValues) => {
@@ -25,11 +24,19 @@ const WarehouseCreateForm:
           .then((response) => {
             setWarehouses((prev) => [...prev, response.data]);
             handleClose();
-            setAlert({ text: 'Successfully created a warehouse!', type: 'success', open: true });
+            setAlertData({
+              alertType: 'success',
+              alertText: 'Successfully created a warehouse!',
+              open: true,
+            });
           })
           .catch((error) => {
             setFormErrors(error.response.data);
-            setAlert({ text: 'Something went wrong with creating a warehouse', type: 'error', open: true });
+            setAlertData({
+              alertType: 'error',
+              alertText: 'Something went wrong with creating a warehouse',
+              open: true,
+            });
           });
       };
 

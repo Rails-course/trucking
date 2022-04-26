@@ -14,9 +14,9 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-  const [alert, setAlert] = React.useState({ text: '', type: '', open: false });
 
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
   const [waybills, setWaybill] = React.useState((waybillsJSON)
@@ -28,11 +28,19 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
-        setAlert({ text: 'Successfully finished cargo transportation!', type: 'success', open: true });
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully finished cargo transportation!',
+          open: true,
+        });
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
-        setAlert({ text: 'Couldn\'t complete the trip!', type: 'error', open: true });
+        setAlertData({
+          alertType: 'error',
+          alertText: "Couldn't complete the trip!",
+          open: true,
+        });
       });
   };
 
@@ -49,7 +57,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={waybills} />
+            <Search setData={setSearchData} Data={waybills} keyField="" />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
@@ -69,12 +77,12 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
         currentUserRole={currentUserRole}
-        setAlert={setAlert}
+        setAlertData={setAlertData}
         handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />
-      <SiteAlerts alert={alert} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

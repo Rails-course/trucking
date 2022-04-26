@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 
 import {
   Table, TableBody, TableContainer, Paper, Box,
@@ -9,12 +10,13 @@ import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
 import { UserData, Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
+import httpClient from '../../../api/httpClient';
 import { EnhancedTableProps } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, userIds, setUserId, setEditUserModal,
+    users, setUser, userIds, setUserId, setEditUserModal, searchData,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -23,6 +25,17 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const componentMounted = React.useRef(true);
+
+  React.useEffect(() => {
+    httpClient.users.getAll()
+      .then((response) => {
+        if (componentMounted.current) setUser(response.data);
+      });
+    return () => {
+      componentMounted.current = false;
+    };
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,14 +92,18 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setPage(0);
   };
 
-  if (!users) { return (<CircularProgress color="primary" />); }
+  React.useEffect(() => {
+    axios.get('/users.json').then((response) => setUser(response.data));
+  }, []);
+  const UsersData = searchData || users;
+  if (!users) { return (<p>Loading...</p>); }
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selected.length}
-          users={users}
+          users={UsersData}
           setUser={setUser}
           userIds={userIds}
         />
@@ -102,13 +119,13 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={users.length}
+              rowCount={UsersData.length}
             />
             <TableBody>
-              {stableSort(users, getComparator(order, orderBy))
+              {stableSort(UsersData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
-                  const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
+                  const name = `${user.first_name} ${user.second_name} ${user.middle_name}`;
                   const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (

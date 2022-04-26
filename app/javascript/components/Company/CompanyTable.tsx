@@ -10,16 +10,20 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlert, resumeCompany, suspendCompany,
+    companies, setCompany, setAlertData, searchData, resumeCompany, suspendCompany,
   } = props;
 
   const deleteCompany = (id) => {
     httpClient.companies.delete(id).then(() => {
       setCompany(companies.filter((company) => id !== company.id));
     });
-    setAlert({ type: 'warning', text: 'Company successfully deleted', open: true });
+    setAlertData({
+      alertType: 'success',
+      alertText: 'Company successfully deleted!',
+      open: true,
+    });
   };
-
+  const companiesData = searchData || companies;
   return (
     <div>
       <TableContainer component={Paper}>
@@ -37,7 +41,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                   <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                 </TableRow>
               )
-              : companies.map((company) => (
+              : companiesData.map((company) => (
                 <StyledTableRow key={company.id}>
                   <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
                   <StyledTableCell align="right" style={{ width: '30%' }}>

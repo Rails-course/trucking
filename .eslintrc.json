@@ -18,7 +18,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "only-warn"
     ],
     "rules": {
         "react/jsx-filename-extension": [
@@ -42,6 +43,7 @@
                 "tsx": "never"
             }
         ],
+        "linebreak-style":"off",
         "no-underscore-dangle": "off",
         "import/prefer-default-export": "off",
         "react/jsx-props-no-spreading": "off",

@@ -6,13 +6,15 @@ import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
+import Search from './Search';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const { currentUserRole, warehousesJSON, warehousemansData } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alert, setAlert] = React.useState({ text: '', type: '', open: false });
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
     setModalActive(false);
@@ -29,23 +31,28 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={warehouses} keyField="" />
+          </Grid>
           {currentUserRole === 'admin'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Warehouse
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <WarehouseTable
               warehouses={warehouses}
               setWarehouses={setWarehouses}
-              setAlert={setAlert}
+              setAlertData={setAlertData}
               currentUserRole={currentUserRole}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -56,10 +63,10 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         setWarehouses={setWarehouses}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        setAlert={setAlert}
+        setAlertData={setAlertData}
         warehousemansData={warehousemansData}
       />
-      <SiteAlerts alert={alert} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

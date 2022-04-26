@@ -7,6 +7,7 @@ import UsersTable from './Users/table/Table';
 import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
+import Search from './Search';
 import { UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
@@ -17,6 +18,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [searchData, setSearchData] = React.useState();
 
   const isModalActive = isActiveModal || !!editUserModal;
 
@@ -53,19 +55,30 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-          <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
-            Create User
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <UsersTable
-            users={users}
-            setUser={setUser}
-            userIds={userIds}
-            setUserId={setUserId}
-            setEditUserModal={setEditUserModal}
-          />
+        <Grid
+          container
+          rowSpacing={3}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
+        >
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={users} keyField="" />
+          </Grid>
+          <Grid item xs={1.4} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+              Create User
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <UsersTable
+              users={users}
+              setUser={setUser}
+              userIds={userIds}
+              setUserId={setUserId}
+              setEditUserModal={setEditUserModal}
+              searchData={searchData}
+            />
+          </Grid>
         </Grid>
       </Box>
       <CreateForm

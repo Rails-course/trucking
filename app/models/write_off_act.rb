@@ -8,6 +8,7 @@ class WriteOffAct < ApplicationRecord
   validate :good_name_and_quantity
   before_create :update_lost_goods_status
 
+
   private
 
   def update_lost_goods_status

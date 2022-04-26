@@ -7,6 +7,7 @@ import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
 import { CompanyProps } from '../common/interfaces_types';
+import Search from './Search';
 import httpClient from '../api/httpClient';
 
 const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
@@ -14,7 +15,8 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(JSON.parse(companiesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alert, setAlert] = React.useState<object>({ open: false });
+  const [searchData, setSearchData] = React.useState();
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
 
   const handleClose = () => {
     setModalActive(false);
@@ -49,22 +51,27 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={companies} keyField="" />
+          </Grid>
           {currentUserRole === 'system administrator'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Company
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <CompanyTable
               companies={companies}
               setCompany={setCompany}
-              setAlert={setAlert}
+              setAlertData={setAlertData}
+              searchData={searchData}
               suspendCompany={suspendCompany}
               resumeCompany={resumeCompany}
             />
@@ -77,9 +84,9 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         setCompany={setCompany}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        setAlert={setAlert}
+        setAlertData={setAlertData}
       />
-      <SiteAlerts alert={alert} setAlert={setAlert} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

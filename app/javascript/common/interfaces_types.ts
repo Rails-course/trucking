@@ -58,7 +58,7 @@ export interface WarehouseData {
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: any,
+    writeOffActs: any, searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
@@ -67,6 +67,7 @@ export interface CreateWriteOffActFormProps {
     handleSubmit: any;
     formErrors: any;
     consignmentsJSON: string;
+    setAlertData:any,
 }
 
 export interface CreateWaybillsFormProps {
@@ -76,7 +77,7 @@ export interface CreateWaybillsFormProps {
     isActiveWayBill: boolean;
     setWayBillActive: any;
     data: any, owners: any;
-    setAlert: any,
+    setAlertData:any,
     setConsignment: any, consignments: any;
     warehouses: [];
 }
@@ -91,7 +92,8 @@ export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
     currentUserRole: any;
-    setAlert: any,
+    setAlertData:any,
+    searchData: any;
 }
 
 export interface CreateWarehouseFormProps {
@@ -100,7 +102,7 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    setAlert: any,
+    setAlertData:any,
     warehousemansData: [];
 }
 
@@ -121,6 +123,7 @@ export interface EnhancedTableProps {
     userIds: number[];
     setUserId: any;
     setEditUserModal: any;
+    searchData: any;
 }
 
 export interface EnhancedHeadTableProps {
@@ -159,7 +162,7 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
-    setAlert: any;
+    setAlertData:any,
     wayID: number,
     setCheckpoints: any,
 }
@@ -170,7 +173,7 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
-    setAlert: any,
+    setAlertData:any,
     handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: any,
     setCheckpoints: any,
@@ -203,13 +206,12 @@ export interface CreateCompanyFormProps {
     handleClose: () => void;
     setCompany: any, formErrors: any;
     setFormErrors: any,
-    setAlert: any,
+    setAlertData:any,
 }
 
 export interface CompanyTableProps {
-    companies: any,
-    setCompany: any,
-    setAlert: any,
+    companies: any, setCompany: any;
+    setAlertData:any, searchData: any;
     suspendCompany: any, resumeCompany: any;
 }
 
@@ -227,12 +229,13 @@ export interface WaybillProps {
 }
 
 export interface SiteAlertProps {
-    alert:any, setAlert:any,
+    alertData:any, setAlertData:any;
 }
 
 export interface SearchProps {
-    setData: any;
-    Data: any;
+    setData:any;
+    Data:any;
+    keyField: string;
 }
 
 export interface ConsignmentProps {

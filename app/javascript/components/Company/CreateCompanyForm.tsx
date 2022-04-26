@@ -11,7 +11,7 @@ import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlert,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
   const handleSubmit = async (values) => {
@@ -19,11 +19,19 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
       .then((response) => {
         handleClose();
         setCompany((prevCompany) => [...prevCompany, response.data]);
-        setAlert({ type: 'success', text: 'Successfully created a company!', open: true });
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created a company!',
+          open: true,
+        });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlert({ type: 'error', text: 'Something went wrong with creating a company', open: true });
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating a company',
+          open: true,
+        });
       });
   };
 
