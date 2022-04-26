@@ -14,8 +14,8 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertData, setAlertData] = React.useState({});
+  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
+  const [alertData, setAlertData] = React.useState<object>();
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {

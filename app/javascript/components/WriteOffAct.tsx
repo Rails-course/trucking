@@ -14,8 +14,8 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertData, setAlertData] = React.useState({});
+  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
+  const [alertData, setAlertData] = React.useState<object>();
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {

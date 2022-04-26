@@ -15,8 +15,8 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertData, setAlertData] = React.useState({});
+  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
+  const [alertData, setAlertData] = React.useState<object>();
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
   const componentMounted = React.useRef(true);
@@ -44,7 +44,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
           alertType: 'success',
           alertText: 'Successfully finished cargo transportation!',
         });
-        alertSetOpen(true)
+        alertSetOpen(true);
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
@@ -52,7 +52,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
           alertType: 'error',
           alertText: "Couldn't complete the trip!",
         });
-          alertSetOpen(true)
+        alertSetOpen(true);
       });
   };
 
