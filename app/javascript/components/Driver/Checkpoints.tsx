@@ -13,7 +13,7 @@ import { checkpointsFields } from '../../constants/checkpoints';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType, handleSubmitWaybill,
+    setAlertData, handleSubmitWaybill,
     formErrorsCheckpoints, setCheckpoints,
   } = props;
 
@@ -53,9 +53,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         id={checkpoint.id}
                         status={checkpoint.is_passed}
                         currentUserRole={currentUserRole}
-                        alertSetOpen={alertSetOpen}
-                        setAlertType={setAlertType}
-                        setAlertText={setAlertText}
+                        setAlertData={setAlertData}
                         wayID={id}
                         setCheckpoints={setCheckpoints}
                       />

@@ -14,36 +14,33 @@ import httpClient from '../../api/httpClient';
 import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_types';
 
 const WarehouseCreateForm:
-  React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
-    const {
-      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertType,
-      setAlertText, alertSetOpen,
-    } = props;
-    const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
-    const componentMounted = React.useRef(true);
+    React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
+      const {
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
+      } = props;
+      const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
+      const componentMounted = React.useRef(true);
 
-    const handleSubmit = (warehouse: warehouseFormValues) => {
-      httpClient.warehouses.create(warehouse)
-        .then((response) => {
-          setWarehouses((prev) => [...prev, response.data]);
-          handleClose();
-          setAlertType('success');
-          setAlertText('Successfully created a warehouse!');
-          alertSetOpen(true);
-          setTimeout(() => {
-            alertSetOpen(false);
-          }, 5000);
-        })
-        .catch((error) => {
-          setFormErrors(error.response.data);
-          setAlertType('error');
-          setAlertText('Something went wrong with creating a warehouse');
-          alertSetOpen(true);
-          setTimeout(() => {
-            alertSetOpen(false);
-          }, 5000);
-        });
-    };
+      const handleSubmit = (warehouse: warehouseFormValues) => {
+        httpClient.warehouses.create(warehouse)
+          .then((response) => {
+            setWarehouses((prev) => [...prev, response.data]);
+            handleClose();
+            setAlertData({
+              alertType: 'success',
+              alertText: 'Successfully created a warehouse!',
+              open: true,
+            });
+          })
+          .catch((error) => {
+            setFormErrors(error.response.data);
+            setAlertData({
+              alertType: 'error',
+              alertText: 'Something went wrong with creating a warehouse',
+              open: true,
+            });
+          });
+      };
 
     React.useEffect(() => {
       httpClient.users.getWarehousemans()

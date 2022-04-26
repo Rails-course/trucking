@@ -13,33 +13,32 @@ import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertType, setAlertText,
-    alertSetOpen, currentUserRole, searchData,
+    warehouses, setWarehouses, setAlertData,
+    currentUserRole, searchData,
   } = props;
+
   const componentMounted = React.useRef(true);
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
     await httpClient.warehouses.trust(warehouse.id).then((response) => {
       setWarehouses([...warehouses, response.data]);
-      setAlertType('info');
-      setAlertText('Warehouse successfully set trusted/untrusted');
-      alertSetOpen(true);
-      setTimeout(() => {
-        alertSetOpen(false);
-      }, 5000);
+      setAlertData({
+        alertType: 'info',
+        alertText: 'Warehouse successfully set trusted/untrusted',
+        open: true,
+      });
     });
   };
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: WarehouseData) => data.id !== id));
-    setAlertType('warning');
-    setAlertText('Warehouse successfully deleted');
-    alertSetOpen(true);
-    setTimeout(() => {
-      alertSetOpen(false);
-    }, 5000);
+    setAlertData({
+      alertType: 'warning',
+      alertText: 'Warehouse successfully deleted',
+      open: true,
+    });
   };
 
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
