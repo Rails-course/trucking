@@ -73,7 +73,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={waybills} />
+            <Search setData={setSearchData} Data={waybills} keyField="" />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable

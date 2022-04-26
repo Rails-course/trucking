@@ -7,6 +7,7 @@ import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
 import { WriteOffActsProps } from '../common/interfaces_types';
+import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
   const { currentUserRole } = props;
@@ -16,6 +17,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<string>();
   const [alertText, setAlertText] = React.useState<string>();
+  const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
     setModalActive(false);
@@ -47,6 +49,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
 
   return (
     <div className="wrapper">
+
       <Box sx={{
         flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
       }}
@@ -55,8 +58,11 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }} />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={writeOffActs} keyField="consignment" />
+          </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
               <Grid item xs={3} style={{ textAlign: 'right' }}>
@@ -70,6 +76,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             <WriteOffActTable
               writeOffActs={writeOffActs}
               setWriteOffActs={setWriteOffActs}
+              searchData={searchData}
             />
           </Grid>
         </Grid>

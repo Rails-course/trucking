@@ -12,10 +12,11 @@ import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
 import { EnhancedTableProps } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
+import axios from 'axios';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, setEditUserModal, setUpdateModalActive,
+    users, setUser, setEditUserModal, setUpdateModalActive, searchData,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -81,6 +82,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setUpdateModalActive(true);
   };
 
+  React.useEffect(() => {
+    axios.get('/users.json').then((response) => setUser(response.data));
+  }, []);
+
+  const UsersData = searchData || users;
+
   if (!users) { return (<p>Loading...</p>); }
 
   return (
@@ -88,7 +95,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selectedUsersIds.length}
-          users={users}
+          users={UsersData}
           setUser={setUser}
           selectedUsersIds={selectedUsersIds}
           setSelectedUsersIds={selectedUsersIds}
@@ -105,10 +112,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={users.length}
+              rowCount={UsersData.length}
             />
             <TableBody>
-              {stableSort(users, getComparator(order, orderBy))
+              {stableSort(UsersData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
                   const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;

@@ -11,7 +11,7 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { writeOffActTableCell } from '../../constants/writeOffActFields';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
-  const { writeOffActs, setWriteOffActs } = props;
+  const { writeOffActs, setWriteOffActs, searchData } = props;
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -33,14 +33,17 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
 
+  const writeOffActData = searchData || writeOffActs;
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -64,7 +67,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                     <StyledTableCell>No data yet ...</StyledTableCell>
                   </TableRow>
                 )
-                : writeOffActs
+                : writeOffActData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((writeOffAct) => (
                     <StyledTableRow key={writeOffAct.id}>

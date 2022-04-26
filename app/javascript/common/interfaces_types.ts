@@ -61,6 +61,7 @@ export interface WarehouseData {
 export interface WriteOffActTableProps {
     writeOffActs: any,
     setWriteOffActs: any,
+    searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
@@ -97,6 +98,7 @@ export interface WarehouseTableProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    searchData: any;
 }
 
 export interface CreateWarehouseFormProps {
@@ -126,6 +128,7 @@ export interface EnhancedTableProps {
     users: any;
     setUser: any;
     setEditUserModal: any;
+    searchData: any;
 }
 
 export interface EnhancedHeadTableProps {
@@ -228,6 +231,7 @@ export interface CompanyTableProps {
     alertSetOpen: any,
     setAlertType: any,
     setAlertText: any,
+    searchData: any;
 }
 
 export interface WaybillTableProps {
@@ -250,8 +254,9 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData: any;
-    Data: any;
+    setData:any;
+    Data:any;
+    keyField: string;
 }
 
 export interface ConsignmentProps {
