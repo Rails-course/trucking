@@ -102,7 +102,7 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    setAlertData:any,
+    setAlertData:object,
     alertSetOpen:any,
 }
 

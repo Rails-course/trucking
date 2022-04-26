@@ -14,8 +14,8 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
   const [formErrors, setFormErrors] = React.useState([]);
-    const [alertOpen, alertSetOpen] = React.useState(false);
-    const [alertData, setAlertData] = React.useState({});
+  const [alertOpen, alertSetOpen] = React.useState(false);
+  const [alertData, setAlertData] = React.useState({});
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
@@ -69,7 +69,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         alertSetOpen={alertSetOpen}
         setAlertData={setAlertData}
       />
-        <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen}/>
+      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
     </div>
   );
 };

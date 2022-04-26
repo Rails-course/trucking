@@ -11,7 +11,7 @@ import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen,setAlertData,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen, setAlertData,
   } = props;
 
   const handleSubmit = async (values) => {

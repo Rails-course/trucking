@@ -68,7 +68,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         alertSetOpen={alertSetOpen}
         setAlertData={setAlertData}
       />
-      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen}/>
+      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
     </div>
   );
 };

@@ -26,6 +26,11 @@ const CheckpointWindow:
       if (status) {
         httpClient.route.rollback({ ids: id }).then(() => {
           updateCheckpoints();
+          setAlertData({
+            alertType: 'info',
+            alertText: 'Successfully rollback checkpoint!',
+          });
+          alertSetOpen(true);
         });
       } else setActiveModal(true);
     };

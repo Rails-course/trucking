@@ -40,18 +40,21 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
-       setAlertData({
-           alertType: 'success',
-           alertText: 'Successfully finished cargo transportation!',
-       })
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully finished cargo transportation!',
+        });
+        alertSetOpen(true)
       })
       .catch((error) => {
-      setAlertData({
+        setFormErrorsCheckpoints(error.response.data);
+        setAlertData({
           alertType: 'error',
           alertText: "Couldn't complete the trip!",
-      })
-  });
-  }
+        });
+          alertSetOpen(true)
+      });
+  };
 
   return (
     <div className="wrapper">
@@ -81,16 +84,17 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         </Grid>
       </Box>
       <Checkpoints
-          id={waybillID}
-          isWaybillModal={isWaybillModal}
-          setWaybillModalActive={setWaybillModalActive}
-          checkpoints={checkpoints}
-          currentUserRole={currentUserRole}
-          alertSetOpen={alertSetOpen}
-          setAlertData={setAlertData}
-          handleSubmitWaybill={handleSubmitWaybill}
-          formErrorsCheckpoints={formErrorsCheckpoints}
-          setCheckpoints={setCheckpoints}/>
+        id={waybillID}
+        isWaybillModal={isWaybillModal}
+        setWaybillModalActive={setWaybillModalActive}
+        checkpoints={checkpoints}
+        currentUserRole={currentUserRole}
+        alertSetOpen={alertSetOpen}
+        setAlertData={setAlertData}
+        handleSubmitWaybill={handleSubmitWaybill}
+        formErrorsCheckpoints={formErrorsCheckpoints}
+        setCheckpoints={setCheckpoints}
+      />
       <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
     </div>
   );

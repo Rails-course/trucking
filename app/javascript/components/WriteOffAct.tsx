@@ -84,7 +84,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleSubmit={handleSubmit}
         formErrors={formErrors}
       />
-        <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen}/>
+      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
     </div>
   );
 };
