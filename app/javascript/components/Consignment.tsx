@@ -18,9 +18,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertType, setAlertType] = React.useState<string>();
-  const [alertText, setAlertText] = React.useState<string>();
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
@@ -58,7 +56,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
     setTimeout(() => {
       setCheckedGoods([]);
-    }, 1000)
+    }, 1000);
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
@@ -66,21 +64,19 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .then((response) => {
         setConsignment((prevConsignment) => [...prevConsignment, response.data]);
         setModalActive(false);
-        setAlertType('success');
-        setAlertText('Successfully created consignment with goods!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created consignment with goods!',
+          open: true,
+        });
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating consignment or goods');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating consignment or goods',
+          open: true,
+        });
       });
   };
 
@@ -95,12 +91,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlertType('info');
-            setAlertText('Goods status changed!');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            setAlertData({
+              alertType: 'info',
+              alertText: 'Goods status changed!',
+              open: true,
+            });
           });
       case 'Delivered':
         setTitleStatus('');
@@ -110,12 +105,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlertType('info');
-            setAlertText('Goods status changed!');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            setAlertData({
+              alertType: 'info',
+              alertText: 'Goods status changed!',
+              open: true,
+            });
           });
     }
   };
@@ -190,18 +184,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleClose={handleClose}
         owners={owners}
         formWaybillErrors={formErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
         consignments={consignments}
         setConsignment={setConsignment}
-        setAlertText={setAlertText}
+        setAlertData={setAlertData}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

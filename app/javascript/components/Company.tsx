@@ -14,10 +14,8 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState();
-  const [alertText, setAlertText] = React.useState();
   const [searchData, setSearchData] = React.useState();
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
 
   const handleClose = () => {
     setModalActive(false);
@@ -53,9 +51,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
             <CompanyTable
               companies={companies}
               setCompany={setCompany}
-              alertSetOpen={alertSetOpen}
-              setAlertType={setAlertType}
-              setAlertText={setAlertText}
+              setAlertData={setAlertData}
               searchData={searchData}
             />
           </Grid>
@@ -67,16 +63,9 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         setCompany={setCompany}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlertData={setAlertData}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

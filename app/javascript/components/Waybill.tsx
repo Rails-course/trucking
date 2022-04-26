@@ -15,12 +15,9 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState<string>();
-  const [alertText, setAlertText] = React.useState<string>();
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
@@ -42,21 +39,19 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
-        setAlertType('success');
-        setAlertText('Successfully finished cargo transportation!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully finished cargo transportation!',
+          open: true,
+        });
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
-        setAlertType('error');
-        setAlertText("Couldn't complete the trip!");
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({
+          alertType: 'error',
+          alertText: "Couldn't complete the trip!",
+          open: true,
+        });
       });
   };
 
@@ -93,19 +88,12 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
         currentUserRole={currentUserRole}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlertData={setAlertData}
         handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
