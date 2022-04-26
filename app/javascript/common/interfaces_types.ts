@@ -125,8 +125,6 @@ export interface EnhancedTableProps {
     setUpdateModalActive: any;
     users: any;
     setUser: any;
-    userIds: number[];
-    setUserId: any;
     setEditUserModal: any;
 }
 
@@ -145,7 +143,8 @@ export interface EnhancedTableToolbarProps {
     numSelected: number;
     users: any;
     setUser: any;
-    userIds: number[];
+    selectedUsersIds: any;
+    setSelectedUsersIds: any;
 }
 
 export interface UserCreateFormProps {

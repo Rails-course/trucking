@@ -12,7 +12,6 @@ const Users = ({ companiesJSON, rolesJSON }) => {
   const [createModal, setCreateModalActive] = React.useState(false);
   const [updateModal, setUpdateModalActive] = React.useState(false);
   const [users, setUser] = React.useState<UserData[]>(null);
-  const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
   const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
@@ -65,8 +64,6 @@ const Users = ({ companiesJSON, rolesJSON }) => {
           <UsersTable
             users={users}
             setUser={setUser}
-            userIds={userIds}
-            setUserId={setUserId}
             setEditUserModal={setEditUserModal}
             setUpdateModalActive={setUpdateModalActive}
           />

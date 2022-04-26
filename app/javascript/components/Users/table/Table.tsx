@@ -15,15 +15,16 @@ import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, userIds, setUserId, setEditUserModal, setUpdateModalActive,
+    users, setUser, setEditUserModal, setUpdateModalActive,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof UserData>('login');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [selectedUsersIds, setSelectedUsersIds] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
@@ -41,7 +42,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
@@ -56,36 +56,19 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => `${n.id} ${n.first_name} ${n.middle_name} ${n.second_name}`);
-      setSelected(newSelecteds);
+      const newSelectedUsersIds = users.map((user) => user.id);
+      setSelectedUsersIds(newSelectedUsersIds);
       return;
     }
-    setSelected([]);
-    setUserId([]);
+    setSelectedUsersIds([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string, id: number) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-    const getId = userIds;
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-      getId.push(id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-      userIds.push(id);
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-      userIds.push(id);
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-      userIds.push(id);
+  const handleToggle = (userID: number) => {
+    if (selectedUsersIds.indexOf(userID) === -1) {
+      setSelectedUsersIds([...selectedUsersIds, userID]);
+    } else {
+      setSelectedUsersIds(selectedUsersIds.filter((item) => item !== userID));
     }
-    setSelected(newSelected);
-    setUserId(getId);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,10 +87,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
-          numSelected={selected.length}
+          numSelected={selectedUsersIds.length}
           users={users}
           setUser={setUser}
-          userIds={userIds}
+          selectedUsersIds={selectedUsersIds}
+          setSelectedUsersIds={selectedUsersIds}
         />
         <TableContainer>
           <Table
@@ -116,7 +100,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={selectedUsersIds.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
@@ -128,21 +112,18 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
                   const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
-                  const isItemSelected = isSelected(String(name));
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={user.id}
-                      selected={isItemSelected}
                     >
                       <StyledTableCell padding="checkbox">
                         <Checkbox
                           color="primary"
-                          checked={isItemSelected}
-                          onClick={(event) => handleClick(event, String(name), +user.id)}
+                          checked={selectedUsersIds.indexOf(+user.id) !== -1}
+                          onClick={() => handleToggle(+user.id)}
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}
