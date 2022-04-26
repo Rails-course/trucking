@@ -7,18 +7,16 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Button, Box,
 } from '@mui/material';
 
-import axios from 'axios';
 import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
-import httpClient from '../../api/httpClient';
 import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfaces_types';
 
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
       isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-      handleFieldChange, formErrors, trucks, drivers
+      handleFieldChange, formErrors, trucks, drivers,
     } = props;
 
     return (

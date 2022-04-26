@@ -46,7 +46,7 @@ const WarehouseCreateForm:
     };
 
     React.useEffect(() => {
-      httpClient.users.warehousemans()
+      httpClient.users.getWarehousemans()
         .then((response) => {
           if (componentMounted.current) {
             setWarehousemans(response.data);

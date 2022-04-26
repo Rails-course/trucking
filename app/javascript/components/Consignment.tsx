@@ -121,6 +121,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               alertSetOpen(false);
             }, 5000);
           });
+      default:
+        setTitleStatus('');
     }
   };
 
@@ -135,7 +137,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           setTrucks(responses[0].data);
           setDrivers(responses[1].data);
           setModalActive(true);
-        })
+        }),
       );
   };
 

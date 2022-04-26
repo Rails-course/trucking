@@ -9,11 +9,12 @@ import { EnhancedTableToolbarProps } from '../../../common/interfaces_types';
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const {
-    numSelected, setUser, users, selectedUsersIds, setSelectedUsersIds
+    numSelected, setUser, users, selectedUsersIds, setSelectedUsersIds,
   } = props;
 
   const deleteUserByIds = async () => {
     const promises: Promise<any>[] = selectedUsersIds.map((userID) => httpClient.users.delete(userID));
+
     await Promise.all(promises).then(() => {
       setUser(users.filter((user) => !selectedUsersIds.includes(user.id)));
       setSelectedUsersIds([]);

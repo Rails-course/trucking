@@ -41,7 +41,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
       .then(axios.spread((...responses) => {
         setData(responses[0].data);
         setOwners(responses[1].data);
-        setWarehouses(responses[2].data)
+        setWarehouses(responses[2].data);
         setWayBillActive(true);
       }));
   };

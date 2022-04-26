@@ -18,7 +18,7 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments, warehouses
+    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments, warehouses,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);

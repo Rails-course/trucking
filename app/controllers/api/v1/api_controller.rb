@@ -2,7 +2,9 @@
 
 module Api
   module V1
+    # rubocop: disable Rails/ApplicationController
     class ApiController < ActionController::Base
+      # rubocop: enable Rails/ApplicationController
       before_action :check_basic_auth
       before_action :deprecate_api
       skip_before_action :verify_authenticity_token

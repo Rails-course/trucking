@@ -5,6 +5,7 @@ import {
   Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow,
 } from '@mui/material';
 
+import axios from 'axios';
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
 import { UserData, Order } from '../../../mixins/initialValues/userList';
@@ -12,7 +13,6 @@ import { getComparator, stableSort } from '../../../utils/stableSort';
 import httpClient from '../../../api/httpClient';
 import { EnhancedTableProps } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
-import axios from 'axios';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
