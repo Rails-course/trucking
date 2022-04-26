@@ -10,31 +10,17 @@ import Search from './Search';
 import { WaybillProps } from '../common/interfaces_types';
 
 const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
-  const { currentUserRole } = props;
-  const [waybills, setWaybill] = React.useState([]);
+  const { currentUserRole, waybillsJSON } = props;
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState<string>();
-  const [alertText, setAlertText] = React.useState<string>();
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
+  const [alert, setAlert] = React.useState({ text: '', type: '', open: false });
 
-  const componentMounted = React.useRef(true);
-
-  React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => {
-      if (componentMounted.current) {
-        const waybillsOrder = ['transportation started', 'delivered to the recipient'];
-        setWaybill(response.data
-          .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
-      }
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
+  const waybillsOrder = ['transportation started', 'delivered to the recipient'];
+  const [waybills, setWaybill] = React.useState((waybillsJSON)
+    .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
   const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish({ ids: id })
@@ -42,21 +28,11 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
-        setAlertType('success');
-        setAlertText('Successfully finished cargo transportation!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlert({ text: 'Successfully finished cargo transportation!', type: 'success', open: true });
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
-        setAlertType('error');
-        setAlertText("Couldn't complete the trip!");
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlert({ text: 'Couldn\'t complete the trip!', type: 'error', open: true });
       });
   };
 
@@ -93,19 +69,12 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
         currentUserRole={currentUserRole}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlert={setAlert}
         handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alert={alert} />
     </div>
   );
 };

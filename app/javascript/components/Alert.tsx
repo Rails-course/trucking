@@ -9,28 +9,26 @@ const SnackbarAlert = React.forwardRef<HTMLDivElement, AlertProps>(
 );
 
 const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
-  const {
-    alertType, alertText, alertSetOpen, alertOpen,
-  } = props;
+  const { alert, setAlert } = props;
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    alertSetOpen(false);
+    setAlert({ type: alert.type, text: alert.text, open: false });
   };
 
   return (
     <Snackbar
-      open={alertOpen}
-      autoHideDuration={5000}
+      open={alert.open}
+      autoHideDuration={2500}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',
       }}
       onClose={handleClose}
     >
-      <SnackbarAlert severity={alertType} onClose={handleClose}>{alertText}</SnackbarAlert>
+      <SnackbarAlert severity={alert.type} onClose={handleClose}>{alert.text}</SnackbarAlert>
     </Snackbar>
   );
 };

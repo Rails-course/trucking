@@ -9,9 +9,9 @@ import SiteAlerts from './Alert';
 import { WriteOffActsProps } from '../common/interfaces_types';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
-  const { currentUserRole } = props;
+  const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [writeOffActs, setWriteOffActs] = React.useState([]);
+  const [writeOffActs, setWriteOffActs] = React.useState(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
   const [alertType, setAlertType] = React.useState<string>();
@@ -67,10 +67,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             )
             : null}
           <Grid item xs={12}>
-            <WriteOffActTable
-              writeOffActs={writeOffActs}
-              setWriteOffActs={setWriteOffActs}
-            />
+            <WriteOffActTable writeOffActs={writeOffActs} />
           </Grid>
         </Grid>
       </Box>
@@ -79,6 +76,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
+        consignmentsJSON={consignmentsJSON}
       />
       <SiteAlerts
         alertType={alertType}

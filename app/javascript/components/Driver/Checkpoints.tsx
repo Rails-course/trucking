@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {
   Dialog, DialogContent, DialogTitle, Paper, Button,
-  Table, TableBody, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableContainer, TableHead, TableRow, CircularProgress,
 } from '@mui/material';
 
 import CheckpointWindow from './CheckpointWindow';
@@ -13,8 +13,7 @@ import { checkpointsFields } from '../../constants/checkpoints';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertText, alertSetOpen, setAlertType, handleSubmitWaybill,
-    formErrorsCheckpoints, setCheckpoints,
+    setAlert, handleSubmitWaybill, formErrorsCheckpoints, setCheckpoints,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -40,7 +39,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
               {!checkpoints
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : checkpoints.map((checkpoint) => (
@@ -53,9 +52,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                         id={checkpoint.id}
                         status={checkpoint.is_passed}
                         currentUserRole={currentUserRole}
-                        alertSetOpen={alertSetOpen}
-                        setAlertType={setAlertType}
-                        setAlertText={setAlertText}
+                        setAlert={setAlert}
                         wayID={id}
                         setCheckpoints={setCheckpoints}
                       />

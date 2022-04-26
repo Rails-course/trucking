@@ -48,6 +48,7 @@ export interface CreateConsignmentFormProps {
     handleFieldAdd: any;
     handleFieldChange: any,
     formErrors: any;
+    trucksJSON: [], driversJSON: [];
 }
 
 export interface WarehouseData {
@@ -58,7 +59,6 @@ export interface WarehouseData {
 
 export interface WriteOffActTableProps {
     writeOffActs: any,
-    setWriteOffActs: any,
 }
 
 export interface CreateWriteOffActFormProps {
@@ -66,6 +66,7 @@ export interface CreateWriteOffActFormProps {
     handleClose: () => void;
     handleSubmit: any;
     formErrors: any;
+    consignmentsJSON: string;
 }
 
 export interface CreateWaybillsFormProps {
@@ -75,10 +76,9 @@ export interface CreateWaybillsFormProps {
     isActiveWayBill: boolean;
     setWayBillActive: any;
     data: any, owners: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any,
     setConsignment: any, consignments: any;
+    warehouses: [];
 }
 
 export interface CreateRoutesFormProps {
@@ -91,9 +91,7 @@ export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any,
 }
 
 export interface CreateWarehouseFormProps {
@@ -102,9 +100,8 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any,
+    warehousemansData: [];
 }
 
 export interface Warehouseman {
@@ -162,9 +159,7 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any;
     wayID: number,
     setCheckpoints: any,
 }
@@ -175,9 +170,7 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any,
     handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: any,
     setCheckpoints: any,
@@ -210,17 +203,14 @@ export interface CreateCompanyFormProps {
     handleClose: () => void;
     setCompany: any, formErrors: any;
     setFormErrors: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlert: any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
-    alertSetOpen: any,
-    setAlertType: any, suspendCompany: any;
-    setAlertText: any, resumeCompany: any;
+    setAlert: any,
+    suspendCompany: any, resumeCompany: any;
 }
 
 export interface WaybillTableProps {
@@ -233,13 +223,11 @@ export interface WaybillTableProps {
 
 export interface WaybillProps {
     currentUserRole: string;
+    waybillsJSON: any;
 }
 
 export interface SiteAlertProps {
-    alertType: any;
-    alertText: any;
-    alertOpen: boolean,
-    alertSetOpen: any;
+    alert:any, setAlert:any,
 }
 
 export interface SearchProps {
@@ -250,14 +238,19 @@ export interface SearchProps {
 export interface ConsignmentProps {
     currentUserRole: string;
     consignmentsJSON: string;
+    trucksJSON: [], driversJSON: [], warehouses: [];
 }
 
 export interface WriteOffActsProps {
     currentUserRole: string;
+    writeOffActsJSON: string;
+    consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
     currentUserRole: string;
+    warehousesJSON: string;
+    warehousemansData: [];
 }
 
 export interface CompanyProps {

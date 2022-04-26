@@ -2,35 +2,21 @@ import * as React from 'react';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, TablePagination,
-  FormControlLabel, Switch, Box,
+  FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
-import httpClient from '../../api/httpClient';
 import { WriteOffActTableProps } from '../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { writeOffActTableCell } from '../../constants/writeOffActFields';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
-  const { writeOffActs, setWriteOffActs } = props;
+  const { writeOffActs } = props;
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
-  const componentMounted = React.useRef(true);
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - writeOffActs.length) : 0;
-
-  React.useEffect(() => {
-    httpClient.writeOffActs.getAll()
-      .then((response) => {
-        if (componentMounted.current) {
-          setWriteOffActs(response.data);
-        }
-      });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +47,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
               {!writeOffActs
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : writeOffActs

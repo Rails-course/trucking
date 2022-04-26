@@ -16,46 +16,22 @@ import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_
 const WarehouseCreateForm:
     React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
       const {
-        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertType,
-        setAlertText, alertSetOpen,
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlert,
+        warehousemansData,
       } = props;
-      const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
-      const componentMounted = React.useRef(true);
 
       const handleSubmit = (warehouse: warehouseFormValues) => {
         httpClient.warehouses.create(warehouse)
           .then((response) => {
             setWarehouses((prev) => [...prev, response.data]);
             handleClose();
-            setAlertType('success');
-            setAlertText('Successfully created a warehouse!');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            setAlert({ text: 'Successfully created a warehouse!', type: 'success', open: true });
           })
           .catch((error) => {
             setFormErrors(error.response.data);
-            setAlertType('error');
-            setAlertText('Something went wrong with creating a warehouse');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            setAlert({ text: 'Something went wrong with creating a warehouse', type: 'error', open: true });
           });
       };
-
-      React.useEffect(() => {
-        httpClient.users.get_warehousemans()
-          .then((response) => {
-            if (componentMounted.current) {
-              setWarehousemans(response.data);
-            }
-          });
-        return () => {
-          componentMounted.current = false;
-        };
-      }, []);
 
       return (
         <div>
@@ -93,7 +69,7 @@ const WarehouseCreateForm:
                         </Container>
                         <Autocomplete
                           id="warehouseman"
-                          options={warehousemans}
+                          options={warehousemansData}
                           getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                           renderInput={(params) => (
                             <TextField

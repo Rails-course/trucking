@@ -10,16 +10,14 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, alertSetOpen, setAlertType, setAlertText, resumeCompany, suspendCompany,
+    companies, setCompany, setAlert, resumeCompany, suspendCompany,
   } = props;
 
   const deleteCompany = (id) => {
     httpClient.companies.delete(id).then(() => {
       setCompany(companies.filter((company) => id !== company.id));
     });
-    setAlertType('warning');
-    setAlertText('Company successfully deleted');
-    alertSetOpen(true);
+    setAlert({ type: 'warning', text: 'Company successfully deleted', open: true });
   };
 
   return (

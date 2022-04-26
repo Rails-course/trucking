@@ -18,14 +18,12 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments,
+    setAlert, setConsignment, consignments, warehouses,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [warehouses, setWarehouses] = React.useState([]);
-  const componentMounted = React.useRef(true);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
@@ -35,34 +33,15 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         consignments[objIndex] = response.data;
         setConsignment(consignments);
         setWayBillActive(false);
-        setAlertType('success');
-        setAlertText('Successfully created waybill!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlert({ text: 'Successfully created waybill!', type: 'success', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating waybill!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlert({ text: 'Something went wrong with creating waybill!', type: 'error', open: true });
       });
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
-
-  React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
-      if (componentMounted.current) setWarehouses(response.data);
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   return (
     <div>
@@ -76,7 +55,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
-                {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+              {formErrors ? <p className="error-msg">{formErrors}</p> : null}
               <Formik
                 initialValues={waybillInitialValues}
                 onSubmit={handleSubmit}

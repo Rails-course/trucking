@@ -79,7 +79,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setPage(0);
   };
 
-  if (!users) { return (<CircularProgress color="inherit" />); }
+  if (!users) { return (<CircularProgress color="primary" />); }
 
   return (
     <Box sx={{ width: '100%' }}>

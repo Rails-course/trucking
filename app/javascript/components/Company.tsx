@@ -14,9 +14,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [isActiveModal, setModalActive] = useState(false);
   const [companies, setCompany] = React.useState(JSON.parse(companiesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState('');
-  const [alertText, setAlertText] = React.useState('');
+  const [alert, setAlert] = React.useState<object>({ open: false });
 
   const handleClose = () => {
     setModalActive(false);
@@ -28,9 +26,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
-      setAlertType('info');
-      setAlertText('Company successfully suspended');
-      alertSetOpen(true);
+      setAlert({ type: 'success', text: 'Successfully created consignment with goods!', open: true });
     });
   };
 
@@ -39,9 +35,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
-      setAlertType('info');
-      setAlertText('Company successfully resumed');
-      alertSetOpen(true);
+      setAlert({ type: 'info', text: 'Company successfully resumed', open: true });
     });
   };
 
@@ -70,9 +64,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
             <CompanyTable
               companies={companies}
               setCompany={setCompany}
-              alertSetOpen={alertSetOpen}
-              setAlertType={setAlertType}
-              setAlertText={setAlertText}
+              setAlert={setAlert}
               suspendCompany={suspendCompany}
               resumeCompany={resumeCompany}
             />
@@ -85,16 +77,9 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         setCompany={setCompany}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlert={setAlert}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alert={alert} setAlert={setAlert} />
     </div>
   );
 };

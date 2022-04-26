@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
-  TablePagination, FormControlLabel, Switch, Box,
+  TablePagination, FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
@@ -78,7 +78,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               {!consignments
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : consignmentsData

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
@@ -9,13 +8,11 @@ import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole } = props;
-  const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
+  const { currentUserRole, warehousesJSON, warehousemansData } = props;
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState();
-  const [alertText, setAlertText] = React.useState();
+  const [alert, setAlert] = React.useState({ text: '', type: '', open: false });
 
   const handleClose = () => {
     setModalActive(false);
@@ -47,9 +44,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
             <WarehouseTable
               warehouses={warehouses}
               setWarehouses={setWarehouses}
-              alertSetOpen={alertSetOpen}
-              setAlertType={setAlertType}
-              setAlertText={setAlertText}
+              setAlert={setAlert}
               currentUserRole={currentUserRole}
             />
           </Grid>
@@ -61,16 +56,10 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         setWarehouses={setWarehouses}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlert={setAlert}
+        warehousemansData={warehousemansData}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+      <SiteAlerts alert={alert} />
     </div>
   );
 };
