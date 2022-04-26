@@ -18,7 +18,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: true });
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];

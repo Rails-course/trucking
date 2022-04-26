@@ -15,7 +15,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [companies, setCompany] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-  const [alertData, setAlertData] = React.useState<object>({ open: true });
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
 
   const handleClose = () => {
     setModalActive(false);

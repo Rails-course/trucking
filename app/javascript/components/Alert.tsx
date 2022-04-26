@@ -17,13 +17,13 @@ const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertData({ open: false });
+    setAlertData({ alertType: alertData.alertType, alertText: alertData.alertText, open: false });
   };
 
   return (
     <Snackbar
       open={alertData.open}
-      autoHideDuration={5000}
+      autoHideDuration={2500}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',
