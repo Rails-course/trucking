@@ -101,7 +101,7 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    setAlertData:object,
+    setAlertData:any,
 }
 
 export interface Warehouseman {
