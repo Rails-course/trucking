@@ -28,7 +28,11 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
-      setAlert({ type: 'success', text: 'Successfully created consignment with goods!', open: true });
+      setAlertData({
+        alertType: 'info',
+        alertText: 'Company successfully suspended',
+        open: true,
+      });
     });
   };
 
@@ -37,7 +41,11 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
-      setAlert({ type: 'info', text: 'Company successfully resumed', open: true });
+      setAlertData({
+        alertType: 'info',
+        alertText: 'Company successfully resumed',
+        open: true,
+      });
     });
   };
 
