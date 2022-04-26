@@ -14,9 +14,8 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertType, setAlertType] = React.useState<string>();
-  const [alertText, setAlertText] = React.useState<string>();
+  const [alertOpen, alertSetOpen] = React.useState(false);
+  const [alertData, setAlertData] = React.useState({});
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
@@ -29,21 +28,19 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
       .then((response) => {
         setWriteOffActs((prev) => [...prev, response.data]);
         setModalActive(false);
-        setAlertType('success');
-        setAlertText('Successfully created write-off act!');
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created write-off act!',
+        });
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating write-off act');
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating write-off act',
+        });
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       });
   };
 
@@ -87,12 +84,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleSubmit={handleSubmit}
         formErrors={formErrors}
       />
-      <SiteAlerts
-        alertType={alertType}
-        alertText={alertText}
-        alertOpen={alertOpen}
-        alertSetOpen={alertSetOpen}
-      />
+        <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen}/>
     </div>
   );
 };

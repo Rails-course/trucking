@@ -10,7 +10,7 @@ const SnackbarAlert = React.forwardRef<HTMLDivElement, AlertProps>(
 
 const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
   const {
-    alertType, alertText, alertSetOpen, alertOpen,
+    alertData, alertOpen, alertSetOpen,
   } = props;
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -30,7 +30,7 @@ const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
       }}
       onClose={handleClose}
     >
-      <SnackbarAlert severity={alertType} onClose={handleClose}>{alertText}</SnackbarAlert>
+      <SnackbarAlert severity={alertData.alertType} onClose={handleClose}>{alertData.alertText}</SnackbarAlert>
     </Snackbar>
   );
 };

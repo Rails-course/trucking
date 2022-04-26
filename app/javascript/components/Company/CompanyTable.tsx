@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, alertSetOpen, setAlertType, setAlertText, searchData,
+    companies, setCompany, alertSetOpen, setAlertData, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -32,32 +32,29 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
 
   const deleteCompany = (id) => {
     httpClient.companies.delete(id).then(() => updateData());
-    setAlertType('warning');
-    setAlertText('Company successfully deleted');
+    setAlertData({
+      alertType: 'success',
+      alertText: 'Company successfully deleted!',
+    });
     alertSetOpen(true);
-    setTimeout(() => {
-      alertSetOpen(false);
-    }, 5000);
   };
 
   const suspendCompany = (id) => {
     httpClient.companies.suspend(id).then(() => updateData());
-    setAlertType('info');
-    setAlertText('Company successfully suspended');
+    setAlertData({
+      alertType: 'info',
+      alertText: 'Company successfully suspended',
+    });
     alertSetOpen(true);
-    setTimeout(() => {
-      alertSetOpen(false);
-    }, 5000);
   };
 
   const resumeCompany = (id) => {
     httpClient.companies.resume(id).then(() => updateData());
-    setAlertType('info');
-    setAlertText('Company successfully resumed');
+    setAlertData({
+      alertType: 'info',
+      alertText: 'Company successfully resumed',
+    });
     alertSetOpen(true);
-    setTimeout(() => {
-      alertSetOpen(false);
-    }, 5000);
   };
   const companiesData = searchData || companies;
   return (

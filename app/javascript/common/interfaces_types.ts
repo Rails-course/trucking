@@ -76,9 +76,8 @@ export interface CreateWaybillsFormProps {
     isActiveWayBill: boolean;
     setWayBillActive: any;
     data: any, owners: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
     setConsignment: any, consignments: any;
 }
 
@@ -92,9 +91,8 @@ export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
     searchData: any;
 }
 
@@ -104,9 +102,8 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
 }
 
 export interface Warehouseman {
@@ -165,9 +162,8 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
     wayID: number,
     setCheckpoints: any,
 }
@@ -178,9 +174,8 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
     handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: any,
     setCheckpoints: any,
@@ -213,17 +208,15 @@ export interface CreateCompanyFormProps {
     handleClose: () => void;
     setCompany: any, formErrors: any;
     setFormErrors: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
-    alertSetOpen: any,
-    setAlertType: any,
-    setAlertText: any,
+    setAlertData:any,
+    alertSetOpen:any,
     searchData: any;
 }
 
@@ -240,10 +233,9 @@ export interface WaybillProps {
 }
 
 export interface SiteAlertProps {
-    alertType: any;
-    alertText: any;
-    alertOpen: boolean,
-    alertSetOpen: any;
+    alertData:any,
+    alertSetOpen:any,
+    alertOpen,
 }
 
 export interface SearchProps {

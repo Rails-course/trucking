@@ -18,7 +18,7 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText, setConsignment, consignments,
+    alertSetOpen, setAlertData, setConsignment, consignments,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
@@ -35,21 +35,19 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         consignments[objIndex] = response.data;
         setConsignment(consignments);
         setWayBillActive(false);
-        setAlertType('success');
-        setAlertText('Successfully created waybill!');
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created waybill!',
+        });
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating waybill!');
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating waybill!',
+        });
         alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
       });
   };
 
