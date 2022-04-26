@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, alertSetOpen, setAlertData, searchData,
+    companies, setCompany, setAlertData, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -35,8 +35,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     setAlertData({
       alertType: 'success',
       alertText: 'Company successfully deleted!',
+      open: true,
     });
-    alertSetOpen(true);
   };
 
   const suspendCompany = (id) => {
@@ -44,8 +44,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     setAlertData({
       alertType: 'info',
       alertText: 'Company successfully suspended',
+      open: true,
     });
-    alertSetOpen(true);
   };
 
   const resumeCompany = (id) => {
@@ -53,8 +53,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     setAlertData({
       alertType: 'info',
       alertText: 'Company successfully resumed',
+      open: true,
     });
-    alertSetOpen(true);
   };
   const companiesData = searchData || companies;
   return (

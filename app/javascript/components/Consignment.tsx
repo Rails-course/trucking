@@ -18,8 +18,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertData, setAlertData] = React.useState<object>();
+  const [alertData, setAlertData] = React.useState<object>({ open: true });
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
@@ -68,16 +67,16 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
+          open: true,
         });
-        alertSetOpen(true);
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
         setAlertData({
           alertType: 'error',
           alertText: 'Something went wrong with creating consignment or goods',
+          open: true,
         });
-        alertSetOpen(true);
       });
   };
 
@@ -95,8 +94,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             setAlertData({
               alertType: 'info',
               alertText: 'Goods status changed!',
+              open: true,
             });
-            alertSetOpen(true);
           });
       case 'Delivered':
         setTitleStatus('');
@@ -109,8 +108,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             setAlertData({
               alertType: 'info',
               alertText: 'Goods status changed!',
+              open: true,
             });
-            alertSetOpen(true);
           });
     }
   };
@@ -187,10 +186,9 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}
-        alertSetOpen={alertSetOpen}
         setAlertData={setAlertData}
       />
-      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

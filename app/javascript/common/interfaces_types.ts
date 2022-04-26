@@ -67,6 +67,7 @@ export interface CreateWriteOffActFormProps {
     handleClose: () => void;
     handleSubmit: any;
     formErrors: any;
+    setAlertData:any,
 }
 
 export interface CreateWaybillsFormProps {
@@ -77,7 +78,6 @@ export interface CreateWaybillsFormProps {
     setWayBillActive: any;
     data: any, owners: any;
     setAlertData:any,
-    alertSetOpen:any,
     setConsignment: any, consignments: any;
 }
 
@@ -92,7 +92,6 @@ export interface WarehouseTableProps {
     setWarehouses: any;
     currentUserRole: any;
     setAlertData:any,
-    alertSetOpen:any,
     searchData: any;
 }
 
@@ -103,7 +102,6 @@ export interface CreateWarehouseFormProps {
     formErrors: any,
     setFormErrors: any,
     setAlertData:object,
-    alertSetOpen:any,
 }
 
 export interface Warehouseman {
@@ -163,7 +161,6 @@ export interface CheckpointWindowFormProps {
     status: boolean,
     currentUserRole: any;
     setAlertData:any,
-    alertSetOpen:any,
     wayID: number,
     setCheckpoints: any,
 }
@@ -175,7 +172,6 @@ export interface CheckpointsFormProps {
     checkpoints: any;
     currentUserRole: any;
     setAlertData:any,
-    alertSetOpen:any,
     handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: any,
     setCheckpoints: any,
@@ -209,14 +205,12 @@ export interface CreateCompanyFormProps {
     setCompany: any, formErrors: any;
     setFormErrors: any,
     setAlertData:any,
-    alertSetOpen:any,
 }
 
 export interface CompanyTableProps {
     companies: any,
     setCompany: any,
     setAlertData:any,
-    alertSetOpen:any,
     searchData: any;
 }
 
@@ -234,8 +228,7 @@ export interface WaybillProps {
 
 export interface SiteAlertProps {
     alertData:any,
-    alertSetOpen:any,
-    alertOpen,
+    setAlertData:any,
 }
 
 export interface SearchProps {

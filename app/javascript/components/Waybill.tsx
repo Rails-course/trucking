@@ -15,8 +15,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertData, setAlertData] = React.useState<object>();
+  const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
   const componentMounted = React.useRef(true);
@@ -43,16 +42,16 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully finished cargo transportation!',
+          open: true,
         });
-        alertSetOpen(true);
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
         setAlertData({
           alertType: 'error',
           alertText: "Couldn't complete the trip!",
+          open: true,
         });
-        alertSetOpen(true);
       });
   };
 
@@ -89,13 +88,12 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
         currentUserRole={currentUserRole}
-        alertSetOpen={alertSetOpen}
         setAlertData={setAlertData}
         handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
         setCheckpoints={setCheckpoints}
       />
-      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

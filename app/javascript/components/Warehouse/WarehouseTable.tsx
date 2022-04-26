@@ -13,7 +13,7 @@ import { warehouseTable } from '../../constants/warehouseFields';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, alertSetOpen, currentUserRole, searchData,
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData,
   } = props;
   const componentMounted = React.useRef(true);
 
@@ -24,8 +24,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
       setAlertData({
         alertType: 'info',
         alertText: 'Warehouse successfully set trusted/untrusted',
+        open: true,
       });
-      alertSetOpen(true);
     });
   };
 
@@ -35,8 +35,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     setAlertData({
       alertType: 'warning',
       alertText: 'Warehouse successfully deleted',
+      open: true,
     });
-    alertSetOpen(true);
   };
 
   const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);

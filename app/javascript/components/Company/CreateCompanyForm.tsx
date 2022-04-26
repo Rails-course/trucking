@@ -11,7 +11,7 @@ import { CreateCompanyFormProps } from '../../common/interfaces_types';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen, setAlertData,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
   const handleSubmit = async (values) => {
@@ -21,16 +21,16 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created a company!',
+          open: true,
         });
-        alertSetOpen(true);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
         setAlertData({
           alertType: 'error',
           alertText: 'Something went wrong with creating a company',
+          open: true,
         });
-        alertSetOpen(true);
       });
     setTimeout(() => {
       axios.get('/companies.json').then((response) => setCompany(response.data));

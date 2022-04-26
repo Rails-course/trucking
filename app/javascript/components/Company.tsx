@@ -15,8 +15,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [companies, setCompany] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertData, setAlertData] = React.useState<object>();
+  const [alertData, setAlertData] = React.useState<object>({ open: true });
 
   const handleClose = () => {
     setModalActive(false);
@@ -52,7 +51,6 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
             <CompanyTable
               companies={companies}
               setCompany={setCompany}
-              alertSetOpen={alertSetOpen}
               setAlertData={setAlertData}
               searchData={searchData}
             />
@@ -65,10 +63,9 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
         setCompany={setCompany}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
         setAlertData={setAlertData}
       />
-      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };

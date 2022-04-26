@@ -16,7 +16,7 @@ import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_
 const WarehouseCreateForm:
     React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
       const {
-        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData, alertSetOpen,
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
       } = props;
       const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
       const componentMounted = React.useRef(true);
@@ -29,16 +29,16 @@ const WarehouseCreateForm:
             setAlertData({
               alertType: 'success',
               alertText: 'Successfully created a warehouse!',
+              open: true,
             });
-            alertSetOpen(true);
           })
           .catch((error) => {
             setFormErrors(error.response.data);
             setAlertData({
               alertType: 'error',
               alertText: 'Something went wrong with creating a warehouse',
+              open: true,
             });
-            alertSetOpen(true);
           });
       };
 

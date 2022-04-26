@@ -14,8 +14,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertData, setAlertData] = React.useState<object>();
+  const [alertData, setAlertData] = React.useState<object>({ open: true });
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {
@@ -31,16 +30,16 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created write-off act!',
+          open: true,
         });
-        alertSetOpen(true);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
         setAlertData({
           alertType: 'error',
           alertText: 'Something went wrong with creating write-off act',
+          open: true,
         });
-        alertSetOpen(true);
       });
   };
 
@@ -83,8 +82,9 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
+        setAlertData={setAlertData}
       />
-      <SiteAlerts alertData={alertData} alertSetOpen={alertSetOpen} alertOpen={alertOpen} />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
