@@ -10,28 +10,17 @@ import Search from './Search';
 import { WaybillProps } from '../common/interfaces_types';
 
 const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
-  const { currentUserRole } = props;
-  const [waybills, setWaybill] = React.useState([]);
+  const { currentUserRole, waybillsJSON } = props;
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
   const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-  const componentMounted = React.useRef(true);
 
-  React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => {
-      if (componentMounted.current) {
-        const waybillsOrder = ['transportation started', 'delivered to the recipient'];
-        setWaybill(response.data
-          .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
-      }
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
+  const waybillsOrder = ['transportation started', 'delivered to the recipient'];
+  const [waybills, setWaybill] = React.useState((waybillsJSON)
+    .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
   const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish({ ids: id })

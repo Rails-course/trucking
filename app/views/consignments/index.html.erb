@@ -1,8 +1,9 @@
 <center>
   <div class="client_content">
     <%=react_component('Consignment',{
-      currentUserRole: current_user.role.role_name, 
-      consignmentsJSON: @consignments.to_json(include: %i[dispatcher manager waybill goods])
+      currentUserRole: current_user.role.role_name,
+      driversJSON: @drivers, trucksJSON: @trucks, warehouses: @warehouses,
+      consignmentsJSON: @consignments.to_json(include: %i[dispatcher manager waybill goods]),
       }) %>
   </div>
 </center>

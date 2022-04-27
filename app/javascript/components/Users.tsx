@@ -8,10 +8,13 @@ import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
+import { UsersProps } from '../common/interfaces_types';
 
-const Users = () => {
+const Users: React.FC<UsersProps> = (props: UsersProps) => {
+  const { usersJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [users, setUser] = React.useState<UserData[]>(null);
+  const [users, setUser] = React.useState(JSON.parse(usersJSON));
+  // const [users, setUser] = React.useState<UserData[]>(null);
   const [userIds, setUserId] = React.useState([]);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);

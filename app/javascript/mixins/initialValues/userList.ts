@@ -7,4 +7,5 @@ export interface UserData {
   middle_name:string,
   login: string,
   role: {role_name: string},
+  address: { town: string, street: string, building: number, apartment: number, }
 }

@@ -48,6 +48,7 @@ export interface CreateConsignmentFormProps {
     handleFieldAdd: any;
     handleFieldChange: any,
     formErrors: any;
+    trucksJSON: [], driversJSON: [];
 }
 
 export interface WarehouseData {
@@ -57,9 +58,7 @@ export interface WarehouseData {
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: any,
-    setWriteOffActs: any,
-    searchData: any;
+    writeOffActs: any, searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
@@ -67,6 +66,7 @@ export interface CreateWriteOffActFormProps {
     handleClose: () => void;
     handleSubmit: any;
     formErrors: any;
+    consignmentsJSON: string;
     setAlertData:any,
 }
 
@@ -79,6 +79,7 @@ export interface CreateWaybillsFormProps {
     data: any, owners: any;
     setAlertData:any,
     setConsignment: any, consignments: any;
+    warehouses: [];
 }
 
 export interface CreateRoutesFormProps {
@@ -102,6 +103,7 @@ export interface CreateWarehouseFormProps {
     formErrors: any,
     setFormErrors: any,
     setAlertData:any,
+    warehousemansData: [];
 }
 
 export interface Warehouseman {
@@ -208,10 +210,9 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
-    companies: any,
-    setCompany: any,
-    setAlertData:any,
-    searchData: any;
+    companies: any, setCompany: any;
+    setAlertData:any, searchData: any;
+    suspendCompany: any, resumeCompany: any;
 }
 
 export interface WaybillTableProps {
@@ -224,11 +225,11 @@ export interface WaybillTableProps {
 
 export interface WaybillProps {
     currentUserRole: string;
+    waybillsJSON: any;
 }
 
 export interface SiteAlertProps {
-    alertData:any,
-    setAlertData:any,
+    alertData:any, setAlertData:any;
 }
 
 export interface SearchProps {
@@ -240,16 +241,26 @@ export interface SearchProps {
 export interface ConsignmentProps {
     currentUserRole: string;
     consignmentsJSON: string;
+    trucksJSON: [], driversJSON: [], warehouses: [];
 }
 
 export interface WriteOffActsProps {
     currentUserRole: string;
+    writeOffActsJSON: string;
+    consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
     currentUserRole: string;
+    warehousesJSON: string;
+    warehousemansData: [];
 }
 
 export interface CompanyProps {
     currentUserRole: string;
+    companiesJSON: string;
+}
+
+export interface UsersProps {
+    usersJSON: string;
 }

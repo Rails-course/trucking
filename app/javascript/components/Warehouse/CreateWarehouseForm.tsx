@@ -16,10 +16,8 @@ import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_
 const WarehouseCreateForm:
     React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
       const {
-        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData, warehousemansData,
       } = props;
-      const [warehousemans, setWarehousemans] = React.useState<Warehouseman[]>([]);
-      const componentMounted = React.useRef(true);
 
       const handleSubmit = (warehouse: warehouseFormValues) => {
         httpClient.warehouses.create(warehouse)
@@ -41,18 +39,6 @@ const WarehouseCreateForm:
             });
           });
       };
-
-      React.useEffect(() => {
-        httpClient.users.get_warehousemans()
-          .then((response) => {
-            if (componentMounted.current) {
-              setWarehousemans(response.data);
-            }
-          });
-        return () => {
-          componentMounted.current = false;
-        };
-      }, []);
 
       return (
         <div>
@@ -90,7 +76,7 @@ const WarehouseCreateForm:
                         </Container>
                         <Autocomplete
                           id="warehouseman"
-                          options={warehousemans}
+                          options={warehousemansData}
                           getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                           renderInput={(params) => (
                             <TextField

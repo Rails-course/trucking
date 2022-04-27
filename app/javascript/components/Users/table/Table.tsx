@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import {
   Table, TableBody, TableContainer, Paper, Box,
-  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow,
+  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow, CircularProgress,
 } from '@mui/material';
 
 import EnhancedTableToolbar from './TableToolbar';

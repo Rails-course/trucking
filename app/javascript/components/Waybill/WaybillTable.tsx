@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {
   TableContainer, Paper, Table, TableHead, TableRow, TableBody, Button, TablePagination,
-  FormControlLabel, Switch, Box,
+  FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
 import { waybillTableCell } from '../../constants/waybillFields';
@@ -60,7 +60,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
               {!waybills
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : waybillsData

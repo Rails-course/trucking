@@ -5,6 +5,9 @@ class ConsignmentsController < ApplicationController
 
   def index
     authorize! :read, Consignment
+    @warehouses = Warehouse.all
+    @trucks = Truck.where(company: current_user.company)
+    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
     respond_to do |format|
       format.html
       format.json do

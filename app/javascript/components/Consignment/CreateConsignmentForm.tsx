@@ -7,40 +7,17 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Button, Box,
 } from '@mui/material';
 
-import axios from 'axios';
 import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
-import httpClient from '../../api/httpClient';
 import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfaces_types';
 
 const CreateConsignmentForm:
     React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
       const {
         isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-        handleFieldChange, formErrors,
+        handleFieldChange, formErrors, trucksJSON, driversJSON,
       } = props;
-
-      const [drivers, setDrivers] = React.useState(null);
-      const [trucks, setTrucks] = React.useState(null);
-      const componentMounted = React.useRef(true);
-
-      React.useEffect(() => {
-        const getTrucks = httpClient.trucks.get_trucks();
-        const getDrivers = httpClient.users.get_drivers();
-        axios.all([getTrucks, getDrivers])
-          .then(
-            axios.spread((...responses) => {
-              if (componentMounted.current) {
-                setTrucks(responses[0].data);
-                setDrivers(responses[1].data);
-              }
-            }),
-          );
-        return () => {
-          componentMounted.current = false;
-        };
-      }, []);
 
       return (
         <div>
@@ -139,7 +116,7 @@ const CreateConsignmentForm:
                           </div>
                           <Autocomplete
                             id="driver"
-                            options={drivers}
+                            options={driversJSON}
                             getOptionLabel={(option: Driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                             renderInput={(params) => (
                               <TextField
@@ -154,7 +131,7 @@ const CreateConsignmentForm:
                           />
                           <Autocomplete
                             id="truck"
-                            options={trucks}
+                            options={trucksJSON}
                             getOptionLabel={(option: Truck) => option.truck_number}
                             renderInput={(params) => (
                               <TextField
