@@ -3,6 +3,7 @@
 class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
+    @consignments = Consignment.all
     @write_off_acts = WriteOffAct.all
     respond_to do |format|
       format.html

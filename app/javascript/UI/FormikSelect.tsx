@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
+
 import { Field, ErrorMessage, FieldInputProps } from 'formik';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,7 +19,7 @@ interface FormikSelectProps {
 
 interface MaterialUISelectFieldProps extends FieldInputProps<string> {
   errorString: string;
-  children: ReactNode;
+  children: React.ReactNode;
   label: string;
   required: boolean;
 }

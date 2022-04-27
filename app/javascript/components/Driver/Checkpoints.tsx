@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {
   Dialog, DialogContent, DialogTitle, Paper, Button,
-  Table, TableBody, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableContainer, TableHead, TableRow, CircularProgress,
 } from '@mui/material';
 
 import CheckpointWindow from './CheckpointWindow';
@@ -13,8 +13,7 @@ import { checkpointsFields } from '../../constants/checkpoints';
 const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps) => {
   const {
     id, isWaybillModal, checkpoints, setWaybillModalActive, currentUserRole,
-    setAlertData, handleSubmitWaybill,
-    formErrorsCheckpoints, setCheckpoints,
+    setAlertData, handleSubmitWaybill, formErrorsCheckpoints, setCheckpoints,
   } = props;
 
   const handleClose = () => setWaybillModalActive(false);
@@ -40,7 +39,7 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
               {!checkpoints
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
                 : checkpoints.map((checkpoint) => (

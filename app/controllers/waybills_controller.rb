@@ -4,16 +4,16 @@ class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
   def index
-    @data = []
+    @waybill_data = []
     @waybills.each do |waybill|
-      @data.append({ id: waybill.id,
+      @waybill_data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
                      status: waybill.status,
                      waybill_seria: waybill.waybill_seria,
                      waybill_number: waybill.waybill_number })
     end
-    @data
+    @waybill_data
   end
 
   def create

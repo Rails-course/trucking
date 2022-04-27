@@ -1,8 +1,9 @@
 import * as React from 'react';
-
 import { Form, Formik } from 'formik';
+
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+
 import { SearchProps } from '../common/interfaces_types';
 import FormikField from '../UI/FormikField';
 import { SearchPanel } from '../utils/style';

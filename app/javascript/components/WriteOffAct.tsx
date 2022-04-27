@@ -10,9 +10,9 @@ import { WriteOffActsProps } from '../common/interfaces_types';
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
-  const { currentUserRole } = props;
+  const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [writeOffActs, setWriteOffActs] = React.useState([]);
+  const [writeOffActs, setWriteOffActs] = React.useState(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [searchData, setSearchData] = React.useState();
@@ -69,11 +69,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             )
             : null}
           <Grid item xs={12}>
-            <WriteOffActTable
-              writeOffActs={writeOffActs}
-              setWriteOffActs={setWriteOffActs}
-              searchData={searchData}
-            />
+            <WriteOffActTable writeOffActs={writeOffActs} searchData={searchData}/>
           </Grid>
         </Grid>
       </Box>
@@ -82,6 +78,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
+        consignmentsJSON={consignmentsJSON}
         setAlertData={setAlertData}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />

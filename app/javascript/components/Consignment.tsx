@@ -14,7 +14,9 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import Search from './Search';
 
 const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
-  const { currentUserRole, consignmentsJSON } = props;
+  const {
+    currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehouses,
+  } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -186,8 +188,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
-        drivers={drivers}
-        trucks={trucks}
+        trucksJSON={trucksJSON}
+        driversJSON={driversJSON}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
@@ -212,6 +214,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertData={setAlertData}
+        warehouses={warehouses}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

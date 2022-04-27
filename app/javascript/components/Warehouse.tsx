@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
@@ -10,9 +9,9 @@ import SiteAlerts from './Alert';
 import Search from './Search';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole } = props;
-  const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
+  const { currentUserRole, warehousesJSON, warehousemansData } = props;
+  const [isActiveModal, setModalActive] = React.useState(false);
+  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [searchData, setSearchData] = React.useState();
@@ -65,6 +64,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         formErrors={formErrors}
         setFormErrors={setFormErrors}
         setAlertData={setAlertData}
+        warehousemansData={warehousemansData}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
