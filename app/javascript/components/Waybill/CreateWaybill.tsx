@@ -18,7 +18,7 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    setAlertData, setConsignment, consignments, warehouses,
+    setAlertData, setConsignment, consignments, warehousesJSON,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
@@ -185,7 +185,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                       <Autocomplete
                         id="warehouse"
-                        options={warehouses}
+                        options={JSON.parse(warehousesJSON)}
                         getOptionLabel={(option) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField

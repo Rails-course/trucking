@@ -14,7 +14,7 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setOwners, setWarehouses, currentUserRole, setConsWaybillId, setData, searchData,
+    setOwners, currentUserRole, setConsWaybillId, setData, searchData,
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -35,13 +35,11 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const openWaybillCreateModal = (id) => {
     const getWaybillData = httpClient.waybill.getWaybillData(id);
     const getGoodsOwnerNames = httpClient.goodsOwner.getGoodsOwners();
-    const getWarehouses = httpClient.warehouses.getWarehouses();
     setConsID(id);
-    axios.all([getWaybillData, getGoodsOwnerNames, getWarehouses])
+    axios.all([getWaybillData, getGoodsOwnerNames])
       .then(axios.spread((...responses) => {
         setData(responses[0].data);
         setOwners(responses[1].data);
-        setWarehouses(responses[2].data);
         setWayBillActive(true);
       }));
   };

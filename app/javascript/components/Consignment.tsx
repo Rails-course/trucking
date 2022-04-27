@@ -15,7 +15,7 @@ import Search from './Search';
 
 const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const {
-    currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehouses,
+    currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
   } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
@@ -35,14 +35,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [consId, setConsID] = React.useState(null);
   const [data, setData] = React.useState(null);
   const [owners, setOwners] = React.useState([]);
-  const [warehouses, setWarehouses] = React.useState([]);
   const [consWaybillId, setConsWaybillId] = React.useState(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
-  const [drivers, setDrivers] = React.useState(null);
-  const [trucks, setTrucks] = React.useState(null);
 
   const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
 
@@ -58,23 +55,19 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
-    // TODO: refactor reseting goods state on close and after submit
-    // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
-    setTimeout(() => {
-      setCheckedGoods([]);
-    }, 1000);
+    setCheckedGoods([]);
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
     httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
         setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-        setModalActive(false);
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
           open: true,
         });
+        handleClose();
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
@@ -96,12 +89,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
-            setModalActive(false);
             setAlertData({
               alertType: 'info',
               alertText: 'Goods status changed!',
               open: true,
             });
+            handleClose();
           });
       case 'Delivered':
         setTitleStatus('');
@@ -116,25 +109,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               alertText: 'Goods status changed!',
               open: true,
             });
+            handleClose();
           });
       default:
         setTitleStatus('');
     }
-  };
-
-  const openCreateConsignment = () => {
-    // NOTE: each time we open create consignment modal we send requests
-    // probably there is a better way to handle this logic
-    const getTrucks = httpClient.trucks.getTrucks();
-    const getDrivers = httpClient.users.getDrivers();
-    axios.all([getTrucks, getDrivers])
-      .then(
-        axios.spread((...responses) => {
-          setTrucks(responses[0].data);
-          setDrivers(responses[1].data);
-          setModalActive(true);
-        }),
-      );
   };
 
   return (
@@ -155,7 +134,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           {currentUserRole === 'dispatcher'
             ? (
               <Grid item xs={1.75} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={openCreateConsignment}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Consignment
                 </Button>
               </Grid>
@@ -172,7 +151,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               formErrors={formErrors}
               setData={setData}
               setOwners={setOwners}
-              setWarehouses={setWarehouses}
               currentUserRole={currentUserRole}
               setConsWaybillId={setConsWaybillId}
               searchData={searchData}
@@ -209,12 +187,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         data={data}
         handleClose={handleClose}
         owners={owners}
-        warehouses={warehouses}
+        warehousesJSON={warehousesJSON}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertData={setAlertData}
-        warehouses={warehouses}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

@@ -13,59 +13,67 @@ import consignmentInitialValues from '../../initialValues/consignmentInitialValu
 import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfaces_types';
 
 const CreateConsignmentForm:
-    React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
-      const {
-        isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-        handleFieldChange, formErrors, trucksJSON, driversJSON,
-      } = props;
+  React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
+    const {
+      isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
+      handleFieldChange, formErrors, trucksJSON, driversJSON,
+    } = props;
 
-      return (
-        <div>
-          <Dialog
-            open={isActiveModal}
-            onClose={handleClose}
-            sx={{ '& .MuiDialog-paper': { width: '30%', maxHeight: 663 } }}
-            maxWidth="md"
-          >
-            <DialogTitle>Consignment Form</DialogTitle>
-            <DialogContent>
-              <Grid container spacing={2} direction="column">
-                <Grid item xs={12}>
-                  <Formik
-                    initialValues={consignmentInitialValues}
-                    onSubmit={handleSubmit}
-                  >
-                    {({
-                      dirty, isValid, handleChange, values,
-                    }) => (
-                      <Form>
-                        <Container>
-                          {formErrors ? <p className="error-msg">{formErrors}</p> : null}
-                          {consignmentFields.map((column) => (
-                            <FormikField
-                              key={column.id}
-                              name={column.model}
-                              label={column.placeholder}
-                              required={column.required}
-                              type={column.type}
-                              variant="standard"
-                            />
-                          ))}
-                          <div style={{ width: '100%', display: 'flex' }}>
-                            <Box
-                              component="div"
-                              display="flex"
-                              flexDirection="row"
-                              alignItems="center"
-                              bgcolor="background.paper"
-                              flexWrap="wrap-reverse"
-                            >
-                              {newGoods.map((singleField, index) => (
-                                <div
-                                  key={index}
-                                  style={{
-                                    width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', marginTop: '15px', rowGap: '15px',
-                                  }}
+    return (
+      <div>
+        <Dialog
+          open={isActiveModal}
+          onClose={handleClose}
+          sx={{ '& .MuiDialog-paper': { width: '30%', maxHeight: 663 } }}
+          maxWidth="md"
+        >
+          <DialogTitle>Consignment Form</DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} direction="column">
+              <Grid item xs={12}>
+                <Formik
+                  initialValues={consignmentInitialValues}
+                  onSubmit={handleSubmit}
+                >
+                  {({
+                    dirty, isValid, handleChange, values,
+                  }) => (
+                    <Form>
+                      <Container>
+                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+                        {consignmentFields.map((column) => (
+                          <FormikField
+                            key={column.id}
+                            name={column.model}
+                            label={column.placeholder}
+                            required={column.required}
+                            type={column.type}
+                            variant="standard"
+                          />
+                        ))}
+                        <div style={{ width: '100%', display: 'flex' }}>
+                          <Box
+                            component="div"
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                            bgcolor="background.paper"
+                            flexWrap="wrap-reverse"
+                          >
+                            {newGoods.map((singleField, index) => (
+                              <div
+                                key={index}
+                                style={{
+                                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', marginTop: '15px', rowGap: '15px',
+                                }}
+                              >
+                                <div>
+                                  {newGoods.length - 1 === index && newGoods.length < 5
+                                    && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
+                                </div>
+                                <div style={{
+                                  display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between',
+                                }}
                                 >
                                   <FormikField
                                     id={uuidv4()}
@@ -78,6 +86,7 @@ const CreateConsignmentForm:
                                     style={{ width: '80%', marginRight: '-20px' }}
                                     required
                                   />
+
                                   <FormikField
                                     id={uuidv4()}
                                     name="unit_of_measurement"
@@ -89,6 +98,7 @@ const CreateConsignmentForm:
                                     style={{ width: '100%', marginRight: '-18px', marginLeft: '13px' }}
                                     required
                                   />
+
                                   <FormikField
                                     id={uuidv4()}
                                     name="quantity"
@@ -101,48 +111,14 @@ const CreateConsignmentForm:
                                     required
                                   />
                                 </div>
-                              ))}
-                            </Box>
-                          </div>
-                          <Autocomplete
-                            id="driver"
-                            options={driversJSON}
-                            getOptionLabel={(option: Driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                onSelect={handleChange}
-                                margin="normal"
-                                label="Driver"
-                                fullWidth
-                                value={values?.driver}
-                              />
-                            )}
-                          />
-                          <Autocomplete
-                            id="truck"
-                            options={trucksJSON}
-                            getOptionLabel={(option: Truck) => option.truck_number}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                onSelect={handleChange}
-                                margin="normal"
-                                label="Truck"
-                                fullWidth
-                                value={values?.truck}
-                              />
-                            )}
-                          />
-                        </Container>
-
                               </div>
                             ))}
                           </Box>
                         </div>
+
                         <Autocomplete
                           id="driver"
-                          options={drivers}
+                          options={driversJSON}
                           getOptionLabel={(option: Driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                           renderInput={(params) => (
                             <TextField
@@ -155,9 +131,10 @@ const CreateConsignmentForm:
                             />
                           )}
                         />
+
                         <Autocomplete
                           id="truck"
-                          options={trucks}
+                          options={trucksJSON}
                           getOptionLabel={(option: Truck) => option.truck_number}
                           renderInput={(params) => (
                             <TextField
@@ -171,7 +148,6 @@ const CreateConsignmentForm:
                           )}
                         />
                       </Container>
-
                       <DialogActions>
                         <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
