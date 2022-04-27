@@ -2,15 +2,10 @@
 
 class WarehousesController < ApplicationController
   before_action :set_warehouse, only: %i[trust_warehouse destroy]
+
   def index
     @warehouses = Warehouse.all
     @warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @warehouses.to_json
-      end
-    end
   end
 
   def create

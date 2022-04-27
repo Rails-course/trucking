@@ -48,7 +48,7 @@ export interface CreateConsignmentFormProps {
     handleFieldAdd: any;
     handleFieldChange: any,
     formErrors: any;
-    trucksJSON: [], driversJSON: [];
+    trucks: [], drivers: [];
 }
 
 export interface WarehouseData {
@@ -76,10 +76,10 @@ export interface CreateWaybillsFormProps {
     formWaybillErrors: any;
     isActiveWayBill: boolean;
     setWayBillActive: any;
-    data: any, owners: any;
+    createWaybillData: any,
     setAlertData: any,
     setConsignment: any, consignments: any;
-    warehousesJSON: string;
+    warehouses: [], goodsOwners: [];
 }
 
 export interface CreateRoutesFormProps {
@@ -193,13 +193,13 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
-    setOwners: any;
     setModalGoodsActive: any;
     setWayBillActive: any;
     setGoods: any;
     setConsID: any;
     formErrors: any;
-    consignments: any, setData: any;
+    consignments: any,
+    setCreateWaybillData: any;
     currentUserRole: any, setConsWaybillId: any;
     searchData: any;
 }
@@ -244,7 +244,8 @@ export interface SearchProps {
 export interface ConsignmentProps {
     currentUserRole: string;
     consignmentsJSON: string;
-    trucksJSON: [], driversJSON: [], warehousesJSON: string;
+    trucksJSON: string, driversJSON: string,
+    warehousesJSON: string; goodsOwnersJSON: string,
 }
 
 export interface WriteOffActsProps {

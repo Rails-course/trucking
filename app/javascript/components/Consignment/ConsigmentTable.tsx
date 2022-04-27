@@ -6,7 +6,6 @@ import {
   TablePagination, FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
-import httpClient from '../../api/httpClient';
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { ConsignmentTableProps } from '../../common/interfaces_types';
@@ -14,7 +13,7 @@ import { ConsignmentTableProps } from '../../common/interfaces_types';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    setOwners, currentUserRole, setConsWaybillId, setData, searchData,
+    currentUserRole, setConsWaybillId, setCreateWaybillData, searchData,
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -32,16 +31,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setConsWaybillId(waybillID);
   };
 
-  const openWaybillCreateModal = (id) => {
-    const getWaybillData = httpClient.waybill.getWaybillData(id);
-    const getGoodsOwnerNames = httpClient.goodsOwner.getGoodsOwners();
-    setConsID(id);
-    axios.all([getWaybillData, getGoodsOwnerNames])
-      .then(axios.spread((...responses) => {
-        setData(responses[0].data);
-        setOwners(responses[1].data);
-        setWayBillActive(true);
-      }));
+  const openWaybillCreateModal = (consID) => {
+    const consignment = consignments.find(consignment => consID === consignment.id);
+    const truckNumber = consignment.truck.truck_number
+    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`
+    setConsID(consID);
+    setCreateWaybillData({ truckNumber, driverFio });
+    setWayBillActive(true);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);

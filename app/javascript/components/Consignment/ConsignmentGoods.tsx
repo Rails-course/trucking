@@ -109,9 +109,8 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                   <DialogActions>
                     <Button
                       type="submit"
-                      onClick={handleClose}
                       color="success"
-                      disabled={!['driver', 'manager'].includes(currentUserRole)}
+                      disabled={!(['driver', 'manager'].includes(currentUserRole) && checkedGoods.length)}
                       variant="outlined"
                     >
                       Submit
