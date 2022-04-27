@@ -6,6 +6,6 @@ class Warehouse < ApplicationRecord
   has_many :waybills, dependent: :restrict_with_exception
   validates :warehouse_name, presence: true, uniqueness: true, length: { in: 3..30 }
   def toggle_trusted
-    toggle!(:trusted)
+    update(trusted: !trusted)
   end
 end

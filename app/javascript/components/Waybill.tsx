@@ -17,7 +17,6 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
-
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
   const [waybills, setWaybill] = React.useState((waybillsJSON)
     .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));

@@ -118,10 +118,9 @@ export interface Warehouseman {
 }
 
 export interface EnhancedTableProps {
+    setUpdateModalActive: any;
     users: any;
     setUser: any;
-    userIds: number[];
-    setUserId: any;
     setEditUserModal: any;
     searchData: any;
 }
@@ -141,14 +140,18 @@ export interface EnhancedTableToolbarProps {
     numSelected: number;
     users: any;
     setUser: any;
-    userIds: number[];
+    selectedUsersIds: any;
+    setSelectedUsersIds: any;
 }
 
 export interface UserCreateFormProps {
-    isActiveModal: boolean;
+    createModal: boolean;
+    updateModal: boolean;
     handleClose: () => void;
     editUserModal: any;
     title: string;
+    companies: any;
+    roles: any;
     handleSubmit: any;
     btnTitle: string;
     formErrors: any;
@@ -199,6 +202,7 @@ export interface ConsignmentTableProps {
     consignments: any, setData: any;
     currentUserRole: any, setConsWaybillId: any;
     searchData: any;
+    setWarehouses: any;
 }
 
 export interface CreateCompanyFormProps {
@@ -233,8 +237,8 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData:any;
-    Data:any;
+    setData: any;
+    Data: any;
     keyField: string;
 }
 
@@ -262,5 +266,11 @@ export interface CompanyProps {
 }
 
 export interface UsersProps {
+    usersJSON: string;
+}
+
+export interface UsersProps {
+    rolesJSON: string;
+    companiesJSON: string;
     usersJSON: string;
 }

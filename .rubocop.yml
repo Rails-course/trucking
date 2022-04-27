@@ -18,6 +18,7 @@ AllCops:
     - "config/**/*"
     - "config.ru"
     - "spec"
+    - "app/models/ability.rb"
   TargetRubyVersion: 2.5
   SuggestExtensions: false
 

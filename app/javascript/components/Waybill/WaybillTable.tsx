@@ -35,7 +35,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
-    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
+    httpClient.route.getRoutes(id).then((response) => setCheckpoints(response.data));
   };
 
   const waybillsData = searchData || waybills;

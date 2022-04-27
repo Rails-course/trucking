@@ -98,10 +98,11 @@ const WarehouseCreateForm:
                   </Formik>
                 </Grid>
               </Grid>
-            </DialogContent>
-          </Dialog>
-        </div>
-      );
-    };
+            </Grid>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  };
 
 export default WarehouseCreateForm;

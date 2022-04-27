@@ -14,7 +14,8 @@ import { StyledTableCell } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, currentUserRole, searchData,
+    warehouses, setWarehouses, setAlertData,
+    currentUserRole, searchData,
   } = props;
 
   const setWarehouseTrusted = async (warehouse: WarehouseData) => {

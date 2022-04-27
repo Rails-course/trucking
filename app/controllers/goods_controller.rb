@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GoodsController < ApplicationController
-  before_action :set_consignment, only: %i[get_consignment_goods set_goods_cheked_status]
+  before_action :set_consignment, only: %i[set_goods_cheked_status]
   before_action :set_waybill_goods, only: %i[waybill_goods set_goods_delivered_status]
 
   def waybill_goods
