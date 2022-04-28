@@ -13,8 +13,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const { currentUserRole, waybillsJSON } = props;
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
-  const [checkpoints, setCheckpoints] = React.useState(null);
-
+  const [checkpoints, setCheckpoints] = React.useState([]);
   const [alertData, setAlertData] = React.useState<object>({ open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();

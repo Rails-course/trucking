@@ -162,11 +162,11 @@ export interface WaybillGoodsProps {
 }
 
 export interface CheckpointWindowFormProps {
-    id: number,
+    checkpointID: number,
     status: boolean,
     currentUserRole: any;
     setAlertData: any,
-    wayID: number,
+    checkpoints: any;
     setCheckpoints: any,
 }
 
@@ -200,7 +200,7 @@ export interface ConsignmentTableProps {
     formErrors: any;
     consignments: any,
     setCreateWaybillData: any;
-    currentUserRole: any, setConsWaybillId: any;
+    currentUserRole: any;
     searchData: any;
 }
 
