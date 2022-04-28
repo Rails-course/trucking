@@ -7,25 +7,26 @@ class WaybillsController < ApplicationController
     @waybill_data = []
     @waybills.each do |waybill|
       @waybill_data.append({ id: waybill.id,
-                     startpoint: waybill.startpoint.full_address,
-                     endpoint: waybill.endpoint.full_address,
-                     status: waybill.status,
-                     waybill_seria: waybill.waybill_seria,
-                     waybill_number: waybill.waybill_number })
+                             startpoint: waybill.startpoint.full_address,
+                             endpoint: waybill.endpoint.full_address,
+                             status: waybill.status,
+                             waybill_seria: waybill.waybill_seria,
+                             waybill_number: waybill.waybill_number })
     end
     @waybill_data
   end
 
   def create
-    buebug
     points = points_params
     begin
       ActiveRecord::Base.transaction do
         startpoint = Address.create!(points[:startpoint])
         endpoint = Address.create!(points[:endpoint])
         @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
-        points[:routes].each do |city_name|
-          Route.create!(city: city_name, waybill: @waybill)
+        if points[:routes].present?
+          points[:routes].each do |city_name|
+            Route.create!(city: city_name, waybill: @waybill)
+          end
         end
       end
     rescue ActiveRecord::RecordInvalid => e
