@@ -17,6 +17,7 @@ class WaybillsController < ApplicationController
   end
 
   def create
+    buebug
     points = points_params
     begin
       ActiveRecord::Base.transaction do
