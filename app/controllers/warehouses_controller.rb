@@ -4,7 +4,7 @@ class WarehousesController < ApplicationController
   before_action :set_warehouse, only: %i[trust_warehouse destroy]
   def index
     @warehouses = Warehouse.all
-
+    @warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
     respond_to do |format|
       format.html
       format.json do
@@ -47,14 +47,15 @@ class WarehousesController < ApplicationController
                                              street: permit_warehouse_params[:street],
                                              building: permit_warehouse_params[:building],
                                              apartment: permit_warehouse_params[:apartment])
-    set_warehouseman(warehouse_params)
+    find_warehouseman(warehouse_params)
     warehouse_params.except(:town, :street, :building, :apartment)
   end
 
-  def set_warehouseman(warehouse_params)
-    warehouseman_FIO = warehouse_params[:warehouseman].split
-    warehouse_params[:warehouseman] = User.find_by(second_name: warehouseman_FIO[0],
-                                                   first_name: warehouseman_FIO[1], middle_name: warehouseman_FIO[2])
+  def find_warehouseman(warehouse_params)
+    warehouseman_fio = warehouse_params[:warehouseman].split
+    warehouse_params[:warehouseman] = User.find_by(second_name: warehouseman_fio[0],
+                                                   first_name: warehouseman_fio[1],
+                                                   middle_name: warehouseman_fio[2])
     warehouse_params
   end
 end

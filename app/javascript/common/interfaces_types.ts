@@ -48,6 +48,7 @@ export interface CreateConsignmentFormProps {
     handleFieldAdd: any;
     handleFieldChange: any,
     formErrors: any;
+    trucksJSON: [], driversJSON: [];
 }
 
 export interface WarehouseData {
@@ -57,9 +58,7 @@ export interface WarehouseData {
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: any,
-    setWriteOffActs: any,
-    searchData: any;
+    writeOffActs: any, searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
@@ -67,7 +66,8 @@ export interface CreateWriteOffActFormProps {
     handleClose: () => void;
     handleSubmit: any;
     formErrors: any;
-    setAlertData:any,
+    consignmentsJSON: string;
+    setAlertData: any,
 }
 
 export interface CreateWaybillsFormProps {
@@ -77,8 +77,9 @@ export interface CreateWaybillsFormProps {
     isActiveWayBill: boolean;
     setWayBillActive: any;
     data: any, owners: any;
-    setAlertData:any,
+    setAlertData: any,
     setConsignment: any, consignments: any;
+    warehousesJSON: string;
 }
 
 export interface CreateRoutesFormProps {
@@ -91,7 +92,7 @@ export interface WarehouseTableProps {
     warehouses: WarehouseData[];
     setWarehouses: any;
     currentUserRole: any;
-    setAlertData:any,
+    setAlertData: any,
     searchData: any;
 }
 
@@ -101,7 +102,8 @@ export interface CreateWarehouseFormProps {
     setWarehouses: any,
     formErrors: any,
     setFormErrors: any,
-    setAlertData:any,
+    setAlertData: any,
+    warehousemansData: [];
 }
 
 export interface Warehouseman {
@@ -116,10 +118,9 @@ export interface Warehouseman {
 }
 
 export interface EnhancedTableProps {
+    setUpdateModalActive: any;
     users: any;
     setUser: any;
-    userIds: number[];
-    setUserId: any;
     setEditUserModal: any;
     searchData: any;
 }
@@ -139,14 +140,18 @@ export interface EnhancedTableToolbarProps {
     numSelected: number;
     users: any;
     setUser: any;
-    userIds: number[];
+    selectedUsersIds: any;
+    setSelectedUsersIds: any;
 }
 
 export interface UserCreateFormProps {
-    isActiveModal: boolean;
+    createModal: boolean;
+    updateModal: boolean;
     handleClose: () => void;
     editUserModal: any;
     title: string;
+    companies: any;
+    roles: any;
     handleSubmit: any;
     btnTitle: string;
     formErrors: any;
@@ -160,7 +165,7 @@ export interface CheckpointWindowFormProps {
     id: number,
     status: boolean,
     currentUserRole: any;
-    setAlertData:any,
+    setAlertData: any,
     wayID: number,
     setCheckpoints: any,
 }
@@ -171,7 +176,7 @@ export interface CheckpointsFormProps {
     setWaybillModalActive: any;
     checkpoints: any;
     currentUserRole: any;
-    setAlertData:any,
+    setAlertData: any,
     handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: any,
     setCheckpoints: any,
@@ -204,14 +209,13 @@ export interface CreateCompanyFormProps {
     handleClose: () => void;
     setCompany: any, formErrors: any;
     setFormErrors: any,
-    setAlertData:any,
+    setAlertData: any,
 }
 
 export interface CompanyTableProps {
-    companies: any,
-    setCompany: any,
-    setAlertData:any,
-    searchData: any;
+    companies: any, setCompany: any;
+    setAlertData: any, searchData: any;
+    suspendCompany: any, resumeCompany: any;
 }
 
 export interface WaybillTableProps {
@@ -224,32 +228,48 @@ export interface WaybillTableProps {
 
 export interface WaybillProps {
     currentUserRole: string;
+    waybillsJSON: any;
 }
 
 export interface SiteAlertProps {
-    alertData:any,
-    setAlertData:any,
+    alertData: any, setAlertData: any;
 }
 
 export interface SearchProps {
-    setData:any;
-    Data:any;
+    setData: any;
+    Data: any;
     keyField: string;
 }
 
 export interface ConsignmentProps {
     currentUserRole: string;
     consignmentsJSON: string;
+    trucksJSON: [], driversJSON: [], warehousesJSON: string;
 }
 
 export interface WriteOffActsProps {
     currentUserRole: string;
+    writeOffActsJSON: string;
+    consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
     currentUserRole: string;
+    warehousesJSON: string;
+    warehousemansData: [];
 }
 
 export interface CompanyProps {
     currentUserRole: string;
+    companiesJSON: string;
+}
+
+export interface UsersProps {
+    usersJSON: string;
+}
+
+export interface UsersProps {
+    rolesJSON: string;
+    companiesJSON: string;
+    usersJSON: string;
 }

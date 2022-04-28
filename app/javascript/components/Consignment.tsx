@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
+import axios from 'axios';
+import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import httpClient from '../api/httpClient';
 import { ConsignmentProps, Item } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
@@ -13,7 +14,9 @@ import { consignmentFormValues } from '../initialValues/consignmentInitialValues
 import Search from './Search';
 
 const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
-  const { currentUserRole, consignmentsJSON } = props;
+  const {
+    currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
+  } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
@@ -52,23 +55,19 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
-    // TODO: refactor reseting goods state on close and after submit
-    // handleClose works before handleGoodsSubmit, so we cant just reset state on handleClose
-    setTimeout(() => {
-      setCheckedGoods([]);
-    }, 1000);
+    setCheckedGoods([]);
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
     httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
         setConsignment((prevConsignment) => [...prevConsignment, response.data]);
-        setModalActive(false);
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
           open: true,
         });
+        handleClose();
       })
       .catch((errors) => {
         setFormErrors(errors.response.data);
@@ -90,12 +89,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
-            setModalActive(false);
             setAlertData({
               alertType: 'info',
               alertText: 'Goods status changed!',
               open: true,
             });
+            handleClose();
           });
       case 'Delivered':
         setTitleStatus('');
@@ -110,7 +109,10 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               alertText: 'Goods status changed!',
               open: true,
             });
+            handleClose();
           });
+      default:
+        setTitleStatus('');
     }
   };
 
@@ -164,6 +166,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
+        trucksJSON={trucksJSON}
+        driversJSON={driversJSON}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
@@ -183,6 +187,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         data={data}
         handleClose={handleClose}
         owners={owners}
+        warehousesJSON={warehousesJSON}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_18_151057) do
+ActiveRecord::Schema.define(version: 2022_04_26_160019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2022_04_18_151057) do
     t.string "truck_type_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["truck_type_name"], name: "index_truck_types_on_truck_type_name", unique: true
   end
 
   create_table "trucks", force: :cascade do |t|
@@ -92,6 +93,7 @@ ActiveRecord::Schema.define(version: 2022_04_18_151057) do
     t.datetime "updated_at", null: false
     t.bigint "truck_type_id"
     t.bigint "company_id"
+    t.index ["truck_number"], name: "index_trucks_on_truck_number", unique: true
   end
 
   create_table "users", force: :cascade do |t|

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
-  TablePagination, FormControlLabel, Switch, Box,
+  TablePagination, FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
 import httpClient from '../../api/httpClient';
@@ -33,8 +33,8 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   const openWaybillCreateModal = (id) => {
-    const getWaybillData = httpClient.waybill.get_data_waybill(id);
-    const getGoodsOwnerNames = httpClient.goods_owner.get_names();
+    const getWaybillData = httpClient.waybill.getWaybillData(id);
+    const getGoodsOwnerNames = httpClient.goodsOwner.getGoodsOwners();
     setConsID(id);
     axios.all([getWaybillData, getGoodsOwnerNames])
       .then(axios.spread((...responses) => {
@@ -78,7 +78,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               {!consignments
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : consignmentsData

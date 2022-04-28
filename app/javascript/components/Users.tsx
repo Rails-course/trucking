@@ -8,42 +8,49 @@ import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
+import { UsersProps } from '../common/interfaces_types';
 
-const Users = () => {
-  const [isActiveModal, setModalActive] = React.useState(false);
-  const [users, setUser] = React.useState<UserData[]>(null);
-  const [userIds, setUserId] = React.useState([]);
+const Users: React.FC<UsersProps> = (props: UsersProps) => {
+  const { rolesJSON, companiesJSON, usersJSON } = props;
+  const [createModal, setCreateModalActive] = React.useState(false);
+  const [updateModal, setUpdateModalActive] = React.useState(false);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
+  const [roles, setRoles] = React.useState(JSON.parse(rolesJSON));
+  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
+  const [users, setUser] = React.useState(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState();
 
-  const isModalActive = isActiveModal || !!editUserModal;
-
   const handleClose = () => {
-    setModalActive(false);
+    setCreateModalActive(false);
+    setUpdateModalActive(false);
     setEditUserModal(null);
     setFormErrors(null);
   };
 
-  const handleSubmit = async (user: userFormValues) => {
-    await httpClient.users.create(user);
-    setUser((prevUser) => [...prevUser, user]);
+  const handleSubmit = (user: userFormValues) => {
+    httpClient.users.create(user)
+      .then((response) => {
+        setUser((prevUsers) => [...prevUsers, response.data]);
+      });
+    handleClose();
   };
 
-  const handleEditSubmit = async (data) => {
-    await httpClient.users.update(data.id, data)
-      .then(() => {
+  const handleEditSubmit = (user: userFormValues) => {
+    httpClient.users.update(user.id, user)
+      .then((response) => {
         const newUsers = [...users];
-        const userIndex = newUsers.findIndex((it) => it.id === data.id);
+        const userIndex = newUsers.findIndex((it) => it.id === user.id);
         if (userIndex !== -1) {
           newUsers[userIndex] = {
             ...newUsers[userIndex],
-            ...data,
+            ...response.data,
           };
           setUser(newUsers);
         }
       })
       .catch((error) => setFormErrors(error.response.data));
+    handleClose();
   };
 
   return (
@@ -62,7 +69,7 @@ const Users = () => {
             <Search setData={setSearchData} Data={users} keyField="" />
           </Grid>
           <Grid item xs={1.4} style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setCreateModalActive(true)}>
               Create User
             </Button>
           </Grid>
@@ -70,21 +77,23 @@ const Users = () => {
             <UsersTable
               users={users}
               setUser={setUser}
-              userIds={userIds}
-              setUserId={setUserId}
               setEditUserModal={setEditUserModal}
+              setUpdateModalActive={setUpdateModalActive}
               searchData={searchData}
             />
           </Grid>
         </Grid>
       </Box>
       <CreateForm
-        isActiveModal={isModalActive}
+        createModal={createModal}
+        updateModal={updateModal}
         handleClose={handleClose}
+        companies={companies}
+        roles={roles}
         editUserModal={editUserModal}
-        handleSubmit={isActiveModal ? handleEditSubmit : handleSubmit}
-        title={editUserModal ? 'Update Profile' : 'Add User Of Company'}
-        btnTitle={editUserModal ? 'Update' : 'Create'}
+        handleSubmit={createModal ? handleSubmit : handleEditSubmit}
+        title={updateModal ? 'Update Profile' : 'Add User Of Company'}
+        btnTitle={updateModal ? 'Update' : 'Create'}
         formErrors={formErrors}
       />
     </div>

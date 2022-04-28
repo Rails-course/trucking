@@ -5,6 +5,9 @@ class ConsignmentsController < ApplicationController
 
   def index
     authorize! :read, Consignment
+    @warehouses = Warehouse.all
+    @trucks = Truck.where(company: current_user.company)
+    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
     respond_to do |format|
       format.html
       format.json do
@@ -74,10 +77,10 @@ class ConsignmentsController < ApplicationController
   end
 
   def find_driver(consignment_params)
-    driver_FIO = consignment_params[:driver].split
+    driver_fio = consignment_params[:driver].split
     consignment_params[:driver] =
-      User.find_by(company: current_user.company, second_name: driver_FIO[0],
-                   first_name: driver_FIO[1], middle_name: driver_FIO[2])
+      User.find_by(company: current_user.company, second_name: driver_fio[0],
+                   first_name: driver_fio[1], middle_name: driver_fio[2])
     consignment_params
   end
 end

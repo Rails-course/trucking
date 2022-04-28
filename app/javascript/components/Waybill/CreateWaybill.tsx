@@ -18,14 +18,12 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    setAlertData, setConsignment, consignments,
+    setAlertData, setConsignment, consignments, warehousesJSON,
   } = props;
 
   const [isCreateRoutes, setCreateRoutes] = React.useState(false);
   const [routes, setRoutes] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [warehouses, setWarehouses] = React.useState([]);
-  const componentMounted = React.useRef(true);
 
   const handleSubmit = (values) => {
     const cityNames = routes.map((name) => name.city_name);
@@ -52,15 +50,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   };
 
   const closeCreateRoutes = () => setCreateRoutes(false);
-
-  React.useEffect(() => {
-    httpClient.warehouses.get_all().then((response) => {
-      if (componentMounted.current) setWarehouses(response.data);
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
 
   return (
     <div>
@@ -160,7 +149,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={owners}
-                        getOptionLabel={(option:any) => option.goods_owner_name}
+                        getOptionLabel={(option: any) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -196,7 +185,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                       <Autocomplete
                         id="warehouse"
-                        options={warehouses}
+                        options={JSON.parse(warehousesJSON)}
                         getOptionLabel={(option) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
@@ -210,7 +199,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
 
-                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null }
+                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null}
 
                     </Container>
 

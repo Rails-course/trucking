@@ -4,16 +4,16 @@ class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
   def index
-    @data = []
+    @waybill_data = []
     @waybills.each do |waybill|
-      @data.append({ id: waybill.id,
+      @waybill_data.append({ id: waybill.id,
                      startpoint: waybill.startpoint.full_address,
                      endpoint: waybill.endpoint.full_address,
                      status: waybill.status,
                      waybill_seria: waybill.waybill_seria,
                      waybill_number: waybill.waybill_number })
     end
-    @data
+    @waybill_data
   end
 
   def create
@@ -67,7 +67,8 @@ class WaybillsController < ApplicationController
   def waybill_params
     parameters = params.require(:waybill).permit(:start_date, :end_date, :town, :street, :building,
                                                  :end_town, :end_street, :end_building,
-                                                 :goods_owner, :waybill_number, :waybill_seria, :warehouse)
+                                                 :goods_owner, :waybill_number, :waybill_seria,
+                                                 :warehouse)
     parameters[:consignment] = params.permit(:consignment_id)[:consignment_id]
     parameters[:routes] = params.permit(routes: [])[:routes]
     parameters
@@ -85,7 +86,8 @@ class WaybillsController < ApplicationController
     data = waybill_params
     { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
       startpoint: startpoint, endpoint: endpoint,
-      waybill_number: waybill_params[:waybill_number], waybill_seria: waybill_params[:waybill_seria],
+      waybill_number: waybill_params[:waybill_number],
+      waybill_seria: waybill_params[:waybill_seria],
       goods_owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
       consignment: Consignment.find(data[:consignment]),
       warehouse: Warehouse.find_by(warehouse_name: data[:warehouse]) }

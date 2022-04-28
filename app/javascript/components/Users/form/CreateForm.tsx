@@ -6,7 +6,6 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Box,
 } from '@mui/material';
 
-import axios from 'axios';
 import FormikField from '../../../UI/FormikField';
 import { userFields, userFirstFields, userSecondFields } from '../../../constants/userFields';
 import httpClient from '../../../api/httpClient';
@@ -16,14 +15,11 @@ import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/inte
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
-    isActiveModal, handleClose, handleSubmit, editUserModal, title, btnTitle, formErrors,
+    createModal, updateModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
+    formErrors, companies, roles,
   } = props;
 
-  const [companies, setCompanies] = React.useState(null);
-  const [roles, setRoles] = React.useState(null);
-  const componentMounted = React.useRef(true);
-
-  const AutoUpdateForm = ({ id }) => {
+  const LoadUserData = ({ id }) => {
     const { setFieldValue } = useFormikContext();
 
     React.useEffect(() => {
@@ -32,33 +28,21 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
           Object.keys(data).forEach((filedName) => {
             setFieldValue(filedName, data[filedName], false);
           });
+          setFieldValue('town', data.address.town, false);
+          setFieldValue('street', data.address.street, false);
+          setFieldValue('building', data.address.building, false);
+          setFieldValue('apartment', data.address.apartment, false);
+          // TODO: Autocomplete field set value
         });
       }
     }, [id]);
     return null;
   };
 
-  React.useEffect(() => {
-    const getCompanies = httpClient.companies.get_data();
-    const getRoles = httpClient.roles.getAllRoles();
-    axios.all([getCompanies, getRoles])
-      .then(
-        axios.spread((...responses) => {
-          if (componentMounted.current) {
-            setCompanies(responses[0].data);
-            setRoles(responses[1].data);
-          }
-        }),
-      );
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
-
   return (
     <div>
       <Dialog
-        open={isActiveModal}
+        open={createModal || updateModal}
         onClose={handleClose}
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 735 } }}
         maxWidth="xs"
@@ -128,21 +112,27 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                           ))}
                         </Box>
                       </div>
-                      <Autocomplete
-                        id="company"
-                        options={companies}
-                        getOptionLabel={(option: CompanyType) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Company"
-                            fullWidth
-                            value={values?.company}
+
+                      {createModal
+                        ? (
+                          <Autocomplete
+                            id="company"
+                            options={companies}
+                            getOptionLabel={(option: CompanyType) => option.name}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                onSelect={handleChange}
+                                margin="normal"
+                                label="Company"
+                                fullWidth
+                                value={values?.company}
+                              />
+                            )}
                           />
-                        )}
-                      />
+                        )
+                        : null}
+
                       <Autocomplete
                         id="role"
                         options={roles}
@@ -158,12 +148,18 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                           />
                         )}
                       />
+
                     </Container>
+
                     <DialogActions>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} onClick={handleClose} color="success" variant="outlined">{btnTitle}</Button>
+                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
                     </DialogActions>
-                    <AutoUpdateForm id={editUserModal} />
+
+                    {updateModal
+                      ? <LoadUserData id={editUserModal} />
+                      : null}
+
                   </Form>
                 )}
               </Formik>

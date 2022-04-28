@@ -1,5 +1,9 @@
 <center>
   <div class="client_content">
-    <%=react_component('Warehouse',{currentUserRole: current_user.role.role_name}) %>
+    <%=react_component('Warehouse',{
+      currentUserRole: current_user.role.role_name,
+      warehousesJSON: @warehouses.to_json,
+      warehousemansData: @warehousemans
+    }) %>
   </div>
 </center>

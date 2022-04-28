@@ -9,11 +9,18 @@ class CompaniesController < ApplicationController
                  else
                    Company.all
                  end
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: @companies.to_json
+      end
+    end
   end
 
   def suspend
-    company = Company.find(params.require(:id))
-    company.change_status
+    @company = Company.find(params.require(:id))
+    @company.change_status
+    render json: @company.to_json
     # company_users = User.where(company: company)
     # TODO: ideally we need to log out all company logged in users
     # but devise doesnt provide such feature
@@ -23,7 +30,9 @@ class CompaniesController < ApplicationController
   end
 
   def resume
-    Company.find(params.require(:id)).change_status
+    @company = Company.find(params.require(:id))
+    @company.change_status
+    render json: @company.to_json
   end
 
   def new_company; end

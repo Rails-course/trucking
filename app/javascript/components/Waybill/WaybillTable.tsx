@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {
   TableContainer, Paper, Table, TableHead, TableRow, TableBody, Button, TablePagination,
-  FormControlLabel, Switch, Box,
+  FormControlLabel, Switch, Box, CircularProgress,
 } from '@mui/material';
 
 import { waybillTableCell } from '../../constants/waybillFields';
@@ -35,7 +35,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const handleGetCheckpoint = (id) => {
     setWaybillModalActive(true);
     setWaybillID(id);
-    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
+    httpClient.route.getRoutes(id).then((response) => setCheckpoints(response.data));
   };
 
   const waybillsData = searchData || waybills;
@@ -60,7 +60,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
               {!waybills
                 ? (
                   <TableRow>
-                    <StyledTableCell>No data yet ...</StyledTableCell>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
                 : waybillsData

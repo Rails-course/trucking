@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Waybill < ApplicationRecord
-  has_many :routes
+  has_many :routes, dependent: :restrict_with_exception
   belongs_to :consignment
   belongs_to :goods_owner
   belongs_to :warehouse
