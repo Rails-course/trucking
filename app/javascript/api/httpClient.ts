@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   ConsignmentUrl, UsersUrl,
   WarehouseUrl, getAllWarehouseUrl,
-  getRolesUrl, writeOffActUrl, CompaniesUrl,
+  writeOffActUrl, CompaniesUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -34,12 +34,8 @@ function httpClient() {
       getGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/goods`),
     },
     goods: {
-      getWaybillGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/waybill_goods`),
-      setConsignmentGoodsChecked: (id, checkedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods`, checkedGoodsIds),
-      setWaybillGoodsStatus: (id, checkedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/waybill_goods`, checkedGoodsIds),
-    },
-    goodsOwner: {
-      getGoodsOwners: () => axios.get('/goodsowners'),
+      setConsignmentGoodsChecked: (id, checkedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/checked`, checkedGoodsIds),
+      setConsignmentGoodsDelivered: (id, checkedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/delivered`, checkedGoodsIds),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),
@@ -47,12 +43,8 @@ function httpClient() {
     },
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
-      getWarehouses: () => axios.get(`${getAllWarehouseUrl}`),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
       trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
-    },
-    roles: {
-      getRoles: () => axios.get(`${getRolesUrl}`),
     },
   };
 }

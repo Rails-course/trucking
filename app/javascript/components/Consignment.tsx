@@ -43,7 +43,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [checkedGoods, setCheckedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
   const [createWaybillData, setCreateWaybillData] = React.useState(null);
-  const [consWaybillId, setConsWaybillId] = React.useState(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -106,7 +105,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setWaybillGoodsStatus(consWaybillId, { checkedGoodsIds })
+        return httpClient.goods.setConsignmentGoodsDelivered(consId, { checkedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -159,7 +158,6 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               formErrors={formErrors}
               setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
-              setConsWaybillId={setConsWaybillId}
               searchData={searchData}
             />
           </Grid>
