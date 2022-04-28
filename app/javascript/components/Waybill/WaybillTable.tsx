@@ -31,12 +31,10 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setDense(event.target.checked);
   };
 
-  const handleGetCheckpoint = (waybillId) => {
+  const handleGetCheckpoint = (waybill) => {
     setWaybillModalActive(true);
-    setWaybillID(waybillId);
-    const waybill = waybills.find(waybill => waybill.id === waybillId);
-    const checkpoints = waybill.routes;
-    setCheckpoints(checkpoints);
+    setWaybillID(waybill.id);
+    setCheckpoints(waybill.routes);
   };
 
   const waybillsData = searchData || waybills;
@@ -77,7 +75,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                         <StyledTableCell align="center">{startpointAddress}</StyledTableCell>
                         <StyledTableCell align="center">{endpointAddress}</StyledTableCell>
                         <StyledTableCell align="right">
-                          <Button variant="text" onClick={() => handleGetCheckpoint(waybill.id)}>
+                          <Button variant="text" onClick={() => handleGetCheckpoint(waybill)}>
                             open waybill
                           </Button>
                         </StyledTableCell>
