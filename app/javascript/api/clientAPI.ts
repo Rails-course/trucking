@@ -15,5 +15,3 @@ export const getGoodUrl = '/goods';
 // WAREHOUSES
 export const WarehouseUrl = '/warehouses';
 export const getAllWarehouseUrl = '/warehouses.json';
-// ROLES
-export const getRolesUrl = '/roles.json';
