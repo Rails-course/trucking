@@ -2,7 +2,7 @@
   <div class="client_content">
     <%=react_component('Waybill',{
       currentUserRole: current_user.role.role_name,
-      waybillsJSON: @waybill_data
+      waybillsJSON: @waybills.to_json(include: [ :routes, :startpoint, :endpoint, consignment: { include: :goods} ] )
     }) %>
   </div>
 </center>

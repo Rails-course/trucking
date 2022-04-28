@@ -223,7 +223,6 @@ export interface WaybillTableProps {
     setCheckpoints: any;
     setWaybillModalActive: any;
     setWaybillID: any;
-    setWaybill: any;
 }
 
 export interface WaybillProps {

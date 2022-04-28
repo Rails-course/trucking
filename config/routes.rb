@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   # Consignment
   resources :consignments
-  # resources :consignments, only: %i[index create waybill_data] do
+  # resources :consignments, only: %i[index create] do
   #   resources :goods, only: %i[index create update]
   # end
   # TODO: change implementation of scope below with a way above
@@ -42,7 +42,6 @@ Rails.application.routes.draw do
   resources :trucks
 
   # Waybill
-  get '/consignment/waybill_data/:consignment_id', to: 'consignments#waybill_data'
   resources :waybills
   patch '/waybills/endTrucking', to: 'waybill#end_trucking'
 
@@ -61,7 +60,6 @@ Rails.application.routes.draw do
     patch '/rollback', to: 'routes#rollback'
     patch '/passCheckpoint', to: 'routes#pass_checkpoint'
   end
-  get '/routes/:id', to: 'routes#routes'
 
   # API
   namespace :api do

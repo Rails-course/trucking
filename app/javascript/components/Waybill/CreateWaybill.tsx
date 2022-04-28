@@ -30,7 +30,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
     httpClient.waybill.create(values, cityNames, id)
       .then((response) => {
         const objIndex = consignments.findIndex((consignment) => consignment.id === id);
-        consignments[objIndex] = response.data;
+        consignments[objIndex] = response.data.consignment;
         setConsignment(consignments);
         setWayBillActive(false);
         setAlertData({
