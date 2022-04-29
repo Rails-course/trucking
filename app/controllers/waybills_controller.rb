@@ -42,7 +42,7 @@ class WaybillsController < ApplicationController
 
   def update
     authorize! :update, Waybill
-    waybill = Waybill.find(params.permit(:ids)[:ids])
+    waybill = Waybill.find(params.permit(:id)[:id])
     if waybill.update(status: 'delivered to the recipient')
       render json: waybill
     else

@@ -1,16 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'Waybills', type: :request do
-  let(:user) { create(:user) }
+  let(:user) { create(:user_sysAdmin) }
   let(:consignment) { create(:consignment) }
   let(:warehouse) { create(:warehouse) }
   let(:goods_owner) { create(:goods_owner) }
-
+  let(:waybill) {create(:waybill)}
   before do
     sign_in user
   end
   describe 'positive POST/PUT/DELETE methods' do
     it 'POST waybill/create' do
+      waybills_count=Waybill.count
       post '/waybills',
            params: { waybill: { end_date: '10.10.2021', start_date: '10.10.2021', town: 'asd',
                                 street: 'asd', building: '12',
@@ -18,7 +19,11 @@ RSpec.describe 'Waybills', type: :request do
                                 goods_owner: goods_owner.goods_owner_name, waybill_number: '122',
                                 waybill_seria: 'sda',
                                 warehouse: warehouse.warehouse_name }, consignment_id: consignment.id }
-      expect(response).to have_http_status(:success)
+      expect(Waybill.count).to eq(waybills_count+1)
+    end
+    it 'PUT waybill/update' do
+      put "/waybills/#{waybill.id}"
+      expect(Waybill.find(waybill.id).status).to eq("delivered to the recipient")
     end
   end
 end

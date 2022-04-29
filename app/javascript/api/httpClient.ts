@@ -29,7 +29,7 @@ function httpClient() {
       create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
       getWaybillData: (id) => axios.get(`/consignment/waybill_data/${id}`),
       getWaybills: () => axios.get('/waybills.json'),
-      finish: (ids) => axios.patch('/waybills/endTrucking', ids),
+      finish: (ids) => axios.patch(`/waybills/${ids}`),
     },
     checkpoints: {
       getcheckpoints: (id) => axios.get(`/checkpoints/${id}`),
