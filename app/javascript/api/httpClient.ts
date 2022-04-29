@@ -21,7 +21,7 @@ function httpClient() {
       resume: (id) => axios.patch(`${CompaniesUrl}/${id}/resume`),
     },
     waybill: {
-      create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
+      create: (waybill, checkpoints, consignment_id) => axios.post('/waybills', { waybill, checkpoints, consignment_id }),
       finish: (ids) => axios.patch('/waybills/endTrucking', ids),
     },
     checkpoints: {
