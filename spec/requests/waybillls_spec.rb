@@ -26,4 +26,16 @@ RSpec.describe 'Waybills', type: :request do
       expect(Waybill.find(waybill.id).status).to eq("delivered to the recipient")
     end
   end
+  describe 'Negative POST/PUT/DELETE methods' do
+    it 'negative create waybill ' do
+      waybills_count=Waybill.count
+      post '/waybills',
+           params: { waybill: { end_date: 'invalid date', start_date: 'invalid date', town: 'asd',
+                                street: 'asd', building: '12', end_building: '12',
+                                goods_owner: goods_owner.goods_owner_name, waybill_number: '122',
+                                waybill_seria: 'sda',
+                                warehouse: warehouse.warehouse_name }, consignment_id: consignment.id }
+      expect(Waybill.count).to eq(waybills_count)
+    end
+  end
 end

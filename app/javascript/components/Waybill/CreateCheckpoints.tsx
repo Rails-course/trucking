@@ -11,7 +11,7 @@ import { createCheckpointsFormProps } from '../../common/interfaces_types';
 
 const createCheckpoints:React.FC <createCheckpointsFormProps> = (props: createCheckpointsFormProps) => {
   const {
-    isActiveModal, checkpointsHandleClose, setCheckpoints,checkpoints,
+    isActiveModal, checkpointsHandleClose, setCheckpoints, checkpoints,
   } = props;
 
   const handleSubmit = (values) => setCheckpoints([...checkpoints, values]);

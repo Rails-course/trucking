@@ -40,3 +40,4 @@ yarn-debug.log*
 .yarn-integrity
 /coverage/.resultset.json
 /coverage/.last_run.json
+/coverage/index.html
