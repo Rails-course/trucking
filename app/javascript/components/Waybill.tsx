@@ -22,7 +22,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
     .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
   const handleSubmitWaybill = (id) => {
-    httpClient.waybill.finish({ ids: id })
+    httpClient.waybill.finish(id)
       .then((response) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;

@@ -41,7 +41,6 @@ Rails.application.routes.draw do
 
   # Waybill
   resources :waybills
-  patch '/waybills/endTrucking', to: 'waybill#end_trucking'
 
   # Roles
   resources :roles, only: :index
@@ -53,11 +52,12 @@ Rails.application.routes.draw do
   # Goods Owners
   get '/goodsowners', to: 'goods_owner#index'
 
-  # Routes
-  scope '/routes' do
-    patch '/rollback', to: 'routes#rollback'
-    patch '/passCheckpoint', to: 'routes#pass_checkpoint'
+  # Checkpoints
+  scope '/checkpoints' do
+    patch '/rollback', to: 'checkpoints#rollback'
+    patch '/passCheckpoint', to: 'checkpoints#pass_checkpoint'
   end
+  get '/checkpoints/:id', to: 'checkpoints#routes'
 
   # API
   namespace :api do

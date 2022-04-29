@@ -24,10 +24,9 @@ function httpClient() {
       create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
       finish: (ids) => axios.patch('/waybills/endTrucking', ids),
     },
-    route: {
-      getRoutes: (id) => axios.get(`/routes/${id}`),
-      passCh: (data) => axios.patch('/routes/passCheckpoint', data),
-      rollback: (data) => axios.patch('/routes/rollback', data),
+    checkpoints: {
+      passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
+      rollback: (data) => axios.patch('/checkpoints/rollback', data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),

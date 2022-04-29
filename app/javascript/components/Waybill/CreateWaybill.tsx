@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import CreateRoutes from './CreateRoutes';
-import RouteTable from './RouteTable';
+import CreateCheckpoint from './CreateCheckpoints';
+import CheckpointTable from './CheckpointTable';
 import httpClient from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
@@ -21,12 +21,12 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
     setAlertData, setConsignment, consignments, warehouses, goodsOwners
   } = props;
 
-  const [isCreateRoutes, setCreateRoutes] = React.useState(false);
-  const [routes, setRoutes] = React.useState([]);
+  const [isCreateCheckpoints, setCreateCheckpoints] = React.useState(false);
+  const [checkpoints, setCheckpoints] = React.useState([]);
   const [formErrors, setFormErrors] = React.useState([]);
 
   const handleSubmit = (values) => {
-    const cityNames = routes.map((name) => name.city_name);
+    const cityNames = checkpoints.map((name) => name.city_name);
     httpClient.waybill.create(values, cityNames, id)
       .then((response) => {
         const objIndex = consignments.findIndex((consignment) => consignment.id === id);
@@ -49,7 +49,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
       });
   };
 
-  const closeCreateRoutes = () => setCreateRoutes(false);
+  const closeCreateCheckpoints = () => setCreateCheckpoints(false);
 
   return (
     <div>
@@ -182,7 +182,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           </div>
                         ))}
                       </div>
-
                       <Autocomplete
                         id="warehouse"
                         options={warehouses}
@@ -199,12 +198,12 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
 
-                      {routes.length !== 0 ? <RouteTable routes={routes} /> : null}
+                      {checkpoints.length !== 0 ? <CheckpointTable checkpoints={checkpoints} /> : null}
 
                     </Container>
 
                     <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
-                      <Button onClick={() => setCreateRoutes(true)} color="success" variant="outlined">create new checkpoints</Button>
+                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined">create new checkpoints</Button>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                     </DialogActions>
@@ -212,11 +211,11 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                 )}
               </Formik>
             </Grid>
-            <CreateRoutes
-              isActiveModal={isCreateRoutes}
-              routeHandleClose={closeCreateRoutes}
-              setRoutes={setRoutes}
-              routes={routes}
+            <CreateCheckpoint
+              isActiveModal={isCreateCheckpoints}
+              checkpointsHandleClose={closeCreateCheckpoints}
+              setCheckpoints={setCheckpoints}
+              checkpoints={checkpoints}
             />
           </Grid>
         </DialogContent>
