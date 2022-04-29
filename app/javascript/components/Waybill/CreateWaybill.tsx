@@ -184,7 +184,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       </div>
                       <Autocomplete
                         id="warehouse"
-                        options={warehousesJSON}
+                        options={JSON.parse(warehousesJSON)}
                         getOptionLabel={(option) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
