@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
-import axios from 'axios';
 import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
@@ -40,7 +39,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON))
   const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON))
   const [goods, setGoods] = React.useState([]);
-  const [checkedGoods, setCheckedGoods] = React.useState<Item[]>([]);
+  const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
   const [createWaybillData, setCreateWaybillData] = React.useState(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
@@ -62,7 +61,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
-    setCheckedGoods([]);
+    setSelectedGoods([]);
+    setTitleStatus('');
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
@@ -87,11 +87,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   };
 
   const handleGoodsSubmit = () => {
-    const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
+    const selectedGoodsIds = selectedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
+        return httpClient.goods.setConsignmentGoodsChecked(consId, { selectedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -105,7 +105,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsDelivered(consId, { checkedGoodsIds })
+        return httpClient.goods.setConsignmentGoodsDelivered(consId, { selectedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -178,8 +178,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         isActiveModal={isActiveGoodsModal}
         handleClose={handleClose}
         goods={goods}
-        checkedGoods={checkedGoods}
-        setCheckedGoods={setCheckedGoods}
+        selectedGoods={selectedGoods}
+        setSelectedGoods={setSelectedGoods}
         handleGoodsSubmit={handleGoodsSubmit}
         currentUserRole={currentUserRole}
         titleStatus={titleStatus}

@@ -186,8 +186,8 @@ export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     handleClose: () => void;
     goods: Item[];
-    checkedGoods: any, setTitleStatus: any;
-    setCheckedGoods: any, handleGoodsSubmit: any;
+    selectedGoods: any, setTitleStatus: any;
+    setSelectedGoods: any, handleGoodsSubmit: any;
     currentUserRole: any;
     titleStatus: string;
 }

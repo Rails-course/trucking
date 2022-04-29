@@ -29,8 +29,8 @@ Rails.application.routes.draw do
   # end
   # TODO: change implementation of scope below with a way above
   scope '/consignments' do
-    patch '/:consignment_id/goods/checked', to: 'goods#set_goods_cheked_status'
-    patch '/:consignment_id/goods/delivered', to: 'goods#set_goods_delivered_status'
+    patch '/:consignment_id/goods/checked', to: 'goods#goods_cheked_status'
+    patch '/:consignment_id/goods/delivered', to: 'goods#goods_delivered_status'
   end
 
   # Write-off Act

@@ -6,7 +6,7 @@ class GoodsController < ApplicationController
   def goods_cheked_status
     authorize! :update, Good
     authorize! :update, Consignment
-    @checked_goods = @consignment.goods.where(id: params[:checkedGoodsIds])
+    @checked_goods = @consignment.goods.where(id: params[:selectedGoodsIds])
     begin
       Good.transaction do
         @checked_goods.each { |item| item.update(status: 'checked') }
@@ -21,7 +21,7 @@ class GoodsController < ApplicationController
   def goods_delivered_status
     authorize! :update, Good
     authorize! :update, Consignment
-    @delivered_goods = @consignment.goods.where(id: params[:checkedGoodsIds])
+    @delivered_goods = @consignment.goods.where(id: params[:selectedGoodsIds])
     begin
       Good.transaction do
         @delivered_goods.each { |item| item.update(status: 'delivered') }
