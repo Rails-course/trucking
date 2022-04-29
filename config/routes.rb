@@ -34,16 +34,15 @@ Rails.application.routes.draw do
   resources :trucks
   get '/consignment/waybill_data/:consignment_id', to: 'consignments#waybill_data'
   resources :waybills
-  patch '/waybills/endTrucking', to: 'waybill#end_trucking'
   resources :roles, only: :index
   resources :warehouses
   patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
   get '/goodsowners', to: 'goods_owner#index'
-  scope '/routes' do
-    patch '/rollback', to: 'routes#rollback'
-    patch '/passCheckpoint', to: 'routes#pass_checkpoint'
+  scope '/checkpoints' do
+    patch '/rollback', to: 'checkpoints#rollback'
+    patch '/passCheckpoint', to: 'checkpoints#pass_checkpoint'
   end
-  get '/routes/:id', to: 'routes#routes'
+  get '/checkpoints/:id', to: 'checkpoints#routes'
   namespace :api do
     namespace :v1 do
       resources :consignments, only: %i[index show] do

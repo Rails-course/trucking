@@ -7,11 +7,11 @@ class WaybillsController < ApplicationController
     @waybill_data = []
     @waybills.each do |waybill|
       @waybill_data.append({ id: waybill.id,
-                     startpoint: waybill.startpoint.full_address,
-                     endpoint: waybill.endpoint.full_address,
-                     status: waybill.status,
-                     waybill_seria: waybill.waybill_seria,
-                     waybill_number: waybill.waybill_number })
+                             startpoint: waybill.startpoint.full_address,
+                             endpoint: waybill.endpoint.full_address,
+                             status: waybill.status,
+                             waybill_seria: waybill.waybill_seria,
+                             waybill_number: waybill.waybill_number })
     end
     @waybill_data
   end
@@ -23,8 +23,10 @@ class WaybillsController < ApplicationController
         startpoint = Address.create!(points[:startpoint])
         endpoint = Address.create!(points[:endpoint])
         @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
-        points[:routes].each do |city_name|
-          Route.create!(city: city_name, waybill: @waybill)
+        if points[:checkpoints].present?
+          points[:checkpoints].each do |city_name|
+            Checkpoint.create!(city: city_name, waybill: @waybill)
+          end
         end
       end
     rescue ActiveRecord::RecordInvalid => e
@@ -40,7 +42,7 @@ class WaybillsController < ApplicationController
 
   def update
     authorize! :update, Waybill
-    waybill = Waybill.find(params.permit(:ids)[:ids])
+    waybill = Waybill.find(params.permit(:id)[:id])
     if waybill.update(status: 'delivered to the recipient')
       render json: waybill
     else
@@ -70,7 +72,7 @@ class WaybillsController < ApplicationController
                                                  :goods_owner, :waybill_number, :waybill_seria,
                                                  :warehouse)
     parameters[:consignment] = params.permit(:consignment_id)[:consignment_id]
-    parameters[:routes] = params.permit(routes: [])[:routes]
+    parameters[:checkpoints] = params.permit(checkpoints: [])[:checkpoints]
     parameters
   end
 
@@ -79,7 +81,7 @@ class WaybillsController < ApplicationController
     { startpoint: { town: data[:town], street: data[:street], building: data[:building] },
       endpoint: { town: data[:end_town], street: data[:end_street],
                   building: data[:end_building] },
-      routes: data[:routes] }
+      checkpoints: data[:checkpoints] }
   end
 
   def create_waybill_params(startpoint, endpoint)

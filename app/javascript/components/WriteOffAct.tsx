@@ -69,7 +69,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             )
             : null}
           <Grid item xs={12}>
-            <WriteOffActTable writeOffActs={writeOffActs} searchData={searchData}/>
+            <WriteOffActTable writeOffActs={writeOffActs} searchData={searchData} />
           </Grid>
         </Grid>
       </Box>

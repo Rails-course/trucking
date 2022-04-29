@@ -259,7 +259,7 @@ Shopping_center = Warehouse.create(
                                                waybill_seria: "WSJ_#{i}",
                                                waybill_number: "10#{i}".to_i
                                              ))
-  instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Route.create([
+  instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Checkpoint.create([
                                                                         {
                                                                           city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
                                                                         },
@@ -289,7 +289,7 @@ Shopping_center = Warehouse.create(
                                                waybill_seria: "WSG_#{i}",
                                                waybill_number: "20#{i}".to_i
                                              ))
-  instance_variable_set("@checkpoints_waybill_CSG_#{i}", Route.create([
+  instance_variable_set("@checkpoints_waybill_CSG_#{i}", Checkpoint.create([
                                                                         {
                                                                           city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
                                                                         },

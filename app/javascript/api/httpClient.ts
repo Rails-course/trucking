@@ -29,12 +29,12 @@ function httpClient() {
       create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
       getWaybillData: (id) => axios.get(`/consignment/waybill_data/${id}`),
       getWaybills: () => axios.get('/waybills.json'),
-      finish: (ids) => axios.patch('/waybills/endTrucking', ids),
+      finish: (ids) => axios.patch(`/waybills/${ids}`),
     },
-    route: {
-      getRoutes: (id) => axios.get(`/routes/${id}`),
-      passCh: (data) => axios.patch('/routes/passCheckpoint', data),
-      rollback: (data) => axios.patch('/routes/rollback', data),
+    checkpoints: {
+      getcheckpoints: (id) => axios.get(`/checkpoints/${id}`),
+      passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
+      rollback: (data) => axios.patch('/checkpoints/rollback', data),
     },
     trucks: {
       getTrucks: () => axios.get(`${TrucksUrl}.json`),

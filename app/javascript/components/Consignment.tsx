@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
-import axios from 'axios';
 import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
