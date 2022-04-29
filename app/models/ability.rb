@@ -30,7 +30,7 @@ class Ability
       can %i[read update], Consignment
       can %i[read update], Good
       can %i[read create], Waybill
-      can %i[read create], Route
+      can %i[read create], Checkpoint
       can %i[read create], WriteOffAct
       can %i[read], GoodsOwner
     end

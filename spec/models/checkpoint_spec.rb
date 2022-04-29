@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Route, type: :model do
+RSpec.describe Checkpoint, type: :model do
   subject { create(:route) }
 
   # TODO: uncomment specs below after:

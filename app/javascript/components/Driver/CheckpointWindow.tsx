@@ -17,14 +17,14 @@ const CheckpointWindow:
     const [isActiveModal, setActiveModal] = React.useState(false);
 
     const updateCheckpoints = () => {
-      httpClient.route.getRoutes(wayID).then((response) => setCheckpoints(response.data));
+      httpClient.checkpoints.getcheckpoints(wayID).then((response) => setCheckpoints(response.data));
     };
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
-        httpClient.route.rollback({ ids: id }).then(() => {
+        httpClient.checkpoints.rollback({ ids: id }).then(() => {
           updateCheckpoints();
           setAlertData({
             alertType: 'info',
@@ -36,7 +36,7 @@ const CheckpointWindow:
     };
     const handleSubmit = (values) => {
       Object.assign(values, { ids: id });
-      httpClient.route.passCh(values)
+      httpClient.checkpoints.passCh(values)
         .then(() => {
           updateCheckpoints();
           setAlertData({

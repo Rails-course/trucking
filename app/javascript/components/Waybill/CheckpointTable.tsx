@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-interface RoutesTableFormProps {
-  routes: any;
+interface checkpointsTableFormProps {
+  checkpoints: any;
 }
 
-const RouteTable: React.FC<RoutesTableFormProps> = (props: RoutesTableFormProps) => {
-  const { routes } = props;
+const checkpointsTable: React.FC<checkpointsTableFormProps> = (props: checkpointsTableFormProps) => {
+  const { checkpoints } = props;
 
   return (
     <div style={{
@@ -14,9 +14,9 @@ const RouteTable: React.FC<RoutesTableFormProps> = (props: RoutesTableFormProps)
     >
       <strong>Checkpoints</strong>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        {routes.map((route) => (
-          <p key={route.id}>
-            {`${route.city_name} `}
+        {checkpoints.map((checkpoint) => (
+          <p key={checkpoint.id}>
+            {`${checkpoint.city_name} `}
             &nbsp;
           </p>
         ))}
@@ -25,4 +25,4 @@ const RouteTable: React.FC<RoutesTableFormProps> = (props: RoutesTableFormProps)
   );
 };
 
-export default RouteTable;
+export default checkpointsTable;

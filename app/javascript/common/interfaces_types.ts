@@ -82,10 +82,10 @@ export interface CreateWaybillsFormProps {
     warehousesJSON: string;
 }
 
-export interface CreateRoutesFormProps {
+export interface createCheckpointsFormProps {
     isActiveModal: boolean;
-    routeHandleClose: () => void;
-    setRoutes: any, routes: any,
+    checkpointsHandleClose: () => void;
+    setCheckpoints: any, checkpoints: any,
 }
 
 export interface WarehouseTableProps {

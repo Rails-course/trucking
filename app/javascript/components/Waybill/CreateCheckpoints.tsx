@@ -7,20 +7,20 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { CreateRoutesFormProps } from '../../common/interfaces_types';
+import { createCheckpointsFormProps } from '../../common/interfaces_types';
 
-const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormProps) => {
+const createCheckpoints:React.FC <createCheckpointsFormProps> = (props: createCheckpointsFormProps) => {
   const {
-    isActiveModal, routeHandleClose, setRoutes, routes,
+    isActiveModal, checkpointsHandleClose, setCheckpoints,checkpoints,
   } = props;
 
-  const handleSubmit = (values) => setRoutes([...routes, values]);
+  const handleSubmit = (values) => setCheckpoints([...checkpoints, values]);
 
   return (
     <div>
       <Dialog
         open={isActiveModal}
-        onClose={routeHandleClose}
+        onClose={checkpointsHandleClose}
         sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
         maxWidth="xs"
       >
@@ -43,8 +43,8 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
                     />
                   </Container>
                   <DialogActions>
-                    <Button onClick={routeHandleClose} color="error" variant="outlined">Cancel</Button>
-                    <Button type="submit" onClick={routeHandleClose} color="success" variant="outlined">Create</Button>
+                    <Button onClick={checkpointsHandleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" onClick={checkpointsHandleClose} color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>
@@ -56,4 +56,4 @@ const CreateRoutes:React.FC <CreateRoutesFormProps> = (props: CreateRoutesFormPr
   );
 };
 
-export default CreateRoutes;
+export default createCheckpoints;

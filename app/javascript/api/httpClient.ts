@@ -31,10 +31,10 @@ function httpClient() {
       getWaybills: () => axios.get('/waybills.json'),
       finish: (ids) => axios.patch('/waybills/endTrucking', ids),
     },
-    route: {
-      getRoutes: (id) => axios.get(`/routes/${id}`),
-      passCh: (data) => axios.patch('/routes/passCheckpoint', data),
-      rollback: (data) => axios.patch('/routes/rollback', data),
+    checkpoints: {
+      getcheckpoints: (id) => axios.get(`/checkpoints/${id}`),
+      passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
+      rollback: (data) => axios.patch('/checkpoints/rollback', data),
     },
     trucks: {
       getTrucks: () => axios.get(`${TrucksUrl}.json`),

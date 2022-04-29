@@ -23,9 +23,9 @@ class WaybillsController < ApplicationController
         startpoint = Address.create!(points[:startpoint])
         endpoint = Address.create!(points[:endpoint])
         @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
-        if points[:routes].present?
-          points[:routes].each do |city_name|
-            Route.create!(city: city_name, waybill: @waybill)
+        if points[:checkpoints].present?
+          points[:checkpoints].each do |city_name|
+            Checkpoint.create!(city: city_name, waybill: @waybill)
           end
         end
       end
@@ -72,7 +72,7 @@ class WaybillsController < ApplicationController
                                                  :goods_owner, :waybill_number, :waybill_seria,
                                                  :warehouse)
     parameters[:consignment] = params.permit(:consignment_id)[:consignment_id]
-    parameters[:routes] = params.permit(routes: [])[:routes]
+    parameters[:checkpoints] = params.permit(checkpoints: [])[:checkpoints]
     parameters
   end
 
@@ -81,7 +81,7 @@ class WaybillsController < ApplicationController
     { startpoint: { town: data[:town], street: data[:street], building: data[:building] },
       endpoint: { town: data[:end_town], street: data[:end_street],
                   building: data[:end_building] },
-      routes: data[:routes] }
+      checkpoints: data[:checkpoints] }
   end
 
   def create_waybill_params(startpoint, endpoint)
