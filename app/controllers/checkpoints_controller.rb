@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class CheckpointsController < ApplicationController
-  def routes
-    render json: Waybill.find(params.permit(:id)[:id]).checkpoints
-  end
-
   def pass_checkpoint
     checkpoint = Checkpoint.find(checkpoints_params[:ids])
     checkpoint.update(is_passed: true, pass_date: checkpoints_params[:pass_date])

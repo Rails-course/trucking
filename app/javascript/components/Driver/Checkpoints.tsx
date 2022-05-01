@@ -49,11 +49,11 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
                     <StyledTableCell align="right">{checkpoint.pass_date}</StyledTableCell>
                     <StyledTableCell align="right">
                       <CheckpointWindow
-                        id={checkpoint.id}
+                        checkpointID={checkpoint.id}
                         status={checkpoint.is_passed}
                         currentUserRole={currentUserRole}
                         setAlertData={setAlertData}
-                        wayID={id}
+                        checkpoints={checkpoints}
                         setCheckpoints={setCheckpoints}
                       />
                     </StyledTableCell>
@@ -67,7 +67,10 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
         }}
         >
           <Button
-            onClick={() => handleSubmitWaybill(id)}
+            onClick={() => {
+              handleSubmitWaybill(id);
+              handleClose();
+            }}
             disabled={!(currentUserRole === 'driver')}
             color="success"
             variant="outlined"

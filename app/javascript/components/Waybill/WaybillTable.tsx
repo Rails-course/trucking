@@ -7,12 +7,11 @@ import {
 
 import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import httpClient from '../../api/httpClient';
 import { WaybillTableProps } from '../../common/interfaces_types';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, setCheckpoints, searchData,
+    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -32,10 +31,10 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setDense(event.target.checked);
   };
 
-  const handleGetCheckpoint = (id) => {
+  const handleGetCheckpoint = (waybill) => {
     setWaybillModalActive(true);
-    setWaybillID(id);
-    httpClient.checkpoints.getcheckpoints(id).then((response) => setCheckpoints(response.data));
+    setWaybillID(waybill.id);
+    setCheckpoints(waybill.checkpoints);
   };
 
   const waybillsData = searchData || waybills;
@@ -65,20 +64,24 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                 )
                 : waybillsData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((waybill) => (
-                    <StyledTableRow key={waybill.id}>
-                      <StyledTableCell align="center">{waybill.waybill_seria}</StyledTableCell>
-                      <StyledTableCell align="center">{waybill.waybill_number}</StyledTableCell>
-                      <StyledTableCell align="center">{waybill.status}</StyledTableCell>
-                      <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
-                      <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
-                      <StyledTableCell align="center">
-                        <Button variant="text" onClick={() => handleGetCheckpoint(waybill.id)}>
-                          open waybill
-                        </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                  .map((waybill) => {
+                    const startpointAddress = `${waybill.startpoint.town} ${waybill.startpoint.street} ${waybill.startpoint.building}`;
+                    const endpointAddress = `${waybill.endpoint.town} ${waybill.endpoint.street} ${waybill.endpoint.building}`;
+                    return (
+                      <StyledTableRow key={waybill.id}>
+                        <StyledTableCell align="center">{waybill.waybill_seria}</StyledTableCell>
+                        <StyledTableCell align="center">{waybill.waybill_number}</StyledTableCell>
+                        <StyledTableCell align="center">{waybill.status}</StyledTableCell>
+                        <StyledTableCell align="center">{startpointAddress}</StyledTableCell>
+                        <StyledTableCell align="center">{endpointAddress}</StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Button variant="text" onClick={() => handleGetCheckpoint(waybill)}>
+                            open waybill
+                          </Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  })}
               {emptyRows > 0 && (
                 <StyledTableRow
                   style={{

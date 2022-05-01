@@ -16,7 +16,7 @@ const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
       isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-      handleFieldChange, formErrors, trucksJSON, driversJSON,
+      handleFieldChange, formErrors, trucks, drivers,
     } = props;
 
     return (
@@ -118,7 +118,7 @@ const CreateConsignmentForm:
 
                         <Autocomplete
                           id="driver"
-                          options={driversJSON}
+                          options={drivers}
                           getOptionLabel={(option: Driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                           renderInput={(params) => (
                             <TextField
@@ -134,7 +134,7 @@ const CreateConsignmentForm:
 
                         <Autocomplete
                           id="truck"
-                          options={trucksJSON}
+                          options={trucks}
                           getOptionLabel={(option: Truck) => option.truck_number}
                           renderInput={(params) => (
                             <TextField
