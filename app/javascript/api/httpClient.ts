@@ -1,56 +1,40 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, getDriversUrl, getAllConsignmentUrl, UsersUrl,
-  ConsignmentGoodsUrl, TrucksUrl,
+  ConsignmentUrl, UsersUrl,
   WarehouseUrl, getAllWarehouseUrl,
-  getRolesUrl, writeOffActUrl,
-  getWarehousemansUrl,
+  writeOffActUrl, CompaniesUrl,
 } from './clientAPI';
 
 function httpClient() {
   return {
     users: {
-      getDrivers: () => axios.get(`${getDriversUrl}`),
-      getWarehousemans: () => axios.get(`${getWarehousemansUrl}`),
       get: (id) => axios.get(`${UsersUrl}/${id}`),
-      getAll: () => axios.get(`${UsersUrl}.json`),
       create: (user) => axios.post(`${UsersUrl}/create`, user),
       update: (id, data) => axios.patch(`${UsersUrl}/${id}/edit`, data),
       delete: (id) => axios.delete(`${UsersUrl}/${id}`),
     },
     companies: {
-      getCompanies: () => axios.get('/companies.json'),
-      delete: (id) => axios.delete(`/companies/${id}`),
-      suspend: (id) => axios.patch(`/companies/${id}/suspend`),
-      resume: (id) => axios.patch(`/companies/${id}/resume`),
+      create: (company) => axios.post(`${CompaniesUrl}`, company),
+      delete: (id) => axios.delete(`${CompaniesUrl}/${id}`),
+      suspend: (id) => axios.patch(`${CompaniesUrl}/${id}/suspend`),
+      resume: (id) => axios.patch(`${CompaniesUrl}/${id}/resume`),
     },
     waybill: {
-      create: (waybill, routes, consignment_id) => axios.post('/waybills', { waybill, routes, consignment_id }),
-      getWaybillData: (id) => axios.get(`/consignment/waybill_data/${id}`),
-      getWaybills: () => axios.get('/waybills.json'),
-      finish: (ids) => axios.patch(`/waybills/${ids}`),
+      create: (waybill, checkpoints, consignment_id) => axios.post('/waybills', { waybill, checkpoints, consignment_id }),
+      finish: (ids) => axios.patch('/waybills/endTrucking', ids),
     },
     checkpoints: {
-      getcheckpoints: (id) => axios.get(`/checkpoints/${id}`),
       passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
       rollback: (data) => axios.patch('/checkpoints/rollback', data),
     },
-    trucks: {
-      getTrucks: () => axios.get(`${TrucksUrl}.json`),
-    },
     consignments: {
-      getAll: () => axios.get(`${getAllConsignmentUrl}`),
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
       getGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/goods`),
     },
     goods: {
-      getWaybillGoods: (id) => axios.get(`${ConsignmentGoodsUrl}/${id}/waybill_goods`),
-      setConsignmentGoodsChecked: (id, checkedGoodsIds) => axios.patch(`${ConsignmentGoodsUrl}/${id}/goods`, checkedGoodsIds),
-      setWaybillGoodsStatus: (id, checkedGoodsIds) => axios.patch(`${ConsignmentGoodsUrl}/${id}/waybill_goods`, checkedGoodsIds),
-    },
-    goodsOwner: {
-      getGoodsOwners: () => axios.get('/goodsowners'),
+      setConsignmentGoodsChecked: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/checked`, selectedGoodsIds),
+      setConsignmentGoodsDelivered: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/delivered`, selectedGoodsIds),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),
@@ -58,12 +42,8 @@ function httpClient() {
     },
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
-      getWarehouses: () => axios.get(`${getAllWarehouseUrl}`),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
       trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
-    },
-    roles: {
-      getRoles: () => axios.get(`${getRolesUrl}`),
     },
   };
 }

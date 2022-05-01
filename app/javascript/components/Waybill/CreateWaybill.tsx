@@ -17,8 +17,8 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
-    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    setAlertData, setConsignment, consignments, warehousesJSON,
+    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, createWaybillData,
+    setAlertData, setConsignment, consignments, warehouses, goodsOwners
   } = props;
 
   const [isCreateCheckpoints, setCreateCheckpoints] = React.useState(false);
@@ -30,7 +30,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
     httpClient.waybill.create(values, cityNames, id)
       .then((response) => {
         const objIndex = consignments.findIndex((consignment) => consignment.id === id);
-        consignments[objIndex] = response.data;
+        consignments[objIndex] = response.data.consignment;
         setConsignment(consignments);
         setWayBillActive(false);
         setAlertData({
@@ -89,7 +89,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Truck number</strong></span>
-                          <span>{data.truck_number}</span>
+                          <span>{createWaybillData.truckNumber}</span>
                         </Box>
                         <Box
                           component="div"
@@ -101,7 +101,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Driver</strong></span>
-                          <span>{data.driver_fio}</span>
+                          <span>{createWaybillData.driverFio}</span>
                         </Box>
                       </div>
 
@@ -148,7 +148,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                       <Autocomplete
                         id="goods_owner"
-                        options={owners}
+                        options={goodsOwners}
                         getOptionLabel={(option: any) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
@@ -184,8 +184,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       </div>
                       <Autocomplete
                         id="warehouse"
-                        options={JSON.parse(warehousesJSON)}
-                        getOptionLabel={(option) => option.warehouse_name}
+                        options={warehouses}
+                        getOptionLabel={(option: any) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}

@@ -3,18 +3,7 @@
 class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
-  def index
-    @waybill_data = []
-    @waybills.each do |waybill|
-      @waybill_data.append({ id: waybill.id,
-                             startpoint: waybill.startpoint.full_address,
-                             endpoint: waybill.endpoint.full_address,
-                             status: waybill.status,
-                             waybill_seria: waybill.waybill_seria,
-                             waybill_number: waybill.waybill_number })
-    end
-    @waybill_data
-  end
+  def index; end
 
   def create
     points = points_params
@@ -32,12 +21,8 @@ class WaybillsController < ApplicationController
     rescue ActiveRecord::RecordInvalid => e
       return render json: e, status: :unprocessable_entity
     end
-    # NOTE: after creating waybill we need to disable create waybill button
-    # in order to do this we need to send back updated ttn with created waybill
-    # We need to refactor this in future, because sending consignment in response for
-    # create Waybill is bad practice
-    render json: @waybill.consignment.to_json(include: %i[dispatcher driver truck manager waybill
-                                                          goods])
+    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck manager waybill
+                                                                       goods] }])
   end
 
   def update

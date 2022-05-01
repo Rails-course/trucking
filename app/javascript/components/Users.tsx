@@ -4,7 +4,6 @@ import { Box, Grid, Button } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
-import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
@@ -12,6 +11,7 @@ import { UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const { rolesJSON, companiesJSON, usersJSON } = props;
+
   const [createModal, setCreateModalActive] = React.useState(false);
   const [updateModal, setUpdateModalActive] = React.useState(false);
   const [editUserModal, setEditUserModal] = React.useState(null);
@@ -32,8 +32,9 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
     httpClient.users.create(user)
       .then((response) => {
         setUser((prevUsers) => [...prevUsers, response.data]);
-      });
-    handleClose();
+        handleClose();
+      })
+      .catch((error) => setFormErrors(error.response.data));
   };
 
   const handleEditSubmit = (user: userFormValues) => {
@@ -47,10 +48,10 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
             ...response.data,
           };
           setUser(newUsers);
+          handleClose();
         }
       })
       .catch((error) => setFormErrors(error.response.data));
-    handleClose();
   };
 
   return (
