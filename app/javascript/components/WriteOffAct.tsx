@@ -6,7 +6,7 @@ import httpClient from '../api/httpClient';
 import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
-import { WriteOffActsProps } from '../common/interfaces_types';
+import { AlertType, WriteOffActsProps } from '../common/interfaces_types';
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
@@ -14,7 +14,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [isActiveModal, setModalActive] = React.useState(false);
   const [writeOffActs, setWriteOffActs] = React.useState(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {

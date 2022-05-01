@@ -19,7 +19,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof UserData>('login');
-  const [selectedUsersIds, setSelectedUsersIds] = React.useState<number[]>([]);
+  const [selectedUsersIds, setSelectedUsersIds] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

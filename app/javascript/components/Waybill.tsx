@@ -7,18 +7,18 @@ import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
 import Search from './Search';
-import { WaybillProps } from '../common/interfaces_types';
+import { AlertType, WaybillProps, WaybillType } from '../common/interfaces_types';
 
 const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const { currentUserRole, waybillsJSON } = props;
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
   const [searchData, setSearchData] = React.useState();
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
-  const [waybills, setWaybill] = React.useState((waybillsJSON)
+  const [waybills, setWaybill] = React.useState<WaybillType[]>((waybillsJSON)
     .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
   const handleSubmitWaybill = (id) => {
@@ -64,7 +64,6 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
               setWaybillID={setWaybillID}
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
-              setWaybill={setWaybill}
               searchData={searchData}
             />
           </Grid>

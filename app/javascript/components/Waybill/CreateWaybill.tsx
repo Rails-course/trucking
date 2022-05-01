@@ -149,7 +149,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={owners}
-                        getOptionLabel={(option: any) => option.goods_owner_name}
+                        getOptionLabel={(option) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}

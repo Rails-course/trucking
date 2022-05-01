@@ -4,7 +4,7 @@ import { Box, Grid, Button } from '@mui/material';
 
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { WarehouseData, WarehouseProps } from '../common/interfaces_types';
+import { AlertType, WarehouseData, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 import Search from './Search';
 
@@ -13,7 +13,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [isActiveModal, setModalActive] = React.useState(false);
   const [warehouses, setWarehouses] = React.useState<WarehouseData[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
 
   const handleClose = () => {

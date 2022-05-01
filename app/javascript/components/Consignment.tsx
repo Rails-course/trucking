@@ -6,7 +6,9 @@ import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import { ConsignmentProps, Item } from '../common/interfaces_types';
+import {
+  AlertType, ConsignmentProps, Item, WaybillDataType,
+} from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
@@ -20,7 +22,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
@@ -32,7 +34,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [goods, setGoods] = React.useState([]);
   const [checkedGoods, setCheckedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
-  const [data, setData] = React.useState(null);
+  const [data, setData] = React.useState<WaybillDataType>(null);
   const [owners, setOwners] = React.useState([]);
   const [consWaybillId, setConsWaybillId] = React.useState(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
