@@ -16,7 +16,7 @@ import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/inte
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
     createModal, updateModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
-    formErrors, companies, roles,
+    formErrors, roles, companies,
   } = props;
 
   const LoadUserData = ({ id }) => {

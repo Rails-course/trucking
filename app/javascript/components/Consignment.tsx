@@ -112,6 +112,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       default:
         setTitleStatus('');
+        return setTitleStatus('');
     }
   };
 

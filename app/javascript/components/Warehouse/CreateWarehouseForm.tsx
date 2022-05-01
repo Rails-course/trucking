@@ -14,94 +14,95 @@ import httpClient from '../../api/httpClient';
 import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_types';
 
 const WarehouseCreateForm:
-  React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
-    const {
-      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData, warehousemansData,
-    } = props;
+    React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
+      const {
+        isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
+        warehousemansData,
+      } = props;
 
-    const handleSubmit = (warehouse: warehouseFormValues) => {
-      httpClient.warehouses.create(warehouse)
-        .then((response) => {
-          setWarehouses((prev) => [...prev, response.data]);
-          handleClose();
-          setAlertData({
-            alertType: 'success',
-            alertText: 'Successfully created a warehouse!',
-            open: true,
+      const handleSubmit = (warehouse: warehouseFormValues) => {
+        httpClient.warehouses.create(warehouse)
+          .then((response) => {
+            setWarehouses((prev) => [...prev, response.data]);
+            handleClose();
+            setAlertData({
+              alertType: 'success',
+              alertText: 'Successfully created a warehouse!',
+              open: true,
+            });
+          })
+          .catch((error) => {
+            setFormErrors(error.response.data);
+            setAlertData({
+              alertType: 'error',
+              alertText: 'Something went wrong with creating a warehouse',
+              open: true,
+            });
           });
-        })
-        .catch((error) => {
-          setFormErrors(error.response.data);
-          setAlertData({
-            alertType: 'error',
-            alertText: 'Something went wrong with creating a warehouse',
-            open: true,
-          });
-        });
-    };
+      };
 
-    return (
-      <div>
-        <Dialog
-          open={isActiveModal}
-          onClose={handleClose}
-          sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
-          maxWidth="xs"
-        >
-          <DialogTitle>Create Warehouse</DialogTitle>
-          <DialogContent>
-            <Grid container spacing={2} direction="column">
-              <Grid item xs={8}>
-                <Formik
-                  initialValues={warehouseInitialValues}
-                  validationSchema={warehouseValidation}
-                  onSubmit={handleSubmit}
-                >
-                  {({
-                    dirty, isValid, handleChange, values,
-                  }) => (
-                    <Form>
-                      <Container maxWidth="sm">
-                        {formErrors ? <p className="error-msg">{formErrors}</p> : null}
-                        {warehouseFields.map((column) => (
-                          <FormikField
-                            key={column.id}
-                            name={column.model}
-                            label={column.placeholder}
-                            required={column.required}
-                            type={column.type}
-                            variant="standard"
-                          />
-                        ))}
-                      </Container>
-                      <Autocomplete
-                        id="warehouseman"
-                        options={warehousemansData}
-                        getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Warehouseman"
-                            fullWidth
-                            value={values?.warehouseman}
-                          />
-                        )}
-                      />
-                      <DialogActions>
-                        <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
-                      </DialogActions>
-                    </Form>
-                  )}
-                </Formik>
+      return (
+        <div>
+          <Dialog
+            open={isActiveModal}
+            onClose={handleClose}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+            maxWidth="xs"
+          >
+            <DialogTitle>Create Warehouse</DialogTitle>
+            <DialogContent>
+              <Grid container spacing={2} direction="column">
+                <Grid item xs={8}>
+                  <Formik
+                    initialValues={warehouseInitialValues}
+                    validationSchema={warehouseValidation}
+                    onSubmit={handleSubmit}
+                  >
+                    {({
+                      dirty, isValid, handleChange, values,
+                    }) => (
+                      <Form>
+                        <Container maxWidth="sm">
+                          {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+                          {warehouseFields.map((column) => (
+                            <FormikField
+                              key={column.id}
+                              name={column.model}
+                              label={column.placeholder}
+                              required={column.required}
+                              type={column.type}
+                              variant="standard"
+                            />
+                          ))}
+                        </Container>
+                        <Autocomplete
+                          id="warehouseman"
+                          options={warehousemansData}
+                          getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              onSelect={handleChange}
+                              margin="normal"
+                              label="Warehouseman"
+                              fullWidth
+                              value={values?.warehouseman}
+                            />
+                          )}
+                        />
+                        <DialogActions>
+                          <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                          <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                        </DialogActions>
+                      </Form>
+                    )}
+                  </Formik>
+                </Grid>
               </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  };
+            </DialogContent>
+          </Dialog>
+        </div>
+      );
+    };
 
 export default WarehouseCreateForm;

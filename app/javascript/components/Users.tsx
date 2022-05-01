@@ -4,7 +4,6 @@ import { Box, Grid, Button } from '@mui/material';
 
 import CreateForm from './Users/form/CreateForm';
 import UsersTable from './Users/table/Table';
-import { UserData } from '../mixins/initialValues/userList';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
@@ -16,8 +15,6 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const [updateModal, setUpdateModalActive] = React.useState(false);
   const [editUserModal, setEditUserModal] = React.useState(null);
   const [formErrors, setFormErrors] = React.useState([]);
-  const [roles, setRoles] = React.useState(JSON.parse(rolesJSON));
-  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
   const [users, setUser] = React.useState(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState();
 
@@ -88,8 +85,8 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
         createModal={createModal}
         updateModal={updateModal}
         handleClose={handleClose}
-        companies={companies}
-        roles={roles}
+        companies={JSON.parse(companiesJSON)}
+        roles={JSON.parse(rolesJSON)}
         editUserModal={editUserModal}
         handleSubmit={createModal ? handleSubmit : handleEditSubmit}
         title={updateModal ? 'Update Profile' : 'Add User Of Company'}

@@ -198,7 +198,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
 
-                      {checkpoints.length !== 0 ? <CheckpointTable checkpoints={checkpoints} /> : null}
+                      {checkpoints.length !== 0
+                        ? <CheckpointTable checkpoints={checkpoints} /> : null}
 
                     </Container>
 

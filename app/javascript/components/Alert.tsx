@@ -30,7 +30,12 @@ const SiteAlerts: React.FC<SiteAlertProps> = (props: SiteAlertProps) => {
       }}
       onClose={handleClose}
     >
-      <SnackbarAlert severity={alertData.alertType} onClose={handleClose}>{alertData.alertText}</SnackbarAlert>
+      <SnackbarAlert
+        severity={alertData.alertType}
+        onClose={handleClose}
+      >
+        {alertData.alertText}
+      </SnackbarAlert>
     </Snackbar>
   );
 };
