@@ -62,7 +62,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                       variant="standard"
                     />
                   </Container>
-                  <DialogActions>
+                  <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                     <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                     <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>

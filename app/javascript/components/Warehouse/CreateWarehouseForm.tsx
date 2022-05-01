@@ -73,23 +73,24 @@ const WarehouseCreateForm:
                             variant="standard"
                           />
                         ))}
+                        <Autocomplete
+                          id="warehouseman"
+                          options={warehousemansData}
+                          getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              onSelect={handleChange}
+                              margin="normal"
+                              label="Warehouseman"
+                              fullWidth
+                              value={values?.warehouseman}
+                            />
+                          )}
+                        />
                       </Container>
-                      <Autocomplete
-                        id="warehouseman"
-                        options={warehousemansData}
-                        getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            onSelect={handleChange}
-                            margin="normal"
-                            label="Warehouseman"
-                            fullWidth
-                            value={values?.warehouseman}
-                          />
-                        )}
-                      />
-                      <DialogActions>
+
+                      <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                         <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                       </DialogActions>
