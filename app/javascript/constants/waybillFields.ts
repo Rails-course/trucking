@@ -119,7 +119,7 @@ export const waybillTableCell = [
   },
   {
     id: uuidv4(),
-    title: 'action',
-    align: 'right' as AlignType,
+    title: 'Action',
+    align: 'center' as AlignType,
   },
 ];

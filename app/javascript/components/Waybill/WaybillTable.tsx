@@ -67,12 +67,12 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((waybill) => (
                     <StyledTableRow key={waybill.id}>
-                      <StyledTableCell>{waybill.waybill_seria}</StyledTableCell>
-                      <StyledTableCell>{waybill.waybill_number}</StyledTableCell>
-                      <StyledTableCell>{waybill.status}</StyledTableCell>
+                      <StyledTableCell align="center">{waybill.waybill_seria}</StyledTableCell>
+                      <StyledTableCell align="center">{waybill.waybill_number}</StyledTableCell>
+                      <StyledTableCell align="center">{waybill.status}</StyledTableCell>
                       <StyledTableCell align="center">{waybill.startpoint}</StyledTableCell>
                       <StyledTableCell align="center">{waybill.endpoint}</StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align="center">
                         <Button variant="text" onClick={() => handleGetCheckpoint(waybill.id)}>
                           open waybill
                         </Button>
