@@ -18,7 +18,7 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, createWaybillData,
-    setAlertData, setConsignment, consignments, warehouses, goodsOwners
+    setAlertData, setConsignment, consignments, warehouses, goodsOwners,
   } = props;
 
   const [isCreateCheckpoints, setCreateCheckpoints] = React.useState(false);
@@ -56,7 +56,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 650 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 750 } }}
         maxWidth="xs"
       >
         <DialogTitle>Create Waybill</DialogTitle>
@@ -198,14 +198,20 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                         )}
                       />
 
-                      {checkpoints.length !== 0 ? <CheckpointTable checkpoints={checkpoints} /> : null}
+                      {checkpoints.length !== 0
+                        ? <CheckpointTable checkpoints={checkpoints} /> : null}
 
                     </Container>
 
-                    <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
-                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined">create new checkpoints</Button>
-                      <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                    <DialogActions style={{ flexDirection: 'column', padding: '8px 24px' }}>
+                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined" fullWidth>create new checkpoints</Button>
+                      <div style={{
+                        width: '100%', display: 'flex', justifyContent: 'space-between', padding: '8px 24px',
+                      }}
+                      >
+                        <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                        <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                      </div>
                     </DialogActions>
                   </Form>
                 )}

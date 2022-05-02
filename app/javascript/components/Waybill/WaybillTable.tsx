@@ -69,12 +69,12 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                     const endpointAddress = `${waybill.endpoint.town} ${waybill.endpoint.street} ${waybill.endpoint.building}`;
                     return (
                       <StyledTableRow key={waybill.id}>
-                        <StyledTableCell>{waybill.waybill_seria}</StyledTableCell>
-                        <StyledTableCell>{waybill.waybill_number}</StyledTableCell>
-                        <StyledTableCell>{waybill.status}</StyledTableCell>
+                        <StyledTableCell align="center">{waybill.waybill_seria}</StyledTableCell>
+                        <StyledTableCell align="center">{waybill.waybill_number}</StyledTableCell>
+                        <StyledTableCell align="center">{waybill.status}</StyledTableCell>
                         <StyledTableCell align="center">{startpointAddress}</StyledTableCell>
                         <StyledTableCell align="center">{endpointAddress}</StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           <Button variant="text" onClick={() => handleGetCheckpoint(waybill)}>
                             open waybill
                           </Button>
