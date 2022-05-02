@@ -13,7 +13,9 @@ import httpClient from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
-import { CreateWaybillsFormProps, GoodsOwnerType, WarehouseData } from '../../common/interfaces_types';
+import {
+  Checkpoint, CreateWaybillsFormProps, GoodsOwners, Warehouse,
+} from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
@@ -21,9 +23,9 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
     setAlertData, setConsignment, consignments, warehouses, goodsOwners,
   } = props;
 
-  const [isCreateCheckpoints, setCreateCheckpoints] = React.useState(false);
-  const [checkpoints, setCheckpoints] = React.useState([]);
-  const [formErrors, setFormErrors] = React.useState([]);
+  const [isCreateCheckpoints, setCreateCheckpoints] = React.useState<boolean>(false);
+  const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
 
   const handleSubmit = (values) => {
     const cityNames = checkpoints.map((name) => name.city_name);
@@ -33,19 +35,11 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         consignments[objIndex] = response.data.consignment;
         setConsignment(consignments);
         setWayBillActive(false);
-        setAlertData({
-          alertType: 'success',
-          alertText: 'Successfully created waybill!',
-          open: true,
-        });
+        setAlertData({ alertType: 'success', alertText: 'Successfully created waybill!', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertData({
-          alertType: 'error',
-          alertText: 'Something went wrong with creating waybill!',
-          open: true,
-        });
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating waybill!', open: true });
       });
   };
 
@@ -149,7 +143,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={goodsOwners}
-                        getOptionLabel={(option: GoodsOwnerType) => option.goods_owner_name}
+                        getOptionLabel={(option: GoodsOwners) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -185,7 +179,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="warehouse"
                         options={warehouses}
-                        getOptionLabel={(option: WarehouseData) => option.warehouse_name}
+                        getOptionLabel={(option: Warehouse) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}

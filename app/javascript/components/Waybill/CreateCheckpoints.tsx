@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { createCheckpointsFormProps } from '../../common/interfaces_types';
+import { CreateCheckpointsFormProps } from '../../common/interfaces_types';
 
 const createCheckpoints:
-    React.FC <createCheckpointsFormProps> = (props: createCheckpointsFormProps) => {
+    React.FC <CreateCheckpointsFormProps> = (props: CreateCheckpointsFormProps) => {
       const {
         isActiveModal, checkpointsHandleClose, setCheckpoints, checkpoints,
       } = props;

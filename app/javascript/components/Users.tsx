@@ -7,17 +7,17 @@ import UsersTable from './Users/table/Table';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
-import { UsersProps } from '../common/interfaces_types';
+import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const { rolesJSON, companiesJSON, usersJSON } = props;
 
-  const [createModal, setCreateModalActive] = React.useState(false);
-  const [updateModal, setUpdateModalActive] = React.useState(false);
-  const [editUserModal, setEditUserModal] = React.useState(null);
-  const [formErrors, setFormErrors] = React.useState([]);
+  const [createModal, setCreateModalActive] = React.useState<boolean>(false);
+  const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
+  const [editUserModal, setEditUserModal] = React.useState<number>(null);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [users, setUser] = React.useState(JSON.parse(usersJSON));
-  const [searchData, setSearchData] = React.useState();
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
     setCreateModalActive(false);

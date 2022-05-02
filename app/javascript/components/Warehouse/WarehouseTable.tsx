@@ -14,30 +14,21 @@ import { StyledTableCell } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData,
-    currentUserRole, searchData,
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData,
   } = props;
 
   const setWarehouseTrusted = async (warehouse: Warehouse) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
     await httpClient.warehouses.trust(warehouse.id).then((response) => {
       setWarehouses([...warehouses, response.data]);
-      setAlertData({
-        alertType: 'info',
-        alertText: 'Warehouse successfully set trusted/untrusted',
-        open: true,
-      });
+      setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
     });
   };
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
-    setAlertData({
-      alertType: 'warning',
-      alertText: 'Warehouse successfully deleted',
-      open: true,
-    });
+    setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
   };
 
   const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);
@@ -66,7 +57,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
               <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
             </TableRow>
           )
-          : warehousesData.map((value: Warehouse) => {
+          : warehousesData.map((value) => {
             const labelId = `checkbox-list-label-${value}`;
             return (
               <ListItem
@@ -97,12 +88,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}
-                      sx={{
-                        color: blue[800],
-                        '&.Mui-checked': {
-                          color: blue[600],
-                        },
-                      }}
+                      sx={{ color: blue[800], '&.Mui-checked': { color: blue[600] } }}
                     />
                   </ListItemIcon>
                   <ListItemText id={labelId} primary={value?.warehouse_name} />

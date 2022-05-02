@@ -17,7 +17,7 @@ const WarehouseCreateForm:
   React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
     const {
       isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
-      warehousemansData,
+      warehousemen,
     } = props;
 
     const handleSubmit = (warehouse: warehouseFormValues) => {
@@ -79,7 +79,7 @@ const WarehouseCreateForm:
 
                       <Autocomplete
                         id="warehouseman"
-                        options={warehousemansData}
+                        options={warehousemen}
                         getOptionLabel={(option: User) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                         renderInput={(params) => (
                           <TextField

@@ -14,9 +14,9 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints,
   } = props;
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [dense, setDense] = React.useState(false);
+  const [page, setPage] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [dense, setDense] = React.useState<boolean>(false);
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - waybills.length) : 0;
 

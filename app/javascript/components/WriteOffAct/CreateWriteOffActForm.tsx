@@ -9,7 +9,7 @@ import {
 import FormikField from '../../UI/FormikField';
 import writeOffActInitialValues from '../../initialValues/writeOffActInitialValues';
 import { writeOffActFields } from '../../constants/writeOffActFields';
-import { ConsignmentType, CreateWriteOffActFormProps } from '../../common/interfaces_types';
+import { Consignment, CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
@@ -54,7 +54,7 @@ const CreateWriteOffActForm:
                         <Autocomplete
                           id="consignment"
                           options={consignments}
-                          getOptionLabel={(consignment: ConsignmentType) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
+                          getOptionLabel={(consignment: Consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
                           renderInput={(params) => (
                             <TextField
                               {...params}

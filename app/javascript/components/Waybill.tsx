@@ -7,18 +7,21 @@ import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
 import Search from './Search';
-import { AlertType, WaybillProps, WaybillType } from '../common/interfaces_types';
+import {
+  Alert, WaybillProps, Waybill, Checkpoint,
+} from '../common/interfaces_types';
 
-const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
+const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
   const { currentUserRole, waybillsJSON } = props;
-  const [isWaybillModal, setWaybillModalActive] = React.useState(false);
-  const [waybillID, setWaybillID] = React.useState(null);
-  const [checkpoints, setCheckpoints] = React.useState([]);
-  const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
-  const [searchData, setSearchData] = React.useState();
+
+  const [isWaybillModal, setWaybillModalActive] = React.useState<boolean>(false);
+  const [waybillID, setWaybillID] = React.useState<number>(null);
+  const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
+  const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState<string[]>([]);
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [searchData, setSearchData] = React.useState<string[]>();
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
-  const [waybills, setWaybill] = React.useState<WaybillType[]>(JSON.parse(waybillsJSON)
+  const [waybills, setWaybill] = React.useState<Waybill[]>(JSON.parse(waybillsJSON)
     .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
   const handleSubmitWaybill = (id) => {
@@ -81,4 +84,4 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   );
 };
 
-export default Waybill;
+export default Waybills;

@@ -6,17 +6,17 @@ import { Box, Grid, Button } from '@mui/material';
 import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
-import { CompanyProps } from '../common/interfaces_types';
+import { Alert, Company, CompanyProps } from '../common/interfaces_types';
 import Search from './Search';
 import httpClient from '../api/httpClient';
 
-const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
+const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
   const { currentUserRole, companiesJSON } = props;
-  const [isActiveModal, setModalActive] = useState(false);
-  const [companies, setCompany] = React.useState(JSON.parse(companiesJSON));
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [searchData, setSearchData] = React.useState();
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
+  const [isActiveModal, setModalActive] = useState<boolean>(false);
+  const [companies, setCompany] = React.useState<Company[]>(JSON.parse(companiesJSON));
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [searchData, setSearchData] = React.useState<string[]>();
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
 
   const handleClose = () => {
     setModalActive(false);
@@ -99,4 +99,4 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
   );
 };
 
-export default Company;
+export default Companies;
