@@ -1,10 +1,7 @@
 // USERS
-export const getWarehousemansUrl = '/users/warehousemans.json';
 export const UsersUrl = '/users';
 // COMPANIES
 export const CompaniesUrl = '/companies';
-// TRUCKS
-export const TrucksUrl = '/trucks';
 // CONSIGNMENTS
 export const ConsignmentUrl = '/consignments';
 // GOODS
