@@ -7,12 +7,10 @@ class GoodsController < ApplicationController
     authorize! :update, Good
     authorize! :update, Consignment
     @goods = @consignment.goods.where(id: params[:selectedGoodsIds])
-
     Good.transaction do
       @goods.each { |item| item.update!(status: params[:status]) }
       @consignment.update!(status: params[:status])
     end
-
     render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
