@@ -50,10 +50,7 @@ Rails.application.routes.draw do
   get '/goodsowners', to: 'goods_owner#index'
 
   # Checkpoints
-  scope '/checkpoints' do
-    patch '/rollback', to: 'checkpoints#rollback'
-    patch '/passCheckpoint', to: 'checkpoints#pass_checkpoint'
-  end
+  patch 'checkpoints/passCheckpoint', to: 'checkpoints#pass_checkpoint'
   get '/checkpoints/:id', to: 'checkpoints#routes'
 
   # API

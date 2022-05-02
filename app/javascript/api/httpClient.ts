@@ -26,7 +26,6 @@ function httpClient() {
     },
     checkpoints: {
       passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
-      rollback: (data) => axios.patch('/checkpoints/rollback', data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
