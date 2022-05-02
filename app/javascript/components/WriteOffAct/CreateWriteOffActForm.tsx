@@ -9,12 +9,12 @@ import {
 import FormikField from '../../UI/FormikField';
 import writeOffActInitialValues from '../../initialValues/writeOffActInitialValues';
 import { writeOffActFields } from '../../constants/writeOffActFields';
-import { CreateWriteOffActFormProps } from '../../common/interfaces_types';
+import { ConsignmentType, CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit, formErrors, consignmentsJSON,
+      isActiveModal, handleClose, handleSubmit, formErrors, consignments,
     } = props;
 
     return (
@@ -53,8 +53,8 @@ const CreateWriteOffActForm:
                         {/* NOTE: THE VALUE PROVIDED TO AUTOCOMPLETE IS INVALID */}
                         <Autocomplete
                           id="consignment"
-                          options={JSON.parse(consignmentsJSON)}
-                          getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
+                          options={consignments}
+                          getOptionLabel={(consignment: ConsignmentType) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
                           renderInput={(params) => (
                             <TextField
                               {...params}

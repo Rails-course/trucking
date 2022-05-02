@@ -7,7 +7,7 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import {
-  AlertType, ConsignmentProps, Item, WaybillDataType,
+  AlertType, ConsignmentProps, Item, CreateWaybillDataType,
 } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
@@ -28,6 +28,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [formErrors, setFormErrors] = React.useState([]);
   // Alert and Search states
   const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
+
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
@@ -35,11 +36,13 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     JSON.parse(consignmentsJSON)
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
+  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
+  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
 
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
-  const [createWaybillData, setCreateWaybillData] = React.useState<WaybillDataType>(null);
+  const [createWaybillData, setCreateWaybillData] = React.useState<CreateWaybillDataType>(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -145,6 +148,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               setModalGoodsActive={setModalGoodsActive}
               setConsID={setConsID}
               setGoods={setGoods}
+              formErrors={formErrors}
               setWayBillActive={setWayBillActive}
               setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
@@ -161,8 +165,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
-        trucks={JSON.parse(trucksJSON)}
-        drivers={JSON.parse(driversJSON)}
+        trucks={trucks}
+        drivers={drivers}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}

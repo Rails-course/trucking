@@ -4,14 +4,15 @@ import { Box, Grid, Button } from '@mui/material';
 
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { AlertType, WarehouseProps } from '../common/interfaces_types';
+import { AlertType, User, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 import Search from './Search';
 
 const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole, warehousesJSON, warehousemansData } = props;
+  const { currentUserRole, warehousesJSON, warehousemansJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
   const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
+  const [warehousemans, setWarehousemans] = React.useState<User[]>(JSON.parse(warehousemansJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
@@ -64,7 +65,7 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         formErrors={formErrors}
         setFormErrors={setFormErrors}
         setAlertData={setAlertData}
-        warehousemansData={warehousemansData}
+        warehousemans={warehousemans}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

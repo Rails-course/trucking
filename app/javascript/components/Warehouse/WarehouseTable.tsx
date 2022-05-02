@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { blue } from '@mui/material/colors';
 
 import httpClient from '../../api/httpClient';
-import { WarehouseData, WarehouseTableProps } from '../../common/interfaces_types';
+import { Warehouse, WarehouseTableProps } from '../../common/interfaces_types';
 import { warehouseTable } from '../../constants/warehouseFields';
 import { StyledTableCell } from '../../utils/style';
 
@@ -18,7 +18,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     currentUserRole, searchData,
   } = props;
 
-  const setWarehouseTrusted = async (warehouse: WarehouseData) => {
+  const setWarehouseTrusted = async (warehouse: Warehouse) => {
     warehouses.splice(warehouses.indexOf(warehouse), 1);
     await httpClient.warehouses.trust(warehouse.id).then((response) => {
       setWarehouses([...warehouses, response.data]);
@@ -32,7 +32,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
-    setWarehouses(warehouses.filter((data: WarehouseData) => data.id !== id));
+    setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({
       alertType: 'warning',
       alertText: 'Warehouse successfully deleted',
@@ -40,7 +40,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     });
   };
 
-  const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
+  const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);
 
   const warehousesData = searchData || warehouses;
 
@@ -66,7 +66,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
               <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
             </TableRow>
           )
-          : warehousesData.map((value: WarehouseData) => {
+          : warehousesData.map((value: Warehouse) => {
             const labelId = `checkbox-list-label-${value}`;
             return (
               <ListItem

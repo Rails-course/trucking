@@ -10,7 +10,7 @@ import {
 import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
-import { CreateConsignmentFormProps, Driver, Truck } from '../../common/interfaces_types';
+import { CreateConsignmentFormProps, User, Truck } from '../../common/interfaces_types';
 
 const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
@@ -119,7 +119,7 @@ const CreateConsignmentForm:
                         <Autocomplete
                           id="driver"
                           options={drivers}
-                          getOptionLabel={(option: Driver) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                          getOptionLabel={(option: User) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
                           renderInput={(params) => (
                             <TextField
                               {...params}

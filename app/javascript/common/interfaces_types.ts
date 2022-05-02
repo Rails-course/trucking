@@ -7,15 +7,20 @@ import { userFormValues } from '../initialValues/userInitialValues';
 /* eslint-disable no-unused-vars */
 
 // TYPES
-export type Driver = {
+export type User = {
     id: number;
     first_name: string;
-    second_name: string;
     middle_name: string;
+    second_name: string;
     email: string;
-    birthday: Date;
     login: string;
-    passport: string;
+    password: string;
+    password_confirmation: string;
+    birthday: string;
+    address: { town: string, street: string, building: number, apartment: number, }
+    role: { role_name: string },
+    passport: string,
+    company: string,
 }
 
 export type Truck = {
@@ -54,6 +59,14 @@ export type AlertType = {
     open: boolean;
 }
 
+export type WriteOffAct = {
+    id: number;
+    good_name: string;
+    description: string;
+    lost_quantity: number;
+    consignment: ConsignmentType;
+}
+
 export type NewGoods = {
     good_name: string;
     quantity: number;
@@ -67,7 +80,11 @@ export type CheckpointsType = {
     pass_date: Date;
 }
 
-export type WaybillDataType = {
+export type GoodsOwnersType = {
+    goods_owner_name: string;
+}
+
+export type CreateWaybillDataType = {
     truckNumber: string;
     driverFio: string;
 }
@@ -83,6 +100,7 @@ export type ConsignmentType = {
     manager: { first_name: string, second_name: string, middle_name: string };
     driver: { first_name: string, second_name: string, middle_name: string };
     truck: { truck_number: string };
+    waybill: WaybillType;
 }
 
 export type WaybillType = {
@@ -96,169 +114,163 @@ export type WaybillType = {
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
+    newGoods: NewGoods[];
+    formErrors: object;
+    trucks: Truck[];
+    drivers: User[];
     handleClose: () => void;
     handleSubmit: (consignment: consignmentFormValues) => void;
-    newGoods: NewGoods[];
     handleFieldAdd: () => void;
     handleFieldChange: (e: NewGoods, index: number) => void;
-    formErrors: object;
-    trucks: [], drivers: [];
 }
-
-export interface WarehouseData {
+export interface Warehouse {
     id: number;
     warehouse_name: string;
     trusted: boolean;
+    warehouseman: User;
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: string, searchData: any;
+    writeOffActs: WriteOffAct[],
+    searchData: any;
 }
 
 export interface CreateWriteOffActFormProps {
     isActiveModal: boolean;
+    formErrors: object;
+    consignments: ConsignmentType[];
     handleClose: () => void;
     handleSubmit: (writeOffAct) => void;
-    formErrors: object;
-    consignmentsJSON: string;
-    setAlertData: (data: AlertType) => void;
+    setAlertData: (alert: AlertType) => void;
 }
 
 export interface CreateWaybillsFormProps {
     id: number;
-    handleClose: () => void;
     formWaybillErrors: object;
     isActiveWayBill: boolean;
-    setWayBillActive: (x: boolean) => void;
-    createWaybillData: WaybillDataType;
-    setAlertData: (data: AlertType) => void;
-    setConsignment: (consignment: ConsignmentType[]) => void;
+    createWaybillData: CreateWaybillDataType;
     consignments: ConsignmentType[];
-    warehouses: [], goodsOwners: [];
+    warehouses: Warehouse[];
+    goodsOwners: GoodsOwnersType[];
+    setWayBillActive: (waybillActive: boolean) => void;
+    handleClose: () => void;
+    setAlertData: (alert: AlertType) => void;
+    setConsignment: (consignment: ConsignmentType[]) => void;
 }
 
 export interface WarehouseTableProps {
-    warehouses: WarehouseData[];
-    setWarehouses: (warehouse: WarehouseData[]) => void;
+    warehouses: Warehouse[];
     currentUserRole: string;
-    setAlertData: (alert: AlertType) => void;
     searchData: any;
+    setWarehouses: (warehouses: Warehouse[]) => void;
+    setAlertData: (alert: AlertType) => void;
 }
 
 export interface CreateWarehouseFormProps {
     isActiveModal: boolean;
-    handleClose: () => void;
-    setWarehouses: (warehouse: WarehouseData[]) => void;
     formErrors: object,
-    setFormErrors: any,
+    warehousemans: User[];
+    handleClose: () => void;
+    setWarehouses: (warehouses: Warehouse[]) => void;
+    setFormErrors: (errors: []) => void;
     setAlertData: (alert: AlertType) => void;
-    warehousemansData: [];
-}
-
-export interface Warehouseman {
-    id: number;
-    first_name: string;
-    second_name: string;
-    middle_name: string;
-    email: string;
-    birthday: Date;
-    login: string;
-    passport: string;
 }
 
 export interface EnhancedTableProps {
     users: UserData[];
+    searchData: any;
     setUser: (user: UserData[]) => void;
     setEditUserModal: (id: number) => void;
-    searchData: any;
-    setUpdateModalActive: (x: boolean) => void;
+    setUpdateModalActive: (updateModalActive: boolean) => void;
 }
 
 export interface EnhancedHeadTableProps {
     numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof UserData) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof UserData) => void;
+    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface EnhancedTableToolbarProps {
     numSelected: number;
     users: UserData[];
+    selectedUsersIds: number[];
     setUser: (user: UserData[]) => void;
-    selectedUsersIds: any;
-    setSelectedUsersIds: any;
+    setSelectedUsersIds: (selectedUsersIds: number[]) => void;
 }
 
 export interface UserCreateFormProps {
     createModal: boolean, updateModal: boolean;
-    handleClose: () => void;
     editUserModal: number;
     title: string, btnTitle: string;
     roles: RoleType[];
-    handleSubmit: (user: userFormValues) => void;
-    companies: CompanyType[];
     formErrors: object;
+    companies: CompanyType[];
+    handleClose: () => void;
+    handleSubmit: (user: userFormValues) => void;
 }
 
 export interface CheckpointWindowFormProps {
     checkpointID: number,
     status: boolean,
     currentUserRole: string;
-    setAlertData: (data: AlertType) => void;
     checkpoints: CheckpointsType[];
-    setCheckpoints: (checkpoint: CheckpointsType[]) => void;
+    setAlertData: (alert: AlertType) => void;
+    setCheckpoints: (checkpoints: CheckpointsType[]) => void;
 }
 
 export interface CheckpointsFormProps {
     id: number,
     isWaybillModal: boolean;
-    setWaybillModalActive: (boolean) => void;
     checkpoints: CheckpointsType[];
     currentUserRole: string;
-    setAlertData: (data: AlertType) => void;
-    handleSubmitWaybill: (id: number) => void,
     formErrorsCheckpoints: object,
-    setCheckpoints: (checkpoint: CheckpointsType[]) => void;
+    setWaybillModalActive: (activeWaybillModal: boolean) => void;
+    setAlertData: (alert: AlertType) => void;
+    handleSubmitWaybill: (id: number) => void,
+    setCheckpoints: (checkpoints: CheckpointsType[]) => void;
 }
 
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
-    handleClose: () => void;
-    goods: Item[], selectedGoods: Item[];
-    setTitleStatus: (x: string) => void;
-    setSelectedGoods: (selectedGoods: Item[]) => void;
-    handleGoodsSubmit: () => void;
+    goods: Item[];
+    selectedGoods: Item[];
     currentUserRole: string;
     titleStatus: string;
+    handleClose: () => void;
+    setTitleStatus: (titleStatus: string) => void;
+    setSelectedGoods: (selectedGoods: Item[]) => void;
+    handleGoodsSubmit: () => void;
 }
 
 export interface ConsignmentTableProps {
-    setModalGoodsActive: (x: boolean) => void;
-    setWayBillActive: (x: boolean) => void;
-    setGoods: (goods: Item[]) => void,
-    setConsID: (consID: number) => void;
+    formErrors: object;
     consignments: ConsignmentType[];
-    setCreateWaybillData: (waybill: { truckNumber: string; driverFio: string }) => void;
     currentUserRole: string;
     searchData: any;
+    setModalGoodsActive: (modalGoodsActive: boolean) => void;
+    setWayBillActive: (waybillActive: boolean) => void;
+    setGoods: (goods: Item[]) => void;
+    setConsID: (consID: number) => void;
+    setCreateWaybillData: (createWaybillData: CreateWaybillDataType) => void;
 }
 
 export interface CreateCompanyFormProps {
     isActiveModal: boolean;
+    formErrors: object;
     handleClose: () => void;
     setCompany: (company: CompanyType[]) => void;
-    formErrors: object;
-    setFormErrors: (e: []) => void;
+    setFormErrors: (errors: []) => void;
     setAlertData: (alert: AlertType) => void;
 }
 
 export interface CompanyTableProps {
     companies: CompanyType[];
+    searchData: any;
     setCompany: (company: CompanyType[]) => void;
     setAlertData: (alert: AlertType) => void;
-    searchData: any;
     suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
 }
 
@@ -266,29 +278,33 @@ export interface WaybillTableProps {
     waybills: WaybillType[];
     searchData: any;
     setCheckpoints: (checkpoints: CheckpointsType[]) => void;
-    setWaybillModalActive: (boolean) => void;
+    setWaybillModalActive: (activeWaybillModal: boolean) => void;
     setWaybillID: (wayID: number) => void;
 }
 
 export interface WaybillProps {
-    currentUserRole: string, waybillsJSON: string;
+    currentUserRole: string;
+    waybillsJSON: string;
 }
 
 export interface SiteAlertProps {
-    alertData: AlertType; setAlertData: (data: AlertType) => void;
+    alertData: AlertType;
+    setAlertData: (alert: AlertType) => void;
 }
 
 export interface SearchProps {
-    setData:any;
-    Data:any;
+    setData: any;
+    Data: any;
     keyField: string;
 }
 
 export interface ConsignmentProps {
     currentUserRole: string;
     consignmentsJSON: string;
-    trucksJSON: string, driversJSON: string,
-    warehousesJSON: string; goodsOwnersJSON: string,
+    trucksJSON: string;
+    driversJSON: string,
+    warehousesJSON: string;
+    goodsOwnersJSON: string,
 }
 
 export interface WriteOffActsProps {
@@ -300,7 +316,7 @@ export interface WriteOffActsProps {
 export interface WarehouseProps {
     currentUserRole: string;
     warehousesJSON: string;
-    warehousemansData: [];
+    warehousemansJSON: string;
 }
 
 export interface CompanyProps {
@@ -309,5 +325,7 @@ export interface CompanyProps {
 }
 
 export interface UsersProps {
-    usersJSON: string, rolesJSON: string, companiesJSON: string;
+    usersJSON: string;
+    rolesJSON: string;
+    companiesJSON: string;
 }

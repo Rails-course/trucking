@@ -6,13 +6,14 @@ import httpClient from '../api/httpClient';
 import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
-import { AlertType, WriteOffActsProps } from '../common/interfaces_types';
+import { AlertType, WriteOffActsProps, WriteOffAct } from '../common/interfaces_types';
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
   const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
   const [isActiveModal, setModalActive] = React.useState(false);
-  const [writeOffActs, setWriteOffActs] = React.useState(JSON.parse(writeOffActsJSON));
+  const [writeOffActs, setWriteOffActs] = React.useState<WriteOffAct[]>(JSON.parse(writeOffActsJSON));
+  const [consignments, setConsignments] = React.useState(JSON.parse(consignmentsJSON));
   const [formErrors, setFormErrors] = React.useState([]);
   const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
@@ -78,7 +79,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
-        consignmentsJSON={consignmentsJSON}
+        consignments={consignments}
         setAlertData={setAlertData}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />

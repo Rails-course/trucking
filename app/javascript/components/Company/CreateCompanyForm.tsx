@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { CreateCompanyFormProps } from '../../common/interfaces_types';
+import { CompanyType, CreateCompanyFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
@@ -14,10 +14,11 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
-  const handleSubmit = async (company) => {
+  const handleSubmit = async (company: CompanyType) => {
     await httpClient.companies.create(company)
       .then((response) => {
         handleClose();
+        // TODO: cast type
         setCompany((prevCompany) => [...prevCompany, response.data]);
         setAlertData({
           alertType: 'success',

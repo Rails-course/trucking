@@ -19,7 +19,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof UserData>('login');
-  const [selectedUsersIds, setSelectedUsersIds] = React.useState([]);
+  const [selectedUsersIds, setSelectedUsersIds] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -52,7 +52,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleToggle = (userID: number) => {
     if (selectedUsersIds.indexOf(userID) === -1) {
-      setSelectedUsersIds([...selectedUsersIds, userID]);
+      const newSelectedUsersIds: number[] = [...selectedUsersIds, userID];
+      setSelectedUsersIds(newSelectedUsersIds);
     } else {
       setSelectedUsersIds(selectedUsersIds.filter((item) => item !== userID));
     }
@@ -80,7 +81,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           users={UsersData}
           setUser={setUser}
           selectedUsersIds={selectedUsersIds}
-          setSelectedUsersIds={selectedUsersIds}
+          setSelectedUsersIds={setSelectedUsersIds}
         />
         <TableContainer>
           <Table
@@ -132,7 +133,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         </Button>
                       </StyledTableCell>
                       <StyledTableCell align="left">{user.login}</StyledTableCell>
-                      <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
+                      <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
                     </TableRow>
                   );
                 })}

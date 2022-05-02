@@ -7,7 +7,7 @@ import {
 
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import { ConsignmentTableProps } from '../../common/interfaces_types';
+import { ConsignmentTableProps, ConsignmentType } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -27,10 +27,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setGoods(consignment.goods);
   };
 
-  const openWaybillCreateModal = (consID) => {
-    const consignment = consignments.find((consign) => consID === consign.id);
-    const truckNumber = consignment.truck.truck_number;
-    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`;
+  const openWaybillCreateModal = (consID: number) => {
+    const consignment: ConsignmentType = consignments.find(consignment => consignment.id === consID);
+    const truckNumber = consignment.truck.truck_number
+    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`
     setConsID(consID);
     setCreateWaybillData({ truckNumber, driverFio });
     setWayBillActive(true);
@@ -75,7 +75,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 )
                 : consignmentsData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((consignment) => {
+                  .map((consignment: ConsignmentType) => {
                     const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
                     const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
                     let waybillStatus = null;
