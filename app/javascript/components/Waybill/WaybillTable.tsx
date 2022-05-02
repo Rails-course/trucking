@@ -11,7 +11,7 @@ import { WaybillTableProps } from '../../common/interfaces_types';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints
+    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints,
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -80,7 +80,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                           </Button>
                         </StyledTableCell>
                       </StyledTableRow>
-                    )
+                    );
                   })}
               {emptyRows > 0 && (
                 <StyledTableRow

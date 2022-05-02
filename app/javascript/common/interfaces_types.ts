@@ -215,7 +215,7 @@ export interface CreateCompanyFormProps {
 export interface CompanyTableProps {
     companies: any, setCompany: any;
     setAlertData: any, searchData: any;
-    suspendCompany: any, resumeCompany: any;
+    suspendCompany: any
 }
 
 export interface WaybillTableProps {

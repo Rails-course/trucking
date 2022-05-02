@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlertData, searchData, resumeCompany, suspendCompany,
+    companies, setCompany, setAlertData, searchData, suspendCompany,
   } = props;
 
   const deleteCompany = (id) => {
@@ -49,7 +49,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                       variant="outlined"
                       color="warning"
                       onClick={() => (company.is_suspended
-                        ? resumeCompany(company.id) : suspendCompany(company.id))}
+                        ? suspendCompany(company.id, 'resumed') : suspendCompany(company.id, 'suspended'))}
                       style={{ marginRight: '10px' }}
                     >
                       {company.is_suspended ? 'resume' : 'suspend'}

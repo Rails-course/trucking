@@ -7,32 +7,29 @@ class WaybillsController < ApplicationController
 
   def create
     points = points_params
-    begin
-      ActiveRecord::Base.transaction do
-        startpoint = Address.create!(points[:startpoint])
-        endpoint = Address.create!(points[:endpoint])
-        @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
-        if points[:checkpoints].present?
-          points[:checkpoints].each do |city_name|
-            Checkpoint.create!(city: city_name, waybill: @waybill)
-          end
+
+    ActiveRecord::Base.transaction do
+      startpoint = Address.create!(points[:startpoint])
+      endpoint = Address.create!(points[:endpoint])
+      @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
+      if points[:checkpoints].present?
+        points[:checkpoints].each do |city_name|
+          Checkpoint.create!(city: city_name, waybill: @waybill)
         end
       end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
     end
-    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck manager waybill
-                                                                       goods] }])
+
+    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck
+                                                                       manager waybill goods] }])
   end
 
   def update
     authorize! :update, Waybill
-    waybill = Waybill.find(params.permit(:id)[:id])
-    if waybill.update(status: 'delivered to the recipient')
-      render json: waybill
-    else
-      render json: { status: 422, message: waybill.errors }
-    end
+
+    @waybill = Waybill.find(params.permit(:id)[:id])
+    @waybill.update!(status: 'delivered to the recipient')
+
+    render json: @waybill
   end
 
   private
@@ -44,11 +41,6 @@ class WaybillsController < ApplicationController
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
     @waybills = Waybill.where(consignment: company_consignments)
-  end
-
-  def get_waybill_consignment_goods(waybill)
-    @consignment = waybill.consignment
-    Good.where(bundle_seria: @consignment.bundle_seria, bundle_number: @consignment.bundle_number)
   end
 
   def waybill_params
