@@ -20,7 +20,7 @@ const CheckpointWindow:
 
     const statusChange = () => {
       if (status) {
-        httpClient.checkpoints.passCh({ ids: checkpointID , pass_date: null, is_passed: false })
+        httpClient.checkpoints.passCh({ ids: checkpointID, pass_date: null, is_passed: false })
           .then((response) => {
             const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
             checkpoints[objIndex] = response.data;

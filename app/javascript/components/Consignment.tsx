@@ -34,10 +34,10 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
-  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON))
-  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON))
-  const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON))
-  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON))
+  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
+  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
+  const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
+  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
@@ -89,9 +89,9 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const handleGoodsSubmit = () => {
     const selectedGoodsIds = selectedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
-        case 'Checked':
+      case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.updateStatus(consId, {selectedGoodsIds:selectedGoodsIds,status:'checked'} )
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'checked' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -105,7 +105,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.updateStatus(consId, {selectedGoodsIds,status:'delivered'})
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'delivered' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;

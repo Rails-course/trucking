@@ -23,7 +23,7 @@ const Company: React.FC<CompanyProps> = (props: CompanyProps) => {
     setFormErrors(null);
   };
 
-  const suspendCompany = (id,alertText) => {
+  const suspendCompany = (id, alertText) => {
     httpClient.companies.updateStatus(id).then((response) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;

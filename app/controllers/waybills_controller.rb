@@ -7,22 +7,18 @@ class WaybillsController < ApplicationController
 
   def create
     points = points_params
-    begin
-      ActiveRecord::Base.transaction do
-        startpoint = Address.create!(points[:startpoint])
-        endpoint = Address.create!(points[:endpoint])
-        @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
-        if points[:checkpoints].present?
-          points[:checkpoints].each do |city_name|
-            Checkpoint.create!(city: city_name, waybill: @waybill)
-          end
+    ActiveRecord::Base.transaction do
+      startpoint = Address.create!(points[:startpoint])
+      endpoint = Address.create!(points[:endpoint])
+      @waybill = Waybill.create!(create_waybill_params(startpoint, endpoint))
+      if points[:checkpoints].present?
+        points[:checkpoints].each do |city_name|
+          Checkpoint.create!(city: city_name, waybill: @waybill)
         end
       end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
     end
-    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck manager waybill
-                                                                       goods] }])
+    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck
+                                                                       manager waybill goods] }])
   end
 
   def update

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
@@ -20,7 +19,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
 
-  let waybillID = null;
+  const waybillID = null;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
   const handleGetGoods = (consignment) => {
@@ -30,9 +29,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   const openWaybillCreateModal = (consID) => {
-    const consignment = consignments.find(consignment => consID === consignment.id);
-    const truckNumber = consignment.truck.truck_number
-    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`
+    const consignment = consignments.find((consignment) => consID === consignment.id);
+    const truckNumber = consignment.truck.truck_number;
+    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`;
     setConsID(consID);
     setCreateWaybillData({ truckNumber, driverFio });
     setWayBillActive(true);

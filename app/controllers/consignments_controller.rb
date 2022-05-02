@@ -14,13 +14,10 @@ class ConsignmentsController < ApplicationController
   def create
     authorize! :create, Consignment
     authorize! :create, Good
-    begin
-      ActiveRecord::Base.transaction do
-        @consignment = Consignment.create!(create_consignment_params)
-        @goods = Good.create!(create_goods_params(@consignment))
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
+
+    ActiveRecord::Base.transaction do
+      @consignment = Consignment.create!(create_consignment_params)
+      @goods = Good.create!(create_goods_params(@consignment))
     end
 
     render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])

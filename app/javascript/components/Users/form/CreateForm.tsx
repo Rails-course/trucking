@@ -22,7 +22,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   const LoadUserData = ({ id }) => {
     const { setFieldValue } = useFormikContext();
 
-    //TODO: probably it is possible to load data 
+    // TODO: probably it is possible to load data
     // from front-end instead of requesting back-end
     React.useEffect(() => {
       if (id) {
