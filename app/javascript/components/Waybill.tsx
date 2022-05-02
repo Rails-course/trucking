@@ -35,11 +35,7 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
-        setAlertData({
-          alertType: 'error',
-          alertText: "Couldn't complete the trip!",
-          open: true,
-        });
+        setAlertData({ alertType: 'error', alertText: "Couldn't complete the trip!", open: true });
       });
   };
 

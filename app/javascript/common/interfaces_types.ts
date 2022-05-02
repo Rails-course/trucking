@@ -44,6 +44,10 @@ export type RoleType = {
     role_name: string;
 }
 
+export type GoodsOwnerType = {
+    goods_owner_name: string;
+}
+
 export type AlertType = {
     alertType: AlertColor;
     alertText: string;
@@ -267,8 +271,7 @@ export interface WaybillTableProps {
 }
 
 export interface WaybillProps {
-    currentUserRole: string;
-    waybillsJSON: [];
+    currentUserRole: string, waybillsJSON: string;
 }
 
 export interface SiteAlertProps {

@@ -13,7 +13,7 @@ import httpClient from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
-import { CreateWaybillsFormProps } from '../../common/interfaces_types';
+import { CreateWaybillsFormProps, GoodsOwnerType, WarehouseData } from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
@@ -149,7 +149,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="goods_owner"
                         options={goodsOwners}
-                        getOptionLabel={(option: any) => option.goods_owner_name}
+                        getOptionLabel={(option: GoodsOwnerType) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -185,7 +185,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       <Autocomplete
                         id="warehouse"
                         options={warehouses}
-                        getOptionLabel={(option) => option.warehouse_name}
+                        getOptionLabel={(option: WarehouseData) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
