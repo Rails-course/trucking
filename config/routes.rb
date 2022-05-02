@@ -28,11 +28,8 @@ Rails.application.routes.draw do
   #   resources :goods, only: %i[update]
   # end
   # TODO: change implementation of scope below with a way above
-  scope '/consignments' do
-    patch '/:consignment_id/goods/checked', to: 'goods#goods_cheked_status'
-    patch '/:consignment_id/goods/delivered', to: 'goods#goods_delivered_status'
-  end
-
+  #
+  patch '/consignment/:consignment_id/goods', to: 'goods#update'
   # Write-off Act
   resources :write_off_acts, only: %i[index create]
 

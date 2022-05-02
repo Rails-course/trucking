@@ -33,8 +33,7 @@ function httpClient() {
       getGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/goods`),
     },
     goods: {
-      setConsignmentGoodsChecked: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/checked`, selectedGoodsIds),
-      setConsignmentGoodsDelivered: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/delivered`, selectedGoodsIds),
+      updateStatus: (id, data) => axios.patch(`consignment/${id}/goods`, data),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),

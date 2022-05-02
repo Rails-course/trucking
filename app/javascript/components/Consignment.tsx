@@ -89,9 +89,9 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const handleGoodsSubmit = () => {
     const selectedGoodsIds = selectedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
-      case 'Checked':
+        case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, { selectedGoodsIds })
+        return httpClient.goods.updateStatus(consId, {selectedGoodsIds:selectedGoodsIds,status:'checked'} )
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -105,7 +105,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsDelivered(consId, { selectedGoodsIds })
+        return httpClient.goods.updateStatus(consId, {selectedGoodsIds,status:'delivered'})
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
