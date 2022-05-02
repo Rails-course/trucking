@@ -22,7 +22,9 @@ const CheckpointWindow:
       if (status) {
         httpClient.checkpoints.rollback({ ids: checkpointID })
           .then((response) => {
-            const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+            const objIndex = checkpoints.findIndex(
+              (checkpoint) => checkpoint.id === checkpointID,
+            );
             checkpoints[objIndex] = response.data;
             setCheckpoints(checkpoints);
             setAlertData({
@@ -38,7 +40,9 @@ const CheckpointWindow:
       Object.assign(values, { ids: checkpointID });
       httpClient.checkpoints.passCh(values)
         .then((response) => {
-          const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+          const objIndex = checkpoints.findIndex(
+            (checkpoint) => checkpoint.id === checkpointID,
+          );
           checkpoints[objIndex] = response.data;
           setCheckpoints(checkpoints);
           setAlertData({

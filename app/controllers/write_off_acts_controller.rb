@@ -41,7 +41,8 @@ class WriteOffActsController < ApplicationController
     consignment_credentials = permit_write_off_act_params[:consignment].split
     consignment_seria = consignment_credentials[0]
     consignment_number = consignment_credentials[1]
-    consignment = Consignment.find_by(consignment_seria: consignment_seria,
-                                      consignment_number: consignment_number)
+    Consignment.find_by(
+      consignment_seria: consignment_seria, consignment_number: consignment_number
+    )
   end
 end

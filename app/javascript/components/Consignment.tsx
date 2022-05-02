@@ -94,11 +94,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Goods status changed!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
           });
       case 'Delivered':
@@ -109,11 +105,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Goods status changed!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
           });
       default:

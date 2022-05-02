@@ -64,8 +64,8 @@ export type CheckpointsType = {
 }
 
 export type WaybillDataType = {
-    truck_number: string;
-    driver_fio: string;
+    truckNumber: string;
+    driverFio: string;
 }
 
 export type ConsignmentType = {
@@ -75,10 +75,10 @@ export type ConsignmentType = {
     bundle_number: string;
     consignment_seria: string;
     consignment_number: string;
-    driver: string;
-    truck: string;
     dispatcher: { first_name: string, second_name: string, middle_name: string };
     manager: { first_name: string, second_name: string, middle_name: string };
+    driver: { first_name: string, second_name: string, middle_name: string };
+    truck: { truck_number: string };
 }
 
 export type WaybillType = {
@@ -86,8 +86,7 @@ export type WaybillType = {
     status: string;
     waybill_seria: string;
     waybill_number: number;
-    startpoint: string;
-    endpoint: string;
+    startpoint: string, endpoint: string;
 }
 
 // INTERFACES
@@ -236,9 +235,8 @@ export interface ConsignmentTableProps {
     setWayBillActive: (x: boolean) => void;
     setGoods: (goods: Item[]) => void,
     setConsID: (consID: number) => void;
-    formErrors: object;
     consignments: ConsignmentType[];
-    setCreateWaybillData: (waybill: {truckNumber: string, dispatcherFIO: string}) => void;
+    setCreateWaybillData: (waybill: { truckNumber: string; driverFio: string }) => void;
     currentUserRole: string;
     searchData: any;
 }

@@ -4,7 +4,7 @@ import { Box, Grid, Button } from '@mui/material';
 
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { WarehouseProps } from '../common/interfaces_types';
+import { AlertType, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 import Search from './Search';
 

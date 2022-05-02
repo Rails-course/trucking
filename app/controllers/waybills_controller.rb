@@ -21,8 +21,9 @@ class WaybillsController < ApplicationController
     rescue ActiveRecord::RecordInvalid => e
       return render json: e, status: :unprocessable_entity
     end
-    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck manager waybill
-                                                                       goods] }])
+    render json: @waybill.to_json(include: [consignment:
+                                              { include: %i[dispatcher driver truck manager
+                                                            waybill goods] }])
   end
 
   def update
