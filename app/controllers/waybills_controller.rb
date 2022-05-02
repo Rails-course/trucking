@@ -7,6 +7,7 @@ class WaybillsController < ApplicationController
 
   def create
     points = points_params
+
     ActiveRecord::Base.transaction do
       startpoint = Address.create!(points[:startpoint])
       endpoint = Address.create!(points[:endpoint])
@@ -17,18 +18,18 @@ class WaybillsController < ApplicationController
         end
       end
     end
+
     render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck
                                                                        manager waybill goods] }])
   end
 
   def update
     authorize! :update, Waybill
-    waybill = Waybill.find(params.permit(:id)[:id])
-    if waybill.update(status: 'delivered to the recipient')
-      render json: waybill
-    else
-      render json: { status: 422, message: waybill.errors }
-    end
+
+    @waybill = Waybill.find(params.permit(:id)[:id])
+    @waybill.update!(status: 'delivered to the recipient')
+
+    render json: @waybill
   end
 
   private
@@ -40,11 +41,6 @@ class WaybillsController < ApplicationController
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
     @waybills = Waybill.where(consignment: company_consignments)
-  end
-
-  def get_waybill_consignment_goods(waybill)
-    @consignment = waybill.consignment
-    Good.where(bundle_seria: @consignment.bundle_seria, bundle_number: @consignment.bundle_number)
   end
 
   def waybill_params

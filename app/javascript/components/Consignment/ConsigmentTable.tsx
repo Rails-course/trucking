@@ -19,7 +19,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dense, setDense] = React.useState(false);
 
-  const waybillID = null;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
   const handleGetGoods = (consignment) => {

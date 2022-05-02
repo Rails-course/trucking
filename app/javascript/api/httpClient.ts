@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import {
   ConsignmentUrl, UsersUrl,
-  WarehouseUrl, getAllWarehouseUrl,
-  writeOffActUrl, CompaniesUrl,
+  WarehouseUrl,
+  writeOffActUrl, CompaniesUrl, WaybillUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -20,11 +20,11 @@ function httpClient() {
       updateStatus: (id) => axios.patch(`${CompaniesUrl}/${id}`),
     },
     waybill: {
-      create: (waybill, checkpoints, consignment_id) => axios.post('/waybills', { waybill, checkpoints, consignment_id }),
-      finish: (ids) => axios.patch('/waybills/endTrucking', ids),
+      create: (waybill, checkpoints, consignment_id) => axios.post(`${WaybillUrl}`, { waybill, checkpoints, consignment_id }),
+      finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
+      update: (data) => axios.patch('/checkpoints', data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),

@@ -25,12 +25,8 @@ class CompaniesController < ApplicationController
 
   def create
     authorize! :create, Company
-    @company = Company.new(company_params)
-    if @company.save
-      render json: @company.to_json
-    else
-      render json: @company.errors.full_messages, status: :unprocessable_entity
-    end
+    @company = Company.create!(company_params)
+    render json: @company.to_json
   end
 
   def destroy
