@@ -4,6 +4,8 @@ export const UsersUrl = '/users';
 export const CompaniesUrl = '/companies';
 // CONSIGNMENTS
 export const ConsignmentUrl = '/consignments';
+// WAYBILLS
+export const WaybillUrl = '/waybills'
 // GOODS
 export const createGoodsUrl = '/goods';
 // WRITE-OFF ACTS

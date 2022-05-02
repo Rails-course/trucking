@@ -37,6 +37,11 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
+  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
+  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
+  const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
+  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
+ 
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState<number>(null);
@@ -90,7 +95,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, { selectedGoodsIds })
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'checked' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -100,7 +105,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsDelivered(consId, { selectedGoodsIds })
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'delivered' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -163,8 +168,8 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
-        trucks={JSON.parse(trucksJSON)}
-        drivers={JSON.parse(driversJSON)}
+        trucks={trucks}
+        drivers={drivers}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
@@ -183,12 +188,12 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         setWayBillActive={setWayBillActive}
         createWaybillData={createWaybillData}
         handleClose={handleClose}
-        warehouses={JSON.parse(warehousesJSON)}
+        warehouses={warehouses}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertData={setAlertData}
-        goodsOwners={JSON.parse(goodsOwnersJSON)}
+        goodsOwners={goodsOwners}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

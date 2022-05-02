@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl,
+  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -15,23 +15,20 @@ function httpClient() {
     companies: {
       create: (company) => axios.post(`${CompaniesUrl}`, company),
       delete: (id) => axios.delete(`${CompaniesUrl}/${id}`),
-      suspend: (id) => axios.patch(`${CompaniesUrl}/${id}/suspend`),
-      resume: (id) => axios.patch(`${CompaniesUrl}/${id}/resume`),
+      updateStatus: (id) => axios.patch(`${CompaniesUrl}/${id}`),
     },
     waybill: {
-      create: (waybill, checkpoints, consignment_id) => axios.post('/waybills', { waybill, checkpoints, consignment_id }),
-      finish: (ids) => axios.patch('/waybills/endTrucking', ids),
+      create: (waybill, checkpoints, consignment_id) => axios.post(`${WaybillUrl}`, { waybill, checkpoints, consignment_id }),
+      finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      passCh: (data) => axios.patch('/checkpoints/passCheckpoint', data),
-      rollback: (data) => axios.patch('/checkpoints/rollback', data),
+      update: (data) => axios.patch('/checkpoints', data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
     },
     goods: {
-      setConsignmentGoodsChecked: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/checked`, selectedGoodsIds),
-      setConsignmentGoodsDelivered: (id, selectedGoodsIds) => axios.patch(`${ConsignmentUrl}/${id}/goods/delivered`, selectedGoodsIds),
+      updateStatus: (id, data) => axios.patch(`consignment/${id}/goods`, data),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),

@@ -23,27 +23,14 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
     setFormErrors(null);
   };
 
-  const suspendCompany = (id) => {
-    httpClient.companies.suspend(id).then((response) => {
+  const suspendCompany = (id, alertText) => {
+    httpClient.companies.updateStatus(id).then((response) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
       setAlertData({
         alertType: 'info',
-        alertText: 'Company successfully suspended',
-        open: true,
-      });
-    });
-  };
-
-  const resumeCompany = (id) => {
-    httpClient.companies.resume(id).then((response) => {
-      const companyIndex = companies.findIndex((element) => element.id === id);
-      companies[companyIndex] = response.data;
-      setCompany(companies);
-      setAlertData({
-        alertType: 'info',
-        alertText: 'Company successfully resumed',
+        alertText: `Company successfully ${alertText}`,
         open: true,
       });
     });
@@ -81,7 +68,6 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
               setAlertData={setAlertData}
               searchData={searchData}
               suspendCompany={suspendCompany}
-              resumeCompany={resumeCompany}
             />
           </Grid>
         </Grid>

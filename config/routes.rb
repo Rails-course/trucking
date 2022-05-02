@@ -14,10 +14,6 @@ Rails.application.routes.draw do
 
   # Companies
   resources :companies
-  scope '/companies' do
-    patch '/:id/suspend', to: 'companies#suspend'
-    patch '/:id/resume', to: 'companies#resume'
-  end
 
   # Goods
   # resources :goods
@@ -28,11 +24,8 @@ Rails.application.routes.draw do
   #   resources :goods, only: %i[update]
   # end
   # TODO: change implementation of scope below with a way above
-  scope '/consignments' do
-    patch '/:consignment_id/goods/checked', to: 'goods#goods_cheked_status'
-    patch '/:consignment_id/goods/delivered', to: 'goods#goods_delivered_status'
-  end
-
+  #
+  patch '/consignment/:consignment_id/goods', to: 'goods#update'
   # Write-off Act
   resources :write_off_acts, only: %i[index create]
 
@@ -53,11 +46,7 @@ Rails.application.routes.draw do
   get '/goodsowners', to: 'goods_owner#index'
 
   # Checkpoints
-  scope '/checkpoints' do
-    patch '/rollback', to: 'checkpoints#rollback'
-    patch '/passCheckpoint', to: 'checkpoints#pass_checkpoint'
-  end
-  get '/checkpoints/:id', to: 'checkpoints#routes'
+  patch 'checkpoints', to: 'checkpoints#update'
 
   # API
   namespace :api do
