@@ -30,11 +30,7 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
         const newWaybills = waybills;
         newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
         setWaybill(newWaybills);
-        setAlertData({
-          alertType: 'success',
-          alertText: 'Successfully finished cargo transportation!',
-          open: true,
-        });
+        setAlertData({ alertType: 'success', alertText: 'Successfully finished cargo transportation!', open: true });
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
