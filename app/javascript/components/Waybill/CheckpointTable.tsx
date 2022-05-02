@@ -10,18 +10,15 @@ const checkpointsTable:
 
       return (
         <div style={{
-          display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: '10px',
+          display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '10px 24px',
         }}
         >
           <strong>Checkpoints</strong>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            {checkpoints.map((checkpoint) => (
-              <p key={checkpoint.id}>
-                {`${checkpoint.city_name} `}
-            &nbsp;
-              </p>
-            ))}
-          </div>
+          {checkpoints.map((checkpoint) => (
+            <div key={checkpoint.id} style={{ width: '100%', display: 'list-item', listStyleType: 'decimal' }}>
+              <p style={{ margin: '2px 0' }}>{`${checkpoint.city_name} `}</p>
+            </div>
+          ))}
         </div>
       );
     };

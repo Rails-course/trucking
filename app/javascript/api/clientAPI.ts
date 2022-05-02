@@ -1,4 +1,5 @@
 // USERS
+export const getWarehousemansUrl = '/users/warehousemans.json';
 export const UsersUrl = '/users';
 // COMPANIES
 export const CompaniesUrl = '/companies';

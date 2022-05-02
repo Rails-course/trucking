@@ -13,9 +13,9 @@ const Waybill: React.FC<WaybillProps> = (props: WaybillProps) => {
   const { currentUserRole, waybillsJSON } = props;
   const [isWaybillModal, setWaybillModalActive] = React.useState(false);
   const [waybillID, setWaybillID] = React.useState(null);
-  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [checkpoints, setCheckpoints] = React.useState([]);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+  const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
   const [searchData, setSearchData] = React.useState();
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
   const [waybills, setWaybill] = React.useState<WaybillType[]>(JSON.parse(waybillsJSON)

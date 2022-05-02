@@ -36,14 +36,10 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
-  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON))
-  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON))
-  const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON))
-  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON))
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
-  const [createWaybillData, setCreateWaybillData] = React.useState(null);
+  const [createWaybillData, setCreateWaybillData] = React.useState<WaybillDataType>(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -173,8 +169,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
-        trucks={trucks}
-        drivers={drivers}
+        trucks={JSON.parse(trucksJSON)}
+        drivers={JSON.parse(driversJSON)}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
@@ -193,12 +189,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         setWayBillActive={setWayBillActive}
         createWaybillData={createWaybillData}
         handleClose={handleClose}
-        warehouses={warehouses}
+        warehouses={JSON.parse(warehousesJSON)}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertData={setAlertData}
-        goodsOwners={goodsOwners}
+        goodsOwners={JSON.parse(goodsOwnersJSON)}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

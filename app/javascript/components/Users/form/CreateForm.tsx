@@ -22,7 +22,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   const LoadUserData = ({ id }) => {
     const { setFieldValue } = useFormikContext();
 
-    //TODO: probably it is possible to load data 
+    // TODO: probably it is possible to load data
     // from front-end instead of requesting back-end
     React.useEffect(() => {
       if (id) {
@@ -153,7 +153,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
 
                     </Container>
 
-                    <DialogActions>
+                    <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
                     </DialogActions>

@@ -63,10 +63,6 @@ export type CheckpointsType = {
     pass_date: Date;
 }
 
-export type OwnersType = {
-    goods_owner_name: string;
-}
-
 export type WaybillDataType = {
     truck_number: string;
     driver_fio: string;
@@ -239,7 +235,7 @@ export interface ConsignmentTableProps {
     setModalGoodsActive: (x: boolean) => void;
     setWayBillActive: (x: boolean) => void;
     setGoods: (goods: Item[]) => void,
-    setConsID: (n: number) => void;
+    setConsID: (consID: number) => void;
     formErrors: object;
     consignments: ConsignmentType[];
     setCreateWaybillData: (waybill: {truckNumber: string, dispatcherFIO: string}) => void;
@@ -257,17 +253,19 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
-    companies: CompanyType[], setCompany: (company: CompanyType[]) => void;
+    companies: CompanyType[];
+    setCompany: (company: CompanyType[]) => void;
     setAlertData: (alert: AlertType) => void;
     searchData: any;
     suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
 }
 
 export interface WaybillTableProps {
-    waybills: WaybillType[], searchData: any;
-    setCheckpoints: (checkpoint: CheckpointsType[]) => void;
+    waybills: WaybillType[];
+    searchData: any;
+    setCheckpoints: (checkpoints: CheckpointsType[]) => void;
     setWaybillModalActive: (boolean) => void;
-    setWaybillID: (id: number) => void;
+    setWaybillID: (wayID: number) => void;
 }
 
 export interface WaybillProps {

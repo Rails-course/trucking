@@ -44,7 +44,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
               : companiesData.map((company) => (
                 <StyledTableRow key={company.id}>
                   <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
-                  <StyledTableCell align="right" style={{ width: '30%' }}>
+                  <StyledTableCell align="center" style={{ width: '30%' }}>
                     <Button
                       variant="outlined"
                       color="warning"
