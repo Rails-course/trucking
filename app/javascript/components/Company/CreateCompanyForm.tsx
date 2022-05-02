@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { CompanyType, CreateCompanyFormProps } from '../../common/interfaces_types';
+import { Company, CreateCompanyFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
@@ -14,25 +14,19 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
-  const handleSubmit = async (company: CompanyType) => {
+  const companyInitialValues: Company = { id: Math.random(), name: '' };
+
+  const handleSubmit = async (company: Company) => {
     await httpClient.companies.create(company)
       .then((response) => {
         handleClose();
         // TODO: cast type
         setCompany((prevCompany) => [...prevCompany, response.data]);
-        setAlertData({
-          alertType: 'success',
-          alertText: 'Successfully created a company!',
-          open: true,
-        });
+        setAlertData({ alertType: 'success', alertText: 'Successfully created a company!', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertData({
-          alertType: 'error',
-          alertText: 'Something went wrong with creating a company',
-          open: true,
-        });
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating a company', open: true });
       });
   };
 
@@ -49,7 +43,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
               <Formik
-                initialValues={{ name: '' }}
+                initialValues={companyInitialValues}
                 onSubmit={handleSubmit}
               >
                 <Form>

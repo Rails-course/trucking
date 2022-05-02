@@ -14,7 +14,7 @@ const CheckpointWindow:
     const {
       checkpointID, status, currentUserRole, checkpoints, setCheckpoints, setAlertData,
     } = props;
-    const [isActiveModal, setActiveModal] = React.useState(false);
+    const [isActiveModal, setActiveModal] = React.useState<boolean>(false);
 
     const handleClose = () => setActiveModal(false);
 
@@ -27,11 +27,7 @@ const CheckpointWindow:
             );
             checkpoints[objIndex] = response.data;
             setCheckpoints(checkpoints);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Successfully rollback checkpoint!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Successfully rollback checkpoint!', open: true });
           });
       } else setActiveModal(true);
     };
@@ -45,11 +41,7 @@ const CheckpointWindow:
           );
           checkpoints[objIndex] = response.data;
           setCheckpoints(checkpoints);
-          setAlertData({
-            alertType: 'success',
-            alertText: 'Successfully passed checkpoint!',
-            open: true,
-          });
+          setAlertData({ alertType: 'success', alertText: 'Successfully passed checkpoint!', open: true });
         });
     };
 

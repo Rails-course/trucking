@@ -13,7 +13,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   } = props;
 
   const deleteUserByIds = async () => {
-    const promises: Promise<number>[] = selectedUsersIds.map(
+    const promises: Promise<any>[] = selectedUsersIds.map(
       (userID) => httpClient.users.delete(userID),
     );
 

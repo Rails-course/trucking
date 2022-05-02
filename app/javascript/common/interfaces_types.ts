@@ -192,9 +192,11 @@ export interface EnhancedHeadTableProps {
 
 export interface EnhancedTableToolbarProps {
     numSelected: number;
-    users: User[];
+    // NOTE: unknown type
+    users: any;
     selectedUsersIds: number[];
-    setUser: (user: (prev) => User[]) => void;
+    // NOTE: unknown type
+    setUser: (user: any) => void;
     setSelectedUsersIds: (selectedUsersIds: number[]) => void;
 }
 
@@ -265,7 +267,7 @@ export interface CreateCompanyFormProps {
     isActiveModal: boolean;
     formErrors: string[];
     handleClose: () => void;
-    setCompany: (company: Company[]) => void;
+    setCompany: (company: (prev) => Company[]) => void;
     setFormErrors: (errors: string[]) => void;
     setAlertData: (alert: Alert) => void;
 }

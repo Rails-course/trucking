@@ -17,11 +17,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     httpClient.companies.delete(id).then(() => {
       setCompany(companies.filter((company) => id !== company.id));
     });
-    setAlertData({
-      alertType: 'success',
-      alertText: 'Company successfully deleted!',
-      open: true,
-    });
+    setAlertData({ alertType: 'success', alertText: 'Company successfully deleted!', open: true });
   };
   const companiesData = searchData || companies;
   return (

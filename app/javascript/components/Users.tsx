@@ -16,7 +16,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
-  const [users, setUser] = React.useState(JSON.parse(usersJSON));
+  const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
