@@ -9,12 +9,6 @@ class CompaniesController < ApplicationController
                  else
                    Company.all
                  end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @companies.to_json
-      end
-    end
   end
 
   def suspend
@@ -35,9 +29,7 @@ class CompaniesController < ApplicationController
     render json: @company.to_json
   end
 
-  def new_company; end
-
-  def create_company
+  def create
     authorize! :create, Company
     @company = Company.new(company_params)
     if @company.save
