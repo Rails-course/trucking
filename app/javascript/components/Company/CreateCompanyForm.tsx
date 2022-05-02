@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
@@ -8,14 +7,15 @@ import {
 
 import FormikField from '../../UI/FormikField';
 import { CreateCompanyFormProps } from '../../common/interfaces_types';
+import httpClient from '../../api/httpClient';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
-  const handleSubmit = async (values) => {
-    await axios.post('/companies/create', values)
+  const handleSubmit = async (company) => {
+    await httpClient.companies.create(company)
       .then((response) => {
         handleClose();
         setCompany((prevCompany) => [...prevCompany, response.data]);
@@ -62,7 +62,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                       variant="standard"
                     />
                   </Container>
-                  <DialogActions>
+                  <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                     <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                     <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>

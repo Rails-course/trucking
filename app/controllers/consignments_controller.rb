@@ -8,13 +8,7 @@ class ConsignmentsController < ApplicationController
     @warehouses = Warehouse.all
     @trucks = Truck.where(company: current_user.company)
     @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @consignments.to_json(include: %i[dispatcher driver truck manager waybill
-                                                       goods])
-      end
-    end
+    @goods_owners = GoodsOwner.all
   end
 
   def create
@@ -32,12 +26,6 @@ class ConsignmentsController < ApplicationController
     render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
-  def waybill_data
-    consignment = Consignment.find(params.permit(:consignment_id)[:consignment_id])
-    render json: { driver_fio: User.find(consignment.driver_id).full_name,
-                   truck_number: consignment.truck.truck_number }
-  end
-
   private
 
   def company_consignments
@@ -45,7 +33,7 @@ class ConsignmentsController < ApplicationController
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 
   def permit_consignment_params
@@ -63,7 +51,7 @@ class ConsignmentsController < ApplicationController
   def create_consignment_params
     consignment_params = permit_consignment_params[:consignment]
     find_driver(consignment_params)
-    consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
+    find_truck(consignment_params)
     consignment_params[:dispatcher] = current_user
     consignment_params
   end
@@ -81,6 +69,11 @@ class ConsignmentsController < ApplicationController
     consignment_params[:driver] =
       User.find_by(company: current_user.company, second_name: driver_fio[0],
                    first_name: driver_fio[1], middle_name: driver_fio[2])
+    consignment_params
+  end
+
+  def find_truck(consignment_params)
+    consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
     consignment_params
   end
 end

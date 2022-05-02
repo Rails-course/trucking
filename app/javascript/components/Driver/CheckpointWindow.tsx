@@ -12,34 +12,35 @@ import { CheckpointWindowFormProps } from '../../common/interfaces_types';
 const CheckpointWindow:
   React.FC<CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
     const {
-      wayID, id, status, currentUserRole, setCheckpoints, setAlertData,
+      checkpointID, status, currentUserRole, checkpoints, setCheckpoints, setAlertData,
     } = props;
     const [isActiveModal, setActiveModal] = React.useState(false);
-
-    const updateCheckpoints = () => {
-      httpClient.checkpoints.getcheckpoints(wayID)
-        .then((response) => setCheckpoints(response.data));
-    };
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
-        httpClient.checkpoints.rollback({ ids: id }).then(() => {
-          updateCheckpoints();
-          setAlertData({
-            alertType: 'info',
-            alertText: 'Successfully rollback checkpoint!',
-            open: true,
+        httpClient.checkpoints.rollback({ ids: checkpointID })
+          .then((response) => {
+            const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+            checkpoints[objIndex] = response.data;
+            setCheckpoints(checkpoints);
+            setAlertData({
+              alertType: 'info',
+              alertText: 'Successfully rollback checkpoint!',
+              open: true,
+            });
           });
-        });
       } else setActiveModal(true);
     };
+
     const handleSubmit = (values) => {
-      Object.assign(values, { ids: id });
+      Object.assign(values, { ids: checkpointID });
       httpClient.checkpoints.passCh(values)
-        .then(() => {
-          updateCheckpoints();
+        .then((response) => {
+          const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+          checkpoints[objIndex] = response.data;
+          setCheckpoints(checkpoints);
           setAlertData({
             alertType: 'success',
             alertText: 'Successfully passed checkpoint!',

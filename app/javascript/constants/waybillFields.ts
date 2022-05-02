@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 export const waybillLeftFields = [
   {
     id: uuidv4(),
-    title: 'Waybill seria',
+    title: 'Waybill series',
     model: 'waybill_seria',
     required: true,
-    placeholder: 'Waybill seria',
+    placeholder: 'Waybill series',
     type: 'text',
   },
   {
@@ -94,7 +94,7 @@ export declare type AlignType = 'left' | 'center' | 'right';
 export const waybillTableCell = [
   {
     id: uuidv4(),
-    title: 'Waybill seria',
+    title: 'Waybill series',
     align: 'center' as AlignType,
   },
   {
@@ -119,7 +119,7 @@ export const waybillTableCell = [
   },
   {
     id: uuidv4(),
-    title: 'action',
-    align: 'right' as AlignType,
+    title: 'Action',
+    align: 'center' as AlignType,
   },
 ];

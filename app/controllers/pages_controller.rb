@@ -6,19 +6,16 @@ class PagesController < ApplicationController
 
   def users_index
     @roles = Role.where.not(role_name: 'system administrator')
-    @companies = Company.all
-
+    @companies = if current_user.company
+                   Company.where(name: current_user.company.name)
+                 else
+                   Company.all
+                 end
     @users = if current_user.company
                User.where(company: current_user.company)
              else
                User.all
              end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @users.to_json(include: { role: { only: [:role_name] } })
-      end
-    end
   end
 
   def user_data
@@ -43,24 +40,6 @@ class PagesController < ApplicationController
       render json: @user.to_json(include: %i[role address])
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
-    end
-  end
-
-  def drivers
-    @users = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
-    respond_to do |format|
-      format.json do
-        render json: @users.to_json
-      end
-    end
-  end
-
-  def warehousemans
-    @users = User.where(role: Role.find_by(role_name: 'warehouseman'))
-    respond_to do |format|
-      format.json do
-        render json: @users.to_json
-      end
     end
   end
 

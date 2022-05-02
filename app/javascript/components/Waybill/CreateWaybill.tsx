@@ -17,8 +17,8 @@ import { CreateWaybillsFormProps } from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
-    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    setAlertData, setConsignment, consignments, warehousesJSON,
+    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, createWaybillData,
+    setAlertData, setConsignment, consignments, warehouses, goodsOwners,
   } = props;
 
   const [isCreateCheckpoints, setCreateCheckpoints] = React.useState(false);
@@ -30,7 +30,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
     httpClient.waybill.create(values, cityNames, id)
       .then((response) => {
         const objIndex = consignments.findIndex((consignment) => consignment.id === id);
-        consignments[objIndex] = response.data;
+        consignments[objIndex] = response.data.consignment;
         setConsignment(consignments);
         setWayBillActive(false);
         setAlertData({
@@ -56,7 +56,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 650 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 750 } }}
         maxWidth="xs"
       >
         <DialogTitle>Create Waybill</DialogTitle>
@@ -89,7 +89,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Truck number</strong></span>
-                          <span>{data.truck_number}</span>
+                          <span>{createWaybillData.truckNumber}</span>
                         </Box>
                         <Box
                           component="div"
@@ -101,7 +101,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Driver</strong></span>
-                          <span>{data.driver_fio}</span>
+                          <span>{createWaybillData.driverFio}</span>
                         </Box>
                       </div>
 
@@ -148,8 +148,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                       <Autocomplete
                         id="goods_owner"
-                        options={owners}
-                        getOptionLabel={(option) => option.goods_owner_name}
+                        options={goodsOwners}
+                        getOptionLabel={(option: any) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -184,8 +184,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       </div>
                       <Autocomplete
                         id="warehouse"
-                        options={JSON.parse(warehousesJSON)}
-                        getOptionLabel={(option) => option.warehouse_name}
+                        options={warehouses}
+                        getOptionLabel={(option: any) => option.warehouse_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -203,10 +203,15 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                     </Container>
 
-                    <DialogActions style={{ padding: '3px', marginTop: '5px' }}>
-                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined">create new checkpoints</Button>
-                      <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                    <DialogActions style={{ flexDirection: 'column', padding: '8px 24px' }}>
+                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined" fullWidth>create new checkpoints</Button>
+                      <div style={{
+                        width: '100%', display: 'flex', justifyContent: 'space-between', padding: '8px 24px',
+                      }}
+                      >
+                        <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                        <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                      </div>
                     </DialogActions>
                   </Form>
                 )}

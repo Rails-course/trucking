@@ -17,12 +17,18 @@ import Search from './Search';
 const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const {
     currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
+    goodsOwnersJSON,
   } = props;
+
+  // MODAL states
   const [isActiveModal, setModalActive] = React.useState(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
   const [isActiveWayBill, setWayBillActive] = React.useState(false);
+  // Form Errors states
   const [formErrors, setFormErrors] = React.useState([]);
+  // Alert and Search states
   const [alertData, setAlertData] = React.useState<AlertType>({ alertType: null, alertText: '', open: false });
+  
   const [searchData, setSearchData] = React.useState();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
@@ -32,11 +38,9 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   );
 
   const [goods, setGoods] = React.useState([]);
-  const [checkedGoods, setCheckedGoods] = React.useState<Item[]>([]);
+  const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState(null);
-  const [data, setData] = React.useState<WaybillDataType>(null);
-  const [owners, setOwners] = React.useState([]);
-  const [consWaybillId, setConsWaybillId] = React.useState(null);
+  const [createWaybillData, setCreateWaybillData] = React.useState<WaybillDataType>(null);
   const [titleStatus, setTitleStatus] = React.useState(null);
   const [newGoods, setNewGood] = React.useState([{
     good_name: '', unit_of_measurement: '', quantity: 0,
@@ -56,13 +60,14 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
-    setCheckedGoods([]);
+    setSelectedGoods([]);
+    setTitleStatus('');
   };
 
   const handleSubmit = (consignment: consignmentFormValues) => {
     httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
-        setConsignment((prevConsignment) => [...prevConsignment, response.data]);
+        setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
@@ -81,11 +86,11 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   };
 
   const handleGoodsSubmit = () => {
-    const checkedGoodsIds = checkedGoods.map((checkedGood) => checkedGood.id);
+    const selectedGoodsIds = selectedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, { checkedGoodsIds })
+        return httpClient.goods.setConsignmentGoodsChecked(consId, { selectedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -99,7 +104,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setWaybillGoodsStatus(consWaybillId, { checkedGoodsIds })
+        return httpClient.goods.setConsignmentGoodsDelivered(consId, { selectedGoodsIds })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
@@ -151,10 +156,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               setGoods={setGoods}
               setWayBillActive={setWayBillActive}
               formErrors={formErrors}
-              setData={setData}
-              setOwners={setOwners}
+              setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
-              setConsWaybillId={setConsWaybillId}
               searchData={searchData}
             />
           </Grid>
@@ -168,15 +171,15 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
-        trucksJSON={trucksJSON}
-        driversJSON={driversJSON}
+        trucks={JSON.parse(trucksJSON)}
+        drivers={JSON.parse(driversJSON)}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
         handleClose={handleClose}
         goods={goods}
-        checkedGoods={checkedGoods}
-        setCheckedGoods={setCheckedGoods}
+        selectedGoods={selectedGoods}
+        setSelectedGoods={setSelectedGoods}
         handleGoodsSubmit={handleGoodsSubmit}
         currentUserRole={currentUserRole}
         titleStatus={titleStatus}
@@ -186,14 +189,14 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         id={consId}
         isActiveWayBill={isActiveWayBill}
         setWayBillActive={setWayBillActive}
-        data={data}
+        createWaybillData={createWaybillData}
         handleClose={handleClose}
-        owners={owners}
-        warehousesJSON={warehousesJSON}
+        warehouses={JSON.parse(warehousesJSON)}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}
         setAlertData={setAlertData}
+        goodsOwners={JSON.parse(goodsOwnersJSON)}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
