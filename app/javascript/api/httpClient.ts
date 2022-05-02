@@ -17,8 +17,7 @@ function httpClient() {
     companies: {
       create: (company) => axios.post(`${CompaniesUrl}`, company),
       delete: (id) => axios.delete(`${CompaniesUrl}/${id}`),
-      suspend: (id) => axios.patch(`${CompaniesUrl}/${id}/suspend`),
-      resume: (id) => axios.patch(`${CompaniesUrl}/${id}/resume`),
+      updateStatus: (id) => axios.patch(`${CompaniesUrl}/${id}`),
     },
     waybill: {
       create: (waybill, checkpoints, consignment_id) => axios.post('/waybills', { waybill, checkpoints, consignment_id }),

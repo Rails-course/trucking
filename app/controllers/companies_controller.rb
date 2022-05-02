@@ -11,7 +11,7 @@ class CompaniesController < ApplicationController
                  end
   end
 
-  def suspend
+  def update
     @company = Company.find(params.require(:id))
     @company.change_status
     render json: @company.to_json
@@ -21,12 +21,6 @@ class CompaniesController < ApplicationController
     # company_users.each do |user|
     #   sign_out user
     # end
-  end
-
-  def resume
-    @company = Company.find(params.require(:id))
-    @company.change_status
-    render json: @company.to_json
   end
 
   def create

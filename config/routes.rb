@@ -14,10 +14,6 @@ Rails.application.routes.draw do
 
   # Companies
   resources :companies
-  scope '/companies' do
-    patch '/:id/suspend', to: 'companies#suspend'
-    patch '/:id/resume', to: 'companies#resume'
-  end
 
   # Goods
   # resources :goods
