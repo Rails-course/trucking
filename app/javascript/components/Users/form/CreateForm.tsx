@@ -153,7 +153,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
 
                     </Container>
 
-                    <DialogActions>
+                    <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
                     </DialogActions>

@@ -33,7 +33,7 @@ export const writeOffActTableCell = [
   },
   {
     id: uuidv4(),
-    title: 'Bundle seria',
+    title: 'Bundle series',
     align: 'right' as AlignType,
   },
   {
