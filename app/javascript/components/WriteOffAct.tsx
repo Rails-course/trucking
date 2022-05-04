@@ -6,16 +6,16 @@ import httpClient from '../api/httpClient';
 import WriteOffActTable from './WriteOffAct/WriteOffActTable';
 import CreateWriteOffActForm from './WriteOffAct/CreateWriteOffActForm';
 import SiteAlerts from './Alert';
-import { WriteOffActsProps } from '../common/interfaces_types';
+import { Alert, WriteOffActsProps, WriteOffAct } from '../common/interfaces_types';
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
   const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
-  const [isActiveModal, setModalActive] = React.useState(false);
-  const [writeOffActs, setWriteOffActs] = React.useState(JSON.parse(writeOffActsJSON));
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
-  const [searchData, setSearchData] = React.useState();
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
+  const [writeOffActs, setWriteOffActs] = React.useState<WriteOffAct[]>(JSON.parse(writeOffActsJSON));
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
     setModalActive(false);
@@ -27,19 +27,11 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
       .then((response) => {
         setWriteOffActs((prev) => [...prev, response.data]);
         setModalActive(false);
-        setAlertData({
-          alertType: 'success',
-          alertText: 'Successfully created write-off act!',
-          open: true,
-        });
+        setAlertData({ alertType: 'success', alertText: 'Successfully created write-off act!', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertData({
-          alertType: 'error',
-          alertText: 'Something went wrong with creating write-off act',
-          open: true,
-        });
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating write-off act', open: true });
       });
   };
 
@@ -78,7 +70,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         handleClose={handleClose}
         handleSubmit={handleSubmit}
         formErrors={formErrors}
-        consignmentsJSON={consignmentsJSON}
+        consignments={JSON.parse(consignmentsJSON)}
         setAlertData={setAlertData}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />

@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, UsersUrl,
-  WarehouseUrl,
-  writeOffActUrl, CompaniesUrl, WaybillUrl,
+  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -28,7 +26,6 @@ function httpClient() {
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
-      getGoods: (id) => axios.get(`${ConsignmentUrl}/${id}/goods`),
     },
     goods: {
       updateStatus: (id, data) => axios.patch(`consignment/${id}/goods`, data),

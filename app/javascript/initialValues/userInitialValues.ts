@@ -8,7 +8,7 @@ export interface userFormValues {
   password: string;
   password_confirmation: string;
   birthday: string;
-  address: { town: string, street: string, building: number, apartment: number, }
+  address: { town: string, street: string, building: number, apartment: number }
   role: { role_name: string },
   passport: string,
   company: string,

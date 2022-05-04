@@ -11,17 +11,19 @@ import { warehouseFields } from '../../constants/warehouseFields';
 import warehouseInitialValues, { warehouseFormValues } from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
 import httpClient from '../../api/httpClient';
-import { CreateWarehouseFormProps, Warehouseman } from '../../common/interfaces_types';
+import { CreateWarehouseFormProps, User } from '../../common/interfaces_types';
 
 const WarehouseCreateForm:
   React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
     const {
-      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData, warehousemansData,
+      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
+      warehousemen,
     } = props;
 
     const handleSubmit = (warehouse: warehouseFormValues) => {
       httpClient.warehouses.create(warehouse)
         .then((response) => {
+          // TODO: cast data type
           setWarehouses((prev) => [...prev, response.data]);
           handleClose();
           setAlertData({
@@ -73,24 +75,24 @@ const WarehouseCreateForm:
                             variant="standard"
                           />
                         ))}
-                        <Autocomplete
-                          id="warehouseman"
-                          options={warehousemansData}
-                          getOptionLabel={(option: Warehouseman) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              onSelect={handleChange}
-                              margin="normal"
-                              label="Warehouseman"
-                              fullWidth
-                              value={values?.warehouseman}
-                            />
-                          )}
-                        />
                       </Container>
 
-                      <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
+                      <Autocomplete
+                        id="warehouseman"
+                        options={warehousemen}
+                        getOptionLabel={(option: User) => `${option.second_name} ${option.first_name} ${option.middle_name}`}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Warehouseman"
+                            fullWidth
+                            value={values?.warehouseman}
+                          />
+                        )}
+                      />
+                      <DialogActions>
                         <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                         <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                       </DialogActions>

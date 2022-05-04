@@ -13,7 +13,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   } = props;
 
   const deleteUserByIds = async () => {
-    const promises: Promise<any>[] = selectedUsersIds.map((userID) => httpClient.users.delete(userID));
+    const promises: Promise<any>[] = selectedUsersIds.map(
+      (userID) => httpClient.users.delete(userID),
+    );
 
     await Promise.all(promises).then(() => {
       setUser(users.filter((user) => !selectedUsersIds.includes(user.id)));

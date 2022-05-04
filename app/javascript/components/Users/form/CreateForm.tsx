@@ -11,12 +11,12 @@ import { userFields, userFirstFields, userSecondFields } from '../../../constant
 import httpClient from '../../../api/httpClient';
 import userInitialValues from '../../../initialValues/userInitialValues';
 import userValidation from '../../../mixins/validation_schema/user';
-import { CompanyType, RoleType, UserCreateFormProps } from '../../../common/interfaces_types';
+import { Company, Role, UserCreateFormProps } from '../../../common/interfaces_types';
 
 const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) => {
   const {
     createModal, updateModal, handleClose, handleSubmit, editUserModal, title, btnTitle,
-    formErrors, companies, roles,
+    formErrors, roles, companies,
   } = props;
 
   const LoadUserData = ({ id }) => {
@@ -120,7 +120,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                           <Autocomplete
                             id="company"
                             options={companies}
-                            getOptionLabel={(option: CompanyType) => option.name}
+                            getOptionLabel={(option: Company) => option.name}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -138,7 +138,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                       <Autocomplete
                         id="role"
                         options={roles}
-                        getOptionLabel={(option: RoleType) => option.role_name}
+                        getOptionLabel={(option: Role) => option.role_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}

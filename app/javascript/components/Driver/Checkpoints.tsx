@@ -63,9 +63,10 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           </Table>
         </TableContainer>
         <div style={{
-          display: 'flex', justifyContent: 'end', columnGap: '20px', marginTop: '20px',
+          display: 'flex', justifyContent: 'space-between', columnGap: '20px', marginTop: '20px',
         }}
         >
+          <Button onClick={handleClose} color="error" variant="outlined">Close</Button>
           <Button
             onClick={() => {
               handleSubmitWaybill(id);
@@ -77,7 +78,6 @@ const Checkpoints: React.FC<CheckpointsFormProps> = (props: CheckpointsFormProps
           >
             Transportation completed
           </Button>
-          <Button onClick={handleClose} color="error" variant="outlined">Close</Button>
         </div>
       </DialogContent>
     </Dialog>

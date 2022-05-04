@@ -7,19 +7,17 @@ import UsersTable from './Users/table/Table';
 import { userFormValues } from '../initialValues/userInitialValues';
 import httpClient from '../api/httpClient';
 import Search from './Search';
-import { UsersProps } from '../common/interfaces_types';
+import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const { rolesJSON, companiesJSON, usersJSON } = props;
 
-  const [createModal, setCreateModalActive] = React.useState(false);
-  const [updateModal, setUpdateModalActive] = React.useState(false);
-  const [editUserModal, setEditUserModal] = React.useState(null);
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [roles, setRoles] = React.useState(JSON.parse(rolesJSON));
-  const [companies, setCompanies] = React.useState(JSON.parse(companiesJSON));
-  const [users, setUser] = React.useState(JSON.parse(usersJSON));
-  const [searchData, setSearchData] = React.useState();
+  const [createModal, setCreateModalActive] = React.useState<boolean>(false);
+  const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
+  const [editUserModal, setEditUserModal] = React.useState<number>(null);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
     setCreateModalActive(false);
@@ -89,8 +87,8 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
         createModal={createModal}
         updateModal={updateModal}
         handleClose={handleClose}
-        companies={companies}
-        roles={roles}
+        companies={JSON.parse(companiesJSON)}
+        roles={JSON.parse(rolesJSON)}
         editUserModal={editUserModal}
         handleSubmit={createModal ? handleSubmit : handleEditSubmit}
         title={updateModal ? 'Update Profile' : 'Add User Of Company'}

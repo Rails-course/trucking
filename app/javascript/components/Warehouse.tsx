@@ -4,17 +4,17 @@ import { Box, Grid, Button } from '@mui/material';
 
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { WarehouseProps } from '../common/interfaces_types';
+import { Alert, Warehouse, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 import Search from './Search';
 
-const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole, warehousesJSON, warehousemansData } = props;
-  const [isActiveModal, setModalActive] = React.useState(false);
-  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
-  const [searchData, setSearchData] = React.useState();
+const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
+  const { currentUserRole, warehousesJSON, warehousemansJSON } = props;
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
+  const [warehouses, setWarehouses] = React.useState<Warehouse[]>(JSON.parse(warehousesJSON));
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
     setModalActive(false);
@@ -64,11 +64,11 @@ const Warehouse: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         formErrors={formErrors}
         setFormErrors={setFormErrors}
         setAlertData={setAlertData}
-        warehousemansData={warehousemansData}
+        warehousemen={JSON.parse(warehousemansJSON)}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
 
-export default Warehouse;
+export default Warehouses;

@@ -14,7 +14,7 @@ const CheckpointWindow:
     const {
       checkpointID, status, currentUserRole, checkpoints, setCheckpoints, setAlertData,
     } = props;
-    const [isActiveModal, setActiveModal] = React.useState(false);
+    const [isActiveModal, setActiveModal] = React.useState<boolean>(false);
 
     const handleClose = () => setActiveModal(false);
 
@@ -22,14 +22,12 @@ const CheckpointWindow:
       if (status) {
         httpClient.checkpoints.update({ id: checkpointID, pass_date: null, is_passed: false })
           .then((response) => {
-            const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+            const objIndex = checkpoints.findIndex(
+              (checkpoint) => checkpoint.id === checkpointID,
+            );
             checkpoints[objIndex] = response.data;
             setCheckpoints(checkpoints);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Successfully rollback checkpoint!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Successfully rollback checkpoint!', open: true });
           });
       } else setActiveModal(true);
     };
@@ -38,14 +36,12 @@ const CheckpointWindow:
       Object.assign(values, { id: checkpointID, is_passed: true });
       httpClient.checkpoints.update(values)
         .then((response) => {
-          const objIndex = checkpoints.findIndex((checkpoint: any) => checkpoint.id === checkpointID);
+          const objIndex = checkpoints.findIndex(
+            (checkpoint) => checkpoint.id === checkpointID,
+          );
           checkpoints[objIndex] = response.data;
           setCheckpoints(checkpoints);
-          setAlertData({
-            alertType: 'success',
-            alertText: 'Successfully passed checkpoint!',
-            open: true,
-          });
+          setAlertData({ alertType: 'success', alertText: 'Successfully passed checkpoint!', open: true });
         });
     };
 

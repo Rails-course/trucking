@@ -15,9 +15,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     currentUserRole, setCreateWaybillData, searchData,
   } = props;
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [dense, setDense] = React.useState(false);
+  const [page, setPage] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [dense, setDense] = React.useState<boolean>(false);
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
@@ -27,8 +27,8 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setGoods(consignment.goods);
   };
 
-  const openWaybillCreateModal = (consID) => {
-    const consignment = consignments.find((consignment) => consID === consignment.id);
+  const openWaybillCreateModal = (consID: number) => {
+    const consignment = consignments.find((cons) => cons.id === consID);
     const truckNumber = consignment.truck.truck_number;
     const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`;
     setConsID(consID);

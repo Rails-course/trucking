@@ -7,9 +7,9 @@ import {
 
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
-import { UserData, Order } from '../../../mixins/initialValues/userList';
+import { Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
-import { EnhancedTableProps } from '../../../common/interfaces_types';
+import { EnhancedTableProps, User } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
@@ -18,11 +18,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof UserData>('login');
+  const [orderBy, setOrderBy] = React.useState<keyof User>('login');
   const [selectedUsersIds, setSelectedUsersIds] = React.useState<number[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState<number>(0);
+  const [dense, setDense] = React.useState<boolean>(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
 
@@ -34,7 +34,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof UserData,
+    property: keyof User,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -52,7 +52,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleToggle = (userID: number) => {
     if (selectedUsersIds.indexOf(userID) === -1) {
-      setSelectedUsersIds([...selectedUsersIds, userID]);
+      const newSelectedUsersIds: number[] = [...selectedUsersIds, userID];
+      setSelectedUsersIds(newSelectedUsersIds);
     } else {
       setSelectedUsersIds(selectedUsersIds.filter((item) => item !== userID));
     }
@@ -80,7 +81,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           users={UsersData}
           setUser={setUser}
           selectedUsersIds={selectedUsersIds}
-          setSelectedUsersIds={selectedUsersIds}
+          setSelectedUsersIds={setSelectedUsersIds}
         />
         <TableContainer>
           <Table
@@ -94,10 +95,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={UsersData.length}
+              rowCount={users.length}
             />
             <TableBody>
-              {stableSort(UsersData, getComparator(order, orderBy))
+              {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
                   const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
@@ -132,7 +133,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         </Button>
                       </StyledTableCell>
                       <StyledTableCell align="left">{user.login}</StyledTableCell>
-                      <StyledTableCell align="left">{user.role?.role_name}</StyledTableCell>
+                      <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
                     </TableRow>
                   );
                 })}

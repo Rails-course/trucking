@@ -6,30 +6,33 @@ import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import { ConsignmentProps, Item } from '../common/interfaces_types';
+import {
+  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods,
+} from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import Search from './Search';
 
-const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
+const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const {
     currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
     goodsOwnersJSON,
   } = props;
 
   // MODAL states
-  const [isActiveModal, setModalActive] = React.useState(false);
-  const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
-  const [isActiveWayBill, setWayBillActive] = React.useState(false);
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
+  const [isActiveGoodsModal, setModalGoodsActive] = React.useState<boolean>(false);
+  const [isActiveWayBill, setWayBillActive] = React.useState<boolean>(false);
   // Form Errors states
-  const [formErrors, setFormErrors] = React.useState([]);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
   // Alert and Search states
-  const [alertData, setAlertData] = React.useState<object>({ open: false });
-  const [searchData, setSearchData] = React.useState();
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
-  const [consignments, setConsignment] = React.useState(
+  const [consignments, setConsignment] = React.useState<Consignment[]>(
     JSON.parse(consignmentsJSON)
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
@@ -41,10 +44,10 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
  
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
-  const [consId, setConsID] = React.useState(null);
-  const [createWaybillData, setCreateWaybillData] = React.useState(null);
-  const [titleStatus, setTitleStatus] = React.useState(null);
-  const [newGoods, setNewGood] = React.useState([{
+  const [consId, setConsID] = React.useState<number>(null);
+  const [createWaybillData, setCreateWaybillData] = React.useState<CreateWaybillData>(null);
+  const [titleStatus, setTitleStatus] = React.useState<string>(null);
+  const [newGoods, setNewGood] = React.useState<NewGoods[]>([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
 
@@ -97,11 +100,7 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Goods status changed!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
           });
       case 'Delivered':
@@ -112,15 +111,12 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             consignments[objIndex] = response.data;
             setConsignment(consignments);
             setModalActive(false);
-            setAlertData({
-              alertType: 'info',
-              alertText: 'Goods status changed!',
-              open: true,
-            });
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
           });
       default:
         setTitleStatus('');
+        return setTitleStatus('');
     }
   };
 
@@ -155,8 +151,8 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               setModalGoodsActive={setModalGoodsActive}
               setConsID={setConsID}
               setGoods={setGoods}
-              setWayBillActive={setWayBillActive}
               formErrors={formErrors}
+              setWayBillActive={setWayBillActive}
               setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
               searchData={searchData}
@@ -204,4 +200,4 @@ const Consignment: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   );
 };
 
-export default Consignment;
+export default Consignments;
