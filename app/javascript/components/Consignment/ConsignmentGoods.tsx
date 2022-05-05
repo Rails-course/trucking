@@ -36,14 +36,18 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
         return setTitleStatus('');
     }
   };
-  const accessValidation = (status:string) => {
-    if (status.includes('checked')) {
-      return waybillStatus !== 'delivered to the recipient';
-    } if (status.includes('accepted')) {
-      return currentUserRole === 'driver';
+
+  const accessRestricted = (status: string) => {
+    switch (status) {
+      case 'accepted':
+        return currentUserRole === 'driver';
+      case 'checked':
+        return waybillStatus !== 'delivered to the recipient';
+      default:
+        return false;
     }
-    return false;
   };
+
   return (
     <div>
       <Dialog
@@ -88,7 +92,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                   <ListItemButton
                                     role={undefined}
                                     onClick={handleToggle(item)}
-                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status) || accessValidation(item.status)}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status) || accessRestricted(item.status)}
                                     dense
                                   >
                                     <Checkbox

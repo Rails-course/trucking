@@ -28,7 +28,7 @@ class GoodsController < ApplicationController
   def status_validation(status)
     if status == 'checked'
       return true unless current_user.role == 'driver'
-    elsif @consignment.find_waybill.status == 'delivered to the recipient'
+    elsif @consignment.waybill.status == 'delivered to the recipient'
       true
     end
   end
