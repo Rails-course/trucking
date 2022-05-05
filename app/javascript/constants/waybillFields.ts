@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { AlignType } from '../common/interfaces_types';
 
 export const waybillLeftFields = [
   {
@@ -88,8 +89,6 @@ export const waybillBottomFields = [
     type: 'date',
   },
 ];
-
-export declare type AlignType = 'left' | 'center' | 'right';
 
 export const waybillTableCell = [
   {

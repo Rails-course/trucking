@@ -114,6 +114,13 @@ export type Warehouse = {
     warehouseman: User;
 }
 
+export declare type AlignType = 'left' | 'center' | 'right';
+
+export type SearchData = {
+    consignment: Consignment[];
+    users: User[];
+}
+
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -129,7 +136,7 @@ export interface CreateConsignmentFormProps {
 
 export interface WriteOffActTableProps {
     writeOffActs: WriteOffAct[],
-    searchData: string[];
+    searchData: SearchData[];
 }
 
 export interface CreateWriteOffActFormProps {
@@ -158,7 +165,7 @@ export interface CreateWaybillsFormProps {
 export interface WarehouseTableProps {
     warehouses: Warehouse[];
     currentUserRole: string;
-    searchData: string[];
+    searchData: SearchData[];
     setWarehouses: (warehouses: Warehouse[]) => void;
     setAlertData: (alert: Alert) => void;
 }
@@ -175,7 +182,7 @@ export interface CreateWarehouseFormProps {
 
 export interface EnhancedTableProps {
     users: User[];
-    searchData: string[];
+    searchData: SearchData[];
     setUser: (user: (prev) => User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
@@ -255,7 +262,7 @@ export interface ConsignmentTableProps {
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
-    searchData: string[];
+    searchData: Consignment[];
     setModalGoodsActive: (modalGoodsActive: boolean) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     setGoods: (goods: Item[]) => void;
@@ -274,7 +281,7 @@ export interface CreateCompanyFormProps {
 
 export interface CompanyTableProps {
     companies: Company[];
-    searchData: string[];
+    searchData: SearchData[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
     suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
@@ -282,7 +289,7 @@ export interface CompanyTableProps {
 
 export interface WaybillTableProps {
     waybills: Waybill[];
-    searchData: string[];
+    searchData: SearchData[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
     setWaybillModalActive: (activeWaybillModal: boolean) => void;
     setWaybillID: (wayID: number) => void;
@@ -299,7 +306,7 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData: (search: string[]) => void;
+    setData: (search: SearchData[]) => void;
     Data: any;
     keyField: string;
 }

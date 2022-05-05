@@ -7,7 +7,7 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import {
-  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods,
+  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods, SearchData,
 } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
@@ -29,7 +29,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   // Alert and Search states
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
 
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [searchData, setSearchData] = React.useState<Consignment[]>();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState<Consignment[]>(
@@ -41,7 +41,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
   const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
- 
+
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState<number>(null);
