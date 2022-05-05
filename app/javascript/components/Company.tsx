@@ -23,11 +23,12 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
     setFormErrors(null);
   };
 
-  const suspendCompany = (id, alertText) => {
+  const changeCompanyStatus = (id: number, alertText: string) => {
     httpClient.companies.updateStatus(id).then((response) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
+      if (searchData) setSearchData([response.data]);
       setAlertData({
         alertType: 'info',
         alertText: `Company successfully ${alertText}`,
@@ -67,7 +68,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
               setCompany={setCompany}
               setAlertData={setAlertData}
               searchData={searchData}
-              suspendCompany={suspendCompany}
+              changeCompanyStatus={changeCompanyStatus}
             />
           </Grid>
         </Grid>

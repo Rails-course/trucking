@@ -41,7 +41,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
   const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
- 
+
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState<number>(null);
@@ -100,6 +100,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
+            if (searchData) setSearchData([response.data]);
             setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
           });
@@ -110,6 +111,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
+            if (searchData) setSearchData([response.data]);
             setModalActive(false);
             setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
             handleClose();
@@ -189,6 +191,8 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         createWaybillData={createWaybillData}
         handleClose={handleClose}
         warehouses={warehouses}
+        searchData={searchData}
+        setSearchData={setSearchData}
         formWaybillErrors={formErrors}
         consignments={consignments}
         setConsignment={setConsignment}

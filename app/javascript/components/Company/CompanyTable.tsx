@@ -10,7 +10,7 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlertData, searchData, suspendCompany,
+    companies, setCompany, setAlertData, searchData, changeCompanyStatus,
   } = props;
 
   const deleteCompany = (id) => {
@@ -19,7 +19,9 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
     });
     setAlertData({ alertType: 'success', alertText: 'Company successfully deleted!', open: true });
   };
+
   const companiesData = searchData || companies;
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -45,7 +47,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                       variant="outlined"
                       color="warning"
                       onClick={() => (company.is_suspended
-                        ? suspendCompany(company.id, 'resumed') : suspendCompany(company.id, 'suspended'))}
+                        ? changeCompanyStatus(company.id, 'resumed') : changeCompanyStatus(company.id, 'suspended'))}
                       style={{ marginRight: '10px' }}
                     >
                       {company.is_suspended ? 'resume' : 'suspend'}

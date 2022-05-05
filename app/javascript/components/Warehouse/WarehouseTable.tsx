@@ -14,13 +14,15 @@ import { StyledTableCell } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, currentUserRole, searchData,
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
   } = props;
 
-  const setWarehouseTrusted = async (warehouse: Warehouse) => {
-    warehouses.splice(warehouses.indexOf(warehouse), 1);
-    await httpClient.warehouses.trust(warehouse.id).then((response) => {
-      setWarehouses([...warehouses, response.data]);
+  const setWarehouseTrusted = (warehouse: Warehouse) => {
+    httpClient.warehouses.trust(warehouse.id).then((response) => {
+      const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
+      warehouses[objIndex] = response.data;
+      setWarehouses(warehouses);
+      if (searchData) setSearchData([response.data]);
       setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
     });
   };
