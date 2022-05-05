@@ -74,6 +74,9 @@ ActiveRecord::Schema.define(version: 2022_04_29_084253) do
     t.index ["goods_owner_name"], name: "index_goods_owners_on_goods_owner_name", unique: true
   end
 
+  create_table "logs", force: :cascade do |t|
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "role_name", null: false
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true

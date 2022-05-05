@@ -249,6 +249,7 @@ export interface ConsignmentGoodsProps {
     setTitleStatus: (titleStatus: string) => void;
     setSelectedGoods: (selectedGoods: Item[]) => void;
     handleGoodsSubmit: () => void;
+    waybillStatus:string
 }
 
 export interface ConsignmentTableProps {
@@ -261,6 +262,7 @@ export interface ConsignmentTableProps {
     setGoods: (goods: Item[]) => void;
     setConsID: (consID: number) => void;
     setCreateWaybillData: (createWaybillData: CreateWaybillData) => void;
+    setWaybillStatus:(status:string) => void
 }
 
 export interface CreateCompanyFormProps {
