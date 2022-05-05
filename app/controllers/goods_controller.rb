@@ -19,7 +19,7 @@ class GoodsController < ApplicationController
       end
       render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
     else
-      render json: 'record not pass validation', status: :unprocessable_entity
+      render json: "record don't pass validation", status: :unprocessable_entity
     end
   end
 
