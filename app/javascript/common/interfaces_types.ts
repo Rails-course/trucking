@@ -235,7 +235,7 @@ export interface CheckpointsFormProps {
 export interface CreateCheckpointsFormProps {
     isActiveModal: boolean;
     checkpointsHandleClose: () => void;
-    handleSubmitCheckpoints:() => void;
+    handleSubmitCheckpoints:(values:Checkpoint) => void;
     editCheckpoint:Checkpoint
 }
 export interface checkpointsTableFormProps{
