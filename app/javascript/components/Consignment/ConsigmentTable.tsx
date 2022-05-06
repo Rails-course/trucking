@@ -12,7 +12,7 @@ import { Consignment, ConsignmentTableProps } from '../../common/interfaces_type
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    currentUserRole, setCreateWaybillData, searchData,
+    currentUserRole, setCreateWaybillData, searchData, setWaybillStatus,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
@@ -25,6 +25,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setModalGoodsActive(true);
     setConsID(consignment.id);
     setGoods(consignment.goods);
+    if (consignment.waybill) {
+      setWaybillStatus(consignment.waybill.status);
+    }
   };
 
   const openWaybillCreateModal = (consID: number) => {

@@ -8,19 +8,30 @@ class GoodsController < ApplicationController
     authorize! :update, Consignment
 
     @goods = @consignment.goods.where(id: params[:selectedGoodsIds])
-    Good.transaction do
-      @goods.each { |item| item.update!(status: params[:status]) }
-      if params[:status] == 'checked'
-        @consignment.update!(status: params[:status], manager: current_user)
-      else
-        @consignment.update!(status: params[:status])
+    if status_validation(params[:status])
+      Good.transaction do
+        @goods.each { |item| item.update!(status: params[:status]) }
+        if params[:status] == 'checked'
+          @consignment.update!(status: params[:status], manager: current_user)
+        else
+          @consignment.update!(status: params[:status])
+        end
       end
+      render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
+    else
+      render json: "record don't pass validation", status: :unprocessable_entity
     end
-
-    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
   private
+
+  def status_validation(status)
+    if status == 'checked'
+      return true unless current_user.role == 'driver'
+    elsif @consignment.waybill.status == 'delivered to the recipient'
+      true
+    end
+  end
 
   def set_consignment
     @consignment = Consignment.find(params[:consignment_id])
