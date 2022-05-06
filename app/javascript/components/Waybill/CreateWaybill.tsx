@@ -45,7 +45,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
   const closeCreateCheckpoints = () => setCreateCheckpoints(false);
   const handleSubmitCheckpoints = (values) => { setCheckpoints([...checkpoints, values]); };
-  const handleEditSubmit = (values) => {
+  const handleEditCheckpoint = (values) => {
     checkpoints.find((checkpoint) => checkpoint.id === editCheckpoint.id).city_name = values.city_name;
     setEditCheckpoint(null);
     setCheckpoints(checkpoints);
@@ -226,7 +226,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
             <CreateCheckpoint
               isActiveModal={isCreateCheckpoints}
               checkpointsHandleClose={closeCreateCheckpoints}
-              handleSubmitCheckpoints={editCheckpoint ? handleEditSubmit : handleSubmitCheckpoints}
+              handleSubmitCheckpoints={editCheckpoint ? handleEditCheckpoint : handleSubmitCheckpoints}
               editCheckpoint={editCheckpoint}
             />
           </Grid>
