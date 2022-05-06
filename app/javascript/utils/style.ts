@@ -10,7 +10,6 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     textAlign: 'center',
   },
   [`&.${tableCellClasses.body}`]: { fontSize: 17 },
-  width: '0%',
 }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({

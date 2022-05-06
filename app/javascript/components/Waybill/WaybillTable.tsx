@@ -96,7 +96,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
               {!waybills
                 ? (
                   <TableRow>
-                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
                 : stableSort(waybillsData, getComparator(order, orderBy))

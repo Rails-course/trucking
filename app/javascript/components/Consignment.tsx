@@ -7,7 +7,7 @@ import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
 import {
-  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods, SearchData,
+  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods,
 } from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';

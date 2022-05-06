@@ -90,7 +90,7 @@ export type Consignment = {
     id: number;
     status: string;
     bundle_seria: string;
-    bundle_number: string;
+    bundle_number: number;
     consignment_seria: string;
     consignment_number: string;
     dispatcher: { first_name: string, second_name: string, middle_name: string };
@@ -140,7 +140,7 @@ export interface CreateConsignmentFormProps {
 
 export interface WriteOffActTableProps {
     writeOffActs: WriteOffAct[],
-    searchData: SearchData[];
+    searchData: string[] | number[];
 }
 
 export interface CreateWriteOffActFormProps {
@@ -288,7 +288,7 @@ export interface CompanyTableProps {
     searchData: string[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
-    suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
+    suspendCompany: (id: number, alert: string) => void;
 }
 
 export interface WaybillTableProps {

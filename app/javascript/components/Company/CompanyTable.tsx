@@ -34,7 +34,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
             {!companies
               ? (
                 <TableRow>
-                  <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                  <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                 </TableRow>
               )
               : companiesData.map((company) => (

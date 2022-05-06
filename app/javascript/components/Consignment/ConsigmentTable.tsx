@@ -109,7 +109,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               {!consignmentsData
                 ? (
                   <TableRow>
-                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
                 : stableSort(consignmentsData, getComparator(order, orderBy))
