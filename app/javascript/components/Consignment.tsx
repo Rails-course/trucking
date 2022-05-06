@@ -41,7 +41,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
   const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
- 
+  const [waybillStatus, setWaybillStatus] = React.useState<string>(null);
   const [goods, setGoods] = React.useState([]);
   const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
   const [consId, setConsID] = React.useState<number>(null);
@@ -156,6 +156,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
               setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
               searchData={searchData}
+              setWaybillStatus={setWaybillStatus}
             />
           </Grid>
         </Grid>
@@ -181,6 +182,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         currentUserRole={currentUserRole}
         titleStatus={titleStatus}
         setTitleStatus={setTitleStatus}
+        waybillStatus={waybillStatus}
       />
       <CreateWaybill
         id={consId}
