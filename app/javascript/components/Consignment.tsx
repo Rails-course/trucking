@@ -29,7 +29,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   // Alert and Search states
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
 
-  const [searchData, setSearchData] = React.useState<Consignment[]>();
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const consignmentsOrder = ['registered', 'checked', 'delivered'];
   const [consignments, setConsignment] = React.useState<Consignment[]>(

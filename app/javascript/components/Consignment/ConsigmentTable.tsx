@@ -4,12 +4,12 @@ import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
   TablePagination, FormControlLabel, Switch, Box, CircularProgress, TableSortLabel,
 } from '@mui/material';
-
 import { visuallyHidden } from '@mui/utils';
+
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
-import { getComparator, stableConsSort } from '../../utils/stableSort';
+import { getComparator, stableSort } from '../../utils/stableSort';
 import { Order } from '../../mixins/initialValues/userList';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
@@ -62,14 +62,19 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     handleRequestSort(event, property);
   };
 
-  const consignmentsData = searchData || consignments;
+  let consignmentsData: any[];
+
+  if (searchData) consignmentsData = searchData;
+  else consignmentsData = consignments;
+
+  // const consignmentsData = searchData || consignments;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table
-            sx={{ minWidth: 700 }}
+            sx={{ minWidth: '700px', tableLayout: 'fixed', width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -101,43 +106,49 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {stableConsSort(consignmentsData, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((consignment) => {
-                  const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
-                  const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
-                  let waybillStatus = null;
-                  if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
-                  return (
-                    <StyledTableRow key={consignment.id} tabIndex={-1}>
-                      <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
-                      <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
-                      <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
-                      <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
-                      <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
-                      <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
-                      <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
-                      <StyledTableCell align="center">
-                        <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
-                          Goods
-                        </Button>
-                      </StyledTableCell>
-                      {currentUserRole === 'manager'
-                        ? (
-                          <StyledTableCell align="center">
-                            <Button
-                              variant="outlined"
-                              disabled={!(consignment.status === 'checked' && !waybillStatus)}
-                              onClick={() => openWaybillCreateModal(+consignment.id)}
-                            >
-                              Create Waybill
-                            </Button>
-                          </StyledTableCell>
-                        )
-                        : null}
-                    </StyledTableRow>
-                  );
-                })}
+              {!consignmentsData
+                ? (
+                  <TableRow>
+                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                  </TableRow>
+                )
+                : stableSort(consignmentsData, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((consignment) => {
+                    const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
+                    const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
+                    let waybillStatus = null;
+                    if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
+                    return (
+                      <StyledTableRow key={consignment.id} tabIndex={-1}>
+                        <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.consignment_number}</StyledTableCell>
+                        <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
+                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
+                            Goods
+                          </Button>
+                        </StyledTableCell>
+                        {currentUserRole === 'manager'
+                          ? (
+                            <StyledTableCell align="center">
+                              <Button
+                                variant="outlined"
+                                disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                                onClick={() => openWaybillCreateModal(+consignment.id)}
+                              >
+                                Create Waybill
+                              </Button>
+                            </StyledTableCell>
+                          )
+                          : null}
+                      </StyledTableRow>
+                    );
+                  })}
               {emptyRows > 0 && (
                 <StyledTableRow
                   style={{

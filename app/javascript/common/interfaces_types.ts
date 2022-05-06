@@ -82,7 +82,8 @@ export type Waybill = {
     status: string;
     waybill_seria: string;
     waybill_number: number;
-    startpoint: string, endpoint: string;
+    startpoint: {town: string, street: string, building: string};
+    endpoint: {town: string, street: string, building: string};
 }
 
 export type Consignment = {
@@ -117,8 +118,11 @@ export type Warehouse = {
 export declare type AlignType = 'left' | 'center' | 'right';
 
 export type SearchData = {
+    search: string;
     consignment: Consignment[];
     users: User[];
+    waybills: Waybill[];
+    company: Company[];
 }
 
 // INTERFACES
@@ -182,7 +186,7 @@ export interface CreateWarehouseFormProps {
 
 export interface EnhancedTableProps {
     users: User[];
-    searchData: SearchData[];
+    searchData: string[];
     setUser: (user: (prev) => User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
@@ -262,7 +266,7 @@ export interface ConsignmentTableProps {
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
-    searchData: Consignment[];
+    searchData: string[];
     setModalGoodsActive: (modalGoodsActive: boolean) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     setGoods: (goods: Item[]) => void;
@@ -281,7 +285,7 @@ export interface CreateCompanyFormProps {
 
 export interface CompanyTableProps {
     companies: Company[];
-    searchData: SearchData[];
+    searchData: string[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
     suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
@@ -289,7 +293,7 @@ export interface CompanyTableProps {
 
 export interface WaybillTableProps {
     waybills: Waybill[];
-    searchData: SearchData[];
+    searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
     setWaybillModalActive: (activeWaybillModal: boolean) => void;
     setWaybillID: (wayID: number) => void;
@@ -306,7 +310,7 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData: (search: SearchData[]) => void;
+    setData: (search: string[]) => void;
     Data: any;
     keyField: string;
 }

@@ -92,27 +92,27 @@ export const waybillBottomFields = [
 
 export const waybillTableCell = [
   {
-    id: uuidv4(),
+    id: 'waybill_seria',
     title: 'Waybill series',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'waybill_number',
     title: 'Waybill number',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'status',
     title: 'Status',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'startpoint',
     title: 'Start point',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'endpoint',
     title: 'End point',
     align: 'center' as AlignType,
   },

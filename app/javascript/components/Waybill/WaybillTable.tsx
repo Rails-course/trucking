@@ -2,12 +2,15 @@ import * as React from 'react';
 
 import {
   TableContainer, Paper, Table, TableHead, TableRow, TableBody, Button, TablePagination,
-  FormControlLabel, Switch, Box, CircularProgress,
+  FormControlLabel, Switch, Box, CircularProgress, TableSortLabel,
 } from '@mui/material';
 
+import { visuallyHidden } from '@mui/utils';
 import { waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import { WaybillTableProps } from '../../common/interfaces_types';
+import { Waybill, WaybillTableProps } from '../../common/interfaces_types';
+import { getComparator, stableSort } from '../../utils/stableSort';
+import { Order } from '../../mixins/initialValues/userList';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
@@ -17,6 +20,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const [page, setPage] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [dense, setDense] = React.useState<boolean>(false);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof Waybill>('waybill_seria');
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - waybills.length) : 0;
 
@@ -37,21 +42,53 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
     setCheckpoints(waybill.checkpoints);
   };
 
-  const waybillsData = searchData || waybills;
+  const handleRequestSort = (event, property: keyof Waybill) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
+    handleRequestSort(event, property);
+  };
+
+  let waybillsData = [];
+
+  if (searchData) waybillsData = searchData;
+  else waybillsData = waybills;
+
+  // const waybillsData = searchData || waybills;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table
-            sx={{ minWidth: 700 }}
+            sx={{ minWidth: '700px', tableLayout: 'fixed', width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
             <TableHead>
               <TableRow>
                 {waybillTableCell.map((cell) => (
-                  <StyledTableCell key={cell.id} align={cell.align}>{cell.title}</StyledTableCell>
+                  <StyledTableCell
+                    key={cell.id}
+                    align={cell.align}
+                    sortDirection={orderBy === cell.id ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === cell.id}
+                      direction={orderBy === cell.id ? order : 'asc'}
+                      onClick={createSortHandler(cell.id)}
+                    >
+                      {cell.title}
+                      {orderBy === cell.id ? (
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        </Box>
+                      ) : null}
+                    </TableSortLabel>
+                  </StyledTableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -62,7 +99,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                     <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
                   </TableRow>
                 )
-                : waybillsData
+                : stableSort(waybillsData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((waybill) => {
                     const startpointAddress = `${waybill.startpoint.town} ${waybill.startpoint.street} ${waybill.startpoint.building}`;

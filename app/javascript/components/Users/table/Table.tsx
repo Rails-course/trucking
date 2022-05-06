@@ -69,7 +69,12 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setUpdateModalActive(true);
   };
 
-  const UsersData = searchData || users;
+  let usersData: any[];
+
+  if (searchData) usersData = searchData;
+  else usersData = users;
+
+  // const UsersData = searchData || users;
 
   if (!users) { return (<p>Loading...</p>); }
 
@@ -78,14 +83,14 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selectedUsersIds.length}
-          users={UsersData}
+          users={usersData}
           setUser={setUser}
           selectedUsersIds={selectedUsersIds}
           setSelectedUsersIds={setSelectedUsersIds}
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ tableLayout: 'fixed', width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -95,10 +100,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={users.length}
+              rowCount={usersData.length}
             />
             <TableBody>
-              {stableSort(users, getComparator(order, orderBy))
+              {stableSort(usersData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user, index) => {
                   const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
