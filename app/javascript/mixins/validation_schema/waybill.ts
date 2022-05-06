@@ -39,7 +39,7 @@ const waybillValidation = Yup.object().shape({
     .min(3, 'Must be of length 3 to 255')
     .required('Required'),
   waybill_number: Yup.number()
-    .positive()
+    .positive('must be positive ')
     .required('Required'),
 });
 
