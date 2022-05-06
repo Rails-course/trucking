@@ -46,10 +46,9 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const closeCreateCheckpoints = () => setCreateCheckpoints(false);
   const handleSubmitCheckpoints = (values) => { setCheckpoints([...checkpoints, values]); };
   const handleEditSubmit = (values) => {
-    const newCheckpoints = checkpoints;
-    newCheckpoints.find((checkpoint) => checkpoint.id === editCheckpoint.id).city_name = values.city_name;
+    checkpoints.find((checkpoint) => checkpoint.id === editCheckpoint.id).city_name = values.city_name;
     setEditCheckpoint(null);
-    setCheckpoints(newCheckpoints);
+    setCheckpoints(checkpoints);
   };
   return (
     <div>
