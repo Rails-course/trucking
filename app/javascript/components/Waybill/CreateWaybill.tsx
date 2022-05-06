@@ -26,7 +26,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   const [isCreateCheckpoints, setCreateCheckpoints] = React.useState<boolean>(false);
   const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
-
+  const [editCheckpoint, setEditCheckpoint] = React.useState<Checkpoint>(null);
   const handleSubmit = (values) => {
     const cityNames = checkpoints.map((name) => name.city_name);
     httpClient.waybill.create(values, cityNames, id)
@@ -44,7 +44,13 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
   };
 
   const closeCreateCheckpoints = () => setCreateCheckpoints(false);
-
+  const handleSubmitCheckpoints = (values) => { setCheckpoints([...checkpoints, values]); };
+  const handleEditSubmit = (values) => {
+    const newCheckpoints = checkpoints;
+    newCheckpoints.find((checkpoint) => checkpoint.id === editCheckpoint.id).city_name = values.city_name;
+    setEditCheckpoint(null);
+    setCheckpoints(newCheckpoints);
+  };
   return (
     <div>
       <Dialog
@@ -193,7 +199,14 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                       />
 
                       {checkpoints.length !== 0
-                        ? <CheckpointTable checkpoints={checkpoints} /> : null}
+                        ? (
+                          <CheckpointTable
+                            checkpoints={checkpoints}
+                            setCheckpoints={setCheckpoints}
+                            setEditCheckpoint={setEditCheckpoint}
+                            setCreateCheckpoints={setCreateCheckpoints}
+                          />
+                        ) : null}
 
                     </Container>
 
@@ -214,8 +227,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
             <CreateCheckpoint
               isActiveModal={isCreateCheckpoints}
               checkpointsHandleClose={closeCreateCheckpoints}
-              setCheckpoints={setCheckpoints}
-              checkpoints={checkpoints}
+              handleSubmitCheckpoints={editCheckpoint ? handleEditSubmit : handleSubmitCheckpoints}
+              editCheckpoint={editCheckpoint}
             />
           </Grid>
         </DialogContent>

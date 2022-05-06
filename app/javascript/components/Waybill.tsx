@@ -37,7 +37,6 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
         setAlertData({ alertType: 'error', alertText: "Couldn't complete the trip!", open: true });
       });
   };
-
   return (
     <div className="wrapper">
       <Box sx={{

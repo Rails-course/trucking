@@ -235,10 +235,15 @@ export interface CheckpointsFormProps {
 export interface CreateCheckpointsFormProps {
     isActiveModal: boolean;
     checkpointsHandleClose: () => void;
+    handleSubmitCheckpoints:any;
+    editCheckpoint:Checkpoint
+}
+export interface checkpointsTableFormProps{
     checkpoints: Checkpoint[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
+    setEditCheckpoint:(checkpoints: Checkpoint) => void;
+    setCreateCheckpoints:(setCreateCheckpoints:boolean)=>void
 }
-
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
     goods: Item[];
