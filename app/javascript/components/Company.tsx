@@ -39,7 +39,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid

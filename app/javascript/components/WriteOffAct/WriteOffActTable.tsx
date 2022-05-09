@@ -8,7 +8,7 @@ import {
 import { visuallyHidden } from '@mui/utils';
 import { WriteOffAct, WriteOffActTableProps } from '../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import { writeOffActTableCell } from '../../constants/writeOffActFields';
+import { writeOffActSortTableCell, writeOffActTableCell } from '../../constants/writeOffActFields';
 import { Order } from '../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../utils/stableSort';
 
@@ -62,7 +62,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
           >
             <TableHead>
               <TableRow>
-                {writeOffActTableCell.map((cell) => (
+                {writeOffActSortTableCell.map((cell) => (
                   <StyledTableCell
                     key={cell.id}
                     align="center"
@@ -82,6 +82,9 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                     </TableSortLabel>
                   </StyledTableCell>
                 ))}
+                {writeOffActTableCell.map((cell) => (
+                  <StyledTableCell key={cell.id} align="center">{cell.title}</StyledTableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,9 +100,9 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                     <StyledTableRow key={writeOffAct.id}>
                       <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>
                       <StyledTableCell align="center">{writeOffAct.lost_quantity}</StyledTableCell>
+                      <StyledTableCell align="center">{writeOffAct.description}</StyledTableCell>
                       <StyledTableCell align="center">{writeOffAct.consignment.bundle_seria}</StyledTableCell>
                       <StyledTableCell align="center">{writeOffAct.consignment.bundle_number}</StyledTableCell>
-                      <StyledTableCell align="center">{writeOffAct.description}</StyledTableCell>
                     </StyledTableRow>
                   ))}
               {emptyRows > 0 && (

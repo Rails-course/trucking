@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import { visuallyHidden } from '@mui/utils';
-import { waybillTableCell } from '../../constants/waybillFields';
+import { waybillSortTableCell, waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Waybill, WaybillTableProps } from '../../common/interfaces_types';
 import { getComparator, stableSort } from '../../utils/stableSort';
@@ -70,7 +70,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
           >
             <TableHead>
               <TableRow>
-                {waybillTableCell.map((cell) => (
+                {waybillSortTableCell.map((cell) => (
                   <StyledTableCell
                     key={cell.id}
                     align={cell.align}
@@ -89,6 +89,9 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                       ) : null}
                     </TableSortLabel>
                   </StyledTableCell>
+                ))}
+                {waybillTableCell.map((cell) => (
+                  <StyledTableCell key={cell.id} align={cell.align}>{cell.title}</StyledTableCell>
                 ))}
               </TableRow>
             </TableHead>

@@ -39,7 +39,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
     <div className="wrapper">
 
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', width: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid
@@ -48,12 +48,12 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="flex-end"
         >
-          <Grid item md={2} style={{ textAlign: 'left' }}>
+          <Grid item md={3} style={{ textAlign: 'left' }}>
             <Search setData={setSearchData} Data={writeOffActs} keyField="consignment" />
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
                 <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
                   Create Write-off Act
                 </Button>

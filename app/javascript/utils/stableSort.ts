@@ -16,9 +16,9 @@ export function getComparator<Key extends keyof any>(
   orderBy: Key,
 ): (
     // eslint-disable-next-line no-unused-vars
-    a: { [key in Key]: number | string },
+    a: { [key in Key]: any },
     // eslint-disable-next-line no-unused-vars
-    b: { [key in Key]: number | string },
+    b: { [key in Key]: any},
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)

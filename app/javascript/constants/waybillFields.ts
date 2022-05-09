@@ -90,7 +90,7 @@ export const waybillBottomFields = [
   },
 ];
 
-export const waybillTableCell = [
+export const waybillSortTableCell = [
   {
     id: 'waybill_seria',
     title: 'Waybill series',
@@ -106,6 +106,9 @@ export const waybillTableCell = [
     title: 'Status',
     align: 'center' as AlignType,
   },
+];
+
+export const waybillTableCell = [
   {
     id: 'startpoint',
     title: 'Start point',

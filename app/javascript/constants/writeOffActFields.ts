@@ -19,7 +19,7 @@ export const writeOffActFields = [
   },
 ];
 
-export const writeOffActTableCell = [
+export const writeOffActSortTableCell = [
   {
     id: 'good_name',
     title: 'Good name',
@@ -29,15 +29,18 @@ export const writeOffActTableCell = [
     title: 'Lost quantity',
   },
   {
-    id: 'bundle_seria',
+    id: 'description',
+    title: 'Description',
+  },
+];
+
+export const writeOffActTableCell = [
+  {
+    id: 'consignment',
     title: 'Bundle series',
   },
   {
-    id: 'bundle_number',
+    id: 'consignment',
     title: 'Bundle number',
-  },
-  {
-    id: 'description',
-    title: 'Description',
   },
 ];

@@ -169,7 +169,7 @@ export interface CreateWaybillsFormProps {
 export interface WarehouseTableProps {
     warehouses: Warehouse[];
     currentUserRole: string;
-    searchData: SearchData[];
+    searchData: string[];
     setWarehouses: (warehouses: Warehouse[]) => void;
     setAlertData: (alert: Alert) => void;
 }

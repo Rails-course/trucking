@@ -55,7 +55,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', width: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '73%',
       }}
       >
         <Grid
@@ -64,10 +64,10 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="flex-end"
         >
-          <Grid item md={2} style={{ textAlign: 'left' }}>
+          <Grid item md={3} style={{ textAlign: 'left' }}>
             <Search setData={setSearchData} Data={users} keyField="" />
           </Grid>
-          <Grid item xs={1.4} style={{ textAlign: 'right' }}>
+          <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setCreateModalActive(true)}>
               Create User
             </Button>

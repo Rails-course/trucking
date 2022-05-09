@@ -41,7 +41,7 @@ interface HeadCell {
   title: string;
 }
 
-export const consignmentTable: readonly HeadCell[] = [
+export const consignmentSortTable: readonly HeadCell[] = [
   {
     id: 'consignment_seria',
     title: 'Consignment series',
@@ -55,20 +55,23 @@ export const consignmentTable: readonly HeadCell[] = [
     title: 'Status',
   },
   {
-    id: 'dispatcher',
-    title: 'Dispatcher',
-  },
-  {
-    id: 'manager',
-    title: 'Inspector',
-  },
-  {
     id: 'bundle_seria',
     title: 'Bundle series',
   },
   {
     id: 'bundle_number',
     title: 'Bundle number',
+  },
+];
+
+export const consignmentTable: readonly HeadCell[] = [
+  {
+    id: 'dispatcher',
+    title: 'Dispatcher',
+  },
+  {
+    id: 'manager',
+    title: 'Inspector',
   },
   {
     id: uuidv4(),

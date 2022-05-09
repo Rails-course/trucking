@@ -6,11 +6,12 @@ import {
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
-import { consignmentTable } from '../../constants/consignmentFields';
+import { consignmentSortTable, consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
 import { getComparator, stableSort } from '../../utils/stableSort';
 import { Order } from '../../mixins/initialValues/userList';
+import { waybillTableCell } from '../../constants/waybillFields';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -80,7 +81,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
           >
             <TableHead>
               <TableRow>
-                {consignmentTable.map((cell) => (
+                {consignmentSortTable.map((cell) => (
                   <StyledTableCell
                     align="center"
                     key={cell.id}
@@ -99,6 +100,9 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                       ) : null}
                     </TableSortLabel>
                   </StyledTableCell>
+                ))}
+                {consignmentTable.map((cell) => (
+                  <StyledTableCell key={cell.id} align="center">{cell.title}</StyledTableCell>
                 ))}
                 {currentUserRole === 'manager'
                   ? <StyledTableCell align="center">Waybill</StyledTableCell>
@@ -124,10 +128,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                         <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.consignment_number}</StyledTableCell>
                         <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
-                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
                         <StyledTableCell align="center">
                           <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
                             Goods

@@ -24,7 +24,7 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid

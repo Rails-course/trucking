@@ -88,7 +88,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
         />
         <TableContainer>
           <Table
-            sx={{ tableLayout: 'fixed', width: '100%' }}
+            sx={{ width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
