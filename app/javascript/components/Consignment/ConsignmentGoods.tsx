@@ -16,7 +16,7 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
     isActiveModal, handleClose, handleGoodsSubmit, goods, selectedGoods, setTitleStatus,
-    setSelectedGoods, titleStatus, currentUserRole,
+    setSelectedGoods, titleStatus, currentUserRole, waybillStatus,
   } = props;
 
   const handleToggle = (value: Item) => () => {
@@ -34,6 +34,17 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
       default:
         setTitleStatus('');
         return setTitleStatus('');
+    }
+  };
+
+  const accessRestricted = (status: string) => {
+    switch (status) {
+      case 'accepted':
+        return currentUserRole === 'driver';
+      case 'checked':
+        return waybillStatus !== 'delivered to the recipient';
+      default:
+        return false;
     }
   };
 
@@ -81,7 +92,7 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                   <ListItemButton
                                     role={undefined}
                                     onClick={handleToggle(item)}
-                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status)}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status) || accessRestricted(item.status)}
                                     dense
                                   >
                                     <Checkbox
