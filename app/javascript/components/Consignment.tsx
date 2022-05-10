@@ -13,6 +13,7 @@ import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import Search from './Search';
+import {v4 as uuidv4} from "uuid";
 
 const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const {
@@ -48,10 +49,10 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const [createWaybillData, setCreateWaybillData] = React.useState<CreateWaybillData>(null);
   const [titleStatus, setTitleStatus] = React.useState<string>(null);
   const [newGoods, setNewGood] = React.useState<NewGoods[]>([{
-    good_name: '', unit_of_measurement: '', quantity: 0,
+    good_name: '', unit_of_measurement: '', quantity: 0,id:uuidv4()
   }]);
 
-  const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0 }]);
+  const handleFieldAdd = () => setNewGood([...newGoods, { good_name: '', unit_of_measurement: '', quantity: 0,id:uuidv4() }]);
 
   const handleFieldChange = (e, index) => {
     const { name, value } = e.target;
@@ -59,7 +60,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     list[index][name] = value;
     setNewGood(list);
   };
-
+  const handelDeleteGoods= (id:string)=>setNewGood(newGoods.filter((good)=>good.id!==id))
   const handleClose = () => {
     setModalActive(false);
     setModalGoodsActive(false);
@@ -173,6 +174,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
         formErrors={formErrors}
         trucks={trucks}
         drivers={drivers}
+        handelDeleteGoods={handelDeleteGoods}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
