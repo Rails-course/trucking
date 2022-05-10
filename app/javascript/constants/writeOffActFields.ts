@@ -36,11 +36,11 @@ export const writeOffActSortTableCell = [
 
 export const writeOffActTableCell = [
   {
-    id: 'consignment',
+    id: 'bundle_seria',
     title: 'Bundle series',
   },
   {
-    id: 'consignment',
+    id: 'bundle_number',
     title: 'Bundle number',
   },
 ];
