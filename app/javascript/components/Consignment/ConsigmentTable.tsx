@@ -7,7 +7,7 @@ import {
 
 import { consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
-import { ConsignmentTableProps } from '../../common/interfaces_types';
+import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -21,7 +21,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
-  const handleGetGoods = (consignment) => {
+  const handleGetGoods = (consignment: Consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
     setGoods(consignment.goods);
@@ -70,7 +70,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {!consignments
+              {!consignmentsData
                 ? (
                   <TableRow>
                     <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>

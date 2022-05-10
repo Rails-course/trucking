@@ -97,6 +97,7 @@ export type Consignment = {
     driver: { first_name: string, second_name: string, middle_name: string };
     truck: { truck_number: string };
     waybill: Waybill;
+    goods: Item[];
 }
 
 export type WriteOffAct = {
@@ -149,6 +150,8 @@ export interface CreateWaybillsFormProps {
     consignments: Consignment[];
     warehouses: Warehouse[];
     goodsOwners: GoodsOwners[];
+    searchData: string[];
+    setSearchData: (searchData: string[]) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     handleClose: () => void;
     setAlertData: (alert: Alert) => void;
@@ -161,6 +164,7 @@ export interface WarehouseTableProps {
     searchData: string[];
     setWarehouses: (warehouses: Warehouse[]) => void;
     setAlertData: (alert: Alert) => void;
+    setSearchData: (searchData: string[]) => void;
 }
 
 export interface CreateWarehouseFormProps {
@@ -279,7 +283,7 @@ export interface CompanyTableProps {
     searchData: string[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
-    suspendCompany: (id: number) => void, resumeCompany: (id: number) => void;
+    changeCompanyStatus: (id: number, alertText: string) => void;
 }
 
 export interface WaybillTableProps {
