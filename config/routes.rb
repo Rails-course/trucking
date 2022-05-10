@@ -51,13 +51,14 @@ Rails.application.routes.draw do
   # API
   namespace :api do
     # V1 API DEPRECATED
-    # namespace :v1 do
-    #   resources :consignments, only: %i[index show] do
-    #     resources :consignment_goods, only: :index
-    #   end
-    #   resources :drivers, only: [:index]
-    #   resources :trucks, only: [:index]
-    # end
+    # disable after demonstration
+    namespace :v1 do
+      resources :consignments, only: %i[index show] do
+        resources :consignment_goods, only: :index
+      end
+      resources :drivers, only: [:index]
+      resources :trucks, only: [:index]
+    end
     namespace :v2 do
       resources :consignments, only: %i[index show]
     end

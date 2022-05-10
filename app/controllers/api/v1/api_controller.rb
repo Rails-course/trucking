@@ -11,8 +11,8 @@ module Api
 
       def deprecate_api
         response.set_header('Deprecated', 'true')
-        response.set_header('Sunset', '2022-04-24')
-        response.set_header('New API link', '<https://trucking-logistics.herokuapp.com/api/v2/consignments>')
+        response.set_header('Sunset', '2022-05-13')
+        response.set_header('Link', '<https://trucking-logistics.herokuapp.com/api/v2/consignments>')
       end
 
       private
