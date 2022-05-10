@@ -38,9 +38,8 @@ const waybillValidation = Yup.object().shape({
   waybill_seria: Yup.string()
     .min(3, 'Must be of length 3 to 255')
     .required('Required'),
-  waybill_number: Yup.string()
-    .matches(REGX_ONLY_NUMBER, 'number must be numbers only')
-    .min(3, 'Must be of length 3 to 255')
+  waybill_number: Yup.number()
+    .positive('must be positive ')
     .required('Required'),
 });
 
