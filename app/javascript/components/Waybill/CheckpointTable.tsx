@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CreateIcon from '@mui/icons-material/Create';
 import { checkpointsTableFormProps } from '../../common/interfaces_types';
@@ -24,15 +24,22 @@ const checkpointsTable:
           <strong>Checkpoints</strong>
           {checkpoints.map((checkpoint) => (
             <div key={checkpoint.id} style={{ width: '100%', display: 'list-item', listStyleType: 'decimal' }}>
-              <p style={{ margin: '2px 0' }}>
-                {`${checkpoint.city_name} `}
-                <Button onClick={() => deleteCheckpoint(checkpoint.id)}>
-                  <DeleteOutlinedIcon />
-                </Button>
-                <Button onClick={() => EditCheckpoint(checkpoint)}>
-                  <CreateIcon />
-                </Button>
-              </p>
+              <Grid container spacing={2} sx={{ margin: '1px auto' }}>
+                <Grid item xs={8}>
+                  {`${checkpoint.city_name} `}
+                </Grid>
+                <Grid item xs={2} >
+                  <Button onClick={() => EditCheckpoint(checkpoint)}>
+                    <CreateIcon sx={{ fontSize: 22 }} />
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button onClick={() => deleteCheckpoint(checkpoint.id)}>
+                    <DeleteOutlinedIcon sx={{ fontSize: 22 }} />
+                  </Button>
+                </Grid>
+              </Grid>
+
             </div>
           ))}
         </div>
