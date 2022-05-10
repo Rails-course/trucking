@@ -9,9 +9,11 @@ const checkpointsTable:
       const {
         checkpoints, setCheckpoints, setEditCheckpoint, setCreateCheckpoints,
       } = props;
+
       const deleteCheckpoint = (id) => {
         setCheckpoints(checkpoints.filter((checkpoint) => id !== checkpoint.id));
       };
+
       const EditCheckpoint = (checkpoint) => {
         setEditCheckpoint(checkpoint);
         setCreateCheckpoints(true);
@@ -28,7 +30,7 @@ const checkpointsTable:
                 <Grid item xs={8}>
                   {`${checkpoint.city_name} `}
                 </Grid>
-                <Grid item xs={2} >
+                <Grid item xs={2}>
                   <Button onClick={() => EditCheckpoint(checkpoint)}>
                     <CreateIcon sx={{ fontSize: 22 }} />
                   </Button>
