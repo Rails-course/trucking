@@ -1,7 +1,7 @@
 export type Order = 'asc' | 'desc';
 
 export interface ConsignmentData {
-  id: number;
+  id: string;
   bundle_seria: string;
   bundle_number: string;
   consignment_seria: string;
