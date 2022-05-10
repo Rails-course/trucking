@@ -1,34 +1,53 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import { Box, Grid, Button } from '@mui/material';
 
+import httpClient from '../api/httpClient';
 import CreateConsignmentForm from './Consignment/CreateConsignmentForm';
 import ConsignmentGoods from './Consignment/ConsignmentGoods';
 import ConsignmentTable from './Consignment/ConsigmentTable';
-import httpClient from '../api/httpClient';
-import { Item, UnionConsGoodType } from '../common/interfaces_types';
+import {
+  Alert, ConsignmentProps, Item, CreateWaybillData, Consignment, NewGoods,
+} from '../common/interfaces_types';
 import CreateWaybill from './Waybill/CreateWaybill';
 import SiteAlerts from './Alert';
+import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
+import Search from './Search';
 
-const Consignment = ({ currentUserRole }) => {
-  const [isActiveModal, setModalActive] = React.useState(false);
-  const [isActiveGoodsModal, setModalGoodsActive] = React.useState(false);
-  const [isActiveWayBill, setWayBillActive] = React.useState(false);
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState<boolean>(false);
-  const [alertType, setAlertType] = React.useState<string>();
-  const [alertText, setAlertText] = React.useState<string>();
+const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
+  const {
+    currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
+    goodsOwnersJSON,
+  } = props;
 
-  const [consignments, setConsignment] = React.useState(null);
+  // MODAL states
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
+  const [isActiveGoodsModal, setModalGoodsActive] = React.useState<boolean>(false);
+  const [isActiveWayBill, setWayBillActive] = React.useState<boolean>(false);
+  // Form Errors states
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  // Alert and Search states
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+
+  const [searchData, setSearchData] = React.useState<string[]>();
+
+  const consignmentsOrder = ['registered', 'checked', 'delivered'];
+  const [consignments, setConsignment] = React.useState<Consignment[]>(
+    JSON.parse(consignmentsJSON)
+      .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
+  );
+
+  const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
+  const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
+  const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
+  const [warehouses, setWarehouses] = React.useState(JSON.parse(warehousesJSON));
+  const [waybillStatus, setWaybillStatus] = React.useState<string>(null);
   const [goods, setGoods] = React.useState([]);
-  const [checkedGoods, setCheckedGooods] = React.useState<Item[]>([]);
-  const [consId, setConsID] = React.useState(null);
-  const [data, setData] = React.useState(null);
-  const [owners, setOwners] = React.useState([]);
-  const [consWaybillId, setConsWaybillId] = React.useState(null);
-  const [titleStatus, setTitleStatus] = React.useState(null);
-  const [newGoods, setNewGood] = React.useState([{
+  const [selectedGoods, setSelectedGoods] = React.useState<Item[]>([]);
+  const [consId, setConsID] = React.useState<number>(null);
+  const [createWaybillData, setCreateWaybillData] = React.useState<CreateWaybillData>(null);
+  const [titleStatus, setTitleStatus] = React.useState<string>(null);
+  const [newGoods, setNewGood] = React.useState<NewGoods[]>([{
     good_name: '', unit_of_measurement: '', quantity: 0,
   }]);
 
@@ -46,71 +65,60 @@ const Consignment = ({ currentUserRole }) => {
     setModalGoodsActive(false);
     setWayBillActive(false);
     setFormErrors(null);
+    setSelectedGoods([]);
+    setTitleStatus('');
   };
 
-  const handleSubmit = (values: UnionConsGoodType) => {
-    const createConsignment = httpClient.consignments.create({ values });
-    const createGoods = httpClient.goods.create({ ...values, newGoods });
-
-    axios.all([createConsignment, createGoods])
-      .then(
-        axios.spread((...responses) => {
-          setConsignment((prevConsignment) => [...prevConsignment, responses[0].data]);
-          setModalActive(false);
-          setAlertType('success');
-          setAlertText('Successfully created consignment with goods!');
-          alertSetOpen(true);
-          setTimeout(() => {
-            alertSetOpen(false);
-          }, 5000);
-        }),
-      )
+  const handleSubmit = (consignment: consignmentFormValues) => {
+    httpClient.consignments.create({ consignment, newGoods })
+      .then((response) => {
+        setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created consignment with goods!',
+          open: true,
+        });
+        handleClose();
+      })
       .catch((errors) => {
         setFormErrors(errors.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating consignment or goods');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating consignment or goods',
+          open: true,
+        });
       });
   };
 
   const handleGoodsSubmit = () => {
+    const selectedGoodsIds = selectedGoods.map((checkedGood) => checkedGood.id);
     switch (titleStatus) {
       case 'Checked':
         setTitleStatus('');
-        return httpClient.goods.setConsignmentGoodsChecked(consId, checkedGoods)
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'checked' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
-            setModalActive(false);
-            setAlertType('info');
-            setAlertText('Goods status changed!');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            if (searchData) setSearchData([response.data]);
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
+            handleClose();
           });
       case 'Delivered':
         setTitleStatus('');
-        return httpClient.goods.setWaybillGoodsStatus(consWaybillId, checkedGoods)
+        return httpClient.goods.updateStatus(consId, { selectedGoodsIds, status: 'delivered' })
           .then((response) => {
             const objIndex = consignments.findIndex((element) => element.id === consId);
             consignments[objIndex] = response.data;
             setConsignment(consignments);
+            if (searchData) setSearchData([response.data]);
             setModalActive(false);
-            setAlertType('info');
-            setAlertText('Goods status changed!');
-            alertSetOpen(true);
-            setTimeout(() => {
-              alertSetOpen(false);
-            }, 5000);
+            setAlertData({ alertType: 'info', alertText: 'Goods status changed!', open: true });
+            handleClose();
           });
       default:
-        setCheckedGooods([]);
-        return setCheckedGooods([]);
+        setTitleStatus('');
+        return setTitleStatus('');
     }
   };
 
@@ -124,37 +132,33 @@ const Consignment = ({ currentUserRole }) => {
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={currentUserRole === 'dispatcher' ? 9 : 12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={consignments} keyField="dispatcher" />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
-                <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
                   Create Consignment
                 </Button>
               </Grid>
             )
             : null}
+
           <Grid item xs={12}>
             <ConsignmentTable
               consignments={consignments}
-              setConsignment={setConsignment}
               setModalGoodsActive={setModalGoodsActive}
               setConsID={setConsID}
               setGoods={setGoods}
-              setWayBillActive={setWayBillActive}
               formErrors={formErrors}
-              setData={setData}
-              setOwners={setOwners}
+              setWayBillActive={setWayBillActive}
+              setCreateWaybillData={setCreateWaybillData}
               currentUserRole={currentUserRole}
-              setConsWaybillId={setConsWaybillId}
+              searchData={searchData}
+              setWaybillStatus={setWaybillStatus}
             />
           </Grid>
         </Grid>
@@ -167,32 +171,39 @@ const Consignment = ({ currentUserRole }) => {
         handleFieldAdd={handleFieldAdd}
         handleFieldChange={handleFieldChange}
         formErrors={formErrors}
+        trucks={trucks}
+        drivers={drivers}
       />
       <ConsignmentGoods
         isActiveModal={isActiveGoodsModal}
         handleClose={handleClose}
         goods={goods}
-        checkedGoods={checkedGoods}
-        setCheckedGooods={setCheckedGooods}
+        selectedGoods={selectedGoods}
+        setSelectedGoods={setSelectedGoods}
         handleGoodsSubmit={handleGoodsSubmit}
         currentUserRole={currentUserRole}
         titleStatus={titleStatus}
         setTitleStatus={setTitleStatus}
+        waybillStatus={waybillStatus}
       />
       <CreateWaybill
         id={consId}
         isActiveWayBill={isActiveWayBill}
         setWayBillActive={setWayBillActive}
-        data={data}
+        createWaybillData={createWaybillData}
         handleClose={handleClose}
-        owners={owners}
+        warehouses={warehouses}
+        searchData={searchData}
+        setSearchData={setSearchData}
         formWaybillErrors={formErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        consignments={consignments}
+        setConsignment={setConsignment}
+        setAlertData={setAlertData}
+        goodsOwners={goodsOwners}
       />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
 
-export default Consignment;
+export default Consignments;

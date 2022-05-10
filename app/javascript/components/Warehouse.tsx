@@ -1,21 +1,20 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
-import httpClient from '../api/httpClient';
 import WarehouseTable from './Warehouse/WarehouseTable';
 import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
-import { WarehouseData } from '../common/interfaces_types';
+import { Alert, Warehouse, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
+import Search from './Search';
 
-const Warehouse = ({ currentUserRole }) => {
-  const [isActiveModal, setModalActive] = useState(false);
-  const [warehouses, setWarehouses] = React.useState<WarehouseData[]>([]);
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState()
-  const [alertText, setAlertText] = React.useState()
+const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
+  const { currentUserRole, warehousesJSON, warehousemansJSON } = props;
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
+  const [warehouses, setWarehouses] = React.useState<Warehouse[]>(JSON.parse(warehousesJSON));
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [searchData, setSearchData] = React.useState<string[]>();
 
   const handleClose = () => {
     setModalActive(false);
@@ -25,38 +24,36 @@ const Warehouse = ({ currentUserRole }) => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={warehouses} keyField="" />
           </Grid>
-          {currentUserRole === 'admin' ?
-            <Grid item xs={3} style={{ textAlign: 'right' }}>
-              <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
-                Create Warehouse
-              </Button>
-            </Grid>
-            : null
-          }
+          {currentUserRole === 'admin'
+            ? (
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+                  Create Warehouse
+                </Button>
+              </Grid>
+            )
+            : null}
+
           <Grid item xs={12}>
             <WarehouseTable
               warehouses={warehouses}
               setWarehouses={setWarehouses}
-              alertSetOpen={alertSetOpen}
-              setAlertType={setAlertType}
-              setAlertText={setAlertText}
+              setAlertData={setAlertData}
+              setSearchData={setSearchData}
               currentUserRole={currentUserRole}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -67,12 +64,12 @@ const Warehouse = ({ currentUserRole }) => {
         setWarehouses={setWarehouses}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlertData={setAlertData}
+        warehousemen={JSON.parse(warehousemansJSON)}
       />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
-}
+};
 
-export default Warehouse;
+export default Warehouses;

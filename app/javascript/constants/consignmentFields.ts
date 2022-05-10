@@ -1,23 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { AlignType } from './waybillFields';
+import { AlignType, Consignment } from '../common/interfaces_types';
 
 export const consignmentFields = [
-  {
-    id: uuidv4(),
-    title: 'Bundle series',
-    model: 'bundle_seria',
-    required: true,
-    placeholder: 'Bundle series',
-    type: 'text',
-  },
-  {
-    id: uuidv4(),
-    title: 'Bundle number',
-    model: 'bundle_number',
-    placeholder: 'Bundle number',
-    required: true,
-    type: 'number',
-  },
   {
     id: uuidv4(),
     title: 'Consignment series',
@@ -34,36 +18,60 @@ export const consignmentFields = [
     required: true,
     type: 'number',
   },
-];
-
-export const consignmentTable = [
-  {
-    id: uuidv4(),
-    title: 'Consignment series',
-  },
-  {
-    id: uuidv4(),
-    title: 'Consignment number',
-  },
-  {
-    id: uuidv4(),
-    title: 'Status',
-  },
-  {
-    id: uuidv4(),
-    title: 'Dispatcher',
-  },
-  {
-    id: uuidv4(),
-    title: 'Inspector',
-  },
   {
     id: uuidv4(),
     title: 'Bundle series',
+    model: 'bundle_seria',
+    required: true,
+    placeholder: 'Bundle series',
+    type: 'text',
   },
   {
     id: uuidv4(),
     title: 'Bundle number',
+    model: 'bundle_number',
+    placeholder: 'Bundle number',
+    required: true,
+    type: 'number',
+  },
+];
+
+interface HeadCell {
+  id: keyof Consignment;
+  title: string;
+}
+
+export const consignmentSortTable: readonly HeadCell[] = [
+  {
+    id: 'consignment_seria',
+    title: 'Consignment series',
+  },
+  {
+    id: 'consignment_number',
+    title: 'Consignment number',
+  },
+  {
+    id: 'status',
+    title: 'Status',
+  },
+  {
+    id: 'bundle_seria',
+    title: 'Bundle series',
+  },
+  {
+    id: 'bundle_number',
+    title: 'Bundle number',
+  },
+];
+
+export const consignmentTable: readonly HeadCell[] = [
+  {
+    id: 'dispatcher',
+    title: 'Dispatcher',
+  },
+  {
+    id: 'manager',
+    title: 'Inspector',
   },
   {
     id: uuidv4(),

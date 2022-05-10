@@ -5,35 +5,22 @@ class ConsignmentsController < ApplicationController
 
   def index
     authorize! :read, Consignment
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @consignments.to_json(
-          include: [
-            dispatcher: { only: %i[first_name second_name middle_name] },
-            manager: { only: %i[first_name second_name middle_name] },
-            waybill: { only: %i[id status] }
-          ]
-        )
-      end
-    end
+    @warehouses = Warehouse.all
+    @trucks = Truck.where(company: current_user.company)
+    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
+    @goods_owners = GoodsOwner.all
   end
 
   def create
     authorize! :create, Consignment
-    @consignment = Consignment.new(create_consignment_params)
-    if @consignment.save
-      render json: @consignment.to_json(include: { dispatcher: { only: %i[first_name
-                                                                          second_name middle_name] } })
-    else
-      render json: @consignment.errors.full_messages, status: :unprocessable_entity
-    end
-  end
+    authorize! :create, Good
 
-  def waybill_data
-    ttn = Consignment.find(params.permit(:ttn_id)[:ttn_id])
-    render json: { driver_fio: User.find(ttn.driver_id).full_name,
-                   truck_number: ttn.truck.truck_number }
+    ActiveRecord::Base.transaction do
+      @consignment = Consignment.create!(create_consignment_params)
+      @goods = Good.create!(create_goods_params(@consignment))
+    end
+
+    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
   end
 
   private
@@ -43,27 +30,47 @@ class ConsignmentsController < ApplicationController
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 
   def permit_consignment_params
-    params.permit(values: %i[bundle_seria bundle_number consignment_number consignment_seria driver
-                             truck ttn_id])
+    params.permit(consignment: %i[bundle_seria
+                                  bundle_number
+                                  consignment_number
+                                  consignment_seria
+                                  driver
+                                  truck ttn_id],
+                  newGoods: %i[good_name
+                               quantity
+                               unit_of_measurement])
   end
 
   def create_consignment_params
-    consignment_params = permit_consignment_params[:values]
-    set_driver(consignment_params)
-    consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
+    consignment_params = permit_consignment_params[:consignment]
+    find_driver(consignment_params)
+    find_truck(consignment_params)
     consignment_params[:dispatcher] = current_user
     consignment_params
   end
 
-  def set_driver(consignment_params)
-    driver_FIO = consignment_params[:driver].split
+  def create_goods_params(consignment)
+    goods_params = permit_consignment_params[:newGoods]
+    goods_params.each do |item|
+      item[:consignment] = consignment
+    end
+    goods_params
+  end
+
+  def find_driver(consignment_params)
+    driver_fio = consignment_params[:driver].split
     consignment_params[:driver] =
-      User.find_by(company: current_user.company, second_name: driver_FIO[0],
-                   first_name: driver_FIO[1], middle_name: driver_FIO[2])
+      User.find_by(company: current_user.company, second_name: driver_fio[0],
+                   first_name: driver_fio[1], middle_name: driver_fio[2])
+    consignment_params
+  end
+
+  def find_truck(consignment_params)
+    consignment_params[:truck] = Truck.find_by(truck_number: consignment_params[:truck])
     consignment_params
   end
 end

@@ -7,61 +7,58 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import CreateRoutes from './CreateRoutes';
-import RouteTable from './RouteTable';
+import CreateCheckpoint from './CreateCheckpoints';
+import CheckpointTable from './CheckpointTable';
 import httpClient from '../../api/httpClient';
 import waybillInitialValues from '../../initialValues/waybillInitianalValue';
 import validationWaybill from '../../mixins/validation_schema/waybill';
 import { waybillBottomFields, waybillLeftFields, waybillRightFields } from '../../constants/waybillFields';
-import { CreateWaybillsFormProps } from '../../common/interfaces_types';
+import {
+  Checkpoint, CreateWaybillsFormProps, GoodsOwners, Warehouse,
+} from '../../common/interfaces_types';
 
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
-    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, data, owners,
-    alertSetOpen, setAlertType, setAlertText,
+    id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, createWaybillData,
+    setAlertData, setConsignment, consignments, warehouses, goodsOwners, searchData, setSearchData,
   } = props;
 
-  const [isCreateRoutes, setCreateRoutes] = React.useState(false);
-  const [routes, setRoutes] = React.useState([]);
-  const [formErrors, setFormErrors] = React.useState([]);
+  const [isCreateCheckpoints, setCreateCheckpoints] = React.useState<boolean>(false);
+  const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
 
   const handleSubmit = (values) => {
-    const cityNames = routes.map((name) => name.city_name);
+    const cityNames = checkpoints.map((name) => name.city_name);
     httpClient.waybill.create(values, cityNames, id)
-      .then(() => {
+      .then((response) => {
+        const objIndex = consignments.findIndex((consignment) => consignment.id === id);
+        consignments[objIndex] = response.data.consignment;
+        setConsignment(consignments);
+        if (searchData) setSearchData([response.data.consignment]);
         setWayBillActive(false);
-        setAlertType('success');
-        setAlertText('Successfully created waybill!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({ alertType: 'success', alertText: 'Successfully created waybill!', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType('error');
-        setAlertText('Something went wrong with creating waybill!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating waybill!', open: true });
       });
   };
 
-  const closeCreateRoutes = () => setCreateRoutes(false);
+  const closeCreateCheckpoints = () => setCreateCheckpoints(false);
 
   return (
     <div>
       <Dialog
         open={isActiveWayBill}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 550 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 750 } }}
         maxWidth="xs"
       >
         <DialogTitle>Create Waybill</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} direction="column">
             <Grid item xs={12}>
+              {formErrors ? <p className="error-msg">{formErrors}</p> : null}
               <Formik
                 initialValues={waybillInitialValues}
                 onSubmit={handleSubmit}
@@ -87,7 +84,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Truck number</strong></span>
-                          <span>{data.truck_number}</span>
+                          <span>{createWaybillData.truckNumber}</span>
                         </Box>
                         <Box
                           component="div"
@@ -99,7 +96,7 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           bgcolor="background.paper"
                         >
                           <span><strong>Driver</strong></span>
-                          <span>{data.driver_fio}</span>
+                          <span>{createWaybillData.driverFio}</span>
                         </Box>
                       </div>
 
@@ -146,8 +143,8 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
 
                       <Autocomplete
                         id="goods_owner"
-                        options={owners}
-                        getOptionLabel={(option) => option.goods_owner_name}
+                        options={goodsOwners}
+                        getOptionLabel={(option: GoodsOwners) => option.goods_owner_name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -159,7 +156,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           />
                         )}
                       />
-                      <RouteTable routes={routes} />
 
                       <div style={{
                         display: 'flex', justifyContent: 'space-between', textAlign: 'center', columnGap: '10px', marginTop: '10px',
@@ -181,23 +177,46 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
                           </div>
                         ))}
                       </div>
+                      <Autocomplete
+                        id="warehouse"
+                        options={warehouses}
+                        getOptionLabel={(option: Warehouse) => option.warehouse_name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onSelect={handleChange}
+                            margin="normal"
+                            label="Warehouse"
+                            fullWidth
+                            value={values?.warehouse}
+                          />
+                        )}
+                      />
+
+                      {checkpoints.length !== 0
+                        ? <CheckpointTable checkpoints={checkpoints} /> : null}
+
                     </Container>
 
-                    <DialogActions style={{ padding: '3px', marginTop: '20px' }}>
-                      <Button onClick={() => setCreateRoutes(true)}>create new checkpoints</Button>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
+                    <DialogActions style={{ flexDirection: 'column', padding: '8px 24px' }}>
+                      <Button onClick={() => setCreateCheckpoints(true)} color="success" variant="outlined" fullWidth>create new checkpoints</Button>
+                      <div style={{
+                        width: '100%', display: 'flex', justifyContent: 'space-between', padding: '8px 24px',
+                      }}
+                      >
+                        <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                        <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
+                      </div>
                     </DialogActions>
                   </Form>
                 )}
               </Formik>
             </Grid>
-            <CreateRoutes
-              isActiveModal={isCreateRoutes}
-              routeHandleClose={closeCreateRoutes}
-              setRoutes={setRoutes}
-              routes={routes}
-              formErrors={formErrors}
+            <CreateCheckpoint
+              isActiveModal={isCreateCheckpoints}
+              checkpointsHandleClose={closeCreateCheckpoints}
+              setCheckpoints={setCheckpoints}
+              checkpoints={checkpoints}
             />
           </Grid>
         </DialogContent>

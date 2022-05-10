@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import {
@@ -7,36 +6,28 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { CreateCompanyFormProps } from '../../common/interfaces_types';
+import { Company, CreateCompanyFormProps } from '../../common/interfaces_types';
+import httpClient from '../../api/httpClient';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, alertSetOpen, setAlertType, setAlertText
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
-  const handleSubmit = async (values) => {
-    await axios.post('/companies/create', values)
+  const companyInitialValues: Company = { id: Math.random(), name: '' };
+
+  const handleSubmit = async (company: Company) => {
+    await httpClient.companies.create(company)
       .then((response) => {
         handleClose();
-        setAlertType("success");
-        setAlertText("Successfully created a company!")
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000)
+        // TODO: cast type
+        setCompany((prevCompany) => [...prevCompany, response.data]);
+        setAlertData({ alertType: 'success', alertText: 'Successfully created a company!', open: true });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertType("error");
-        setAlertText("Something went wrong with creating a company")
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000)
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating a company', open: true });
       });
-    setTimeout(() => {
-      axios.get('/companies.json').then((response) => setCompany(response.data));
-    }, 300);
   };
 
   return (
@@ -52,7 +43,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
               <Formik
-                initialValues={{ name: '' }}
+                initialValues={companyInitialValues}
                 onSubmit={handleSubmit}
               >
                 <Form>
@@ -66,9 +57,9 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
                       variant="standard"
                     />
                   </Container>
-                  <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Create</Button>
+                  <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
+                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                    <Button type="submit" color="success" variant="outlined">Create</Button>
                   </DialogActions>
                 </Form>
               </Formik>

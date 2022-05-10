@@ -7,31 +7,15 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import httpClient from '../../api/httpClient';
 import writeOffActInitialValues from '../../initialValues/writeOffActInitialValues';
 import { writeOffActFields } from '../../constants/writeOffActFields';
-import { CreateWriteOffActFormProps } from '../../common/interfaces_types';
+import { Consignment, CreateWriteOffActFormProps } from '../../common/interfaces_types';
 
 const CreateWriteOffActForm:
   React.FC<CreateWriteOffActFormProps> = (props: CreateWriteOffActFormProps) => {
     const {
-      isActiveModal, handleClose, handleSubmit, formErrors,
+      isActiveModal, handleClose, handleSubmit, formErrors, consignments,
     } = props;
-
-    const [consignments, setConsignments] = React.useState([]);
-    const componentMounted = React.useRef(true);
-
-    React.useEffect(() => {
-      httpClient.consignments.getAll()
-        .then((response) => {
-          if (componentMounted.current) {
-            setConsignments(response.data);
-          }
-        })
-      return () => {
-        componentMounted.current = false;
-      }
-    }, []);
 
     return (
       <div>
@@ -66,10 +50,11 @@ const CreateWriteOffActForm:
                             style={{ marginBottom: '10px' }}
                           />
                         ))}
+                        {/* NOTE: THE VALUE PROVIDED TO AUTOCOMPLETE IS INVALID */}
                         <Autocomplete
                           id="consignment"
                           options={consignments}
-                          getOptionLabel={(consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
+                          getOptionLabel={(consignment: Consignment) => `${consignment.consignment_seria} ${consignment.consignment_number}`}
                           renderInput={(params) => (
                             <TextField
                               {...params}
@@ -92,9 +77,9 @@ const CreateWriteOffActForm:
                         />
                       </Container>
 
-                      <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" disabled={!dirty || !isValid}>Create</Button>
+                      <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
+                        <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                        <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">Create</Button>
                       </DialogActions>
                     </Form>
                   )}

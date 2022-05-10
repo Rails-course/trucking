@@ -11,20 +11,22 @@ class CompaniesController < ApplicationController
                  end
   end
 
-  def suspend
-    Company.find(params.require(:id)).change_status
+  def update
+    @company = Company.find(params.require(:id))
+    @company.change_status
+    render json: @company.to_json
+    # company_users = User.where(company: company)
+    # TODO: ideally we need to log out all company logged in users
+    # but devise doesnt provide such feature
+    # company_users.each do |user|
+    #   sign_out user
+    # end
   end
 
-  def new_company; end
-
-  def create_company
+  def create
     authorize! :create, Company
-    @company = Company.new(company_params)
-    if @company.save
-      render json: @company.to_json
-    else
-      render json: @company.errors.full_messages, status: :unprocessable_entity
-    end
+    @company = Company.create!(company_params)
+    render json: @company.to_json
   end
 
   def destroy

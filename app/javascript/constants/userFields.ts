@@ -62,7 +62,7 @@ export const userFields = [
     onlyLogin: true,
     placeholder: 'Password',
     required: true,
-    type: 'text',
+    type: 'password',
   },
   {
     id: uuidv4(),
@@ -70,24 +70,24 @@ export const userFields = [
     model: 'password_confirmation',
     placeholder: 'Repeat Password',
     required: true,
-    type: 'text',
+    type: 'password',
   },
 ];
 
 export const userFirstFields = [
   {
     id: uuidv4(),
-    title: 'City',
+    title: 'Town',
     model: 'town',
-    placeholder: 'City',
+    placeholder: 'Town',
     required: true,
     type: 'text',
   },
   {
     id: uuidv4(),
-    title: 'House',
+    title: 'Building',
     model: 'building',
-    placeholder: 'House',
+    placeholder: 'Building',
     required: true,
     type: 'number',
   },

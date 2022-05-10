@@ -1,94 +1,39 @@
 # frozen_string_literal: true
 
 class GoodsController < ApplicationController
-  before_action :set_consignment_goods, only: %i[get_consignment_goods set_goods_cheked_status]
-  before_action :set_waybill_goods, only: %i[waybill_goods set_goods_delivered_status]
-  def get_consignment_goods
-    authorize! :read, Good
-    render json: @goods.to_json
-  end
+  before_action :set_consignment, only: :update
 
-  def waybill_goods
-    render json: @goods.to_json
-  end
-
-  def create
-    authorize! :create, Good
-    begin
-      Good.transaction do
-        @goods = Good.create!(goods_params)
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
-    end
-
-    render json: @goods
-  end
-
-  def set_goods_cheked_status
+  def update
     authorize! :update, Good
     authorize! :update, Consignment
-    begin
-      Good.transaction do
-        @goods.each { |item| item.update(status: 'checked') }
-        @consignment.update(status: 'checked', manager: current_user)
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      return render json: e, status: :unprocessable_entity
-    end
-    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
-                                                                       second_name
-                                                                       middle_name] },
-                                                manager: { only: %i[first_name
-                                                                    second_name
-                                                                    middle_name] }])
-  end
 
-  def set_goods_delivered_status
-    authorize! :update, Good
-    authorize! :update, Consignment
-    begin
+    @goods = @consignment.goods.where(id: params[:selectedGoodsIds])
+    if status_validation(params[:status])
       Good.transaction do
-        @goods.each { |item| item.update(status: 'delivered') }
-        @consignment.update(status: 'delivered')
+        @goods.each { |item| item.update!(status: params[:status]) }
+        if params[:status] == 'checked'
+          @consignment.update!(status: params[:status], manager: current_user)
+        else
+          @consignment.update!(status: params[:status])
+        end
       end
-    rescue ActiveRecord::RecordInvalid => e
-      @goods = { error: { status: 422, message: e } }
+      render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
+    else
+      render json: "record don't pass validation", status: :unprocessable_entity
     end
-    render json: @consignment.to_json(include: [dispatcher: { only: %i[first_name
-                                                                       second_name
-                                                                       middle_name] },
-                                                manager: { only: %i[first_name
-                                                                    second_name
-                                                                    middle_name] }])
   end
 
   private
 
-  def set_consignment_goods
-    @consignment = Consignment.find(params[:id])
-    @goods = Good.where(bundle_seria: @consignment.bundle_seria,
-                        bundle_number: @consignment.bundle_number)
-  end
-
-  def set_waybill_goods
-    @consignment = Waybill.find(params[:id]).consignment
-    @goods = Good.where(bundle_seria: @consignment.bundle_seria,
-                        bundle_number: @consignment.bundle_number,
-                        status: 'checked')
-  end
-
-  def permit_goods_params
-    params.permit(:bundle_seria, :bundle_number,
-                  newGoods: %i[good_name quantity unit_of_measurement])
-  end
-
-  def goods_params
-    goods_params = permit_goods_params[:newGoods]
-    goods_params.each do |item|
-      item[:bundle_seria] = permit_goods_params[:bundle_seria]
-      item[:bundle_number] = permit_goods_params[:bundle_number]
+  def status_validation(status)
+    if status == 'checked'
+      return true unless current_user.role == 'driver'
+    elsif @consignment.waybill.status == 'delivered to the recipient'
+      true
     end
-    goods_params
+  end
+
+  def set_consignment
+    @consignment = Consignment.find(params[:consignment_id])
   end
 end

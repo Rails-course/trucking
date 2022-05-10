@@ -7,6 +7,7 @@ class Consignment < ApplicationRecord
   belongs_to :truck
   has_one :waybill, dependent: :restrict_with_exception
   has_one :write_off_act, dependent: :restrict_with_exception
+  has_many :goods, dependent: :restrict_with_exception
   validates :status, inclusion: { in: %w[registered checked delivered] }
   validates :consignment_number, presence: true, numericality: { greater_than: 0 }
   validates :consignment_seria, presence: true, length: { in: 2..10 },
@@ -16,10 +17,6 @@ class Consignment < ApplicationRecord
                            uniqueness: { scope: :bundle_number }
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
-
-  def find_waybill
-    Waybill.find_by(consignment_id: id)
-  end
 
   private
 

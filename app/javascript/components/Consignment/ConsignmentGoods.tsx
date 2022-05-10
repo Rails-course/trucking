@@ -15,15 +15,15 @@ import { consignmentGoods } from '../../constants/consignmentFields';
 
 const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoodsProps) => {
   const {
-    isActiveModal, handleClose, handleGoodsSubmit, goods, checkedGoods, setTitleStatus,
-    setCheckedGooods, titleStatus, currentUserRole,
+    isActiveModal, handleClose, handleGoodsSubmit, goods, selectedGoods, setTitleStatus,
+    setSelectedGoods, titleStatus, currentUserRole, waybillStatus,
   } = props;
 
   const handleToggle = (value: Item) => () => {
-    if (checkedGoods.indexOf(value) === -1) {
-      setCheckedGooods([...checkedGoods, value]);
+    if (selectedGoods.indexOf(value) === -1) {
+      setSelectedGoods([...selectedGoods, value]);
     } else {
-      setCheckedGooods(checkedGoods.filter((item) => item !== value));
+      setSelectedGoods(selectedGoods.filter((item) => item !== value));
     }
     switch (value.status) {
       case 'accepted':
@@ -34,6 +34,17 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
       default:
         setTitleStatus('');
         return setTitleStatus('');
+    }
+  };
+
+  const accessRestricted = (status: string) => {
+    switch (status) {
+      case 'accepted':
+        return currentUserRole === 'driver';
+      case 'checked':
+        return waybillStatus !== 'delivered to the recipient';
+      default:
+        return false;
     }
   };
 
@@ -73,29 +84,29 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                               <StyledTableCell>No data yet ...</StyledTableCell>
                             </TableRow>
                           )
-                          : goods.map((value) => {
-                            const labelId = `checkbox-list-label-${value}`;
+                          : goods.map((item) => {
+                            const labelId = `checkbox-list-label-${item}`;
                             return (
-                              <StyledTableRow key={value.id}>
+                              <StyledTableRow key={item.id}>
                                 <StyledTableCell>
                                   <ListItemButton
                                     role={undefined}
-                                    onClick={handleToggle(value)}
-                                    disabled={!['driver', 'manager'].includes(currentUserRole)}
+                                    onClick={handleToggle(item)}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status) || accessRestricted(item.status)}
                                     dense
                                   >
                                     <Checkbox
-                                      checked={checkedGoods.indexOf(value) !== -1}
+                                      checked={selectedGoods.indexOf(item) !== -1}
                                       tabIndex={-1}
                                       disableRipple
                                       inputProps={{ 'aria-labelledby': labelId }}
                                     />
                                   </ListItemButton>
                                 </StyledTableCell>
-                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.good_name}`} /></StyledTableCell>
-                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.quantity}`} /></StyledTableCell>
-                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${value?.unit_of_measurement}`} /></StyledTableCell>
-                                <StyledTableCell align="center">{value?.status}</StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.good_name}`} /></StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.quantity}`} /></StyledTableCell>
+                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.unit_of_measurement}`} /></StyledTableCell>
+                                <StyledTableCell align="center">{item?.status}</StyledTableCell>
                                 <StyledTableCell align="right" style={{ width: '30%' }}>
                                   <IconButton edge="end" aria-label="comments"><CommentIcon /></IconButton>
                                 </StyledTableCell>
@@ -109,8 +120,9 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                   <DialogActions>
                     <Button
                       type="submit"
-                      onClick={handleClose}
-                      disabled={!['driver', 'manager'].includes(currentUserRole)}
+                      color="success"
+                      disabled={!(['driver', 'manager'].includes(currentUserRole) && selectedGoods.length)}
+                      variant="outlined"
                     >
                       Submit
                     </Button>

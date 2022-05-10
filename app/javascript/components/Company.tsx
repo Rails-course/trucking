@@ -1,60 +1,74 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import {
-  Box, Grid, Button
-} from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
+
 import CompanyTable from './Company/CompanyTable';
 import CreateCompanyForm from './Company/CreateCompanyForm';
 import SiteAlerts from './Alert';
+import { Alert, Company, CompanyProps } from '../common/interfaces_types';
+import Search from './Search';
+import httpClient from '../api/httpClient';
 
-const Company = ({ currentUserRole }) => {
-  const [isActiveModal, setModalActive] = useState(false);
-  const [companies, setCompany] = React.useState(null);
-  const [formErrors, setFormErrors] = React.useState([]);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState()
-  const [alertText, setAlertText] = React.useState()
+const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
+  const { currentUserRole, companiesJSON } = props;
+  const [isActiveModal, setModalActive] = useState<boolean>(false);
+  const [companies, setCompany] = React.useState<Company[]>(JSON.parse(companiesJSON));
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
+  const [searchData, setSearchData] = React.useState<string[]>();
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
 
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
   };
 
+  const changeCompanyStatus = (id: number, alertText: string) => {
+    httpClient.companies.updateStatus(id).then((response) => {
+      const companyIndex = companies.findIndex((element) => element.id === id);
+      companies[companyIndex] = response.data;
+      setCompany(companies);
+      if (searchData) setSearchData([response.data]);
+      setAlertData({
+        alertType: 'info',
+        alertText: `Company successfully ${alertText}`,
+        open: true,
+      });
+    });
+  };
+
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={9} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={3} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={companies} keyField="" />
           </Grid>
-          {currentUserRole === 'system administrator' ?
-            <Grid item xs={3} style={{ textAlign: 'right' }}>
-              <Button variant="contained" color="success" size="large" style={{ marginBottom: '6px' }} onClick={() => setModalActive(true)}>
-                Create Company
-              </Button>
-            </Grid>
-            : null
-          }
+          {currentUserRole === 'system administrator'
+            ? (
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+                <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
+                  Create Company
+                </Button>
+              </Grid>
+            )
+            : null}
+
           <Grid item xs={12}>
             <CompanyTable
               companies={companies}
               setCompany={setCompany}
-              alertSetOpen={alertSetOpen}
-              setAlertType={setAlertType}
-              setAlertText={setAlertText}
+              setAlertData={setAlertData}
+              searchData={searchData}
+              changeCompanyStatus={changeCompanyStatus}
             />
           </Grid>
         </Grid>
@@ -65,12 +79,11 @@ const Company = ({ currentUserRole }) => {
         setCompany={setCompany}
         formErrors={formErrors}
         setFormErrors={setFormErrors}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
+        setAlertData={setAlertData}
       />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
 
-export default Company;
+export default Companies;
