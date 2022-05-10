@@ -56,7 +56,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table
-            sx={{ tableLayout: 'fixed', width: '100%' }}
+            sx={{ width: '100%' }}
             size={dense ? 'small' : 'medium'}
             aria-label="customized table"
           >
