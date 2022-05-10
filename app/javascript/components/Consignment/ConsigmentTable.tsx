@@ -2,12 +2,15 @@ import * as React from 'react';
 
 import {
   Table, TableBody, TableRow, TableContainer, TableHead, Paper, Button,
-  TablePagination, FormControlLabel, Switch, Box, CircularProgress,
+  TablePagination, FormControlLabel, Switch, Box, CircularProgress, TableSortLabel,
 } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 
-import { consignmentTable } from '../../constants/consignmentFields';
+import { consignmentSortTable, consignmentTable } from '../../constants/consignmentFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
+import { getComparator, stableSort } from '../../utils/stableSort';
+import { Order } from '../../mixins/initialValues/userList';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -18,6 +21,8 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const [page, setPage] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [dense, setDense] = React.useState<boolean>(false);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof Consignment>('consignment_seria');
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
@@ -50,20 +55,57 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setDense(event.target.checked);
   };
 
-  const consignmentsData = searchData || consignments;
+  const handleRequestSort = (event, property: keyof Consignment) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
+    handleRequestSort(event, property);
+  };
+
+  let consignmentsData: any[];
+
+  if (searchData) consignmentsData = searchData;
+  else consignmentsData = consignments;
+
+  // const consignmentsData = searchData || consignments;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer component={Paper}>
           <Table
-            sx={{ minWidth: 700 }}
+            sx={{ minWidth: '700px', tableLayout: 'fixed', width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
             <TableHead>
               <TableRow>
-                {consignmentTable.map((cell) => <StyledTableCell align="center" key={cell.id}>{cell.title}</StyledTableCell>)}
+                {consignmentSortTable.map((cell) => (
+                  <StyledTableCell
+                    align="center"
+                    key={cell.id}
+                    sortDirection={orderBy === cell.id ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === cell.id}
+                      direction={orderBy === cell.id ? order : 'asc'}
+                      onClick={createSortHandler(cell.id)}
+                    >
+                      {cell.title}
+                      {orderBy === cell.id ? (
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        </Box>
+                      ) : null}
+                    </TableSortLabel>
+                  </StyledTableCell>
+                ))}
+                {consignmentTable.map((cell) => (
+                  <StyledTableCell key={cell.id} align="center">{cell.title}</StyledTableCell>
+                ))}
                 {currentUserRole === 'manager'
                   ? <StyledTableCell align="center">Waybill</StyledTableCell>
                   : null}
@@ -73,10 +115,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               {!consignmentsData
                 ? (
                   <TableRow>
-                    <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : consignmentsData
+                : stableSort(consignmentsData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((consignment) => {
                     const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
@@ -84,14 +126,14 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                     let waybillStatus = null;
                     if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
                     return (
-                      <StyledTableRow key={consignment.id}>
+                      <StyledTableRow key={consignment.id} tabIndex={-1}>
                         <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
-                        <StyledTableCell component="th" scope="company" align="center">{consignment.consignment_number}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.consignment_number}</StyledTableCell>
                         <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
-                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
                         <StyledTableCell align="center">
                           <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
                             Goods
@@ -103,7 +145,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                               <Button
                                 variant="outlined"
                                 disabled={!(consignment.status === 'checked' && !waybillStatus)}
-                                onClick={() => openWaybillCreateModal(consignment.id)}
+                                onClick={() => openWaybillCreateModal(+consignment.id)}
                               >
                                 Create Waybill
                               </Button>

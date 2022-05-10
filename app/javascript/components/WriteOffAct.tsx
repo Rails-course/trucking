@@ -39,7 +39,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
     <div className="wrapper">
 
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', maxWidth: '66%',
       }}
       >
         <Grid
@@ -53,7 +53,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
-              <Grid item xs={3} style={{ textAlign: 'right' }}>
+              <Grid item xs={1.75} style={{ textAlign: 'right' }}>
                 <Button variant="contained" color="success" size="large" onClick={() => setModalActive(true)}>
                   Create Write-off Act
                 </Button>

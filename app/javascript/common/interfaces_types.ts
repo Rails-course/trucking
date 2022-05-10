@@ -82,14 +82,15 @@ export type Waybill = {
     status: string;
     waybill_seria: string;
     waybill_number: number;
-    startpoint: string, endpoint: string;
+    startpoint: {town: string, street: string, building: string};
+    endpoint: {town: string, street: string, building: string};
 }
 
 export type Consignment = {
     id: number;
     status: string;
     bundle_seria: string;
-    bundle_number: string;
+    bundle_number: number;
     consignment_seria: string;
     consignment_number: string;
     dispatcher: { first_name: string, second_name: string, middle_name: string };
@@ -115,6 +116,16 @@ export type Warehouse = {
     warehouseman: User;
 }
 
+export declare type AlignType = 'left' | 'center' | 'right';
+
+export type SearchData = {
+    search: string;
+    consignment: Consignment[];
+    users: User[];
+    waybills: Waybill[];
+    company: Company[];
+}
+
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -130,7 +141,7 @@ export interface CreateConsignmentFormProps {
 
 export interface WriteOffActTableProps {
     writeOffActs: WriteOffAct[],
-    searchData: string[];
+    searchData: string[] | number[];
 }
 
 export interface CreateWriteOffActFormProps {

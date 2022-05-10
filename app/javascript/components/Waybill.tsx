@@ -41,7 +41,7 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
         <Grid
@@ -50,7 +50,7 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           justifyContent="flex-end"
         >
-          <Grid item md={3} style={{ textAlign: 'left' }}>
+          <Grid item md={2} style={{ textAlign: 'left' }}>
             <Search setData={setSearchData} Data={waybills} keyField="" />
           </Grid>
           <Grid item xs={12}>

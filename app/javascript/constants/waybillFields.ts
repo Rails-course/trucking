@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { AlignType } from '../common/interfaces_types';
 
 export const waybillLeftFields = [
   {
@@ -89,31 +90,32 @@ export const waybillBottomFields = [
   },
 ];
 
-export declare type AlignType = 'left' | 'center' | 'right';
-
-export const waybillTableCell = [
+export const waybillSortTableCell = [
   {
-    id: uuidv4(),
+    id: 'waybill_seria',
     title: 'Waybill series',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'waybill_number',
     title: 'Waybill number',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'status',
     title: 'Status',
     align: 'center' as AlignType,
   },
+];
+
+export const waybillTableCell = [
   {
-    id: uuidv4(),
+    id: 'startpoint',
     title: 'Start point',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'endpoint',
     title: 'End point',
     align: 'center' as AlignType,
   },

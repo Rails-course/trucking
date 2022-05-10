@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {
   Table, TableBody, TableContainer, Paper, Box,
-  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow,
+  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow, CircularProgress,
 } from '@mui/material';
 
 import EnhancedTableToolbar from './TableToolbar';
@@ -69,23 +69,26 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     setUpdateModalActive(true);
   };
 
-  const UsersData = searchData || users;
+  let usersData: any[];
 
-  if (!users) { return (<p>Loading...</p>); }
+  if (searchData) usersData = searchData;
+  else usersData = users;
+
+  // const UsersData = searchData || users;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selectedUsersIds.length}
-          users={UsersData}
+          users={usersData}
           setUser={setUser}
           selectedUsersIds={selectedUsersIds}
           setSelectedUsersIds={setSelectedUsersIds}
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ width: '100%' }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -95,48 +98,54 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={users.length}
+              rowCount={usersData.length}
             />
             <TableBody>
-              {stableSort(users, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user, index) => {
-                  const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={user.id}
-                    >
-                      <StyledTableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={selectedUsersIds.indexOf(+user.id) !== -1}
-                          onClick={() => handleToggle(+user.id)}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </StyledTableCell>
-                      <StyledTableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+              {!users
+                ? (
+                  <TableRow>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
+                  </TableRow>
+                )
+                : stableSort(usersData, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user, index) => {
+                    const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={user.id}
                       >
-                        <Button
-                          variant="text"
-                          onClick={() => { openUpdateModal(user.id); }}
+                        <StyledTableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={selectedUsersIds.indexOf(+user.id) !== -1}
+                            onClick={() => handleToggle(+user.id)}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </StyledTableCell>
+                        <StyledTableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
                         >
-                          {name}
-                        </Button>
-                      </StyledTableCell>
-                      <StyledTableCell align="left">{user.login}</StyledTableCell>
-                      <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
-                    </TableRow>
-                  );
-                })}
+                          <Button
+                            variant="text"
+                            onClick={() => { openUpdateModal(user.id); }}
+                          >
+                            {name}
+                          </Button>
+                        </StyledTableCell>
+                        <StyledTableCell align="left">{user.login}</StyledTableCell>
+                        <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
               {emptyRows > 0 && (
                 <StyledTableRow
                   style={{

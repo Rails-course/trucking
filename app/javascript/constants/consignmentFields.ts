@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { AlignType } from './waybillFields';
+import { AlignType, Consignment } from '../common/interfaces_types';
 
 export const consignmentFields = [
   {
@@ -36,34 +36,42 @@ export const consignmentFields = [
   },
 ];
 
-export const consignmentTable = [
+interface HeadCell {
+  id: keyof Consignment;
+  title: string;
+}
+
+export const consignmentSortTable: readonly HeadCell[] = [
   {
-    id: uuidv4(),
+    id: 'consignment_seria',
     title: 'Consignment series',
   },
   {
-    id: uuidv4(),
+    id: 'consignment_number',
     title: 'Consignment number',
   },
   {
-    id: uuidv4(),
+    id: 'status',
     title: 'Status',
   },
   {
-    id: uuidv4(),
-    title: 'Dispatcher',
-  },
-  {
-    id: uuidv4(),
-    title: 'Inspector',
-  },
-  {
-    id: uuidv4(),
+    id: 'bundle_seria',
     title: 'Bundle series',
   },
   {
-    id: uuidv4(),
+    id: 'bundle_number',
     title: 'Bundle number',
+  },
+];
+
+export const consignmentTable: readonly HeadCell[] = [
+  {
+    id: 'dispatcher',
+    title: 'Dispatcher',
+  },
+  {
+    id: 'manager',
+    title: 'Inspector',
   },
   {
     id: uuidv4(),

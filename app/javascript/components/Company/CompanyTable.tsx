@@ -29,20 +29,20 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
           <TableHead>
             <TableRow>
               <StyledTableCell>Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="right" colSpan={1} style={{ width: '30%' }}>Action&nbsp;</StyledTableCell>
+              <StyledTableCell align="center" style={{ width: '22%' }}>Action&nbsp;</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {!companies
               ? (
                 <TableRow>
-                  <StyledTableCell><CircularProgress color="inherit" /></StyledTableCell>
+                  <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                 </TableRow>
               )
               : companiesData.map((company) => (
                 <StyledTableRow key={company.id}>
-                  <StyledTableCell component="th" scope="company">{company.name}</StyledTableCell>
-                  <StyledTableCell align="center" style={{ width: '30%' }}>
+                  <StyledTableCell scope="company">{company.name}</StyledTableCell>
+                  <StyledTableCell align="center">
                     <Button
                       variant="outlined"
                       color="warning"
