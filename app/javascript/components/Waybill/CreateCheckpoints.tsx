@@ -12,10 +12,8 @@ import { CreateCheckpointsFormProps } from '../../common/interfaces_types';
 const createCheckpoints:
     React.FC <CreateCheckpointsFormProps> = (props: CreateCheckpointsFormProps) => {
       const {
-        isActiveModal, checkpointsHandleClose, setCheckpoints, checkpoints,
+        isActiveModal, checkpointsHandleClose, handleSubmitCheckpoints, editCheckpoint,
       } = props;
-
-      const handleSubmit = (values) => setCheckpoints([...checkpoints, values]);
 
       return (
         <div>
@@ -30,8 +28,8 @@ const createCheckpoints:
               <Grid container spacing={2} direction="column">
                 <Grid item xs={8}>
                   <Formik
-                    initialValues={{ id: uuidv4(), city_name: '' }}
-                    onSubmit={handleSubmit}
+                    initialValues={{ id: uuidv4(), city_name: editCheckpoint ? editCheckpoint.city_name : '' }}
+                    onSubmit={handleSubmitCheckpoints}
                   >
                     <Form>
                       <Container maxWidth="sm">

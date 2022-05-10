@@ -1,13 +1,23 @@
 import * as React from 'react';
-
-interface checkpointsTableFormProps {
-  checkpoints: any;
-}
+import { Button, Grid } from '@mui/material';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import CreateIcon from '@mui/icons-material/Create';
+import { checkpointsTableFormProps } from '../../common/interfaces_types';
 
 const checkpointsTable:
     React.FC<checkpointsTableFormProps> = (props: checkpointsTableFormProps) => {
-      const { checkpoints } = props;
+      const {
+        checkpoints, setCheckpoints, setEditCheckpoint, setCreateCheckpoints,
+      } = props;
 
+      const deleteCheckpoint = (id) => {
+        setCheckpoints(checkpoints.filter((checkpoint) => id !== checkpoint.id));
+      };
+
+      const EditCheckpoint = (checkpoint) => {
+        setEditCheckpoint(checkpoint);
+        setCreateCheckpoints(true);
+      };
       return (
         <div style={{
           display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '10px 24px',
@@ -16,7 +26,22 @@ const checkpointsTable:
           <strong>Checkpoints</strong>
           {checkpoints.map((checkpoint) => (
             <div key={checkpoint.id} style={{ width: '100%', display: 'list-item', listStyleType: 'decimal' }}>
-              <p style={{ margin: '2px 0' }}>{`${checkpoint.city_name} `}</p>
+              <Grid container spacing={2} sx={{ margin: '1px auto' }}>
+                <Grid item xs={8}>
+                  {`${checkpoint.city_name} `}
+                </Grid>
+                <Grid item xs={2}>
+                  <Button onClick={() => EditCheckpoint(checkpoint)}>
+                    <CreateIcon sx={{ fontSize: 22 }} />
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button onClick={() => deleteCheckpoint(checkpoint.id)}>
+                    <DeleteOutlinedIcon sx={{ fontSize: 22 }} />
+                  </Button>
+                </Grid>
+              </Grid>
+
             </div>
           ))}
         </div>
