@@ -51,6 +51,7 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
               warehouses={warehouses}
               setWarehouses={setWarehouses}
               setAlertData={setAlertData}
+              setSearchData={setSearchData}
               currentUserRole={currentUserRole}
               searchData={searchData}
             />

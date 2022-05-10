@@ -25,7 +25,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
         .includes(normalize((values.text)))));
       data = data.concat(secondData);
     }
-    if (values.text !== '' || data.length > 0) setData(data);
+    if (values.text !== '') setData(data);
     else setData(null);
   };
 

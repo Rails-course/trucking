@@ -11,7 +11,6 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
 import { getComparator, stableSort } from '../../utils/stableSort';
 import { Order } from '../../mixins/initialValues/userList';
-import { waybillTableCell } from '../../constants/waybillFields';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
@@ -27,7 +26,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
-  const handleGetGoods = (consignment) => {
+  const handleGetGoods = (consignment: Consignment) => {
     setModalGoodsActive(true);
     setConsID(consignment.id);
     setGoods(consignment.goods);
