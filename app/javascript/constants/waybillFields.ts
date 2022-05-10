@@ -43,7 +43,7 @@ export const waybillRightFields = [
     model: 'waybill_number',
     required: true,
     placeholder: 'Waybill number',
-    type: 'text',
+    type: 'number',
   },
   {
     id: uuidv4(),
