@@ -111,7 +111,7 @@ const CreateConsignmentForm:
                                     style={{ width: '67%', marginRight: '-44px', marginLeft: '50px' }}
                                     required
                                   />
-                                  <Button disabled={index === 0} onClick={() => handelDeleteGoods(singleField.id)}>
+                                  <Button disabled={newGoods.length < 2} onClick={() => handelDeleteGoods(singleField.id)}>
                                     <DeleteOutline />
                                   </Button>
                                 </div>

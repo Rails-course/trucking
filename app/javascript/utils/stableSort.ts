@@ -30,6 +30,7 @@ export function getComparator<Key extends keyof any>(
 // eslint-disable-next-line no-unused-vars
 export function stableSort<T>(
   array: User[] | Consignment[] | Waybill[] | WriteOffAct[],
+  // eslint-disable-next-line no-unused-vars
   comparator: (a: T, b: T) => number,
 ) {
   const stabilizedThis = array.map((el, index) => [el, index] as unknown as [T, number]);
