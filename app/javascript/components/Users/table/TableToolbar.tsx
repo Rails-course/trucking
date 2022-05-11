@@ -9,13 +9,18 @@ import { EnhancedTableToolbarProps } from '../../../common/interfaces_types';
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const {
-    numSelected, setUser, users, userIds,
+    numSelected, setUser, users, selectedUsersIds, setSelectedUsersIds,
   } = props;
 
   const deleteUserByIds = async () => {
-    const promises: Promise<any>[] = userIds.map((it) => httpClient.users.delete(it));
-    await Promise.all(promises);
-    setUser(users.filter((user) => !userIds.includes(user.id)));
+    const promises: Promise<any>[] = selectedUsersIds.map(
+      (userID) => httpClient.users.delete(userID),
+    );
+
+    await Promise.all(promises).then(() => {
+      setUser(users.filter((user) => !selectedUsersIds.includes(user.id)));
+      setSelectedUsersIds([]);
+    });
   };
 
   return (
@@ -29,7 +34,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             theme.palette.action.activatedOpacity,
           ),
         }),
-        backgroundColor: '#000',
+        backgroundColor: '#57606f',
         color: '#fff',
       }}
     >

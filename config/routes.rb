@@ -1,51 +1,66 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'pages#home'
+  # User
   devise_for :users
   get '/users', to: 'pages#users_index'
   scope '/users' do
     post '/create', to: 'pages#create_user'
-    get '/drivers', to: 'pages#get_drivers'
-    get '/warehousemans', to: 'pages#get_warehousemans'
-    delete '/:id', to: 'pages#destroy_user'
     get '/:id', to: 'pages#user_data'
-    patch 'edit/:id', to: 'pages#update_user'
+    patch '/:id/edit', to: 'pages#update_user'
+    delete '/:id', to: 'pages#destroy_user'
   end
-  root 'pages#home'
+
+  # Companies
   resources :companies
-  scope '/companies' do
-    post '/create', to: 'companies#create_company'
-    patch '/suspend/:id', to: 'companies#suspend'
-  end
-  resources :goods
+
+  # Goods
+  # resources :goods
+
+  # Consignment
   resources :consignments
-  scope '/consignments' do
-    get '/:id/goods', to: 'goods#get_consignment_goods'
-    get '/:id/waybill_goods', to: 'goods#waybill_goods'
-    patch '/:id/goods', to: 'goods#set_goods_cheked_status'
-    patch '/:id/waybill_goods', to: 'goods#set_goods_delivered_status'
-  end
+  # resources :consignments, only: %i[index create] do
+  #   resources :goods, only: %i[update]
+  # end
+  # TODO: change implementation of scope below with a way above
+  #
+  patch '/consignment/:consignment_id/goods', to: 'goods#update'
+  # Write-off Act
   resources :write_off_acts, only: %i[index create]
+
+  # Trucks
   resources :trucks
-  get '/consignment/waybill_data/:ttn_id', to: 'consignments#waybill_data'
+
+  # Waybill
   resources :waybills
-  patch '/waybills/endTrucking', to: 'waybill#end_trucking'
+
+  # Roles
   resources :roles, only: :index
+
+  # Warehouses
   resources :warehouses
   patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
+
+  # Goods Owners
   get '/goodsowners', to: 'goods_owner#index'
-  scope '/routes' do
-    patch '/rollback', to: 'routes#rollback'
-    patch '/passCheckpoint', to: 'routes#pass_checkpoint'
-  end
-  get '/routes/:id', to: 'routes#routes'
+
+  # Checkpoints
+  patch 'checkpoints', to: 'checkpoints#update'
+
+  # API
   namespace :api do
+    # V1 API DEPRECATED
+    # disable after demonstration
     namespace :v1 do
       resources :consignments, only: %i[index show] do
         resources :consignment_goods, only: :index
       end
       resources :drivers, only: [:index]
       resources :trucks, only: [:index]
+    end
+    namespace :v2 do
+      resources :consignments, only: %i[index show]
     end
   end
 end

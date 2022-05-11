@@ -12,31 +12,36 @@ import { CheckpointWindowFormProps } from '../../common/interfaces_types';
 const CheckpointWindow:
   React.FC<CheckpointWindowFormProps> = (props: CheckpointWindowFormProps) => {
     const {
-      wayID, id, status, currentUserRole, update_checkpoint_status, setAlertText, alertSetOpen, setAlertType,
+      checkpointID, status, currentUserRole, checkpoints, setCheckpoints, setAlertData,
     } = props;
-    const [isActiveModal, setActiveModal] = React.useState(false);
+    const [isActiveModal, setActiveModal] = React.useState<boolean>(false);
 
     const handleClose = () => setActiveModal(false);
 
     const statusChange = () => {
       if (status) {
-        httpClient.route.rollback({ ids: id }).then(() => {
-          update_checkpoint_status(wayID);
-          handleClose();
-        });
+        httpClient.checkpoints.update({ id: checkpointID, pass_date: null, is_passed: false })
+          .then((response) => {
+            const objIndex = checkpoints.findIndex(
+              (checkpoint) => checkpoint.id === checkpointID,
+            );
+            checkpoints[objIndex] = response.data;
+            setCheckpoints(checkpoints);
+            setAlertData({ alertType: 'info', alertText: 'Successfully rollback checkpoint!', open: true });
+          });
       } else setActiveModal(true);
     };
+
     const handleSubmit = (values) => {
-      Object.assign(values, { ids: id });
-      httpClient.route.passCh(values)
-        .then(() => {
-          update_checkpoint_status(wayID);
-          setAlertType('success');
-          setAlertText('Successfully passed checkpoint!');
-          alertSetOpen(true);
-          setTimeout(() => {
-            alertSetOpen(false);
-          }, 5000);
+      Object.assign(values, { id: checkpointID, is_passed: true });
+      httpClient.checkpoints.update(values)
+        .then((response) => {
+          const objIndex = checkpoints.findIndex(
+            (checkpoint) => checkpoint.id === checkpointID,
+          );
+          checkpoints[objIndex] = response.data;
+          setCheckpoints(checkpoints);
+          setAlertData({ alertType: 'success', alertText: 'Successfully passed checkpoint!', open: true });
         });
     };
 
@@ -69,7 +74,7 @@ const CheckpointWindow:
                   type="date"
                   variant="standard"
                 />
-                <Button type="submit" onClick={handleClose}>save</Button>
+                <Button type="submit" onClick={handleClose} variant="outlined" color="success">save</Button>
               </Form>
             </Formik>
           </DialogContent>

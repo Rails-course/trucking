@@ -6,71 +6,51 @@ import httpClient from '../api/httpClient';
 import WaybillTable from './Waybill/WaybillTable';
 import Checkpoints from './Driver/Checkpoints';
 import SiteAlerts from './Alert';
+import Search from './Search';
+import {
+  Alert, WaybillProps, Waybill, Checkpoint,
+} from '../common/interfaces_types';
 
-const Waybill = ({ currentUserRole }) => {
-  const [waybills, setWaybill] = React.useState([]);
-  const [isWaybillModal, setWaybillModalActive] = React.useState(false);
-  const [waybillID, setWaybillID] = React.useState(null);
-  const [checkpoints, setCheckpoints] = React.useState(null);
-  const [alertOpen, alertSetOpen] = React.useState(false);
-  const [alertType, setAlertType] = React.useState('');
-  const [alertText, setAlertText] = React.useState('');
-  const componentMounted = React.useRef(true);
-  const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState([]);
+const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
+  const { currentUserRole, waybillsJSON } = props;
 
-  React.useEffect(() => {
-    httpClient.waybill.gets_waybills().then((response) => {
-      if (componentMounted.current) setWaybill(response.data);
-    });
-    return () => {
-      componentMounted.current = false;
-    };
-  }, []);
-  const update_checkpoint_status = (id) => {
-    httpClient.route.get_routes(id).then((response) => setCheckpoints(response.data));
+  const [isWaybillModal, setWaybillModalActive] = React.useState<boolean>(false);
+  const [waybillID, setWaybillID] = React.useState<number>(null);
+  const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
+  const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState<string[]>([]);
+  const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [searchData, setSearchData] = React.useState<string[]>();
+  const waybillsOrder = ['transportation started', 'delivered to the recipient'];
+  const [waybills, setWaybill] = React.useState<Waybill[]>(JSON.parse(waybillsJSON)
+    .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
 
-  };
-  const handleSubmit_waybill = (id) => {
-    httpClient.waybill.finish({ ids: id })
+  const handleSubmitWaybill = (id) => {
+    httpClient.waybill.finish(id)
       .then((response) => {
-        const new_waybylls = waybills;
-        new_waybylls.find((waybill) => waybill.id == id).status = response.data.status;
-        setWaybill(new_waybylls);
-        setAlertType('success');
-        setAlertText('Successfully finished cargo transportation!');
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        const newWaybills = waybills;
+        newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
+        setWaybill(newWaybills);
+        setAlertData({ alertType: 'success', alertText: 'Successfully finished cargo transportation!', open: true });
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
-        setAlertType('error');
-        setAlertText("Couldn't complete the trip!");
-        alertSetOpen(true);
-        setTimeout(() => {
-          alertSetOpen(false);
-        }, 5000);
+        setAlertData({ alertType: 'error', alertText: "Couldn't complete the trip!", open: true });
       });
   };
   return (
     <div className="wrapper">
       <Box sx={{
-        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px', maxWidth: '70%',
+        flexGrow: 1, display: 'flex', flexDirection: 'column', rowGap: '20px',
       }}
       >
         <Grid
           container
           rowSpacing={3}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
         >
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <SiteAlerts
-              alertType={alertType}
-              alertText={alertText}
-              alertOpen={alertOpen}
-              alertSetOpen={alertSetOpen}
-            />
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search setData={setSearchData} Data={waybills} keyField="" />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
@@ -78,7 +58,7 @@ const Waybill = ({ currentUserRole }) => {
               setWaybillID={setWaybillID}
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
-              setWaybill={setWaybill}
+              searchData={searchData}
             />
           </Grid>
         </Grid>
@@ -89,15 +69,14 @@ const Waybill = ({ currentUserRole }) => {
         setWaybillModalActive={setWaybillModalActive}
         checkpoints={checkpoints}
         currentUserRole={currentUserRole}
-        alertSetOpen={alertSetOpen}
-        setAlertType={setAlertType}
-        setAlertText={setAlertText}
-        handleSubmit_waybill={handleSubmit_waybill}
+        setAlertData={setAlertData}
+        handleSubmitWaybill={handleSubmitWaybill}
         formErrorsCheckpoints={formErrorsCheckpoints}
-        update_checkpoint_status={update_checkpoint_status}
+        setCheckpoints={setCheckpoints}
       />
+      <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
 };
 
-export default Waybill;
+export default Waybills;

@@ -2,7 +2,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #2a6e9bd7;
+    background: url(trucks.jpg) no-repeat center center fixed;
+    background-size: cover;
 }
 .container {
     width: 40vw;
@@ -15,6 +16,7 @@ body {
     text-align: center;
     border-radius: 5px;
     color: #fff;
+    opacity: 0.9;
 }
 .container h2 {
     color: #fff;
@@ -116,9 +118,10 @@ body {
 .nav-wrapper {
     display: flex;
     margin-top:0;
-    padding: 3px 10px;
+    padding: 5px 10px;
     height: 2.5em;
     background-color: #191919;
+    box-shadow: 0 0 10px #eee;
 }
 .nav {
     width: 100%;
@@ -151,9 +154,6 @@ body {
 .cell{
     vertical-align: top;
     min-width:200px;
-}
-.paragr{
-    text-align: center;
 }
 
 #nav-bar-info {

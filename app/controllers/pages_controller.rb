@@ -5,17 +5,9 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    @users = if current_user.company
-               User.where(company: current_user.company)
-             else
-               User.all
-             end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @users.to_json(include: { role: { only: [:role_name] } })
-      end
-    end
+    @roles = Role.where.not(role_name: 'system administrator')
+    @companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
+    @users = current_user.company ? User.where(company: current_user.company) : User.all
   end
 
   def user_data
@@ -27,38 +19,19 @@ class PagesController < ApplicationController
 
   def update_user
     if @user.update(user_params)
-      flash[:success] = 'User succesfully updated'
+      render json: @user.to_json(include: %i[role address])
     else
-      flash[:alert] = 'Something went wrong with updating user'
-      render 'pages/users_index'
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def create_user
+    authorize! :create, User
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'User succesfully created'
+      render json: @user.to_json(include: %i[role address])
     else
-      flash[:alert] = 'Something went wrong with creating new user'
-      render 'pages/users_index'
-    end
-  end
-
-  def get_drivers
-    @users = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
-    respond_to do |format|
-      format.json do
-        render json: @users.to_json
-      end
-    end
-  end
-
-  def get_warehousemans
-    @users = User.where(role: Role.find_by(role_name: 'warehouseman'))
-    respond_to do |format|
-      format.json do
-        render json: @users.to_json
-      end
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 

@@ -10,8 +10,8 @@ class User < ApplicationRecord
                                      foreign_key: 'dispatcher_id'
   has_many :manager_consignments, dependent: :restrict_with_exception, class_name: 'Consignment',
                                   foreign_key: 'manager_id'
-  has_many :warehouses, dependent: :restrict_with_exception, class_name: 'Warehouse',
-                        foreign_key: 'warehouseman_id'
+  has_one :warehouse, dependent: :restrict_with_exception, class_name: 'Warehouse',
+                      foreign_key: 'warehouseman_id'
   validates :first_name, presence: true, length: { in: 3..30 }
   validates :second_name, presence: true, length: { in: 3..30 }
   validates :middle_name, presence: true, length: { in: 3..30 }
@@ -28,5 +28,17 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{second_name} #{middle_name}"
+  end
+
+  def active_for_authentication?
+    if company
+      super && !company.is_suspended
+    else
+      super
+    end
+  end
+
+  def inactive_message
+    company.is_suspended ? :user_company_suspended : super
   end
 end

@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import { AlignType } from './waybillFields';
 
 export const writeOffActFields = [
   {
@@ -20,30 +19,28 @@ export const writeOffActFields = [
   },
 ];
 
+export const writeOffActSortTableCell = [
+  {
+    id: 'good_name',
+    title: 'Good name',
+  },
+  {
+    id: 'lost_quantity',
+    title: 'Lost quantity',
+  },
+  {
+    id: 'description',
+    title: 'Description',
+  },
+];
+
 export const writeOffActTableCell = [
   {
-    id: uuidv4(),
-    title: 'Good name',
-    align: 'center' as AlignType,
+    id: 'bundle_seria',
+    title: 'Bundle series',
   },
   {
-    id: uuidv4(),
-    title: 'Lost quantity',
-    align: 'right' as AlignType,
-  },
-  {
-    id: uuidv4(),
-    title: 'Bundle seria',
-    align: 'right' as AlignType,
-  },
-  {
-    id: uuidv4(),
+    id: 'bundle_number',
     title: 'Bundle number',
-    align: 'right' as AlignType,
-  },
-  {
-    id: uuidv4(),
-    title: 'Description',
-    align: 'right' as AlignType,
   },
 ];

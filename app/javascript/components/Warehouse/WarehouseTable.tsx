@@ -2,58 +2,40 @@ import * as React from 'react';
 
 import {
   List, ListItem, ListItemButton, ListItemText,
-  Checkbox, IconButton, ListItemIcon, Box,
+  Checkbox, IconButton, ListItemIcon, Box, CircularProgress, TableRow,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { blue } from '@mui/material/colors';
 
 import httpClient from '../../api/httpClient';
-import { WarehouseData, WarehouseTableProps } from '../../common/interfaces_types';
+import { Warehouse, WarehouseTableProps } from '../../common/interfaces_types';
 import { warehouseTable } from '../../constants/warehouseFields';
+import { StyledTableCell } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
-  const { warehouses, setWarehouses, setAlertType, setAlertText, alertSetOpen, currentUserRole } = props;
-  const componentMounted = React.useRef(true);
+  const {
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
+  } = props;
 
-  const setWarehouseTrusted = async (warehouse: WarehouseData) => {
-    warehouses.splice(warehouses.indexOf(warehouse), 1);
-    await httpClient.warehouses.trust(warehouse.id).then((response) => {
-      setWarehouses([...warehouses, response.data]);
-      setAlertType("info");
-      setAlertText("Warehouse successfully set trusted/untrusted")
-      alertSetOpen(true);
-      setTimeout(() => {
-        alertSetOpen(false);
-      }, 5000)
+  const setWarehouseTrusted = (warehouse: Warehouse) => {
+    httpClient.warehouses.trust(warehouse.id).then((response) => {
+      const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
+      warehouses[objIndex] = response.data;
+      setWarehouses(warehouses);
+      if (searchData) setSearchData([response.data]);
+      setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
     });
   };
 
   const handleDeleteWarehouse = async (id) => {
     await httpClient.warehouses.delete(id);
-    setWarehouses(warehouses.filter((data: WarehouseData) => data.id !== id));
-    setAlertType("warning");
-    setAlertText("Warehouse successfully deleted")
-    alertSetOpen(true);
-    setTimeout(() => {
-      alertSetOpen(false);
-    }, 5000)
+    setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
+    setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
   };
 
-  const handleToggle = (value: WarehouseData) => () => setWarehouseTrusted(value);
+  const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);
 
-  React.useEffect(() => {
-    httpClient.warehouses.get_all()
-      .then((response) => {
-        if (componentMounted.current) {
-          setWarehouses(response.data);
-        }
-      })
-    return () => {
-      componentMounted.current = false;
-    }
-  }, []);
-
-  if (!warehouses) return (<p>No data found...</p>);
+  const warehousesData = searchData || warehouses;
 
   return (
     <div>
@@ -62,7 +44,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
       }}
       >
         <div style={{
-          width: '100%', display: 'flex', justifyContent: 'space-between', backgroundColor: 'black',
+          width: '100%', display: 'flex', justifyContent: 'space-between', backgroundColor: '#57606f',
         }}
         >
           {warehouseTable.map((cell) => (
@@ -71,50 +53,51 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
             </Box>
           ))}
         </div>
-        {warehouses.map((value: WarehouseData) => {
-          const labelId = `checkbox-list-label-${value}`;
-          return (
-            <ListItem
-              key={value?.id}
-              secondaryAction={(
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  disabled={!(currentUserRole === 'admin')}
-                  onClick={() => handleDeleteWarehouse(value?.id)}
-                >
-                  <DeleteIcon color="error" />
-                </IconButton>
-              )}
-              disablePadding
-              sx={{ width: '95%' }}
-            >
-              <ListItemButton
-                role={undefined}
-                onClick={handleToggle(value)}
-                dense
-                disabled={!(currentUserRole === 'admin')}
+        {!warehouses
+          ? (
+            <TableRow>
+              <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
+            </TableRow>
+          )
+          : warehousesData.map((value) => {
+            const labelId = `checkbox-list-label-${value}`;
+            return (
+              <ListItem
+                key={value?.id}
+                secondaryAction={(
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    disabled={!(currentUserRole === 'admin')}
+                    onClick={() => handleDeleteWarehouse(value?.id)}
+                  >
+                    <DeleteIcon color="error" />
+                  </IconButton>
+                )}
+                disablePadding
+                sx={{ width: '95%' }}
               >
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={value?.trusted}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    sx={{
-                      color: blue[800],
-                      '&.Mui-checked': {
-                        color: blue[600],
-                      },
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={value?.warehouse_name} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+                <ListItemButton
+                  role={undefined}
+                  onClick={handleToggle(value)}
+                  dense
+                  disabled={!(currentUserRole === 'admin')}
+                >
+                  <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={value?.trusted}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': labelId }}
+                      sx={{ color: blue[800], '&.Mui-checked': { color: blue[600] } }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText id={labelId} primary={value?.warehouse_name} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
       </List>
     </div>
   );

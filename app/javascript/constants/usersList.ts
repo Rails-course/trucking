@@ -9,7 +9,7 @@ interface UsersList {
 
 export const headCells: readonly UsersList[] = [
   {
-    id: 'name',
+    id: 'second_name',
     numeric: false,
     disablePadding: true,
     label: 'Contact name',

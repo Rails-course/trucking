@@ -1,6 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
+import { AlignType } from '../common/interfaces_types';
 
 export const waybillLeftFields = [
+  {
+    id: uuidv4(),
+    title: 'Waybill series',
+    model: 'waybill_seria',
+    required: true,
+    placeholder: 'Waybill series',
+    type: 'text',
+  },
   {
     id: uuidv4(),
     title: 'town',
@@ -28,6 +37,14 @@ export const waybillLeftFields = [
 ];
 
 export const waybillRightFields = [
+  {
+    id: uuidv4(),
+    title: 'Waybill number',
+    model: 'waybill_number',
+    required: true,
+    placeholder: 'Waybill number',
+    type: 'number',
+  },
   {
     id: uuidv4(),
     title: 'end_town',
@@ -73,27 +90,38 @@ export const waybillBottomFields = [
   },
 ];
 
-export declare type AlignType = 'left' | 'center' | 'right';
+export const waybillSortTableCell = [
+  {
+    id: 'waybill_seria',
+    title: 'Waybill series',
+    align: 'center' as AlignType,
+  },
+  {
+    id: 'waybill_number',
+    title: 'Waybill number',
+    align: 'center' as AlignType,
+  },
+  {
+    id: 'status',
+    title: 'Status',
+    align: 'center' as AlignType,
+  },
+];
 
 export const waybillTableCell = [
   {
-    id: uuidv4(),
-    title: 'Status',
-    align: 'left' as AlignType,
-  },
-  {
-    id: uuidv4(),
+    id: 'startpoint',
     title: 'Start point',
     align: 'center' as AlignType,
   },
   {
-    id: uuidv4(),
+    id: 'endpoint',
     title: 'End point',
     align: 'center' as AlignType,
   },
   {
     id: uuidv4(),
     title: 'Action',
-    align: 'right' as AlignType,
+    align: 'center' as AlignType,
   },
 ];
