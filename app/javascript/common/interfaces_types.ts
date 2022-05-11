@@ -56,6 +56,7 @@ export type Alert = {
 }
 
 export type NewGoods = {
+    id:string;
     good_name: string;
     quantity: number;
     unit_of_measurement: string;
@@ -137,6 +138,7 @@ export interface CreateConsignmentFormProps {
     handleSubmit: (consignment: consignmentFormValues) => void;
     handleFieldAdd: () => void;
     handleFieldChange: (e: NewGoods, index: number) => void;
+    handelDeleteGoods:(id:string)=>void;
 }
 
 export interface WriteOffActTableProps {

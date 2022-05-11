@@ -63,10 +63,10 @@ class WaybillsController < ApplicationController
 
   def create_waybill_params(startpoint, endpoint)
     data = waybill_params
-    { start_date: waybill_params[:start_date], end_date: waybill_params[:end_date],
+    { start_date: data[:start_date], end_date: data[:end_date],
       startpoint: startpoint, endpoint: endpoint,
-      waybill_number: waybill_params[:waybill_number],
-      waybill_seria: waybill_params[:waybill_seria],
+      waybill_number: data[:waybill_number],
+      waybill_seria: data[:waybill_seria],
       goods_owner: GoodsOwner.find_by(goods_owner_name: data[:goods_owner]),
       consignment: Consignment.find(data[:consignment]),
       warehouse: Warehouse.find_by(warehouse_name: data[:warehouse]) }

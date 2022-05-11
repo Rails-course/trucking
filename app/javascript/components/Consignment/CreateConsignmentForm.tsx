@@ -7,6 +7,7 @@ import {
   DialogContent, DialogTitle, Grid, TextField, Button, Box,
 } from '@mui/material';
 
+import { DeleteOutline } from '@mui/icons-material';
 import FormikField from '../../UI/FormikField';
 import { consignmentFields } from '../../constants/consignmentFields';
 import consignmentInitialValues from '../../initialValues/consignmentInitialValues';
@@ -16,7 +17,7 @@ const CreateConsignmentForm:
   React.FC<CreateConsignmentFormProps> = (props: CreateConsignmentFormProps) => {
     const {
       isActiveModal, handleClose, handleSubmit, newGoods, handleFieldAdd,
-      handleFieldChange, formErrors, trucks, drivers,
+      handleFieldChange, formErrors, trucks, drivers, handelDeleteGoods,
     } = props;
 
     return (
@@ -110,6 +111,9 @@ const CreateConsignmentForm:
                                     style={{ width: '67%', marginRight: '-44px', marginLeft: '50px' }}
                                     required
                                   />
+                                  <Button disabled={newGoods.length < 2} onClick={() => handelDeleteGoods(singleField.id)}>
+                                    <DeleteOutline />
+                                  </Button>
                                 </div>
                               </div>
                             ))}
