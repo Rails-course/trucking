@@ -8,7 +8,7 @@ function httpClient() {
   return {
     users: {
       get: (id) => axios.get(`${UsersUrl}/${id}`),
-      create: (user) => axios.post(`${UsersUrl}`, user),
+      create: (user) => axios.post(`${UsersUrl}/create`, user),
       update: (id, data) => axios.patch(`${UsersUrl}/${id}`, data),
       delete: (id) => axios.delete(`${UsersUrl}/${id}`),
     },

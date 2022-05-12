@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   root 'pages#home'
   # User
   devise_for :users
-  resources :users
+  devise_scope :user do
+    post   '/users/create'  => 'users#create',  as: :create_user
+    get   '/users'  => 'users#index',  as: :list_users
+    get   '/users/:id' => 'users#show', as: :show_user
+    patch '/users/:id'  => 'users#update',  as: :update_user
+  end
   # Companies
   resources :companies
 

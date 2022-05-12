@@ -27,6 +27,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   };
 
   const handleSubmit = (user: userFormValues) => {
+      console.log(user)
     httpClient.users.create(user)
       .then((response) => {
         setUser((prevUsers) => [...prevUsers, response.data]);
