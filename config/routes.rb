@@ -4,14 +4,7 @@ Rails.application.routes.draw do
   root 'pages#home'
   # User
   devise_for :users
-  get '/users', to: 'pages#users_index'
-  scope '/users' do
-    post '/create', to: 'pages#create_user'
-    get '/:id', to: 'pages#user_data'
-    patch '/:id/edit', to: 'pages#update_user'
-    delete '/:id', to: 'pages#destroy_user'
-  end
-
+  resources :users
   # Companies
   resources :companies
 
