@@ -20,7 +20,7 @@ const CheckpointWindow:
 
     const statusChange = () => {
       if (status) {
-        httpClient.checkpoints.update({ id: checkpointID, pass_date: null, is_passed: false })
+        httpClient.checkpoints.update(checkpointID, { pass_date: null, is_passed: false })
           .then((response) => {
             const objIndex = checkpoints.findIndex(
               (checkpoint) => checkpoint.id === checkpointID,
@@ -33,8 +33,8 @@ const CheckpointWindow:
     };
 
     const handleSubmit = (values) => {
-      Object.assign(values, { id: checkpointID, is_passed: true });
-      httpClient.checkpoints.update(values)
+      Object.assign(values, { is_passed: true });
+      httpClient.checkpoints.update(checkpointID, values)
         .then((response) => {
           const objIndex = checkpoints.findIndex(
             (checkpoint) => checkpoint.id === checkpointID,

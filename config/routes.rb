@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # Consignment
   resources :consignments,only: [:index,:create] do
-    patch '/goods'  => 'goods#update',  as: :update_goods
+    patch '/goods',to: 'goods#update'
   end
   # resources :consignments, only: %i[index create] do
   #   resources :goods, only: %i[update]
@@ -32,14 +32,13 @@ Rails.application.routes.draw do
   resources :roles, only: :index
 
   # Warehouses
-  resources :warehouses
-  patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
+  resources :warehouses,except: :show
 
   # Goods Owners
-  get '/goodsowners', to: 'goods_owner#index'
+  resources :goods_owner,only: :index
 
   # Checkpoints
-  patch 'checkpoints', to: 'checkpoints#update'
+  resources :checkpoints,only: :update
 
   # API
   namespace :api do

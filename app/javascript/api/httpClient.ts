@@ -22,7 +22,7 @@ function httpClient() {
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      update: (data) => axios.patch('/checkpoints', data),
+      update: (id, data) => axios.patch(`/checkpoints/${id}`, data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
@@ -37,7 +37,7 @@ function httpClient() {
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
-      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
+      trust: (id) => axios.patch(`${WarehouseUrl}/${id}`),
     },
   };
 }
