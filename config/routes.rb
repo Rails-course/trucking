@@ -3,13 +3,8 @@
 Rails.application.routes.draw do
   root 'pages#home'
   # User
-  devise_for :users
-  devise_scope :user do
-    post   '/users/create'  => 'users#create',  as: :create_user
-    get   '/users'  => 'users#index',  as: :list_users
-    get   '/users/:id' => 'users#show', as: :show_user
-    patch '/users/:id'  => 'users#update',  as: :update_user
-  end
+  devise_for :users, path: 'auth', controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
+  resources :users
   # Companies
   resources :companies
 
@@ -17,13 +12,13 @@ Rails.application.routes.draw do
   # resources :goods
 
   # Consignment
-  resources :consignments
+  resources :consignments,only: [:index,:create] do
+    patch '/goods'  => 'goods#update',  as: :update_goods
+  end
   # resources :consignments, only: %i[index create] do
   #   resources :goods, only: %i[update]
   # end
   # TODO: change implementation of scope below with a way above
-  #
-  patch '/consignment/:consignment_id/goods', to: 'goods#update'
   # Write-off Act
   resources :write_off_acts, only: %i[index create]
 

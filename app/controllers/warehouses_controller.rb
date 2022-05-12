@@ -21,7 +21,7 @@ class WarehousesController < ApplicationController
     @warehouse.destroy
   end
 
-  def trust_warehouse
+  def update
     @warehouse.toggle_trusted
     render json: @warehouse.to_json
   end
