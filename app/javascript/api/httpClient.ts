@@ -22,7 +22,7 @@ function httpClient() {
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      update: (id, data) => axios.patch(`/checkpoints/${id}`, data),
+      update: (id, data) => axios.patch(`waybill/checkpoints/${id}`, data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
