@@ -105,6 +105,10 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -294,6 +298,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6.2)
   hirb
   jbuilder (~> 2.7)
+  letter_opener
   msgpack (= 1.4.3)
   pg (~> 1.2, >= 1.2.3)
   puma (~> 3.11)
