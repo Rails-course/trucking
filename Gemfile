@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
+gem 'active_model_serializers', '~> 0.10.0'
 gem 'autoprefixer-rails'
 gem 'bootsnap', '>= 1.10.1'
 gem 'cancancan', '~> 3.3'
