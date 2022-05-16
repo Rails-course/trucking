@@ -4,11 +4,8 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    companies = if current_user.company
-                  Company.accessible_by(current_ability)
-                else
-                  Company.all
-                end
+    companies = current_user.company ? Company.accessible_by(current_ability) : Company.all
+
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
   end
 
