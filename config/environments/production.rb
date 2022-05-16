@@ -92,7 +92,7 @@ Rails.application.configure do
     password: ENV['GMAIL_PASSWORD']
   }
   # change host and port to your production variables
-  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'http://trucking-logistics.herokuapp.com/', port: 3000 }
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
