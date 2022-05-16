@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :roles, only: :index
   end
+
   # Companies
   resources :companies
 
@@ -14,18 +15,17 @@ Rails.application.routes.draw do
   resources :consignments,only: [:index,:create] do
     resource :good,only: :update
   end
-
+  #Write Off Acts
   resources :write_off_acts, only: %i[index create]
 
   # Waybill
-  resources :waybills
+  resources :waybills do
+    resources :goods_owner,only: :index
+  end
 
   resources :checkpoints,only: :update
   # Warehouses
   resources :warehouses,except: :show
-
-  # Goods Owners
-  resources :goods_owner,only: :index
 
   # API
   namespace :api do
