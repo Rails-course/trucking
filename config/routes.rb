@@ -12,15 +12,15 @@ Rails.application.routes.draw do
 
   # Consignment
   resources :consignments,only: [:index,:create] do
-    patch '/goods',to: 'goods#update'
-    resources :write_off_acts, only: %i[index create]
+    resource :good,only: :update
   end
+
+  resources :write_off_acts, only: %i[index create]
 
   # Waybill
-  resources :waybills do
-    patch '/checkpoints/:id',to: 'checkpoints#update'
-  end
+  resources :waybills
 
+  resources :checkpoints,only: :update
   # Warehouses
   resources :warehouses,except: :show
 

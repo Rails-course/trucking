@@ -22,13 +22,13 @@ function httpClient() {
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      update: (id, data) => axios.patch(`waybill/checkpoints/${id}`, data),
+      update: (id, data) => axios.patch(`/waybills/checkpoints/${id}`, data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
     },
     goods: {
-      updateStatus: (id, data) => axios.patch(`consignments/${id}/goods`, data),
+      updateStatus: (id, data) => axios.patch(`consignments/${id}/good`, data),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),
