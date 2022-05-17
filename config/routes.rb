@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   root 'pages#home'
   # User
   devise_for :users, path: 'auth'
-  resources :users do
-    resources :roles, only: :index
-  end
+  resources :users
 
   # Companies
   resources :companies
