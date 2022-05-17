@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :companies
 
   # Consignment
-  resources :consignments,only: %i[index,create] do
+  resources :consignments,only: %i[index create] do
     collection do
       resources :write_off_acts, only: %i[index create]
     end
