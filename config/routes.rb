@@ -13,19 +13,20 @@ Rails.application.routes.draw do
 
   # Consignment
   resources :consignments,only: [:index,:create] do
+    collection do
+      resources :write_off_acts, only: %i[index create]
+    end
     resource :good,only: :update
   end
-  #Write Off Acts
-  resources :write_off_acts, only: %i[index create]
 
   # Waybill
   resources :waybills do
+    collection do
+      resources :checkpoints,only: :update
+      resources :warehouses,except: :show
+    end
     resources :goods_owner,only: :index
   end
-
-  resources :checkpoints,only: :update
-  # Warehouses
-  resources :warehouses,except: :show
 
   # API
   namespace :api do
