@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   root 'pages#home'
   # User
-  devise_for :users, path: 'auth', controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
+  devise_for :users, path: 'auth'
   resources :users do
     resources :roles, only: :index
   end
