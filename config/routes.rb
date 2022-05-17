@@ -40,7 +40,6 @@ Rails.application.routes.draw do
 
   # Warehouses
   resources :warehouses
-  patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
 
   # Goods Owners
   get '/goodsowners', to: 'goods_owner#index'
