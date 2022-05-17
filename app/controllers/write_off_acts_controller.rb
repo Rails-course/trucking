@@ -3,23 +3,17 @@
 class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
-    @consignments = Consignment.all
-    @write_off_acts = WriteOffAct.all
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @write_off_acts.to_json(include: { consignment: { only: %i[bundle_seria
-                                                                                bundle_number] } })
-      end
-    end
+    consignments = Consignment.all
+    write_off_acts = WriteOffAct.all
+    @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(write_off_acts).to_json
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
   end
 
   def create
     authorize! :create, WriteOffAct
-    @write_off_act = WriteOffAct.new(create_write_off_act_params)
-    if @write_off_act.save
-      render json: @write_off_act.to_json(include: { consignment: { only: %i[bundle_seria
-                                                                             bundle_number] } })
+    write_off_act = WriteOffAct.new(create_write_off_act_params)
+    if write_off_act.save
+      render json: write_off_act
     else
       render json: @write_off_act.errors.full_messages, status: :unprocessable_entity
     end
