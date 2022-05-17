@@ -24,7 +24,7 @@ class ConsignmentsController < ApplicationController
       @goods = Good.create!(create_goods_params(@consignment))
     end
 
-    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
+    render json: @consignment
   end
 
   private

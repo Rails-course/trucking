@@ -41,10 +41,6 @@ class WarehousesController < ApplicationController
     params.permit(%i[warehouse_name apartment building street town warehouseman trusted])
   end
 
-  # def update_warehouse_params
-  #   update_warehouse_params = permit_warehouse_params
-  # end
-
   def create_warehouse_params
     create_warehouse_params = permit_warehouse_params
     create_warehouse_params[:address] = Address.new(town: permit_warehouse_params[:town],
