@@ -12,55 +12,38 @@ Rails.application.routes.draw do
     delete '/:id', to: 'pages#destroy_user'
   end
 
-  # Companies
-  resources :companies
+ # Companies
+resources :companies
 
-  # Goods
-  # resources :goods
+# Consignment
+resources :consignments,only: %i[index create]
 
-  # Consignment
-  resources :consignments
-  # resources :consignments, only: %i[index create] do
-  #   resources :goods, only: %i[update]
-  # end
-  # TODO: change implementation of scope below with a way above
-  #
-  patch '/consignment/:consignment_id/goods', to: 'goods#update'
-  # Write-off Act
-  resources :write_off_acts, only: %i[index create]
+patch 'consignment/:consignment_id/goods',to: "goods#update"
 
-  # Trucks
-  resources :trucks
+resources :write_off_acts, only: %i[index create]
 
-  # Waybill
-  resources :waybills
+resources :waybills ,except: :show
 
-  # Roles
-  resources :roles, only: :index
+resources :goods_owner,only: :index
 
-  # Warehouses
-  resources :warehouses
-  patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
+resources :warehouses,except: :show
+patch '/warehouses/trust/:id',to: 'warehouses#trust_warehouse'
 
-  # Goods Owners
-  get '/goodsowners', to: 'goods_owner#index'
+patch '/checkpoints',to: 'checkpoints#update'
 
-  # Checkpoints
-  patch 'checkpoints', to: 'checkpoints#update'
-
-  # API
-  namespace :api do
-    # V1 API DEPRECATED
-    # disable after demonstration
-    namespace :v1 do
-      resources :consignments, only: %i[index show] do
-        resources :consignment_goods, only: :index
-      end
-      resources :drivers, only: [:index]
-      resources :trucks, only: [:index]
-    end
-    namespace :v2 do
-      resources :consignments, only: %i[index show]
+    # API
+namespace :api do
+      # V1 API DEPRECATED
+      # disable after demonstration
+  namespace :v1 do
+    resources :consignments, only: %i[index show] do
+    resources :consignment_goods, only: :index
+   end
+   resources :drivers, only: :index
+   resources :trucks, only: :index
+  end
+  namespace :v2 do
+    resources :consignments, only: %i[index show]
     end
   end
 end
