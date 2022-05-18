@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WarehousesController < ApplicationController
-  before_action :set_warehouse, only: %i[update destroy]
+  before_action :set_warehouse, only: %i[trust_warehouse destroy]
 
   def index
     @warehouses = Warehouse.all
