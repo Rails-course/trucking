@@ -8,8 +8,8 @@ function httpClient() {
   return {
     users: {
       get: (id) => axios.get(`${UsersUrl}/${id}`),
-      create: (user) => axios.post(`${UsersUrl}`, user),
-      update: (id, data) => axios.patch(`${UsersUrl}/${id}`, data),
+      create: (user) => axios.post(`${UsersUrl}/create`, user),
+      update: (id, data) => axios.patch(`${UsersUrl}/${id}/edit`, data),
       delete: (id) => axios.delete(`${UsersUrl}/${id}`),
     },
     companies: {
@@ -22,13 +22,13 @@ function httpClient() {
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      update: (id, data) => axios.patch(`/waybills/checkpoints/${id}`, data),
+      update: (data) => axios.patch('/checkpoints', data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
     },
     goods: {
-      updateStatus: (id, data) => axios.patch(`consignments/${id}/good`, data),
+      updateStatus: (id, data) => axios.patch(`consignment/${id}/goods`, data),
     },
     writeOffActs: {
       getAll: () => axios.get(`${writeOffActUrl}.json`),
@@ -37,7 +37,7 @@ function httpClient() {
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
-      trust: (id) => axios.patch(`${WarehouseUrl}/${id}/edit`),
+      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
     },
   };
 }

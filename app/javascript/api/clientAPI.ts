@@ -9,6 +9,6 @@ export const WaybillUrl = '/waybills';
 // GOODS
 export const createGoodsUrl = '/goods';
 // WRITE-OFF ACTS
-export const writeOffActUrl = 'consignment/write_off_acts';
+export const writeOffActUrl = '/write_off_acts';
 // WAREHOUSES
-export const WarehouseUrl = 'waybill/warehouses';
+export const WarehouseUrl = '/warehouses';
