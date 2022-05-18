@@ -3,7 +3,7 @@
     <div class="nav">
       <div class="nav-left">
         <% if can? :manage, User %>
-          <%= link_to "Users", users_path, class:"share-links #{'active' if current_page?('/users')}" %>
+          <%= link_to "Users", list_users_path, class:"share-links #{'active' if current_page?('/users')}" %>
         <% end %>
         <% if can? :manage, Company %>
           <%= link_to "Companies", companies_path, class:"share-links #{'active' if current_page?('/companies')}" %>
