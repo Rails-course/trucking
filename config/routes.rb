@@ -17,9 +17,9 @@ Rails.application.routes.draw do
   resources :companies, except: :show
 
   # Consignment
-  resources :consignments, only: %i[index create]
-
-  patch 'consignment/:consignment_id/goods', to: 'goods#update'
+  resources :consignments, only: %i[index create] do
+    patch '/goods', to: 'goods#update'
+  end
 
   # Write off acts
   resources :write_off_acts, only: %i[index create]
@@ -31,8 +31,11 @@ Rails.application.routes.draw do
   resources :goods_owner, only: :index
 
   # warehouses
-  resources :warehouses, except: :show
-  patch '/warehouses/trust/:id', to: 'warehouses#trust_warehouse'
+  resources :warehouses, except: :show do
+    collection do
+      patch 'trust/:id', to: 'warehouses#trust_warehouse'
+    end
+  end
 
   # Checkpoints
   patch '/checkpoints', to: 'checkpoints#update'
