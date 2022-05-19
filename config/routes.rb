@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   # Checkpoints
   patch 'checkpoints', to: 'checkpoints#update'
 
+  # Statistics
+  get '/statistics', to: 'statistics#index'
+
   # API
   namespace :api do
     # V1 API DEPRECATED

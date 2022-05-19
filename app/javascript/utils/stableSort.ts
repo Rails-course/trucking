@@ -29,7 +29,7 @@ export function getComparator<Key extends keyof any>(
 // need to support IE11, you can use Array.prototype.sort() directly
 // eslint-disable-next-line no-unused-vars
 export function stableSort<T>(
-  array: User[] | Consignment[] | Waybill[] | WriteOffAct[],
+  array: User[] | Consignment[] | Waybill[] | WriteOffAct[] | string[],
   // eslint-disable-next-line no-unused-vars
   comparator: (a: T, b: T) => number,
 ) {
