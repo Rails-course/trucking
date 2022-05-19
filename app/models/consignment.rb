@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Consignment < ApplicationRecord
+  audited
+
   belongs_to :driver, class_name: 'User'
   belongs_to :dispatcher, class_name: 'User'
   belongs_to :manager, class_name: 'User', optional: true

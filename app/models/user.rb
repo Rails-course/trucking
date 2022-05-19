@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  audited
+
   belongs_to :role, optional: true
   belongs_to :company, optional: true
   belongs_to :address, optional: true
