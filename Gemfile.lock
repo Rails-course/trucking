@@ -46,6 +46,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
     ast (2.4.2)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
     autoprefixer-rails (10.4.2.0)
       execjs (~> 2)
     babel-source (5.8.35)
@@ -286,6 +288,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  audited (~> 4.9)
   autoprefixer-rails
   bootsnap (>= 1.10.1)
   bundler
