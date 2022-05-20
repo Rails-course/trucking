@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   devise_for :users
   get '/users', to: 'pages#users_index'
   scope '/users' do
+    get '/:page',to: 'pages#page'
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
     patch '/:id/edit', to: 'pages#update_user'
@@ -13,7 +14,11 @@ Rails.application.routes.draw do
   end
 
   # Companies
-  resources :companies
+  resources :companies do
+    collection do
+
+    end
+  end
 
   # Goods
   # resources :goods

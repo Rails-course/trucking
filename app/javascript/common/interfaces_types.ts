@@ -211,6 +211,7 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
+    userCount:number;
     page:number
     setUserCount:(userCount:number)=>void;
     numSelected: number;

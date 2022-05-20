@@ -82,6 +82,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
+          userCount={userCount}
+          setUserCount={setUserCount}
           numSelected={selectedUsersIds.length}
           users={usersData}
           setUser={setUser}
