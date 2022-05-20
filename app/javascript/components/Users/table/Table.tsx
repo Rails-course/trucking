@@ -15,7 +15,7 @@ import httpClient from '../../../api/httpClient';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, setEditUserModal, setUpdateModalActive, searchData, userCount,
+    users, setUser, setEditUserModal, setUpdateModalActive, searchData, userCount, setUserCount,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -85,8 +85,10 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           numSelected={selectedUsersIds.length}
           users={usersData}
           setUser={setUser}
+          page={page}
           selectedUsersIds={selectedUsersIds}
           setSelectedUsersIds={setSelectedUsersIds}
+          setUserCount={setUserCount}
         />
         <TableContainer>
           <Table
@@ -153,6 +155,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           </Table>
         </TableContainer>
         <TablePagination
+          rowsPerPageOptions={[]}
           component="div"
           count={userCount}
           rowsPerPage={rowsPerPage}

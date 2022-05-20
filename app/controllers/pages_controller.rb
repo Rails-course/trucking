@@ -22,9 +22,11 @@ class PagesController < ApplicationController
              else
                User.all.offset(params.fetch(:page, 0).to_i * 5).limit(5)
              end
-    render json: @users.to_json(include: { role: { only: [:role_name] },
-                                           company: { only: [:name] },
-                                           address: { only: %i[town street building apartment] }})
+    render json: {users: @users.to_json(include: { role: { only: [:role_name] },
+                                                   company: { only: [:name] },
+                                                   address: { only: %i[town street building
+                                                                       apartment] } }), count: @users.all.count }
+
   end
   def user_data
     render json: @user.to_json(include:

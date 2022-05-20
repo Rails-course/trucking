@@ -32,6 +32,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
     httpClient.users.create(user)
       .then((response) => {
         setUser((prevUsers) => [...prevUsers, response.data]);
+        setUserCount(userCount + 1);
         handleClose();
       })
       .catch((error) => setFormErrors(error.response.data));
@@ -76,6 +77,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              setUserCount={setUserCount}
               userCount={userCount}
               users={users}
               setUser={setUser}

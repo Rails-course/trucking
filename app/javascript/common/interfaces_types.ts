@@ -192,6 +192,7 @@ export interface CreateWarehouseFormProps {
 }
 
 export interface EnhancedTableProps {
+    setUserCount:(userCount:number)=>void;
     userCount:number
     users: User[];
     searchData: string[];
@@ -210,6 +211,8 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
+    page:number
+    setUserCount:(userCount:number)=>void;
     numSelected: number;
     // NOTE: unknown type
     users: any;
