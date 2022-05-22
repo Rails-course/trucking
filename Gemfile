@@ -46,6 +46,10 @@ group :test do
   gem 'webdrivers', '~> 5.0', require: false
 end
 
+group :production do
+  gem 'exception_notification'
+end
+
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bundler'
