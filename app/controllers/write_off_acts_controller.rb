@@ -4,9 +4,23 @@ class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
     company_consignments
-    @write_off_acts = WriteOffAct.where(consignment: @consignments)
+    @write_off_acts_count = WriteOffAct.where(consignment: @consignments).count
+    @write_off_acts = WriteOffAct.where(consignment: @consignments).limit(5)
     @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(@write_off_acts).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
+  end
+
+  def page
+    page = params.fetch(:page, 0).to_i * 5
+    if current_user.role.role_name == 'system administrator'
+      consignment = Consignment.all.offset(page).limit(5)
+    else
+      company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                       company: current_user.company)
+      consignment = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(page).limit(5)
+    end
+    serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(WriteOffAct.where(consignment: consignment)).to_json
+    render json: serialized_write_off_acts
   end
 
   def create
@@ -47,4 +61,5 @@ class WriteOffActsController < ApplicationController
                                      company: current_user.company)
     @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
+
 end

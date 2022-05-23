@@ -144,7 +144,12 @@ export interface CreateConsignmentFormProps {
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: WriteOffAct[],
+    rowsPerPage:number;
+    setRowsPerPage:(actCount:number)=>void;
+    setWriteOffActs:(acts: WriteOffAct[])=>void;
+    writeOffActsCount:number;
+    setWriteOffActsCount:(actsCount: number)=>void;
+    writeOffActs: WriteOffAct[];
     searchData: string[] | number[];
 }
 
@@ -174,6 +179,8 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
+    setWarehousesCount:(warhCount:number)=>void;
+    warehousesCount:number;
     warehouses: Warehouse[];
     currentUserRole: string;
     searchData: string[];
@@ -282,6 +289,9 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
+    setConsignment:(cons: Consignment[])=>void;
+    setConsignmentCount:(consCount: number) => void;
+    consignmentCount:number;
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
@@ -295,6 +305,8 @@ export interface ConsignmentTableProps {
 }
 
 export interface CreateCompanyFormProps {
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     isActiveModal: boolean;
     formErrors: string[];
     handleClose: () => void;
@@ -304,6 +316,8 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     companies: Company[];
     searchData: string[];
     setCompany: (company: Company[]) => void;
@@ -312,6 +326,9 @@ export interface CompanyTableProps {
 }
 
 export interface WaybillTableProps {
+    setWaybill:(waybill: Waybill[])=>void;
+    setWaybillsCount:(wayCount:number)=>void;
+    waybillsCount:number;
     waybills: Waybill[];
     searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
@@ -320,6 +337,7 @@ export interface WaybillTableProps {
 }
 
 export interface WaybillProps {
+    waybillCount:number;
     currentUserRole: string;
     waybillsJSON: string;
 }
@@ -336,6 +354,7 @@ export interface SearchProps {
 }
 
 export interface ConsignmentProps {
+    consignmentsCount:number
     currentUserRole: string;
     consignmentsJSON: string;
     trucksJSON: string;
@@ -345,18 +364,21 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
+    writeOffActCount:number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
+    warehouseCount:number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
 }
 
 export interface CompanyProps {
+    companiesCount:number;
     currentUserRole: string;
     companiesJSON: string;
 }

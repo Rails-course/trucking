@@ -7,10 +7,17 @@ class PagesController < ApplicationController
   def users_index
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
-    users = current_user.company ? User.where(company: current_user.company) : User.all
+    users = current_user.company ? User.where(company: current_user.company).limit(5) : User.all.limit(5)
+    user_count = current_user.company ? User.where(company: current_user.company).count : User.all.count
+    @user_count = ActiveModelSerializers::SerializableResource.new(user_count).to_json
     @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
+  end
+
+  def page
+    page = params.fetch(:page, 0)
+    render json: current_user.company ? User.where(company: current_user.company).offset(page).limit(5) : User.all.offset(page).limit(5)
   end
 
   def user_data

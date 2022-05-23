@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope '/users' do
+    get '/:page',to: 'pages#page'
     get '', to: 'pages#users_index', as: 'users'
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
@@ -14,21 +15,38 @@ Rails.application.routes.draw do
   end
 
   # Companies
-  resources :companies, except: :show
+  resources :companies, except: :show do
+    collection do
+      get '/:page',to: 'companies#page'
+    end
+  end
 
   # Consignment
-  resources :consignments, only: %i[index create]
+  resources :consignments, only: %i[index create] do
+    collection do
+      get '/:page',to: 'consignments#page'
+    end
+  end
   patch 'consignment/:consignment_id/goods', to: 'goods#update'
 
   # Write off acts
-  resources :write_off_acts, only: %i[index create]
+  resources :write_off_acts, only: %i[index create] do
+    collection do
+      get '/:page',to: 'write_off_acts#page'
+    end
+  end
 
   # Waybills
-  resources :waybills, except: :show
+  resources :waybills, except: :show do
+    collection do
+      get '/:page',to: "waybills#page"
+    end
+  end
 
   # warehouses
   resources :warehouses, except: :show do
     collection do
+      get '/:page',to: 'warehouses#page'
       patch 'trust/:id', to: 'warehouses#trust_warehouse'
     end
   end

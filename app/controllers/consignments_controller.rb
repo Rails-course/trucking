@@ -7,7 +7,7 @@ class ConsignmentsController < ApplicationController
 
     consignments_resources
     company_consignments
-
+    @consignment_count = consignment_count
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
     @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
@@ -15,6 +15,13 @@ class ConsignmentsController < ApplicationController
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
   end
 
+  def page
+    page = params.fetch(:page, 0)
+    return render json: Consignment.all.offset(page).limit(5) if current_user.role.role_name == 'system administrator'
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                    company: current_user.company)
+    render json: Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(page).limit(5)
+  end
   def create
     authorize! :create, Consignment
     authorize! :create, Good
@@ -37,13 +44,19 @@ class ConsignmentsController < ApplicationController
   end
 
   def company_consignments
-    return @consignments = Consignment.all if current_user.role.role_name == 'system administrator'
+    return @consignments = Consignment.all.limit(5) if current_user.role.role_name == 'system administrator'
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).limit(5)
   end
+  def consignment_count
+    return consignments_count = Consignment.all.count if current_user.role.role_name == 'system administrator'
 
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    consignments_count = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).count
+  end
   def permit_consignment_params
     params.permit(consignment: %i[bundle_seria
                                   bundle_number

@@ -11,19 +11,22 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { writeOffActSortTableCell, writeOffActTableCell } from '../../constants/writeOffActFields';
 import { Order } from '../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../utils/stableSort';
+import httpClient from '../../api/httpClient';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
-  const { writeOffActs, searchData } = props;
+  const {
+    writeOffActs, searchData, setWriteOffActsCount, writeOffActsCount, rowsPerPage, setRowsPerPage, setWriteOffActs,
+  } = props;
 
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof WriteOffAct>('good_name');
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - writeOffActs.length) : 0;
-
-  const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    httpClient.writeOffActs.getAll(newPage).then((response) => setWriteOffActs(response.data)).then(() => setPage(newPage));
+  };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -95,7 +98,6 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                   </TableRow>
                 )
                 : stableSort(writeOffActData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((writeOffAct) => (
                     <StyledTableRow key={writeOffAct.id}>
                       <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>
@@ -105,22 +107,13 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                       <StyledTableCell align="center">{writeOffAct.consignment.bundle_number}</StyledTableCell>
                     </StyledTableRow>
                   ))}
-              {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={writeOffActs.length}
+          count={writeOffActsCount}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

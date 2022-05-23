@@ -90,7 +90,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           page={page}
           selectedUsersIds={selectedUsersIds}
           setSelectedUsersIds={setSelectedUsersIds}
-          setUserCount={setUserCount}
         />
         <TableContainer>
           <Table

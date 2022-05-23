@@ -4,9 +4,14 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    companies = current_user.company ? Company.accessible_by(current_ability) : Company.all
-
+    companies = current_user.company ? Company.accessible_by(current_ability).limit(5) : Company.all.limit(5)
+    @companies_count = current_user.company ? Company.accessible_by(current_ability).count : Company.all.count
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
+  end
+
+  def page
+    page = params.fetch(:page, 0)
+    render json: current_user.company ? Company.accessible_by(current_ability).offset(page).limit(5) : Company.all.offset(page).limit(5)
   end
 
   def update

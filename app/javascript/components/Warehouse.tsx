@@ -9,7 +9,11 @@ import SiteAlerts from './Alert';
 import Search from './Search';
 
 const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole, warehousesJSON, warehousemansJSON } = props;
+  const {
+    currentUserRole, warehousesJSON, warehousemansJSON, warehouseCount,
+  } = props;
+
+  const [warehousesCount, setWarehousesCount] = React.useState<number>(warehouseCount);
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [warehouses, setWarehouses] = React.useState<Warehouse[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
@@ -48,6 +52,8 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
 
           <Grid item xs={12}>
             <WarehouseTable
+              warehousesCount={warehousesCount}
+              setWarehousesCount={setWarehousesCount}
               warehouses={warehouses}
               setWarehouses={setWarehouses}
               setAlertData={setAlertData}

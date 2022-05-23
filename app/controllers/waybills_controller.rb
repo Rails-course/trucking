@@ -4,7 +4,18 @@ class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
   def index
+    @waybill_count = waybills_count
     @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills).to_json
+  end
+
+  def page
+    page = params.fetch(:page, 0)
+    return render json: Waybill.all.offset(page).limit(5) if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    company_consignments = Consignment.where(dispatcher: company_dispatchers)
+    render json: Waybill.where(consignment: company_consignments).offset(page).limit(5)
   end
 
   def create
@@ -36,12 +47,21 @@ class WaybillsController < ApplicationController
   private
 
   def company_waybills
-    return @waybills = Waybill.all if current_user.role.role_name == 'system administrator'
+    return @waybills = Waybill.all.limit(5) if current_user.role.role_name == 'system administrator'
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
-    @waybills = Waybill.where(consignment: company_consignments)
+    @waybills = Waybill.where(consignment: company_consignments).limit(5)
+  end
+
+  def waybills_count
+    return waybills = Waybill.all.count if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    company_consignments = Consignment.where(dispatcher: company_dispatchers)
+    waybills = Waybill.where(consignment: company_consignments).count
   end
 
   def waybill_params

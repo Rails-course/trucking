@@ -11,7 +11,8 @@ import Search from './Search';
 import httpClient from '../api/httpClient';
 
 const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
-  const { currentUserRole, companiesJSON } = props;
+  const { currentUserRole, companiesJSON, companiesCount } = props;
+  const [companyCount, setCompanyCount] = useState<number>(companiesCount);
   const [isActiveModal, setModalActive] = useState<boolean>(false);
   const [companies, setCompany] = React.useState<Company[]>(JSON.parse(companiesJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
@@ -28,6 +29,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
+
       if (searchData) setSearchData([response.data]);
       setAlertData({
         alertType: 'info',
@@ -69,11 +71,15 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
               setAlertData={setAlertData}
               searchData={searchData}
               changeCompanyStatus={changeCompanyStatus}
+              companyCount={companyCount}
+              setCompanyCount={setCompanyCount}
             />
           </Grid>
         </Grid>
       </Box>
       <CreateCompanyForm
+        companyCount={companyCount}
+        setCompanyCount={setCompanyCount}
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         setCompany={setCompany}
