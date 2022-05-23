@@ -10,11 +10,10 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlertData, searchData, changeCompanyStatus, companyCount, setCompanyCount,
+    companies, setCompany, setAlertData, searchData, changeCompanyStatus, companyCount, setCompanyCount, setRowsPerPage, rowsPerPage,
   } = props;
-  const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
+  const [page, setPage] = React.useState<number>(0);
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.companies.getAll(newPage).then((response) => setCompany(response.data)).then(() => setPage(newPage));
   };
@@ -27,7 +26,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   const deleteCompany = (id) => {
     httpClient.companies.delete(id).then(() => {
       setCompany(companies.filter((company) => id !== company.id));
-      setCompanyCount(companyCount - 1);
+      httpClient.companies.getAll(page).then((response) => setCompany(response.data))
+        .then(() => setCompanyCount(companyCount - 1));
       httpClient.companies.getAll(page).then((response) => setCompany(response.data));
     });
     setAlertData({ alertType: 'success', alertText: 'Company successfully deleted!', open: true });

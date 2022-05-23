@@ -179,6 +179,8 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
+    rowsPerPage:number;
+    setRowsPerPage: (rowCount: number)=>void;
     setWarehousesCount:(warhCount:number)=>void;
     warehousesCount:number;
     warehouses: Warehouse[];
@@ -190,16 +192,16 @@ export interface WarehouseTableProps {
 }
 
 export interface CreateWarehouseFormProps {
+    handleSubmit: any;
     isActiveModal: boolean;
     formErrors: string[],
     warehousemen: User[];
     handleClose: () => void;
-    setWarehouses: (warehouses: (prev) => Warehouse[]) => void;
-    setFormErrors: (errors: string[]) => void;
-    setAlertData: (alert: Alert) => void;
 }
 
 export interface EnhancedTableProps {
+    rowsPerPage: number;
+    setRowsPerPage:(rowCount: number)=>void;
     setUserCount:(userCount:number)=>void;
     userCount:number
     users: User[];
@@ -289,6 +291,8 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount:number)=>void;
     setConsignment:(cons: Consignment[])=>void;
     setConsignmentCount:(consCount: number) => void;
     consignmentCount:number;
@@ -305,6 +309,8 @@ export interface ConsignmentTableProps {
 }
 
 export interface CreateCompanyFormProps {
+    companies:Company[];
+    rowsPerPage: number;
     companyCount:number;
     setCompanyCount:(setCompanyCount:number)=>void;
     isActiveModal: boolean;
@@ -316,6 +322,8 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount: number)=>void
     companyCount:number;
     setCompanyCount:(setCompanyCount:number)=>void;
     companies: Company[];

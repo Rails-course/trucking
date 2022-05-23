@@ -12,6 +12,7 @@ import httpClient from '../../api/httpClient';
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData, companyCount, setCompanyCount,
+    companies,rowsPerPage
   } = props;
 
   const companyInitialValues: Company = { id: undefined, name: '', is_suspended: false };
@@ -21,7 +22,9 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
       .then((response) => {
         handleClose();
         // TODO: cast type
-        setCompany((prevCompany) => [...prevCompany, response.data]);
+        if (companies.length < rowsPerPage) {
+          setCompany((prevCompany) => [...prevCompany, response.data]);
+        }
         setAlertData({ alertType: 'success', alertText: 'Successfully created a company!', open: true });
         setCompanyCount(companyCount + 1);
       })

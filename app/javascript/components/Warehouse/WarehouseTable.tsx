@@ -1,14 +1,8 @@
 import * as React from 'react';
 
 import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Checkbox,
   IconButton,
-  ListItemIcon,
-  Box,
   CircularProgress,
   TableRow,
   TableContainer,
@@ -25,11 +19,12 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData, setWarehousesCount, warehousesCount,
+    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
+    setWarehousesCount, warehousesCount,rowsPerPage,setRowsPerPage
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.warehouses.getAll(newPage).then((response) => setWarehouses(response.data)).then(() => setPage(newPage));
@@ -55,8 +50,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
-    setWarehousesCount(warehousesCount - 1);
-    httpClient.warehouses.getAll(page).then((response) => setWarehouses(response.data));
+    httpClient.warehouses.getAll(page).then((response) => setWarehouses(response.data))
+      .then(() => setWarehousesCount(warehousesCount - 1));
   };
 
   const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);

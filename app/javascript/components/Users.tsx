@@ -20,6 +20,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState<string[]>();
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleClose = () => {
     setCreateModalActive(false);
@@ -31,7 +32,9 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const handleSubmit = (user: userFormValues) => {
     httpClient.users.create(user)
       .then((response) => {
-        setUser((prevUsers) => [...prevUsers, response.data]);
+        if (users.length < rowsPerPage) {
+          setUser((prevUsers) => [...prevUsers, response.data]);
+        }
         setUserCount(userCount + 1);
         handleClose();
       })
@@ -77,6 +80,8 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
               setUserCount={setUserCount}
               userCount={userCount}
               users={users}

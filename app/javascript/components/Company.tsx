@@ -18,6 +18,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [searchData, setSearchData] = React.useState<string[]>();
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleClose = () => {
     setModalActive(false);
@@ -66,6 +67,8 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
 
           <Grid item xs={12}>
             <CompanyTable
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
               companies={companies}
               setCompany={setCompany}
               setAlertData={setAlertData}
@@ -78,6 +81,8 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
         </Grid>
       </Box>
       <CreateCompanyForm
+        companies={companies}
+        rowsPerPage={rowsPerPage}
         companyCount={companyCount}
         setCompanyCount={setCompanyCount}
         isActiveModal={isActiveModal}

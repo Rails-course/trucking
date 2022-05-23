@@ -16,31 +16,8 @@ import { CreateWarehouseFormProps, User } from '../../common/interfaces_types';
 const WarehouseCreateForm:
   React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
     const {
-      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
-      warehousemen,
+      isActiveModal, handleClose, warehousemen,handleSubmit,formErrors
     } = props;
-
-    const handleSubmit = (warehouse: warehouseFormValues) => {
-      httpClient.warehouses.create(warehouse)
-        .then((response) => {
-          // TODO: cast data type
-          setWarehouses((prev) => [...prev, response.data]);
-          handleClose();
-          setAlertData({
-            alertType: 'success',
-            alertText: 'Successfully created a warehouse!',
-            open: true,
-          });
-        })
-        .catch((error) => {
-          setFormErrors(error.response.data);
-          setAlertData({
-            alertType: 'error',
-            alertText: 'Something went wrong with creating a warehouse',
-            open: true,
-          });
-        });
-    };
 
     return (
       <div>

@@ -16,11 +16,11 @@ import httpClient from '../../api/httpClient';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    currentUserRole, setCreateWaybillData, searchData, setWaybillStatus, consignmentCount, setConsignmentCount, setConsignment,
+    currentUserRole, setCreateWaybillData, searchData, setWaybillStatus, consignmentCount,
+    setConsignmentCount, setConsignment,rowsPerPage,setRowsPerPage
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Consignment>('consignment_seria');

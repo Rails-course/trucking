@@ -39,6 +39,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
   const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
@@ -81,7 +82,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const handleSubmit = (consignment: consignmentFormValues) => {
     httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
-        if (consignmentCount < 6) setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
+        if (consignmentCount < rowsPerPage) setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
@@ -159,6 +160,8 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
 
           <Grid item xs={12}>
             <ConsignmentTable
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
               setConsignment={setConsignment}
               consignmentCount={consignmentCount}
               setConsignmentCount={setConsignmentCount}
