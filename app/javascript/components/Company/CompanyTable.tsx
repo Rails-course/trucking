@@ -10,12 +10,14 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlertData, searchData, changeCompanyStatus, companyCount, setCompanyCount, setRowsPerPage, rowsPerPage,
+    companies, setCompany, setAlertData, searchData, changeCompanyStatus, companyCount,
+    setCompanyCount, setRowsPerPage, rowsPerPage,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.companies.getAll(newPage).then((response) => setCompany(response.data)).then(() => setPage(newPage));
+    httpClient.companies.getAll(newPage)
+      .then((response) => setCompany(response.data)).then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {

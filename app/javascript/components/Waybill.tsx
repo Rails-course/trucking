@@ -27,7 +27,7 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
 
   const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish(id)
-      .then((response) => {
+      .then(() => {
         setAlertData({ alertType: 'success', alertText: 'Successfully finished cargo transportation!', open: true });
 
         setWaybillsCount(waybillCount + 1);

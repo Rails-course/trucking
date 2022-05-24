@@ -14,9 +14,7 @@ class WriteOffActsController < ApplicationController
 
   def page
     page = params.fetch(:page, 0).to_i * @@acts_per_page
-    if params[:perPage]
-      @@acts_per_page = params[:perPage].to_i
-    end
+    @@acts_per_page = params[:perPage].to_i if params[:perPage]
     if current_user.role.role_name == 'system administrator'
       consignment = Consignment.all.offset(page).limit(@@acts_per_page)
     else

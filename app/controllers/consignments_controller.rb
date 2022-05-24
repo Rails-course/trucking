@@ -18,9 +18,7 @@ class ConsignmentsController < ApplicationController
 
   def page
     page = params.fetch(:page, 0).to_i * @@consignment_per_page.to_i
-    if params[:perPage]
-      @@consignment_per_page = params[:perPage].to_i
-    end
+    @@consignment_per_page = params[:perPage].to_i if params[:perPage]
     if current_user.role.role_name == 'system administrator'
       @consignments = Consignment.all.offset(page).limit(@@consignment_per_page.to_i)
     else

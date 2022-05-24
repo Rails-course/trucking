@@ -15,7 +15,8 @@ import httpClient from '../../api/httpClient';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
   const {
-    writeOffActs, searchData, setWriteOffActsCount, writeOffActsCount, rowsPerPage, setRowsPerPage, setWriteOffActs,
+    writeOffActs, searchData, writeOffActsCount,
+    rowsPerPage, setRowsPerPage, setWriteOffActs,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);

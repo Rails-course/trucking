@@ -19,9 +19,7 @@ class PagesController < ApplicationController
 
   def page
     page = params.fetch(:page, 0).to_i * @@user_per_page
-    if params[:perPage]
-      @@user_per_page = params[:perPage].to_i
-    end
+    @@user_per_page = params[:perPage].to_i if params[:perPage]
     users = current_user.company ? User.where(company: current_user.company).offset(page).limit(@@user_per_page) : User.all.offset(page).limit(@@user_per_page)
     render json: ActiveModelSerializers::SerializableResource.new(users).to_json
   end

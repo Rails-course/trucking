@@ -10,7 +10,6 @@ import FormikField from '../../UI/FormikField';
 import { warehouseFields } from '../../constants/warehouseFields';
 import warehouseInitialValues, { warehouseFormValues } from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
-import httpClient from '../../api/httpClient';
 import { CreateWarehouseFormProps, User } from '../../common/interfaces_types';
 
 const WarehouseCreateForm:

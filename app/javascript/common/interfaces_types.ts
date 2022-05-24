@@ -3,7 +3,6 @@ import { AlertColor } from '@mui/material';
 import { Order, UserData } from '../mixins/initialValues/userList';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import { userFormValues } from '../initialValues/userInitialValues';
-import user from '../mixins/validation_schema/user';
 
 /* eslint-disable no-unused-vars */
 
