@@ -21,7 +21,7 @@ class WriteOffActsController < ApplicationController
       company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                        company: current_user.company)
       consignment = Consignment.where(dispatcher: company_dispatchers)
-                               .order({ created_at: :desc }).offset(page).limit(@@acts_per_page5)
+                               .order({ created_at: :desc }).offset(page).limit(@@acts_per_page)
     end
 
     render json: ActiveModelSerializers::SerializableResource.new(WriteOffAct.where(consignment: consignment)).to_json
