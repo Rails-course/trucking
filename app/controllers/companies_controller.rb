@@ -33,9 +33,6 @@ class CompaniesController < ApplicationController
     # end
   end
 
-  def change_pagination_params
-    @@companies_per_page = params[:page]
-  end
 
   def create
     authorize! :create, Company
