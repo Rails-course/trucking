@@ -17,7 +17,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
     currentUserRole, setCreateWaybillData, searchData, setWaybillStatus, consignmentCount,
-    setConsignmentCount, setConsignment,rowsPerPage,setRowsPerPage
+    setConsignmentCount, setConsignment, rowsPerPage, setRowsPerPage,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
@@ -47,8 +47,10 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.consignments.getAll(0, event.target.value).then((response) => setConsignment(response.data)).then(() => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    });
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {

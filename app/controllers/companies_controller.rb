@@ -2,16 +2,23 @@
 
 class CompaniesController < ApplicationController
   load_and_authorize_resource
+  @@companies_per_page = 10
 
   def index
-    companies = current_user.company ? Company.accessible_by(current_ability).limit(5) : Company.all.limit(5)
+    companies = current_user.company ? Company.accessible_by(current_ability).limit(@@companies_per_page) : Company.all.limit(@@companies_per_page)
     @companies_count = current_user.company ? Company.accessible_by(current_ability).count : Company.all.count
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
   end
 
   def page
-    page = params.fetch(:page, 0)
-    render json: current_user.company ? Company.accessible_by(current_ability).offset(page).limit(5) : Company.all.offset(page).limit(5)
+    page = params.fetch(:page, 0).to_i * @@companies_per_page.to_i
+    @@companies_per_page = params[:perPage].to_i if params[:perPage]
+    companies = if current_user.company
+                  Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page)
+                else
+                  Company.all.offset(page).limit(@@companies_per_page)
+                end
+    render json: ActiveModelSerializers::SerializableResource.new(companies).to_json
   end
 
   def update
@@ -24,6 +31,10 @@ class CompaniesController < ApplicationController
     # company_users.each do |user|
     #   sign_out user
     # end
+  end
+
+  def change_pagination_params
+    @@companies_per_page = params[:page]
   end
 
   def create

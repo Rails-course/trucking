@@ -12,7 +12,7 @@ import httpClient from '../../api/httpClient';
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData, companyCount, setCompanyCount,
-    companies,rowsPerPage
+    companies, rowsPerPage,
   } = props;
 
   const companyInitialValues: Company = { id: undefined, name: '', is_suspended: false };

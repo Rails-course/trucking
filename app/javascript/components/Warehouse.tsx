@@ -97,7 +97,8 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         warehousemen={JSON.parse(warehousemansJSON)}
-        formErrors={formErrors}/>
+        formErrors={formErrors}
+      />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );

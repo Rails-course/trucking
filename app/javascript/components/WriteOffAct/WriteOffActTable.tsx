@@ -25,12 +25,18 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
   const [orderBy, setOrderBy] = React.useState<keyof WriteOffAct>('good_name');
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.writeOffActs.getAll(newPage).then((response) => setWriteOffActs(response.data)).then(() => setPage(newPage));
+    httpClient.writeOffActs.getAll(newPage)
+      .then((response) => setWriteOffActs(response.data))
+      .then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.writeOffActs.getAll(0, event.target.value)
+      .then((response) => setWriteOffActs(response.data))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {

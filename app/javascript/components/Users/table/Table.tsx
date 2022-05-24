@@ -25,7 +25,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [page, setPage] = React.useState<number>(0);
   const [dense, setDense] = React.useState<boolean>(false);
 
-
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.users.getAll(newPage).then((response) => setUser(response.data)).then(() => setPage(newPage));
   };
@@ -33,8 +32,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -64,8 +61,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.users.getAll(page, event.target.value).then((response) => setUser(response.data))
+      .then(() => setRowsPerPage(parseInt(event.target.value, 10)));
   };
 
   const openUpdateModal = (id) => {
@@ -157,7 +154,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={userCount}
           rowsPerPage={rowsPerPage}

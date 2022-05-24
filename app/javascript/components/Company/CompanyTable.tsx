@@ -19,8 +19,11 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.companies.getAll(0, event.target.value).then((response) => setCompany(response.data))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
 
   const deleteCompany = (id) => {
@@ -76,7 +79,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={companyCount}
           rowsPerPage={rowsPerPage}

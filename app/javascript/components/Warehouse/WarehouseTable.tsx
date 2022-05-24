@@ -20,19 +20,21 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
     warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
-    setWarehousesCount, warehousesCount,rowsPerPage,setRowsPerPage
+    setWarehousesCount, warehousesCount, rowsPerPage, setRowsPerPage,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
-
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.warehouses.getAll(newPage).then((response) => setWarehouses(response.data)).then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.warehouses.getAll(0, event.target.value).then((response) => setWarehouses(response.data))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
 
   const setWarehouseTrusted = (warehouse: Warehouse) => {
@@ -102,7 +104,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={warehousesCount}
           rowsPerPage={rowsPerPage}

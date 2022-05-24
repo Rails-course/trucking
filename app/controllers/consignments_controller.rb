@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
+  @@consignment_per_page = 5
 
   def index
     authorize! :read, Consignment
@@ -16,12 +17,22 @@ class ConsignmentsController < ApplicationController
   end
 
   def page
-    page = params.fetch(:page, 0)
-    return render json: Consignment.all.offset(page).limit(5) if current_user.role.role_name == 'system administrator'
-    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
-                                    company: current_user.company)
-    render json: Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(page).limit(5)
+    page = params.fetch(:page, 0).to_i * @@consignment_per_page.to_i
+    if params[:perPage]
+      @@consignment_per_page = params[:perPage].to_i
+    end
+    if current_user.role.role_name == 'system administrator'
+      @consignments = Consignment.all.offset(page).limit(@@consignment_per_page.to_i)
+    else
+      company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                       company: current_user.company)
+      @consignments = Consignment.where(dispatcher: company_dispatchers)
+                                 .order({ created_at: :desc }).offset(page).limit(@@consignment_per_page.to_i)
+    end
+    serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
+    render json: serialized_consignments
   end
+
   def create
     authorize! :create, Consignment
     authorize! :create, Good
@@ -30,8 +41,6 @@ class ConsignmentsController < ApplicationController
       @consignment = Consignment.create!(create_consignment_params)
       @goods = Good.create!(create_goods_params(@consignment))
     end
-
-    render json: @consignment
   end
 
   private
@@ -44,19 +53,23 @@ class ConsignmentsController < ApplicationController
   end
 
   def company_consignments
-    return @consignments = Consignment.all.limit(5) if current_user.role.role_name == 'system administrator'
+    if current_user.role.role_name == 'system administrator'
+      return @consignments = Consignment.all.limit(@@consignment_per_page)
+    end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).limit(5)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).limit(@@consignment_per_page)
   end
+
   def consignment_count
-    return consignments_count = Consignment.all.count if current_user.role.role_name == 'system administrator'
+    return Consignment.all.count if current_user.role.role_name == 'system administrator'
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    consignments_count = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).count
+    Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).count
   end
+
   def permit_consignment_params
     params.permit(consignment: %i[bundle_seria
                                   bundle_number

@@ -16,7 +16,7 @@ import { CreateWarehouseFormProps, User } from '../../common/interfaces_types';
 const WarehouseCreateForm:
   React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
     const {
-      isActiveModal, handleClose, warehousemen,handleSubmit,formErrors
+      isActiveModal, handleClose, warehousemen, handleSubmit, formErrors,
     } = props;
 
     return (
