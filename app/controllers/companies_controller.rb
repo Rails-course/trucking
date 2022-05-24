@@ -2,7 +2,7 @@
 
 class CompaniesController < ApplicationController
   load_and_authorize_resource
-  @@companies_per_page = 10
+  @@companies_per_page = 5
 
   def index
     companies = current_user.company ? Company.accessible_by(current_ability).limit(@@companies_per_page) : Company.all.limit(@@companies_per_page)
