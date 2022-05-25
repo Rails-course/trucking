@@ -13,12 +13,11 @@ class CompaniesController < ApplicationController
   def page
     page = params.fetch(:page, 0).to_i * @@companies_per_page.to_i
     @@companies_per_page = params[:perPage].to_i if params[:perPage]
-    companies = if current_user.company
-                  Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page)
-                else
-                  Company.all.offset(page).limit(@@companies_per_page)
-                end
-    render json: ActiveModelSerializers::SerializableResource.new(companies).to_json
+    render json: if current_user.company
+                   Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page)
+                 else
+                   Company.all.offset(page).limit(@@companies_per_page)
+                 end
   end
 
   def update
@@ -32,7 +31,6 @@ class CompaniesController < ApplicationController
     #   sign_out user
     # end
   end
-
 
   def create
     authorize! :create, Company

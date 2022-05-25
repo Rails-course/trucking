@@ -15,16 +15,8 @@ class WriteOffActsController < ApplicationController
   def page
     page = params.fetch(:page, 0).to_i * @@acts_per_page
     @@acts_per_page = params[:perPage].to_i if params[:perPage]
-    if current_user.role.role_name == 'system administrator'
-      consignment = Consignment.all.offset(page).limit(@@acts_per_page)
-    else
-      company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
-                                       company: current_user.company)
-      consignment = Consignment.where(dispatcher: company_dispatchers)
-                               .order({ created_at: :desc }).offset(page).limit(@@acts_per_page)
-    end
-
-    render json: ActiveModelSerializers::SerializableResource.new(WriteOffAct.where(consignment: consignment)).to_json
+    company_consignments
+    render json: WriteOffAct.where(consignment: @consignments).offset(page).limit(@@acts_per_page)
   end
 
   def create

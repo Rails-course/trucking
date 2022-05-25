@@ -15,8 +15,7 @@ class WarehousesController < ApplicationController
   def page
     page = params.fetch(:page, 0).to_i * @@warehouses_per_page
     @@warehouses_per_page = params[:perPage].to_i if params[:perPage]
-    warehouses = Warehouse.all.offset(page).limit(@@warehouses_per_page)
-    render json: ActiveModelSerializers::SerializableResource.new(warehouses).to_json
+    render json: Warehouse.all.offset(page).limit(@@warehouses_per_page)
   end
 
   def create
