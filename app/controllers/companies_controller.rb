@@ -5,20 +5,16 @@ class CompaniesController < ApplicationController
   @@companies_per_page = 5
 
   def index
-    companies = current_user.company ? Company.accessible_by(current_ability).limit(@@companies_per_page) : Company.all.limit(@@companies_per_page)
+    page = params[:page].to_i * @@companies_per_page.to_i
+    @@companies_per_page = params[:perPage].to_i if params[:perPage]
+    companies = current_user.company ? Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page) : Company.all.offset(page).limit(@@companies_per_page)
     @companies_count = current_user.company ? Company.accessible_by(current_ability).count : Company.all.count
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
+    if params[:page]
+      render json: companies
+      end
   end
 
-  def page
-    page = params.fetch(:page, 0).to_i * @@companies_per_page.to_i
-    @@companies_per_page = params[:perPage].to_i if params[:perPage]
-    render json: if current_user.company
-                   Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page)
-                 else
-                   Company.all.offset(page).limit(@@companies_per_page)
-                 end
-  end
 
   def update
     @company = Company.find(params.require(:id))

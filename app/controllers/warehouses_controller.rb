@@ -5,16 +5,20 @@ class WarehousesController < ApplicationController
   @@warehouses_per_page = 5
 
   def index
-    warehouses = Warehouse.all.limit(@@warehouses_per_page)
+    page = params.fetch(:page,0).to_i * @@warehouses_per_page
+    @@warehouses_per_page = params[:perPage].to_i if params[:perPage]
+    warehouses = Warehouse.all.offset(page).limit(@@warehouses_per_page)
     warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
     @warehouses_count = Warehouse.all.count
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(warehouses).to_json
     @serialized_warehousemans = ActiveModelSerializers::SerializableResource.new(warehousemans).to_json
+    if params[:page]
+      render json: warehouses
+    end
   end
 
   def page
-    page = params.fetch(:page, 0).to_i * @@warehouses_per_page
-    @@warehouses_per_page = params[:perPage].to_i if params[:perPage]
+
     render json: Warehouse.all.offset(page).limit(@@warehouses_per_page)
   end
 

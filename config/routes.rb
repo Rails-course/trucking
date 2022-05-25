@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope '/users' do
-    get '/:page/(:perPage)',to: 'pages#page'
-    get '', to: 'pages#users_index', as: 'users'
+    get '/(:page)/(:perPage)',to: 'pages#users_index',as: "users"
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
     patch '/:id/edit', to: 'pages#update_user'
@@ -17,14 +16,14 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show do
     collection do
-      get '/:page/(:perPage)',to: 'companies#page'
+      get '/(:page)/(:perPage)',to: 'companies#index'
     end
   end
 
   # Consignment
-  resources :consignments, only: %i[index create] do
+  resources :consignments, only: %i[create] do
     collection do
-      get '/:page/(:perPage)',to: 'consignments#page'
+      get '/(:page)/(:perPage)',to: 'consignments#index'
     end
   end
   patch 'consignment/:consignment_id/goods', to: 'goods#update'
@@ -32,21 +31,21 @@ Rails.application.routes.draw do
   # Write off acts
   resources :write_off_acts, only: %i[index create] do
     collection do
-      get '/:page/(:perPage)',to: 'write_off_acts#page'
+      get '/(:page)/(:perPage)',to: 'write_off_acts#index'
     end
   end
 
   # Waybills
   resources :waybills, except: :show do
     collection do
-      get '/:page/(:perPage)',to: "waybills#page"
+      get '/(:page)/(:perPage)',to: "waybills#index"
     end
   end
 
   # warehouses
-  resources :warehouses, except: :show do
+  resources :warehouses, except: %i[show index] do
     collection do
-      get '/:page/(:perPage)',to: 'warehouses#page'
+      get '/(:page)/(:perPage)',to: 'warehouses#index'
       patch 'trust/:id', to: 'warehouses#trust_warehouse'
     end
   end
@@ -61,6 +60,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :consignments, only: %i[index show] do
         resources :consignment_goods, only: :index
+        collection do
+          get '/:page/(:perPage)',to: "consignments#page"
+        end
       end
       resources :drivers, only: :index
       resources :trucks, only: :index

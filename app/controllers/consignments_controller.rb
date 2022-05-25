@@ -6,6 +6,7 @@ class ConsignmentsController < ApplicationController
   def index
     authorize! :read, Consignment
 
+    @@consignment_per_page = params[:perPage].to_i if params[:perPage]
     consignments_resources
     company_consignments
     @consignment_count = consignment_count
@@ -14,12 +15,11 @@ class ConsignmentsController < ApplicationController
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
+    if params[:page]
+      render json: @consignments
+    end
   end
 
-  def page
-    @@consignment_per_page = params[:perPage].to_i if params[:perPage]
-    render json: company_consignments
-  end
 
   def create
     authorize! :create, Consignment
