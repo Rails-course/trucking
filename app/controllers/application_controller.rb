@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
 
+  def default_page_size
+    params[:perPage] ?  params[:perPage].to_i : 5
+  end
+
   private
 
   def record_not_found(error)

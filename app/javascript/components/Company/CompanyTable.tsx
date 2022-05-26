@@ -16,7 +16,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
 
   const [page, setPage] = React.useState<number>(0);
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.companies.getAll(newPage)
+    httpClient.companies.getAll(newPage, rowsPerPage.toString())
       .then((response) => setCompany(response.data)).then(() => setPage(newPage));
   };
 
@@ -31,7 +31,8 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
   const deleteCompany = (id) => {
     httpClient.companies.delete(id).then(() => {
       setCompany(companies.filter((company) => id !== company.id));
-      httpClient.companies.getAll(page).then((response) => setCompany(response.data))
+      httpClient.companies.getAll(page, rowsPerPage.toString())
+        .then((response) => setCompany(response.data))
         .then(() => setCompanyCount(companyCount - 1));
       httpClient.companies.getAll(page).then((response) => setCompany(response.data));
     });

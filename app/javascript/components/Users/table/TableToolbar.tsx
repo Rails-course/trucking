@@ -9,7 +9,8 @@ import { EnhancedTableToolbarProps } from '../../../common/interfaces_types';
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const {
-    numSelected, setUser, selectedUsersIds, setSelectedUsersIds, page, setUserCount, userCount,
+    numSelected, setUser, selectedUsersIds, setSelectedUsersIds, page, setUserCount,
+    userCount, rowPerPage,
   } = props;
 
   const deleteUserByIds = async () => {
@@ -18,7 +19,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     );
 
     await Promise.all(promises).then(() => {
-      httpClient.users.getAll(page).then((response) => setUser(response.data));
+      httpClient.users.getAll(page, rowPerPage.toString()).then((response) => setUser(response.data));
       setSelectedUsersIds([]);
       setUserCount(userCount - selectedUsersIds.length);
     });

@@ -220,6 +220,7 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
+    rowPerPage:number;
     userCount:number;
     page:number
     setUserCount:(userCount:number)=>void;

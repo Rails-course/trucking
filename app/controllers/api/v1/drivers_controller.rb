@@ -10,9 +10,9 @@ module Api
         drivers_api_columns = User.attribute_names.reject do |column|
           excluded_columns.include? column
         end
-        drivers=User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')).limit(@@drivers_per_page)
-        render json: {drivers: drivers.to_json( include: [company: { only: :name }]),
-                      drivers_count: User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')).length}
+        drivers = User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')).limit(@@drivers_per_page)
+        render json: { drivers: drivers.to_json(include: [company: { only: :name }]),
+                       drivers_count: User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')).length }
       end
 
       def page

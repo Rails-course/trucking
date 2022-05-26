@@ -26,7 +26,9 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [dense, setDense] = React.useState<boolean>(false);
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.users.getAll(newPage).then((response) => setUser(response.data)).then(() => setPage(newPage));
+    httpClient.users.getAll(newPage, rowsPerPage.toString())
+      .then((response) => setUser(response.data))
+      .then(() => setPage(newPage));
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,6 +82,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
+          rowPerPage={rowsPerPage}
           userCount={userCount}
           setUserCount={setUserCount}
           numSelected={selectedUsersIds.length}

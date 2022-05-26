@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
 class WriteOffActsController < ApplicationController
-  @@acts_per_page = 5
-
   def index
     authorize! :read, WriteOffAct
-    page = params.fetch(:page, 0).to_i * @@acts_per_page
-    @@acts_per_page = params[:perPage].to_i if params[:perPage]
+    page = params.fetch(:page, 0).to_i * default_page_size
     company_consignments
     @write_off_acts_count = WriteOffAct.where(consignment: @consignments).count
-    @write_off_acts = WriteOffAct.where(consignment: @consignments).offset(page).limit(@@acts_per_page)
+    @write_off_acts = WriteOffAct.where(consignment: @consignments).offset(page).limit(default_page_size)
     @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(@write_off_acts).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
-    if params[:page]
-      render json: @write_off_acts
-    end
+    render json: @write_off_acts if params[:page]
   end
 
   def create

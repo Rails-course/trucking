@@ -2,16 +2,12 @@
 
 class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
-  @@WAYBILLS_PER_PAGE = 5
 
   def index
     @waybill_count = waybills_count
     @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills).to_json
-    if params[:page]
-      render json: @waybills
-    end
+    render json: @waybills if params[:page]
   end
-
 
   def create
     points = points_params
@@ -42,16 +38,15 @@ class WaybillsController < ApplicationController
   private
 
   def company_waybills
-    @@WAYBILLS_PER_PAGE = params[:perPage].to_i if params[:perPage]
-    page = params.fetch(:page, 0).to_i * @@WAYBILLS_PER_PAGE
+    page = params.fetch(:page, 0).to_i * default_page_size
     if current_user.role.role_name == 'system administrator'
-      return @waybills = Waybill.all.offset(page).limit(@@WAYBILLS_PER_PAGE)
+      return @waybills = Waybill.all.offset(page).limit(default_page_size)
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
-    @waybills = Waybill.where(consignment: company_consignments).offset(page).limit(@@WAYBILLS_PER_PAGE)
+    @waybills = Waybill.where(consignment: company_consignments).offset(page).limit(default_page_size)
   end
 
   def waybills_count

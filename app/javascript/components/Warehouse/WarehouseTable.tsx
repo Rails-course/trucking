@@ -26,7 +26,11 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   const [page, setPage] = React.useState<number>(0);
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.warehouses.getAll(newPage).then((response) => setWarehouses(response.data)).then(() => setPage(newPage));
+    httpClient.warehouses.getAll(newPage, rowsPerPage.toString())
+      .then((response) => {
+        setWarehouses(response.data);
+      })
+      .then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +56,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
-    httpClient.warehouses.getAll(page).then((response) => setWarehouses(response.data))
+    httpClient.warehouses.getAll(page, rowsPerPage.toString()).then((response) => setWarehouses(response.data))
       .then(() => setWarehousesCount(warehousesCount - 1));
   };
 

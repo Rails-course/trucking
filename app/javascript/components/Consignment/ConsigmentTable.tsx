@@ -42,7 +42,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.consignments.getAll(newPage)
+    httpClient.consignments.getAll(newPage, rowsPerPage.toString())
       .then((response) => setConsignment(response.data))
       .then(() => setPage(newPage));
     setPage(newPage);

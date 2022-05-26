@@ -11,8 +11,9 @@ module Api
         consignment_api_columns = Consignment.attribute_names.reject do |column|
           excluded_columns.include? column
         end
-        render json: {consignments: Consignment.select(consignment_api_columns).limit(@@cons_per_page).to_json(
-          include: included_params) ,consignments_count: Consignment.select(consignment_api_columns).length}
+        render json: { consignments: Consignment.select(consignment_api_columns).limit(@@cons_per_page).to_json(
+          include: included_params
+        ), consignments_count: Consignment.select(consignment_api_columns).length }
       end
 
       def show
@@ -29,7 +30,8 @@ module Api
           excluded_columns.include? column
         end
         render json: Consignment.select(consignment_api_columns).offset(page).limit(@@cons_per_page).to_json(
-          include: included_params)
+          include: included_params
+        )
       end
 
       private

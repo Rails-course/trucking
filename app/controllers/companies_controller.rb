@@ -2,19 +2,18 @@
 
 class CompaniesController < ApplicationController
   load_and_authorize_resource
-  @@companies_per_page = 5
 
   def index
-    page = params[:page].to_i * @@companies_per_page.to_i
-    @@companies_per_page = params[:perPage].to_i if params[:perPage]
-    companies = current_user.company ? Company.accessible_by(current_ability).offset(page).limit(@@companies_per_page) : Company.all.offset(page).limit(@@companies_per_page)
+    page = params[:page].to_i * default_page_size.to_i
+    companies = if current_user.company
+                  Company.accessible_by(current_ability).offset(page).limit(default_page_size)
+                else
+                  Company.all.offset(page).limit(default_page_size)
+                end
     @companies_count = current_user.company ? Company.accessible_by(current_ability).count : Company.all.count
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
-    if params[:page]
-      render json: companies
-      end
+    render json: companies if params[:page]
   end
-
 
   def update
     @company = Company.find(params.require(:id))

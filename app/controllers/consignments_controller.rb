@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-  @@consignment_per_page = 5
-
   def index
     authorize! :read, Consignment
 
-    @@consignment_per_page = params[:perPage].to_i if params[:perPage]
     consignments_resources
     company_consignments
     @consignment_count = consignment_count
@@ -15,11 +12,8 @@ class ConsignmentsController < ApplicationController
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
-    if params[:page]
-      render json: @consignments
-    end
+    render json: @consignments if params[:page]
   end
-
 
   def create
     authorize! :create, Consignment
@@ -42,14 +36,14 @@ class ConsignmentsController < ApplicationController
   end
 
   def company_consignments
-    @page = params.fetch(:page, 0).to_i * @@consignment_per_page.to_i
+    @page = params.fetch(:page, 0).to_i * default_page_size.to_i
     if current_user.role.role_name == 'system administrator'
-      return @consignments = Consignment.all.offset(@page).limit(@@consignment_per_page)
+      return @consignments = Consignment.all.offset(@page).limit(default_page_size)
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(@page).limit(@@consignment_per_page)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(@page).limit(default_page_size)
   end
 
   def consignment_count

@@ -25,7 +25,9 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.waybill.getAll(newPage).then((response) => setWaybill(response.data)).then(() => setPage(newPage));
+    httpClient.waybill.getAll(newPage, rowsPerPage.toString())
+      .then((response) => setWaybill(response.data))
+      .then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {

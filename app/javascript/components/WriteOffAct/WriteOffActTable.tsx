@@ -26,7 +26,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
   const [orderBy, setOrderBy] = React.useState<keyof WriteOffAct>('good_name');
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    httpClient.writeOffActs.getAll(newPage)
+    httpClient.writeOffActs.getAll(newPage, rowsPerPage.toString())
       .then((response) => setWriteOffActs(response.data))
       .then(() => setPage(newPage));
   };
