@@ -9,7 +9,15 @@ RSpec.describe 'Waybills', type: :request do
   before do
     sign_in user
   end
-  describe 'positive POST/PUT/DELETE methods' do
+  describe 'positive GET/POST/PUT/DELETE methods' do
+    it 'GET first page' do
+      get '/waybills'
+      expect(response).to have_http_status(:ok)
+    end
+    it 'GET some page' do
+      get '/waybills/1/5'
+      expect(response).to have_http_status(:ok)
+    end
     it 'POST waybill/create' do
       waybills_count=Waybill.count
       post '/waybills',
