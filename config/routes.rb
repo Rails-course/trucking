@@ -3,7 +3,9 @@
 Rails.application.routes.draw do
   root 'pages#home'
   # User
-  devise_for :users
+  devise_for :users, controllers: {
+        confirmations: 'users/confirmations'
+      }
 
   scope '/users' do
     get '', to: 'pages#users_index', as: 'users'

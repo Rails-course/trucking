@@ -47,8 +47,8 @@ class PagesController < ApplicationController
 
   def permit_user_params
     params.permit(:first_name, :second_name, :middle_name, :birthday,
-                  :passport, :login, :email, :password, :password_confirmation,
-                  :role, :town, :street, :building, :apartment, :company)
+                  :passport, :login, :email, :role, :town, :street, 
+                  :building, :apartment, :company)
   end
 
   def user_params
@@ -59,6 +59,12 @@ class PagesController < ApplicationController
                                         building: permit_user_params[:building],
                                         apartment: permit_user_params[:apartment])
     user_params[:company] = Company.find_by(name: permit_user_params[:company])
+    user_params[:password] = generate_password
+    user_params[:password_confirmation] = user_params[:password]
     user_params.except(:town, :street, :building, :apartment)
+  end
+
+  def generate_password
+    SecureRandom.hex(10)
   end
 end
