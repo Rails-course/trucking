@@ -24,9 +24,9 @@ class User < ApplicationRecord
     record.errors.add(attr, 'Invalid date')
   end
   # Include default devise modules. Others available are:
-  # :lockable, :trackable and :omniauthable
+  # :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
-         :validatable, :confirmable
+         :validatable, :confirmable, :lockable
 
   def active_for_authentication?
     if company
