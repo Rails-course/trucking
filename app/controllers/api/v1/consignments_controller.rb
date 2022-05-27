@@ -3,7 +3,6 @@
 module Api
   module V1
     class ConsignmentsController < ApiController
-
       def index
         authorize! :read, Consignment
         page = params.fetch(:page, 0).to_i * default_page_size

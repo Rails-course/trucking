@@ -8,13 +8,9 @@ RSpec.describe 'warehouses', type: :request do
   end
   describe 'GET methods' do
     it 'get users' do
-      get '/warehouses'
-      expect(response).to have_http_status(:success)
-    end
-    it 'GET first page with 10 warehouses per page' do
-      sign_in User.find(1)
-      get '/warehouses/0/10'
-      expect(JSON.parse(response.body).length).to eq(2)
+      FactoryBot.create_list(:warehouse, 5 )
+      get '/warehouses/0/5'
+      expect(JSON.parse(response.body).count).to eq(5)
     end
   end
 end

@@ -16,7 +16,7 @@ module Api
       end
 
       def default_page_size
-        params[:perPage] ?  params[:perPage].to_i : 5
+        params[:perPage] ? params[:perPage].to_i : 5
       end
 
       private

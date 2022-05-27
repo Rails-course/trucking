@@ -14,7 +14,6 @@ module Api
         render json: { drivers: drivers.to_json(include: [company: { only: :name }]),
                        drivers_count: User.select(drivers_api_columns).where(role: Role.find_by(role_name: 'driver')).length }
       end
-
     end
   end
 end

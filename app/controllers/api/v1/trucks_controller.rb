@@ -10,10 +10,10 @@ module Api
         trucks_api_columns = Truck.attribute_names.reject do |column|
           excluded_columns.include? column
         end
-        render json: {trucks: Truck.select(trucks_api_columns).offset(page).limit(default_page_size).to_json( include: [
-          company: { only: :name },
-          truck_type: { only: :truck_type_name }
-        ]) ,trucks_count:Truck.select(trucks_api_columns).length}
+        render json: { trucks: Truck.select(trucks_api_columns).offset(page).limit(default_page_size).to_json(include: [
+                                                                                                                company: { only: :name },
+                                                                                                                truck_type: { only: :truck_type_name }
+                                                                                                              ]), trucks_count: Truck.select(trucks_api_columns).length }
       end
     end
   end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  let(:user) { create(:user,role_id:6) }
+  let(:user) { create(:user,role_id:6,company: nil ) }
 
   before do
     sign_in user
@@ -9,17 +9,9 @@ RSpec.describe 'Users', type: :request do
 
   describe 'GET methods' do
     it 'get users' do
-      get '/users'
-      expect(response).to have_http_status(:success)
-    end
-    it 'GET first page with 10 users per page' do
-      sign_in User.find(1)
-      get '/users/0/10'
-      expect(JSON.parse(response.body).length).to eq(10)
-    end
-    it 'GET first page with 1 users => company without any users' do
-      get '/users/0/10'
-      expect(JSON.parse(response.body).length).to eq(1)
+      FactoryBot.create_list(:user, 5 )
+      get '/users/0/5'
+      expect(JSON.parse(response.body).count).to eq(5)
     end
   end
 

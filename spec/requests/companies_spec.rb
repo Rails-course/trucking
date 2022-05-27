@@ -8,15 +8,14 @@ RSpec.describe 'Companies', type: :request do
     sign_in user
   end
   describe 'GET methods' do
-    it 'get users' do
-      get '/companies'
-      expect(response).to have_http_status(:success)
-    end
-    it 'GET first page with 10 companies per page' do
-      sign_in User.find(1)
-      get '/companies/0/10'
-      expect(JSON.parse(response.body).length).to eq(3)
-    end
+      it 'get Companies' do
+        FactoryBot.create_list(:company,5)
+        get '/companies/0/5'
+        expect(JSON.parse(response.body).count).to eq(5)
+      end
+  end
+
+    describe 'delete methods' do
     it 'invalid delete request' do
       expect { delete "/companies/#{company.id + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
     end

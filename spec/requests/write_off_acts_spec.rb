@@ -7,14 +7,13 @@ RSpec.describe 'Write_off_acts', type: :request do
     sign_in user
   end
   describe 'GET methods' do
-    it 'get users' do
-      get '/write_off_acts'
-      expect(response).to have_http_status(:success)
-    end
-    it 'GET first page with 10 acts per page' do
-      sign_in User.find(1)
-      get '/write_off_acts/0/10'
-      expect(JSON.parse(response.body).length).to eq(6)
+    it 'get Write_off_acts' do
+      consignment=create(:consignment)
+      create(:good,consignment:consignment )
+      FactoryBot.create_list(:write_off_act, 5 ,consignment: consignment)
+      get '/write_off_acts/0/5'
+
+      expect(JSON.parse(response.body).count).to eq(5)
     end
   end
 end

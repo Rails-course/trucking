@@ -11,13 +11,10 @@ RSpec.describe 'Waybills', type: :request do
   end
 
   describe 'positive GET/POST/PUT/DELETE methods' do
-    it 'GET first page' do
-      get '/waybills'
-      expect(response).to have_http_status(:ok)
-    end
-    it 'GET first page with 10 waybills per page' do
-      get '/waybills/0/10'
-      expect(JSON.parse(response.body).length).to eq(10)
+    it 'get users' do
+      FactoryBot.create_list(:waybill, 5 )
+      get '/waybills/0/5'
+      expect(JSON.parse(response.body).count).to eq(5)
     end
     it 'POST waybill/create' do
       waybills_count=Waybill.count
