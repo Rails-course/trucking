@@ -15,6 +15,10 @@ module Api
         response.set_header('Link', '<https://trucking-logistics.herokuapp.com/api/v2/consignments>')
       end
 
+      def default_page_size
+        params[:perPage] ?  params[:perPage].to_i : 5
+      end
+
       private
 
       def check_basic_auth

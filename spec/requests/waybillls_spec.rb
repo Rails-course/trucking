@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Waybills', type: :request do
-  let(:user) { create(:user_sysAdmin) }
+  let(:user) { create(:user,role_id: 6) }
   let(:consignment) { create(:consignment) }
   let(:warehouse) { create(:warehouse) }
   let(:goods_owner) { create(:goods_owner) }
@@ -9,14 +9,15 @@ RSpec.describe 'Waybills', type: :request do
   before do
     sign_in user
   end
+
   describe 'positive GET/POST/PUT/DELETE methods' do
     it 'GET first page' do
       get '/waybills'
       expect(response).to have_http_status(:ok)
     end
-    it 'GET some page' do
-      get '/waybills/1/5'
-      expect(response).to have_http_status(:ok)
+    it 'GET first page with 10 waybills per page' do
+      get '/waybills/0/10'
+      expect(JSON.parse(response.body).length).to eq(10)
     end
     it 'POST waybill/create' do
       waybills_count=Waybill.count

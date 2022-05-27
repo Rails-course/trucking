@@ -2,21 +2,20 @@ require 'rails_helper'
 
 RSpec.describe 'Companies', type: :request do
   let(:company) { create(:company) }
-  let(:user) { create(:user_sysAdmin) }
+  let(:user) { create(:user,role_id: 6) }
 
   before do
     sign_in user
   end
-
-  describe 'DELETE /companies' do
-    it 'valid delete request' do
-      delete "/companies/#{company.id}"
-      expect(response).to have_http_status(204)
+  describe 'GET methods' do
+    it 'get users' do
+      get '/companies'
+      expect(response).to have_http_status(:success)
     end
-    it 'valid delete action' do
-      company_count = Company.all.count
-      delete "/companies/#{company.id}"
-      expect(Company.all.count).to eq(company_count)
+    it 'GET first page with 10 companies per page' do
+      sign_in User.find(1)
+      get '/companies/0/10'
+      expect(JSON.parse(response.body).length).to eq(3)
     end
     it 'invalid delete request' do
       expect { delete "/companies/#{company.id + 1}" }.to raise_error(ActiveRecord::RecordNotFound)

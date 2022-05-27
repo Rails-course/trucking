@@ -58,14 +58,22 @@ Rails.application.routes.draw do
     # V1 API DEPRECATED
     # disable after demonstration
     namespace :v1 do
-      resources :consignments, only: %i[index show] do
+      resources :consignments, only:  :show do
         resources :consignment_goods, only: :index
         collection do
-          get '/:page/(:perPage)',to: "consignments#page"
+          get '/(:page)/(:perPage)',to: "consignments#index"
         end
       end
-      resources :drivers, only: :index
-      resources :trucks, only: :index
+      resources :drivers, only: :index do
+        collection do
+          get '/(:page)/(:perPage)',to: "drivers#index"
+        end
+      end
+      resources :trucks, only: :index do
+        collection do
+          get '/(:page)/(:perPage)',to: "trucks#index"
+        end
+      end
     end
     namespace :v2 do
       resources :consignments, only: %i[index show]
