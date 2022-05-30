@@ -17,7 +17,7 @@ module Api
 
       def show
         authorize! :read, Consignment
-        render json: Consignment.find(params[:id]), include: included_params
+        render json: Consignment.find(params[:id]).to_json(include: included_params)
       end
 
       private

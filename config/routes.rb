@@ -61,7 +61,7 @@ Rails.application.routes.draw do
       resources :consignments, only:  :show do
         resources :consignment_goods, only: :index
         collection do
-          get '/(:page)/(:perPage)',to: "consignments#index"
+          get '/:page/:perPage',to: "consignments#index"
         end
       end
       resources :drivers, only: :index do
