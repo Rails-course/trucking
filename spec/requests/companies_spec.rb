@@ -16,6 +16,15 @@ RSpec.describe 'Companies', type: :request do
   end
 
     describe 'delete methods' do
+      it 'valid delete request' do
+        delete "/companies/#{company.id}"
+        expect(response).to have_http_status(204)
+      end
+      it 'valid delete action' do
+        company_count = Company.all.count
+        delete "/companies/#{company.id}"
+        expect(Company.all.count).to eq(company_count)
+      end
     it 'invalid delete request' do
       expect { delete "/companies/#{company.id + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
     end
