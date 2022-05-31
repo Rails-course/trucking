@@ -17,11 +17,13 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     reset_token = params[:reset_password_token]
     yield resource if block_given?
 
-    if resource.errors.empty?
+    if resource.errors.empty? || resource.confirmed?
       set_flash_message!(:notice, :confirmed)
-      respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource, reset_token) }
+      respond_with_navigational(resource) do
+        redirect_to after_confirmation_path_for(resource_name, resource, reset_token)
+      end
     else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
+      respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
     end
   end
 
@@ -33,7 +35,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # The path used after confirmation.
-  def after_confirmation_path_for(resource_name, resource, reset_token)
+  def after_confirmation_path_for(_resource_name, resource, reset_token)
     edit_password_url(resource, reset_password_token: reset_token)
   end
 end

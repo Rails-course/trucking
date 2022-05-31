@@ -23,6 +23,7 @@ class User < ApplicationRecord
   rescue StandardError
     record.errors.add(attr, 'Invalid date')
   end
+  before_validation :generate_password, on: :create
   # Include default devise modules. Others available are:
   # :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
@@ -38,5 +39,11 @@ class User < ApplicationRecord
 
   def inactive_message
     company.is_suspended ? :user_company_suspended : super
+  end
+
+  private
+
+  def generate_password
+    self.password = SecureRandom.hex(8)
   end
 end
