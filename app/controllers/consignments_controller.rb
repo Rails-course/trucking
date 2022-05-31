@@ -36,14 +36,14 @@ class ConsignmentsController < ApplicationController
   end
 
   def company_consignments
-    @page = params.fetch(:page, 0).to_i * default_page_size.to_i
+    offset_page = page
     if current_user.role.role_name == 'system administrator'
-      return @consignments = Consignment.all.offset(@page).limit(default_page_size)
+      return @consignments = Consignment.all.offset(offset_page).limit(default_page_size)
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(@page).limit(default_page_size)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).offset(offset_page).limit(default_page_size)
   end
 
   def consignment_count

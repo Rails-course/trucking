@@ -5,11 +5,8 @@ module Api
     class ConsignmentsController < ApiController
       def index
         authorize! :read, Consignment
-        page = params.fetch(:page, 0).to_i * default_page_size
         excluded_columns = %w[created_at updated_at]
-        consignment_api_columns = Consignment.attribute_names.reject do |column|
-          excluded_columns.include? column
-        end
+        consignment_api_columns = Consignment.attribute_names - excluded_columns
         render json: { consignments: Consignment.select(consignment_api_columns).offset(page).limit(default_page_size).to_json(
           include: included_params
         ), consignments_count: Consignment.select(consignment_api_columns).length }

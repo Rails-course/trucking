@@ -3,7 +3,6 @@
 class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
-    page = params.fetch(:page, 0).to_i * default_page_size
     company_consignments
     @write_off_acts_count = WriteOffAct.where(consignment: @consignments).count
     @write_off_acts = WriteOffAct.where(consignment: @consignments).offset(page).limit(default_page_size)

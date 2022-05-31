@@ -10,7 +10,7 @@ RSpec.describe 'Users', type: :request do
   describe 'GET methods' do
     it 'get users' do
       FactoryBot.create_list(:user, 5 )
-      get '/users/0/5'
+      get '/users?page=0&per_page=5'
       expect(JSON.parse(response.body).count).to eq(5)
     end
   end

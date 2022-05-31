@@ -9,7 +9,7 @@ RSpec.describe 'warehouses', type: :request do
   describe 'GET methods' do
     it 'get users' do
       FactoryBot.create_list(:warehouse, 5 )
-      get '/warehouses/0/5'
+      get '/warehouses?page=0&per_page=5'
       expect(JSON.parse(response.body).count).to eq(5)
     end
   end

@@ -4,7 +4,6 @@ class WarehousesController < ApplicationController
   before_action :set_warehouse, only: %i[update destroy]
 
   def index
-    page = params.fetch(:page, 0).to_i * default_page_size
     warehouses = Warehouse.all.offset(page).limit(default_page_size)
     warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
     @warehouses_count = Warehouse.all.count
