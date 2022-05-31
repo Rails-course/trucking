@@ -14,16 +14,12 @@ Rails.application.routes.draw do
   end
 
   # Companies
-  resources :companies, except: :show do
-    collection do
-    end
-  end
+  resources :companies, except: :show
+
 
   # Consignment
-  resources :consignments, only: %i[create index] do
-    collection do
-    end
-  end
+  resources :consignments, only: %i[create index]
+
   patch 'consignment/:consignment_id/goods', to: 'goods#update'
 
   # Write off acts
