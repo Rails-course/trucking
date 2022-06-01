@@ -8,7 +8,7 @@ module Concerns::Paginatable
   end
 
   def default_page_size
-    params[:per_page].to_i.negative? ? 5 : params[:per_page].to_i
+    params[:per_page].to_i <= 0 ? 5 : params[:per_page].to_i
   end
 
   def paginate_collection(collection)

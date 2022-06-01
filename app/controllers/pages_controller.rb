@@ -6,13 +6,12 @@ class PagesController < ApplicationController
   def home; end
 
   def users_index
-    offset_page = page
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
     users = if current_user.company
-              User.where(company: current_user.company).offset(offset_page).limit(default_page_size)
+              paginate_collection( User.where(company: current_user.company))
             else
-              User.all.offset(offset_page).limit(default_page_size)
+              paginate_collection(User.all)
             end
     user_count = current_user.company ? User.where(company: current_user.company).count : User.all.count
     @user_count = ActiveModelSerializers::SerializableResource.new(user_count).to_json

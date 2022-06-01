@@ -4,7 +4,7 @@ class WarehousesController < ApplicationController
   before_action :set_warehouse, only: %i[update destroy]
 
   def index
-    warehouses = Warehouse.all.offset(page).limit(default_page_size)
+    warehouses = paginate_collection(Warehouse.all)
     warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
     @warehouses_count = Warehouse.all.count
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(warehouses).to_json

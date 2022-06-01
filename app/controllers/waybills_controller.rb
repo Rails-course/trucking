@@ -38,15 +38,14 @@ class WaybillsController < ApplicationController
   private
 
   def company_waybills
-    offset_page = page
     if current_user.role.role_name == 'system administrator'
-      return @waybills = Waybill.all.offset(offset_page).limit(default_page_size)
+      return @waybills = paginate_collection(Waybill.all)
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
-    @waybills = Waybill.where(consignment: company_consignments).offset(offset_page).limit(default_page_size)
+    @waybills = paginate_collection(Waybill.where(consignment: company_consignments))
   end
 
   def waybills_count
