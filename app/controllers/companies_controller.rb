@@ -4,11 +4,10 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    offset_page = page
     companies = if current_user.company
-                  Company.accessible_by(current_ability).offset(offset_page).limit(default_page_size)
+                  paginate_collection(Company.accessible_by(current_ability))
                 else
-                  Company.all.offset(offset_page).limit(default_page_size)
+                  paginate_collection(Company.all)
                 end
     @companies_count = current_user.company ? Company.accessible_by(current_ability).count : Company.all.count
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
