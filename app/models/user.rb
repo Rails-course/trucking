@@ -29,6 +29,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
          :validatable, :confirmable, :lockable
 
+  scope :by_name, ->(search) {
+                    sec_name, first_name, mid_name = search.split
+                    query = "second_name ILIKE '#{sec_name}%'"
+                    query += "and first_name ILIKE '#{first_name}'" if first_name.present?
+                    query += " and middle_name ILIKE '#{mid_name}%'" if mid_name.present?
+                    where(query)
+                  }
+
   def active_for_authentication?
     if company
       super && !company.is_suspended
