@@ -11,7 +11,10 @@ module Concerns
     end
 
     def paginate_collection(collection)
-      collection.offset(offset_value).limit(default_page_size)
+      { collection: collection.offset(offset_value).limit(default_page_size),
+        page_data:
+       { page: params.fetch(:page, 0), default_page_size: default_page_size,
+         pages_count: collection.length / default_page_size, elements_count: collection.length } }
     end
   end
 end

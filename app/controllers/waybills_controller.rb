@@ -39,13 +39,13 @@ class WaybillsController < ApplicationController
 
   def company_waybills
     if current_user.role.role_name == 'system administrator'
-      return @waybills = paginate_collection(Waybill.all)
+      return @waybills = paginate_collection(Waybill.all)[:collection]
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
-    @waybills = paginate_collection(Waybill.where(consignment: company_consignments))
+    @waybills = paginate_collection(Waybill.where(consignment: company_consignments))[:collection]
   end
 
   def waybills_count

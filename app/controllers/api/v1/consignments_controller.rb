@@ -7,7 +7,7 @@ module Api
         authorize! :read, Consignment
         excluded_columns = %w[created_at updated_at]
         consignment_api_columns = Consignment.attribute_names - excluded_columns
-        render json: { consignments: paginate_collection(Consignment.select(consignment_api_columns)).to_json(
+        render json: { consignments: paginate_collection(Consignment.select(consignment_api_columns))[:collection].to_json(
           include: included_params
         ), consignments_count: Consignment.select(consignment_api_columns).length }
       end

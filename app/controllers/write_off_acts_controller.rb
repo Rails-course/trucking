@@ -5,7 +5,7 @@ class WriteOffActsController < ApplicationController
     authorize! :read, WriteOffAct
     company_consignments
     @write_off_acts_count = WriteOffAct.where(consignment: @consignments).count
-    @write_off_acts = paginate_collection(WriteOffAct.where(consignment: @consignments))
+    @write_off_acts = paginate_collection(WriteOffAct.where(consignment: @consignments))[:collection]
     @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(@write_off_acts).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
     render json: @write_off_acts if params[:page]

@@ -9,9 +9,9 @@ class PagesController < ApplicationController
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
     users = if current_user.company
-              paginate_collection(User.where(company: current_user.company))
+              paginate_collection(User.where(company: current_user.company))[:collection]
             else
-              paginate_collection(User.all)
+              paginate_collection(User.all)[:collection]
             end
     user_count = current_user.company ? User.where(company: current_user.company).count : User.all.count
     @user_count = ActiveModelSerializers::SerializableResource.new(user_count).to_json

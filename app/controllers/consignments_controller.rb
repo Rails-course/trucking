@@ -37,12 +37,12 @@ class ConsignmentsController < ApplicationController
 
   def company_consignments
     if current_user.role.role_name == 'system administrator'
-      return @consignments = paginate_collection(Consignment.all)
+      return @consignments = paginate_collection(Consignment.all)[:collection]
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = paginate_collection(Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }))
+    @consignments = paginate_collection(Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }))[:collection]
   end
 
   def consignment_count
