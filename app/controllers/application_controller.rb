@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Concerns::Paginatable
   rescue_from CanCan::AccessDenied, with: :access_denied
@@ -7,6 +8,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :authenticate_user!
+
   private
 
   def record_not_found(error)
