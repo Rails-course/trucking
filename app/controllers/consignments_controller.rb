@@ -6,13 +6,13 @@ class ConsignmentsController < ApplicationController
 
     consignments_resources
     company_consignments
-    @consignment_count = consignment_count
+    @consignment_count = @consignments[1][:total_count]
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
     @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
-    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
-    render json: @consignments if params[:page]
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments[0]).to_json
+    render json: @consignments[0] if params[:page]
   end
 
   def create
@@ -37,20 +37,12 @@ class ConsignmentsController < ApplicationController
 
   def company_consignments
     if current_user.role.role_name == 'system administrator'
-      return @consignments = paginate_collection(Consignment.all)[:collection]
+      return @consignments = paginate_collection(Consignment.all)
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
-    @consignments = paginate_collection(Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }))[:collection]
-  end
-
-  def consignment_count
-    return Consignment.all.count if current_user.role.role_name == 'system administrator'
-
-    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
-                                     company: current_user.company)
-    Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }).count
+    @consignments = paginate_collection(Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc }))
   end
 
   def permit_consignment_params
