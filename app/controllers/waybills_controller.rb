@@ -4,9 +4,8 @@ class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
   def index
-    @waybill_count = @waybills[1][:total_count]
-    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills[0]).to_json
-    render json: @waybills[0] if params[:page]
+    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills).to_json
+    render json: @waybills if params[:page]
   end
 
   def create
@@ -39,12 +38,14 @@ class WaybillsController < ApplicationController
 
   def company_waybills
     if current_user.role.role_name == 'system administrator'
-      return @waybills = paginate_collection(Waybill.all)
+      @waybill_count = total_count(Waybill.all)
+      return @waybills = paginate_collection(Waybill.all)[0]
     end
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
+    @waybill_count = total_count(Waybill.where(consignment: company_consignments))
     @waybills = paginate_collection(Waybill.where(consignment: company_consignments))
   end
 
