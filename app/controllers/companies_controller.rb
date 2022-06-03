@@ -6,9 +6,9 @@ class CompaniesController < ApplicationController
   def index
     companies_data = if current_user.company
                        paginate_collection(Company.accessible_by(current_ability))
-            else
-              paginate_collection(Company.all)
-            end
+                     else
+                       paginate_collection(Company.all)
+                     end
     @companies_count = companies_data[1][:total_count]
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies_data[0]).to_json
     render json: companies_data[0] if params[:page]
