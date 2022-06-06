@@ -2,10 +2,10 @@
 
 class WaybillsController < ApplicationController
   def index
-    waybills_data = paginate_collection(company_waybills)
-    @waybill_count = waybills_data[1][:total_count]
-    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(waybills_data[0]).to_json
-    render json: waybills_data[0] if params[:page]
+    waybills,meta = paginate_collection(company_waybills)
+    @waybill_count = meta[:total_count]
+    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(waybills).to_json
+    render json: waybills if params[:page]
   end
 
   def create

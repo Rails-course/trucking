@@ -5,14 +5,14 @@ class ConsignmentsController < ApplicationController
     authorize! :read, Consignment
 
     consignments_resources
-    consignments_data = paginate_collection(company_consignments)
-    @consignment_count = consignments_data[1][:total_count]
+    consignments,meta = paginate_collection(company_consignments)
+    @consignment_count = meta[:total_count]
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
     @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
-    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments_data[0]).to_json
-    render json: consignments_data[0] if params[:page]
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
+    render json: consignments if params[:page]
   end
 
   def create
