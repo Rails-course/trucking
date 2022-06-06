@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     if company
-      super && !user.company.is_suspended
+      super && !company.is_suspended
     else
       super
     end
