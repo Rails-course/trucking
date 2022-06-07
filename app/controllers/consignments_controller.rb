@@ -38,8 +38,9 @@ class ConsignmentsController < ApplicationController
   def company_consignments
     return Consignment.all if current_user.role.role_name == 'system administrator'
 
-    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
-                                     company: current_user.company)
+    company_dispatchers = User.joins(:role)
+                                     .where(roles: { role_name: 'dispatcher' },
+                                                  company_id: current_user.company_id)
     Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 
