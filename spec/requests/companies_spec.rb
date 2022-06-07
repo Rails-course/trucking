@@ -10,7 +10,7 @@ RSpec.describe 'Companies', type: :request do
   describe 'GET methods' do
       it 'get Companies' do
         FactoryBot.create_list(:company,5)
-        get '/companies/0/5'
+        get '/companies?page=0&per_page=5'
         expect(JSON.parse(response.body).count).to eq(5)
       end
   end

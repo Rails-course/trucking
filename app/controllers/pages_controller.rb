@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def users_index
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
-    users,meta =  if current_user.company
+    users, meta = if current_user.company
                     paginate_collection(User.where(company: current_user.company))
                   else
                     paginate_collection(User.all)
