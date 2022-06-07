@@ -143,7 +143,12 @@ export interface CreateConsignmentFormProps {
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: WriteOffAct[],
+    rowsPerPage:number;
+    setRowsPerPage:(actCount:number)=>void;
+    setWriteOffActs:(acts: WriteOffAct[])=>void;
+    writeOffActsCount:number;
+    setWriteOffActsCount:(actsCount: number)=>void;
+    writeOffActs: WriteOffAct[];
     searchData: string[] | number[];
 }
 
@@ -173,6 +178,10 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
+    rowsPerPage:number;
+    setRowsPerPage: (rowCount: number)=>void;
+    setWarehousesCount:(warhCount:number)=>void;
+    warehousesCount:number;
     warehouses: Warehouse[];
     currentUserRole: string;
     searchData: string[];
@@ -182,19 +191,21 @@ export interface WarehouseTableProps {
 }
 
 export interface CreateWarehouseFormProps {
+    handleSubmit: any;
     isActiveModal: boolean;
     formErrors: string[],
     warehousemen: User[];
     handleClose: () => void;
-    setWarehouses: (warehouses: (prev) => Warehouse[]) => void;
-    setFormErrors: (errors: string[]) => void;
-    setAlertData: (alert: Alert) => void;
 }
 
 export interface EnhancedTableProps {
+    rowsPerPage: number;
+    setRowsPerPage:(rowCount: number)=>void;
+    setUserCount:(userCount:number)=>void;
+    userCount:number
     users: User[];
     searchData: string[];
-    setUser: (user: (prev) => User[]) => void;
+    setUser: (user: User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
 }
@@ -209,6 +220,10 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
+    rowPerPage:number;
+    userCount:number;
+    page:number
+    setUserCount:(userCount:number)=>void;
     numSelected: number;
     // NOTE: unknown type
     users: any;
@@ -276,6 +291,11 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount:number)=>void;
+    setConsignment:(cons: Consignment[])=>void;
+    setConsignmentCount:(consCount: number) => void;
+    consignmentCount:number;
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
@@ -289,6 +309,10 @@ export interface ConsignmentTableProps {
 }
 
 export interface CreateCompanyFormProps {
+    companies:Company[];
+    rowsPerPage: number;
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     isActiveModal: boolean;
     formErrors: string[];
     handleClose: () => void;
@@ -298,6 +322,10 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount: number)=>void
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     companies: Company[];
     searchData: string[];
     setCompany: (company: Company[]) => void;
@@ -306,6 +334,9 @@ export interface CompanyTableProps {
 }
 
 export interface WaybillTableProps {
+    setWaybill:(waybill: Waybill[])=>void;
+    setWaybillsCount:(wayCount:number)=>void;
+    waybillsCount:number;
     waybills: Waybill[];
     searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
@@ -314,6 +345,7 @@ export interface WaybillTableProps {
 }
 
 export interface WaybillProps {
+    waybillCount:number;
     currentUserRole: string;
     waybillsJSON: string;
 }
@@ -330,6 +362,7 @@ export interface SearchProps {
 }
 
 export interface ConsignmentProps {
+    consignmentsCount:number
     currentUserRole: string;
     consignmentsJSON: string;
     trucksJSON: string;
@@ -339,23 +372,27 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
+    writeOffActCount:number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
+    warehouseCount:number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
 }
 
 export interface CompanyProps {
+    companiesCount:number;
     currentUserRole: string;
     companiesJSON: string;
 }
 
 export interface UsersProps {
+    user_count: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;

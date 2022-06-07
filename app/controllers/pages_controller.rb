@@ -2,15 +2,22 @@
 
 class PagesController < ApplicationController
   before_action :set_user, only: %i[user_data update_user]
+
   def home; end
 
   def users_index
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
-    users = current_user.company ? User.where(company: current_user.company) : User.all
+    users, meta = if current_user.company
+                    paginate_collection(User.where(company: current_user.company))
+                  else
+                    paginate_collection(User.all)
+                  end
+    @user_count = meta[:total_count]
     @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
+    render json: users if params[:page]
   end
 
   def user_data

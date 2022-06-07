@@ -4,9 +4,14 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    companies = current_user.company ? Company.accessible_by(current_ability) : Company.all
-
+    companies,meta = if current_user.company
+                       paginate_collection(Company.accessible_by(current_ability))
+                     else
+                       paginate_collection(Company.all)
+                     end
+    @companies_count = meta[:total_count]
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
+    render json: companies if params[:page]
   end
 
   def update
