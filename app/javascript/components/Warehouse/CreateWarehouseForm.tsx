@@ -33,7 +33,11 @@ const WarehouseCreateForm:
                 <Formik
                   initialValues={warehouseInitialValues}
                   validationSchema={warehouseValidation}
-                  onSubmit={handleSubmit}
+                  onSubmit={(values, {resetForm}) => {
+                      handleSubmit(values);
+                      resetForm({});
+                      window.scrollTo(0, 0);
+                  }}
                 >
                   {({
                     dirty, isValid, handleChange, values,
