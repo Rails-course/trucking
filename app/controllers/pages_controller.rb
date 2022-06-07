@@ -19,7 +19,7 @@ class PagesController < ApplicationController
 
   def update_user
     if @user.update(user_params)
-      render json: @user.to_json(include: %i[role address])
+      render json: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class PagesController < ApplicationController
     authorize! :create, User
     @user = User.new(user_params)
     if @user.save
-      render json: @user.to_json(include: %i[role address])
+      render json: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -47,8 +47,8 @@ class PagesController < ApplicationController
 
   def permit_user_params
     params.permit(:first_name, :second_name, :middle_name, :birthday,
-                  :passport, :login, :email, :password, :password_confirmation,
-                  :role, :town, :street, :building, :apartment, :company)
+                  :passport, :login, :email, :role, :town, :street,
+                  :building, :apartment, :company)
   end
 
   def user_params
@@ -58,7 +58,9 @@ class PagesController < ApplicationController
                                         street: permit_user_params[:street],
                                         building: permit_user_params[:building],
                                         apartment: permit_user_params[:apartment])
-    user_params[:company] = Company.find_by(name: permit_user_params[:company])
+    if permit_user_params[:company].present?
+      user_params[:company] = Company.find_by(name: permit_user_params[:company])
+    end
     user_params.except(:town, :street, :building, :apartment)
   end
 end
