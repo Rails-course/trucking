@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl,
+  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl, StatisticsUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -38,6 +38,16 @@ function httpClient() {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
       update: (id, warehouse) => axios.patch(`${WarehouseUrl}/${id}`, warehouse),
+    },
+    statistics: {
+      getAll: () => axios.get(`${StatisticsUrl}.json`),
+      dataFilter: (
+        filters: any,
+        startDate: string,
+        endDate: string,
+      ) => axios.get(
+        `${StatisticsUrl}?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
+      ),
     },
   };
 }

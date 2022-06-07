@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   patch '/checkpoints', to: 'checkpoints#update'
 
   # Statistics
-  get '/statistics', to: 'statistics#index'
+  resources  :trucking_audit, only: :index, path: '/statistics'
 
   # API
   namespace :api do
