@@ -14,14 +14,16 @@ class ConsignmentSerializer < ActiveModel::Serializer
   end
 
   def manager
-    "#{object.manager.second_name} #{object.manager.first_name} #{object.manager.middle_name}" if object.manager
+    if object.manager
+      "#{object.manager.second_name} #{object.manager.first_name} #{object.manager.middle_name}"
+    end
   end
 
   def truck
-    "#{object.truck.truck_number}"
+    object.truck.truck_number.to_s
   end
 
   def waybill
-    object.waybill.status if object.waybill
+    object.waybill&.status
   end
 end
