@@ -323,6 +323,7 @@ DEPENDENCIES
   exception_notification
   factory_bot_rails (~> 6.2)
   hirb
+  i18n
   jbuilder (~> 2.7)
   letter_opener
   msgpack (= 1.4.3)

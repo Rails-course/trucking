@@ -120,15 +120,7 @@ export type Warehouse = {
 
 export declare type AlignType = 'left' | 'center' | 'right';
 
-export type SearchData = {
-    search: string;
-    consignment: Consignment[];
-    users: User[];
-    waybills: Waybill[];
-    company: Company[];
-}
-
-export interface UserLogs {
+export type UserLogs = {
     id: string;
     user_id: string;
     username: string;
@@ -146,7 +138,6 @@ export type StatisticsType = {
 export type StatAccordion = {
     item: UserLogs;
 };
-
 
 // INTERFACES
 export interface CreateConsignmentFormProps {
@@ -379,4 +370,9 @@ export interface UsersProps {
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;
+}
+
+export interface BasicDateRangePickerProps {
+    setUserLogs: (userLog) => void;
+
 }

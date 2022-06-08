@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ConsignmentSerializer < ActiveModel::Serializer
   attributes :id, :bundle_seria, :bundle_number, :consignment_seria, :consignment_number, :status,
-  :driver, :dispatcher, :manager, :truck, :waybill
+             :driver, :dispatcher, :manager, :truck, :waybill
   has_many :goods
 
   def driver

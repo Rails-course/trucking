@@ -46,7 +46,7 @@ function httpClient() {
         startDate: string,
         endDate: string,
       ) => axios.get(
-        `${StatisticsUrl}?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
+        `${StatisticsUrl}.json?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
       ),
     },
   };

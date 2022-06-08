@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {
+  Paper,
   styled,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableRow,
   Typography,
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -16,6 +15,7 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { StatAccordion } from '../../common/interfaces_types';
+import { StyledTableCell, StyledTableRow } from '../../utils/style';
 
 const rowChangeStyle = {
   '&:last-child td, &:last-child th': { border: 0 },
@@ -70,24 +70,24 @@ const StatisticsAccordion: React.FC<StatAccordion> = (props: StatAccordion) => {
       {Object.keys(item.changes).map((it) => (
         <AccordionDetails key={it}>
           <Typography>
-            <TableContainer>
+            <TableContainer component={Paper}>
               <Table>
                 <TableBody>
                   {Array.isArray(item.changes[it]) ? (
-                    <TableRow sx={rowChangeStyle}>
-                      <TableCell align="center" sx={{ flex: '3 0 20px' }}>
+                    <StyledTableRow sx={rowChangeStyle}>
+                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
                         {it}
-                      </TableCell>
-                      <TableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
                         {item.changes[it][0]}
-                      </TableCell>
-                      <TableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
                         <ArrowForwardIcon />
-                      </TableCell>
-                      <TableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
                         {item.changes[it][1]}
-                      </TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
                   ) : null}
                 </TableBody>
               </Table>
