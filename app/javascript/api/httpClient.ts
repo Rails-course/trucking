@@ -45,7 +45,7 @@ function httpClient() {
       getAll: (page, pageCount = '') => axios.get(`${WarehouseUrl}?page=${page}&per_page=${pageCount}`),
     },
     statistics: {
-      getAll: () => axios.get(`${StatisticsUrl}.json`),
+      getAll: (page, pageCount = '') => axios.get(`${StatisticsUrl}.json?page=${page}&per_page=${pageCount}`),
       dataFilter: (
         filters: any,
         startDate: string,

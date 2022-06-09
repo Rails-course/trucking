@@ -30,12 +30,6 @@ const BasicDateRangePicker
       action: actionData,
     });
 
-    React.useEffect(() => {
-      httpClient.statistics.getAll().then((response) => {
-        setUserLogs(response.data);
-      });
-    }, []);
-
     useDebouncedEffect(() => {
       setDebounced(searchName);
     }, [searchName], 500);
@@ -44,9 +38,7 @@ const BasicDateRangePicker
       if (debounced || actionData !== '' || startDate !== '') {
         httpClient.statistics
           .dataFilter(filters, String(startDate), String(endDate))
-          .then((res) => {
-            setUserLogs(res.data);
-          });
+          .then((res) => { setUserLogs(res.data); });
       }
     }, [actionData, startDate, endDate, debounced]);
 

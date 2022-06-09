@@ -131,8 +131,10 @@ export type UserLogs = {
     type: string;
 }
 
-export type StatisticsType = {
+export type StatisticsTableType = {
     userLogs: UserLogs[];
+    statisticsCount: number;
+    setUserLogs: (userLog) => void;
 };
 
 export type StatAccordion = {
@@ -383,14 +385,14 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
-    writeOffActCount:number,
+    writeOffActCount: number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
-    warehouseCount:number;
+    warehouseCount: number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
@@ -411,5 +413,8 @@ export interface UsersProps {
 
 export interface BasicDateRangePickerProps {
     setUserLogs: (userLog) => void;
+}
 
+export interface StatisticsProps {
+    statisticsCount: number;
 }

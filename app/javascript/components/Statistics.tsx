@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Box, Grid } from '@mui/material';
-import { UserLogs } from '../common/interfaces_types';
+import { StatisticsProps, UserLogs } from '../common/interfaces_types';
 import StatisticsTable from './Statistics/StatisticsTable';
 import FilterBar from './Statistics/FilterBar';
 
-const Statistics = () => {
+const Statistics: React.FC<StatisticsProps> = (props: StatisticsProps) => {
+  const { statisticsCount } = props;
   const [userLogs, setUserLogs] = React.useState<UserLogs[]>([]);
 
   return (
@@ -20,12 +21,10 @@ const Statistics = () => {
           justifyContent="center"
         >
           <Grid item sx={{ display: 'flex', columnGap: '30px' }}>
-            <FilterBar
-              setUserLogs={setUserLogs}
-            />
+            <FilterBar setUserLogs={setUserLogs} />
           </Grid>
           <Grid item xs={12}>
-            <StatisticsTable userLogs={userLogs} />
+            <StatisticsTable userLogs={userLogs} setUserLogs={setUserLogs} statisticsCount={statisticsCount} />
           </Grid>
         </Grid>
       </Box>

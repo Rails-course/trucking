@@ -5,7 +5,7 @@ class ConsignmentsController < ApplicationController
     authorize! :read, Consignment
 
     consignments_resources
-    consignments,meta = paginate_collection(company_consignments)
+    consignments, meta = paginate_collection(company_consignments)
     @consignment_count = meta[:total_count]
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
     @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json

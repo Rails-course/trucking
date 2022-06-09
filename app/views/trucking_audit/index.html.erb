@@ -1,5 +1,7 @@
 <center>
   <div class="client_content">
-    <%=react_component('Statistics') %>
+    <%=react_component('Statistics', {
+      statisticsCount: @statistics_count,
+    }) %>
   </div>
 </center>
