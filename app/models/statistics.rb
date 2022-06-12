@@ -2,7 +2,7 @@
 
 require 'audited/audit'
 
-class TruckingAudit < Audited::Audit
+class Statistics < Audited::Audit
   before_save :set_user_data
 
   def set_user_data
@@ -14,21 +14,22 @@ class TruckingAudit < Audited::Audit
     end
   end
 
-  scope :alphabetical_sort, lambda {
+
+  scope :alphabetical_sort, -> {
     order(username: :asc)
   }
 
-  scope :search_name, lambda { |query|
-    where('username ILIKE :query', query: "%#{query}%")
+  scope :search_name, -> (query) {
+    where('username iLIKE :query', query: "%#{query}%")
   }
 
-  scope :search_action, lambda { |actions|
+  scope :search_action, -> (actions) {
     where(action: actions)
   }
 
-  scope :search_date, lambda { |start_date, end_date|
-    start_date = Time.zone.parse(start_date).beginning_of_day
-    end_date = Time.zone.parse(end_date).end_of_day
+  scope :search_date, -> (start_date, end_date) {
+    start_date = start_date.to_date.beginning_of_day
+    end_date = end_date.to_date.end_of_day
     where('created_at between ? and ?', start_date, end_date)
   }
 end

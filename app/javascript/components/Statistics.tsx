@@ -5,8 +5,8 @@ import StatisticsTable from './Statistics/StatisticsTable';
 import FilterBar from './Statistics/FilterBar';
 
 const Statistics: React.FC<StatisticsProps> = (props: StatisticsProps) => {
-  const { statisticsCount } = props;
-  const [userLogs, setUserLogs] = React.useState<UserLogs[]>([]);
+  const { statisticsJSON, statisticsCount } = props;
+  const [userLogs, setUserLogs] = React.useState<UserLogs[]>(JSON.parse(statisticsJSON));
 
   return (
     <div className="wrapper">

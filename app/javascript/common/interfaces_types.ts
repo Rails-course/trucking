@@ -417,4 +417,5 @@ export interface BasicDateRangePickerProps {
 
 export interface StatisticsProps {
     statisticsCount: number;
+    statisticsJSON: string;
 }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TruckingAuditSerializer < ActiveModel::Serializer
+class StatisticsSerializer < ActiveModel::Serializer
   attributes :id, :user_id, :username, :company, :data, :action, :changes, :type
 
   def company

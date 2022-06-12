@@ -69,30 +69,28 @@ const StatisticsAccordion: React.FC<StatAccordion> = (props: StatAccordion) => {
       </AccordionSummary>
       {Object.keys(item.changes).map((it) => (
         <AccordionDetails key={it}>
-          <Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableBody>
-                  {Array.isArray(item.changes[it]) ? (
-                    <StyledTableRow sx={rowChangeStyle}>
-                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                        {it}
-                      </StyledTableCell>
-                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                        {item.changes[it][0]}
-                      </StyledTableCell>
-                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                        <ArrowForwardIcon />
-                      </StyledTableCell>
-                      <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                        {item.changes[it][1]}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ) : null}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Typography>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableBody>
+                {Array.isArray(item.changes[it]) ? (
+                  <StyledTableRow sx={rowChangeStyle}>
+                    <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      {it}
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      {item.changes[it][0]}
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      <ArrowForwardIcon />
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
+                      {item.changes[it][1]}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ) : null}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </AccordionDetails>
       ))}
     </Accordion>
