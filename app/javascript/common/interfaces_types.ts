@@ -125,7 +125,7 @@ export type UserLogs = {
     user_id: string;
     username: string;
     company: string;
-    data: string;
+    date: string;
     action: string;
     changes: {};
     type: string;
@@ -348,7 +348,6 @@ export interface CompanyTableProps {
 
 export interface WaybillTableProps {
     setWaybill:(waybill: Waybill[])=>void;
-    setWaybillsCount:(wayCount:number)=>void;
     waybillsCount:number;
     waybills: Waybill[];
     searchData: string[];
@@ -405,7 +404,7 @@ export interface CompanyProps {
 }
 
 export interface UsersProps {
-    user_count: number;
+    usersCount: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;

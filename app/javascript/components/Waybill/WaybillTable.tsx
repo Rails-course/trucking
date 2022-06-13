@@ -1,10 +1,8 @@
 import * as React from 'react';
-
 import {
   TableContainer, Paper, Table, TableHead, TableRow, TableBody, Button, TablePagination,
   FormControlLabel, Switch, Box, CircularProgress, TableSortLabel,
 } from '@mui/material';
-
 import { visuallyHidden } from '@mui/utils';
 import { waybillSortTableCell, waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
@@ -15,7 +13,7 @@ import httpClient from '../../api/httpClient';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints, setWaybillsCount, waybillsCount, setWaybill,
+    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints, waybillsCount, setWaybill,
   } = props;
 
   const [dense, setDense] = React.useState<boolean>(false);
@@ -60,11 +58,8 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   };
 
   let waybillsData = [];
-
   if (searchData) waybillsData = searchData;
   else waybillsData = waybills;
-
-  // const waybillsData = searchData || waybills;
 
   return (
     <Box sx={{ width: '100%' }}>

@@ -11,9 +11,9 @@ import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const {
-    rolesJSON, companiesJSON, usersJSON, user_count,
+    rolesJSON, companiesJSON, usersJSON, usersCount,
   } = props;
-  const [userCount, setUserCount] = React.useState<number>(user_count);
+  const [userCount, setUserCount] = React.useState<number>(usersCount);
   const [createModal, setCreateModalActive] = React.useState<boolean>(false);
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
