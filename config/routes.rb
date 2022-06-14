@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   # Waybills
   resources :waybills, except: :show
 
+  resources :birthday_mailer, only: :index
+
   # warehouses
   resources :warehouses, except: %i[show] do
     collection do
