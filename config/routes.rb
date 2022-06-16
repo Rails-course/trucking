@@ -34,8 +34,6 @@ Rails.application.routes.draw do
   # Waybills
   resources :waybills, except: :show
 
-  resources :birthday_mailer, only: :index
-
   # warehouses
   resources :warehouses, except: %i[show] do
     collection do
@@ -52,11 +50,11 @@ Rails.application.routes.draw do
     # disable after demonstration
     namespace :v1 do
       resources :consignments, only: %i[index show] do
-        resources :consignment_goods, only: :index
+        resources :consignment_goods, only: :send_email
       end
-      resources :drivers, only: :index
+      resources :drivers, only: :send_email
 
-      resources :trucks, only: :index
+      resources :trucks, only: :send_email
     end
     namespace :v2 do
       resources :consignments, only: %i[index show]
