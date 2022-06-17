@@ -6,8 +6,8 @@ require 'date'
 class UsersBirthdayJob < ApplicationJob
   queue_as :default
 
-  def perform(user_params)
-    print user_params
+  def perform(*_args)
+    p ActiveRecord::Base.connection.current_database
     # User.where(birthday: user&.birthday && birthday.to_date.beginning_of_day).find_each do |user|
     #   print 'Hi, user!'
     #   recipient_email = user&.email

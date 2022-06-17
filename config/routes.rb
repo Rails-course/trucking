@@ -50,11 +50,11 @@ Rails.application.routes.draw do
     # disable after demonstration
     namespace :v1 do
       resources :consignments, only: %i[index show] do
-        resources :consignment_goods, only: :send_email
+        resources :consignment_goods, only: :index
       end
-      resources :drivers, only: :send_email
+      resources :drivers, only: :index
 
-      resources :trucks, only: :send_email
+      resources :trucks, only: :index
     end
     namespace :v2 do
       resources :consignments, only: %i[index show]

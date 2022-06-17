@@ -18,8 +18,6 @@ class PagesController < ApplicationController
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
     render json: users if params[:page]
-    UsersBirthdayJob.perform(user_params: User.all)
-
   end
 
   def user_data
