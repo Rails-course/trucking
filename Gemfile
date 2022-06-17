@@ -30,6 +30,7 @@ gem 'webpacker'
 gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
+gem 'sidekiq-scheduler', '~> 2.0', '>= 2.0.8'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
