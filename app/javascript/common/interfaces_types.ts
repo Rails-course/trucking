@@ -120,14 +120,6 @@ export type Warehouse = {
 
 export declare type AlignType = 'left' | 'center' | 'right';
 
-export type SearchData = {
-    search: string;
-    consignment: Consignment[];
-    users: User[];
-    waybills: Waybill[];
-    company: Company[];
-}
-
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -143,13 +135,14 @@ export interface CreateConsignmentFormProps {
 }
 
 export interface WriteOffActTableProps {
+    page: number;
+    setPage: (page: number) => void;
     rowsPerPage:number;
     setRowsPerPage:(actCount:number)=>void;
     setWriteOffActs:(acts: WriteOffAct[])=>void;
     writeOffActsCount:number;
     setWriteOffActsCount:(actsCount: number)=>void;
     writeOffActs: WriteOffAct[];
-    searchData: string[] | number[];
 }
 
 export interface CreateWriteOffActFormProps {
@@ -169,8 +162,6 @@ export interface CreateWaybillsFormProps {
     consignments: Consignment[];
     warehouses: Warehouse[];
     goodsOwners: GoodsOwners[];
-    searchData: string[];
-    setSearchData: (searchData: string[]) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     handleClose: () => void;
     setAlertData: (alert: Alert) => void;
@@ -178,16 +169,16 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
+    page: number;
+    setPage: (page: number) => void;
     rowsPerPage:number;
     setRowsPerPage: (rowCount: number)=>void;
     setWarehousesCount:(warhCount:number)=>void;
     warehousesCount:number;
     warehouses: Warehouse[];
     currentUserRole: string;
-    searchData: string[];
     setWarehouses: (warehouses: Warehouse[]) => void;
     setAlertData: (alert: Alert) => void;
-    setSearchData: (searchData: string[]) => void;
 }
 
 export interface CreateWarehouseFormProps {
@@ -199,12 +190,13 @@ export interface CreateWarehouseFormProps {
 }
 
 export interface EnhancedTableProps {
+    page: number;
+    setPage: (page: number) => void;
     rowsPerPage: number;
     setRowsPerPage:(rowCount: number)=>void;
     setUserCount:(userCount:number)=>void;
     userCount:number
     users: User[];
-    searchData: string[];
     setUser: (user: User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
@@ -291,6 +283,8 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
+    setPage: (page:number)=>void;
+    page: number;
     rowsPerPage:number;
     setRowsPerPage:(rowCount:number)=>void;
     setConsignment:(cons: Consignment[])=>void;
@@ -299,7 +293,6 @@ export interface ConsignmentTableProps {
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
-    searchData: string[];
     setModalGoodsActive: (modalGoodsActive: boolean) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     setGoods: (goods: Item[]) => void;
@@ -322,23 +315,27 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
+    setPage: (page:number)=>void;
+    page: number;
     rowsPerPage:number;
     setRowsPerPage:(rowCount: number)=>void
     companyCount:number;
     setCompanyCount:(setCompanyCount:number)=>void;
     companies: Company[];
-    searchData: string[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
     changeCompanyStatus: (id: number, alertText: string) => void;
 }
 
 export interface WaybillTableProps {
+    setRowsPerPage: (rows: number) => void;
+    rowsPerPage: number;
+    setPage: (page:number)=>void;
+    page: number;
     setWaybill:(waybill: Waybill[])=>void;
     setWaybillsCount:(wayCount:number)=>void;
     waybillsCount:number;
     waybills: Waybill[];
-    searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
     setWaybillModalActive: (activeWaybillModal: boolean) => void;
     setWaybillID: (wayID: number) => void;
@@ -356,9 +353,7 @@ export interface SiteAlertProps {
 }
 
 export interface SearchProps {
-    setData: (search: string[]) => void;
-    Data: any;
-    keyField: string;
+    handleSubmit: (text: string)=>void;
 }
 
 export interface ConsignmentProps {
