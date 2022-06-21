@@ -7,19 +7,22 @@ import {
 function httpClient() {
   return {
     users: {
-      getAll: (page, pageCount = '') => axios.get(`${UsersUrl}?page=${page}&per_page=${pageCount}`),
+      search: (page, pageCount, search) => axios.get(`${UsersUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
+      getAll: (page, pageCount) => axios.get(`${UsersUrl}?page=${page}&per_page=${pageCount}`),
       get: (id) => axios.get(`${UsersUrl}/${id}`),
       create: (user) => axios.post(`${UsersUrl}/create`, user),
       update: (id, data) => axios.patch(`${UsersUrl}/${id}/edit`, data),
       delete: (id) => axios.delete(`${UsersUrl}/${id}`),
     },
     companies: {
+      search: (page, pageCount, search) => axios.get(`${CompaniesUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
       create: (company) => axios.post(`${CompaniesUrl}`, company),
       delete: (id) => axios.delete(`${CompaniesUrl}/${id}`),
       updateStatus: (id) => axios.patch(`${CompaniesUrl}/${id}`),
       getAll: (page, pageCount = '') => axios.get(`${CompaniesUrl}?page=${page}&per_page=${pageCount}`),
     },
     waybill: {
+      search: (page, pageCount, search) => axios.get(`${WaybillUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
       create: (waybill, checkpoints, consignment_id) => axios.post(`${WaybillUrl}`, { waybill, checkpoints, consignment_id }),
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
       getAll: (page, pageCount = '') => axios.get(`${WaybillUrl}?page=${page}&per_page=${pageCount}`),
@@ -28,6 +31,7 @@ function httpClient() {
       update: (data) => axios.patch('/checkpoints', data),
     },
     consignments: {
+      search: (page, pageCount, search) => axios.get(`${ConsignmentUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
       getAll: (page, pageCount = '') => axios.get(`${ConsignmentUrl}?page=${page}&per_page=${pageCount}`),
     },
@@ -35,10 +39,12 @@ function httpClient() {
       updateStatus: (id, data) => axios.patch(`consignment/${id}/goods`, data),
     },
     writeOffActs: {
+      search: (page, pageCount, search) => axios.get(`${writeOffActUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
       create: (writeOffAct) => axios.post(`${writeOffActUrl}`, writeOffAct),
       getAll: (page, pageCount = '') => axios.get(`${writeOffActUrl}?page=${page}&per_page=${pageCount}`),
     },
     warehouses: {
+      search: (page, pageCount, search) => axios.get(`${WarehouseUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
       update: (id, warehouse) => axios.patch(`${WarehouseUrl}/${id}`, warehouse),
