@@ -13,7 +13,7 @@ class StatisticsController < ApplicationController
     @serialized_statistics = ActiveModelSerializers::SerializableResource.new(statistics).to_json
     respond_to do |format|
       format.html
-      format.json { render json: statistics }
+      format.json { render json: @serialized_statistics }
     end
   end
 end

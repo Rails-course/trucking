@@ -78,13 +78,13 @@ const StatisticsAccordion: React.FC<StatAccordion> = (props: StatAccordion) => {
                       {it}
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                      {item.changes[it][0]}
+                      {String(item.changes[it][0])}
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
                       <ArrowForwardIcon />
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ flex: '3 0 20px' }}>
-                      {item.changes[it][1]}
+                      {String(item.changes[it][1])}
                     </StyledTableCell>
                   </StyledTableRow>
                 ) : null}
