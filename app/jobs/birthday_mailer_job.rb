@@ -6,6 +6,10 @@ require 'date'
 class BirthdayMailerJob < ApplicationJob
   queue_as :mailers
 
+  def recipient_name(user)
+    "#{user.first_name} #{user.middle_name} #{user.second_name}" if user
+  end
+
   def perform(*_args)
     User.where(
       "DATE_TRUNC('day', birthday) = DATE_TRUNC('day', CURRENT_DATE) AND
