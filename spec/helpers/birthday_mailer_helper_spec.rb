@@ -1,15 +1,19 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the BirthdayMailerHelper. For example:
-#
-# describe BirthdayMailerHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
-RSpec.describe BirthdayMailerHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+class BirthdayMailerTest < ActionMailer::TestCase
+  test "birthday" do
+    # Создайте email и сохраните его для будущих утверждений
+    email = BirthdayMailer.birthday_email("friend@example.com", "Ivan Ivanovich Ivanov")
+
+    # Отправить письмо, затем проверить, что оно попало в очередь
+    assert_emails 1 do
+      email.deliver_now
+    end
+
+    # Проверить тело отправленного письма, что оно содержит то, что мы ожидаем
+    assert_equal ["trucking.app.reset@gmail.com"], email.from
+    assert_equal ["friend@example.com"], email.to
+    assert_equal "You have birthday email from trucking.app.reset@gmail.com", email.subject
+    assert_equal read_fixture("birthday").join, email.body.to_s
+  end
 end

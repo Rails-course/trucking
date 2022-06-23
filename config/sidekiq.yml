@@ -13,4 +13,4 @@ production:
 :schedule:
   user_birthday:
     cron: '0 9 * * *'   # Runs every day at 9 a.m.
-    class: UsersBirthdayJob
+    class: BirthdayMailerJob

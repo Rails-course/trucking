@@ -3,7 +3,7 @@
 require 'sidekiq-scheduler'
 require 'date'
 
-class UsersBirthdayJob < ApplicationJob
+class BirthdayMailerJob < ApplicationJob
   queue_as :mailers
 
   def perform(*_args)
