@@ -50,7 +50,6 @@ class PagesController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
-
   end
 
   def permit_user_params
