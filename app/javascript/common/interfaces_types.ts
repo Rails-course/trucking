@@ -373,6 +373,7 @@ export interface SiteAlertProps {
 
 export interface SearchProps {
     handleSubmit: (text: string)=>void;
+    label: string;
 }
 
 export interface ConsignmentProps {

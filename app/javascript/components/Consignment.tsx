@@ -148,7 +148,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search handleSubmit={handleSearch} />
+            <Search handleSubmit={handleSearch} label="consignment seria and consignment number..." />
           </Grid>
           {currentUserRole === 'dispatcher'
             ? (
