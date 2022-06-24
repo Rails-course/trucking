@@ -7,7 +7,7 @@ class BirthdayMailerJob < ApplicationJob
   queue_as :mailers
 
   def recipient_name(user)
-    "#{user.first_name} #{user.middle_name} #{user.second_name}" if user
+    "#{user.first_name} #{user.middle_name} #{user.second_name}"
   end
 
   def perform(*_args)
