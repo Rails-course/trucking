@@ -29,6 +29,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # Rich text gem
 gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
+gem 'dip', '~> 7.3', '>= 7.3.1'
+gem 'lefthook', '~> 0.5.5'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 
