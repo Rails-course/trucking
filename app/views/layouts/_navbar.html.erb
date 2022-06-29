@@ -20,9 +20,14 @@
         <% if can? :read, WriteOffAct %>
           <%= link_to "Write-off acts", write_off_acts_path, class:"share-links #{'active' if current_page?('/write_off_acts')}" %>
         <% end %>
+        <% if can? :read, Statistics %>
         <%= link_to "Statistics", statistics_path, class:"share-links #{'active' if current_page?('/statistics')}" %>
+        <% end %>
         <% if can? :read, Country %>
           <%= link_to "Countries", settings_countries_path, class:"share-links #{'active' if current_page?('/countries')}" %>
+        <% end %>
+        <% if can? :read, Unit %>
+          <%= link_to "Measure units", settings_units_path, class:"share-links #{'active' if current_page?('/settings/units')}" %>
         <% end %>
       </div>
       <div class="nav-right">
