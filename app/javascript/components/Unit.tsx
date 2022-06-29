@@ -85,7 +85,7 @@ const Units: React.FC<UnitProps> = (props: UnitProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search handleSubmit={handleSearch} />
+            <Search handleSubmit={handleSearch} label="unit" />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setCreateModal(true)}>

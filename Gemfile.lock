@@ -364,8 +364,8 @@ DEPENDENCIES
   faker
   hirb
   jbuilder (~> 2.7)
-  lefthook (~> 0.5.5)
   jquery-rails (~> 4.4)
+  lefthook (~> 0.5.5)
   letter_opener
   msgpack (= 1.4.3)
   pg (~> 1.2, >= 1.2.3)
