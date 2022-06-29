@@ -33,6 +33,7 @@ gem 'dip', '~> 7.3', '>= 7.3.1'
 gem 'lefthook', '~> 0.5.5'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
+gem 'sidekiq-scheduler', '~> 2.0', '>= 2.0.8'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
