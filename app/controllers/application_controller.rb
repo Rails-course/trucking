@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def record_not_found(error)
-    render json: error, status: :not_found
+  def record_not_found
+    redirect_to error_404_path
   end
 
   def record_invalid(error)
