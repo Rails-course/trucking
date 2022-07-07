@@ -8,10 +8,15 @@ class UsersBirthdayJob < ApplicationJob
 
   def perform(*_args)
     # Rails.logger.debug User.where(birthday: '1992-02-22')
-    User.where(birthday: Time.zone.today.to_date.beginning_of_day).find_each do |user|
-      recipient_email = user&.email
-      recipient_name = "#{user&.first_name} #{user&.middle_name} #{user&.second_name}"
-      BirthdayMailer.birthday_email(recipient_email, recipient_name)
+    User.where(
+      "DATE_TRUNC('day', birthday) = DATE_TRUNC('day', CURRENT_DATE) AND
+        DATE_TRUNC('month', birthday) = DATE_TRUNC('month', CURRENT_DATE)"
+    ).find_each do |user|
+      BirthdayMailer.birthday_email(user&.email, recipient_name(user))
     end
+
+    # User.where(birthday: Date.today.beginning_of_day).find_each do |user|
+    #   BirthdayMailer.birthday_email(user&.email, recipient_name(user))
+    # end
   end
 end

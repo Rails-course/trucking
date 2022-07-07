@@ -3,9 +3,13 @@
 class BirthdayMailer < ApplicationMailer
   default from: ENV['GMAIL_USERNAME']
 
+
+  def recipient_name(user)
+    self.username = "#{user.first_name} #{user.middle_name} #{user.second_name}" if user
+  end
+
   def birthday_email(recipient_email, recipient_name)
-    mail(to: recipient_email, subject: 'Happy Birthday!', name: recipient_name) do |format|
-      format.html { render 'birthday_mailer/birthday_email' }
-    end
+    @user_name = recipient_name
+    mail(to: recipient_email, subject: 'Happy Birthday!')
   end
 end
